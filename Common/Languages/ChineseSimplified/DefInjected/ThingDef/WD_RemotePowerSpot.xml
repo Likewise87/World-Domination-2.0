@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_RemotePowerSpot.label>WD 远程电力接入点</TSA_WD_RemotePowerSpot.label>
+  <TSA_WD_RemotePowerSpot.description>指定 World Domination 发电厂前哨的远程电力从何处进入殖民地电网。需接入电线。若有已接通的接入点，全部殖民地 Keep 电力按相对份额进入这些电网；若无已接通接入点，则均分到所有电网。</TSA_WD_RemotePowerSpot.description>
+</LanguageData>

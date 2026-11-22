@@ -41,7 +41,7 @@ namespace TSA_WorldDomination
 
         public new static void SetDirty()
         {
-            EnsureRegistered();
+            // Never EnsureRegistered here: mutating WorldDrawLayers mid-draw causes Collection was modified.
             SurfaceLayer surface = Find.WorldGrid?.Surface;
             if (surface == null) return;
             Find.World?.renderer?.SetDirty<WD_WorldLayer_FowBlackout>(surface);
@@ -174,7 +174,7 @@ namespace TSA_WorldDomination
             if (mem == null) return;
             mem.EnsureVisibleCacheFresh();
 
-            Faction view = WdFowDraw.ViewFaction;
+            Faction view = WdFowDraw.EffectiveViewFaction;
             int viewId = view?.loadID ?? int.MinValue;
             NativeArray<int> offsets = planetLayer.UnsafeTileIDToVerts_offsets;
             NativeArray<Vector3> verts = planetLayer.UnsafeVerts;
@@ -182,10 +182,7 @@ namespace TSA_WorldDomination
 
             for (int tileId = 0; tileId < n; tileId++)
             {
-                bool explored = mem.IsExplored(viewId, tileId);
-                bool visible = mem.IsTileVisibleBit(tileId);
-                bool shouldShow = IsIncognitaLayer ? !explored : (explored && !visible);
-                if (!shouldShow) continue;
+                if (!ShouldShowOverlay(mem, viewId, tileId)) continue;
                 EnsureTileVerts(tileId, offsets, verts);
                 ApplyTileRaised(tileId, offsets, verts, raised: true);
             }
@@ -221,7 +218,7 @@ namespace TSA_WorldDomination
 
             NativeArray<int> offsets = planetLayer.UnsafeTileIDToVerts_offsets;
             NativeArray<Vector3> verts = planetLayer.UnsafeVerts;
-            Faction view = WdFowDraw.ViewFaction;
+            Faction view = WdFowDraw.EffectiveViewFaction;
             int viewId = view?.loadID ?? int.MinValue;
 
             for (int d = 0; d < drainScratch.Count; d++)
@@ -229,13 +226,7 @@ namespace TSA_WorldDomination
                 int tileId = drainScratch[d];
                 if (tileId < 0 || tileId >= planetLayer.TilesCount) continue;
 
-                bool explored = mem.IsExplored(viewId, tileId);
-                bool visible = mem.IsTileVisibleBit(tileId);
-                bool shouldShow = IsIncognitaLayer
-                    ? !explored
-                    : (explored && !visible);
-
-                if (shouldShow)
+                if (ShouldShowOverlay(mem, viewId, tileId))
                 {
                     EnsureTileVerts(tileId, offsets, verts);
                     ApplyTileRaised(tileId, offsets, verts, raised: true);
@@ -247,6 +238,13 @@ namespace TSA_WorldDomination
             }
 
             FinalizeTouchedMeshes();
+        }
+
+        private bool ShouldShowOverlay(WdFowTileMemory mem, int viewId, int tileId)
+        {
+            if (IsIncognitaLayer)
+                return !mem.IsExplored(viewId, tileId);
+            return mem.IsExplored(viewId, tileId) && !mem.IsTileVisibleBit(tileId);
         }
 
         private void EnsureMaterial()
@@ -373,7 +371,7 @@ namespace TSA_WorldDomination
         public static void EnsureRegistered() => EnsureRegisteredTyped<WD_WorldLayer_FowIncognita>();
         public new static void SetDirty()
         {
-            EnsureRegistered();
+            // Register only from tick / BeginViewFactionSwitch — not from SetDirty mid-draw.
             SetDirtyTyped<WD_WorldLayer_FowIncognita>();
         }
 
@@ -406,7 +404,6 @@ namespace TSA_WorldDomination
         public static void EnsureRegistered() => EnsureRegisteredTyped<WD_WorldLayer_FowShroud>();
         public new static void SetDirty()
         {
-            EnsureRegistered();
             SetDirtyTyped<WD_WorldLayer_FowShroud>();
         }
 

@@ -48,7 +48,7 @@ namespace TSA_WorldDomination
             {
                 WorldObject = wo,
                 Faction = wo?.Faction,
-                Label = wo?.LabelCap ?? "?",
+                Label = wo != null ? WdPlayerIntel.LabelForLetter(wo) : "?",
                 Role = role,
                 Committed = committed,
                 Included = included,

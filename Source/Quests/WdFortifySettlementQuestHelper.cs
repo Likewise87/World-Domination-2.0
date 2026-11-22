@@ -13,10 +13,10 @@ namespace TSA_WorldDomination
     public static class WdFortifySettlementQuestHelper
     {
         public const string QuestDefName = "TSA_WD_FortifySettlement";
-        public const int OfferDelayMinDays = 1;
-        public const int OfferDelayMaxDays = 4;
-        public const int OfferWhenSpyOpsOffMinDays = 12;
-        public const int OfferWhenSpyOpsOffMaxDays = 18;
+        public const int OfferDelayMinDays = 6;
+        public const int OfferDelayMaxDays = 12;
+        public const int OfferWhenSpyOpsOffMinDays = 16;
+        public const int OfferWhenSpyOpsOffMaxDays = 24;
         public const int TimeoutDays = 8;
         public const int MaxTargetDistanceTiles = 50;
 
@@ -254,6 +254,8 @@ namespace TSA_WorldDomination
                 if (s.GetComponent<CompViralSpread>() == null)
                     continue;
                 if (WorldActions_Utils.SafeHostileTo(s.Faction, player))
+                    continue;
+                if (!WdQuestDiscovery.PlayerSeesSettlement(s))
                     continue;
 
                 float approx = Find.WorldGrid.ApproxDistanceInTiles(originTile, s.Tile);

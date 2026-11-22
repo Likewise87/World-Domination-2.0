@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Verse;
 
 namespace TSA_WorldDomination
@@ -30,6 +31,10 @@ namespace TSA_WorldDomination
     {
         private const float SurfaceOffset = 0.012f;
         private const int RenderQueue = 3585;
+        /// <summary>Above FoW Incognita altitude (0.08) so sight hexes read on black tiles.</summary>
+        private const float SightSurfaceOffset = 0.095f;
+        /// <summary>Above FoW blackout (3595) / Incognita (3590).</summary>
+        private const int SightRenderQueue = 3660;
 
         // --- Tunable fill look (one place) ---
         private const float AlphaPurple = 0.36f;
@@ -51,6 +56,9 @@ namespace TSA_WorldDomination
         private const float AlphaAttackBand2 = 0.24f;
         private const float AlphaAttackBand3 = 0.22f;
         private const float AlphaGold = 0.22f;
+        // Sight LOS/Hunch: denser so readable over opaque FoW black (two gold tones only).
+        private const float AlphaSightLos = 0.58f;
+        private const float AlphaSightHunch = 0.38f;
 
         private static Material? purpleFillMaterial;
         private static Material? greenFillMaterial;
@@ -68,6 +76,8 @@ namespace TSA_WorldDomination
         private static Material? attackBand1FillMaterial;
         private static Material? attackBand2FillMaterial;
         private static Material? attackBand3FillMaterial;
+        private static Material? sightLosFillMaterial;
+        private static Material? sightHunchFillMaterial;
 
         private static bool hasTarget;
         private static PlanetTile centerTile = PlanetTile.Invalid;
@@ -131,21 +141,22 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Sight MaxLOS band colors (same red → orange → yellow → pale progression as Attack).
-        /// Band 0 = T1 ring (all sizes); 1 = T2; 2 = T3; 3 = T4 / outer MaxLOS.
+        /// Sight two-band colors: bright gold LOS (0) / softer amber Hunch (else).
+        /// Not Attack reds — those read as muddy noise over FoW.
         /// </summary>
         public static Color GetSightLosBandFillColor(int bandIndex)
-            => GetAttackRangeBandFillColor(bandIndex, zealInnerCyan: false);
+        {
+            Color g = WorldOverlayLineMaterials.SightGoldColor;
+            if (bandIndex <= 0)
+                return new Color(1f, 0.95f, 0.40f, AlphaSightLos);
+            return new Color(g.r, g.g, g.b, AlphaSightHunch);
+        }
 
         public static int GetSightLosBandIndex(float dist, float maxLos)
         {
             float r = Mathf.Max(1f, maxLos);
-            float t1 = r * Mathf.Clamp01(sightRingFracT1);
-            float t2 = r * Mathf.Clamp01(Mathf.Max(sightRingFracT1, sightRingFracT2));
-            float t3 = r * Mathf.Clamp01(Mathf.Max(sightRingFracT2, sightRingFracT3));
-            if (dist <= t1) return 0;
-            if (dist <= t2) return 1;
-            if (dist <= t3) return 2;
+            float los = r * Mathf.Clamp01(sightRingFracT1);
+            if (dist <= los) return 0;
             return 3;
         }
 
@@ -410,7 +421,7 @@ namespace TSA_WorldDomination
                 else if (sightLosBands)
                 {
                     int band = GetSightLosBandIndex(approxDist, keepRadius);
-                    mat = GetAttackRangeBandMaterial(band, zealInnerCyan: false);
+                    mat = GetSightLosBandMaterial(band);
                 }
                 else if (accuracyBands && fillKind == OutpostCoverageFillKind.Red)
                 {
@@ -423,7 +434,7 @@ namespace TSA_WorldDomination
                     mat = GetFillMaterial(OutpostCoverageFillKind.CyanDeep);
                 }
 
-                AddTileToSubMesh(grid, tile, mat);
+                AddTileToSubMesh(grid, tile, mat, sightLosBands ? SightSurfaceOffset : SurfaceOffset);
                 landProcessed++;
                 if (landProcessed % yieldEveryLandTiles == 0)
                     yield return null;
@@ -509,12 +520,33 @@ namespace TSA_WorldDomination
             return attackBand3FillMaterial ??= MakeFillMat(GetAttackRangeBandFillColor(3, false));
         }
 
+        private static Material GetSightLosBandMaterial(int bandIndex)
+        {
+            if (bandIndex <= 0)
+                return sightLosFillMaterial ??= MakeSightFillMat(GetSightLosBandFillColor(0));
+            return sightHunchFillMaterial ??= MakeSightFillMat(GetSightLosBandFillColor(3));
+        }
+
         private static Material MakeFillMat(Color color)
         {
             return MaterialPool.MatFrom(BaseContent.WhiteTex, ShaderDatabase.WorldOverlayTransparent, color, RenderQueue);
         }
 
-        private void AddTileToSubMesh(WorldGrid grid, PlanetTile tile, Material material)
+        /// <summary>Sight fill over opaque FoW: higher queue + ZTest Always.</summary>
+        private static Material MakeSightFillMat(Color color)
+        {
+            Material shared = MaterialPool.MatFrom(
+                BaseContent.WhiteTex, ShaderDatabase.WorldOverlayTransparent, color, SightRenderQueue);
+            Material mat = new Material(shared)
+            {
+                renderQueue = SightRenderQueue,
+                name = shared.name + "_SightOverFow"
+            };
+            mat.SetInt(Shader.PropertyToID("_ZTest"), (int)CompareFunction.Always);
+            return mat;
+        }
+
+        private void AddTileToSubMesh(WorldGrid grid, PlanetTile tile, Material material, float surfaceOffset = SurfaceOffset)
         {
             tileVerts.Clear();
             grid.GetTileVertices(tile, tileVerts);
@@ -525,7 +557,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < tileVerts.Count; i++)
             {
                 Vector3 v = tileVerts[i];
-                subMesh.verts.Add(v + v.normalized * SurfaceOffset);
+                subMesh.verts.Add(v + v.normalized * surfaceOffset);
                 subMesh.uvs.Add((GenGeo.RegularPolygonVertexPosition(tileVerts.Count, i) + Vector2.one) / 2f);
             }
 

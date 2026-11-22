@@ -58,8 +58,8 @@ namespace TSA_WorldDomination
                     : traveler.Faction?.Name ?? "?";
                 string targetLabel = impactTarget?.LabelCap ?? traveler.targetObject?.LabelCap ?? "?";
                 string missText = "TSA_WD_Mortar_Miss_Text".Translate(originLabel, targetLabel);
-                var lookMiss = impactTarget != null && !impactTarget.Destroyed ? new LookTargets(impactTarget) : new LookTargets(traveler);
-                manager?.AddLog(new SpreadLogEntry(missText, traveler.originObject, impactTarget ?? traveler.targetObject));
+                var lookMiss = WdPlayerIntel.LookTargetsOrNull(impactTarget != null && !impactTarget.Destroyed ? impactTarget : null, traveler);
+                manager?.AddLog(new SpreadLogEntry(missText, traveler.originObject, impactTarget ?? traveler.targetObject) { category = SpreadLogCategory.Raid });
                 if (ShouldShowMortarLetter(WorldDominationMod.settings, traveler.originObject, impactTarget ?? traveler.targetObject, isHit: false, out _))
                 {
                     LetterDef missLetter = IsPlayerFactionObject(traveler.originObject)
@@ -149,7 +149,7 @@ namespace TSA_WorldDomination
                 TaggedString logText = wiped
                     ? "TSA_WD_Mortar_Destroyed_Text".Translate(originLabel, targetKind)
                     : "TSA_WD_Mortar_Hit_Settlement_Line".Translate(beforeTotal.ToString("F0"), afterTotal.ToString("F0"));
-                manager?.AddLog(new SpreadLogEntry(logText.Resolve(), origin, lookTarget));
+                manager?.AddLog(new SpreadLogEntry(logText.Resolve(), origin, lookTarget) { category = SpreadLogCategory.Raid });
 
                 if (!wiped) return;
                 if (!ShouldShowMortarLetter(seth, origin, lookTarget, isHit: true, out _)) return;
@@ -160,7 +160,9 @@ namespace TSA_WorldDomination
                     "TSA_WD_Mortar_Destroyed_Label".Translate(),
                     "TSA_WD_Mortar_Destroyed_Text".Translate(originLabel, targetKind),
                     silentBlue,
-                    lookTarget != null && !lookTarget.Destroyed ? new LookTargets(lookTarget) : new LookTargets(origin));
+                    WdPlayerIntel.LookTargetsOrNull(
+                        lookTarget != null && !lookTarget.Destroyed ? lookTarget : null,
+                        origin));
                 return;
             }
 
@@ -176,7 +178,7 @@ namespace TSA_WorldDomination
                         yourAsset,
                         beforeTotal.ToString("F0"),
                         afterTotal.ToString("F0"));
-                manager?.AddLog(new SpreadLogEntry(text.Resolve(), origin, lookTarget));
+                manager?.AddLog(new SpreadLogEntry(text.Resolve(), origin, lookTarget) { category = SpreadLogCategory.Raid });
                 if (!ShouldShowMortarLetter(seth, origin, lookTarget, isHit: true, out LetterDef hitYouLetter)) return;
                 Find.LetterStack.ReceiveLetter(
                     wiped
@@ -184,7 +186,9 @@ namespace TSA_WorldDomination
                         : "TSA_WD_Mortar_HitOnYou_Label".Translate(),
                     text,
                     hitYouLetter,
-                    lookTarget != null && !lookTarget.Destroyed ? new LookTargets(lookTarget) : new LookTargets(origin));
+                    WdPlayerIntel.LookTargetsOrNull(
+                        lookTarget != null && !lookTarget.Destroyed ? lookTarget : null,
+                        origin));
                 return;
             }
 
@@ -193,24 +197,24 @@ namespace TSA_WorldDomination
                 afterTotal.ToString("F0"));
             if (wiped)
                 npcText += destroyedSuffixKey.Translate();
-            manager?.AddLog(new SpreadLogEntry(npcText.Resolve(), origin, lookTarget));
+            manager?.AddLog(new SpreadLogEntry(npcText.Resolve(), origin, lookTarget) { category = SpreadLogCategory.Raid });
             if (ShouldShowMortarLetter(seth, origin, lookTarget, isHit: true, out LetterDef letterDef))
             {
                 Find.LetterStack.ReceiveLetter(
                     "TSA_WD_Mortar_Hit_Label".Translate(),
                     npcText,
                     letterDef,
-                    new LookTargets(lookTarget));
+                    WdPlayerIntel.LookTargetsOrNull(lookTarget));
             }
         }
 
-        /// <summary>Attacker label for enemy mortar letters (settlement name, with faction when useful).</summary>
+        /// <summary>Attacker label for enemy mortar letters (settlement name, with faction when useful). Fogs proper name when undiscovered.</summary>
         private static string FormatMortarAttackerLabel(WorldObject origin)
         {
             if (origin == null) return "?";
             if (origin is WorldObject_WD_AdvancedBuilding)
                 return AdvancedBuildingCombatUtility.LabelWithOwner(origin);
-            string name = origin.LabelCap;
+            string name = WdPlayerIntel.LabelForLetter(origin);
             if (origin.Faction != null && !origin.Faction.IsPlayer && !origin.Faction.Hidden)
             {
                 string factionName = origin.Faction.Name;
@@ -444,7 +448,7 @@ namespace TSA_WorldDomination
             if (pawns.Count == 0)
             {
                 string emptyText = "TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text".Translate(originLabel, caravanLabel);
-                manager?.AddLog(new SpreadLogEntry(emptyText, origin, caravan));
+                manager?.AddLog(new SpreadLogEntry(emptyText, origin, caravan) { category = SpreadLogCategory.Raid });
                 AtTurretNotifyUtility.NotifyNpcHitPlayerCaravan(manager, origin, caravan, wiped: true, emptyText);
                 if (!caravan.Destroyed)
                     caravan.Destroy();
@@ -460,7 +464,7 @@ namespace TSA_WorldDomination
                 string wipeText = hit.KilledNames.Count == 0
                     ? "TSA_WD_AT_Turret_NpcCaravanDestroyed_Text".Translate(originLabel, caravanLabel)
                     : "TSA_WD_AT_Turret_NpcCaravanWiped_Text".Translate(originLabel, caravanLabel, namesBlock);
-                manager?.AddLog(new SpreadLogEntry(wipeText, origin, caravan));
+                manager?.AddLog(new SpreadLogEntry(wipeText, origin, caravan) { category = SpreadLogCategory.Raid });
                 AtTurretNotifyUtility.NotifyNpcHitPlayerCaravan(manager, origin, caravan, wiped: true, wipeText, hit.KilledPawns);
                 if (!caravan.Destroyed)
                     caravan.Destroy();
@@ -471,7 +475,7 @@ namespace TSA_WorldDomination
                 ? "TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text".Translate(
                     originLabel, caravanLabel, hit.Killed, hit.Wounded, FormatKilledPawnNamesBlock(hit.KilledNames))
                 : "TSA_WD_AT_Turret_NpcCaravanWounded_Text".Translate(originLabel, caravanLabel, hit.Killed, hit.Wounded);
-            manager?.AddLog(new SpreadLogEntry(woundText, origin, caravan));
+            manager?.AddLog(new SpreadLogEntry(woundText, origin, caravan) { category = SpreadLogCategory.Raid });
             AtTurretNotifyUtility.NotifyNpcHitPlayerCaravan(manager, origin, caravan, wiped: false, woundText, hit.KilledPawns);
         }
 
@@ -805,7 +809,9 @@ namespace TSA_WorldDomination
                 ? AdvancedBuildingCombatUtility.LabelWithOwner(traveler.originObject)
                 : traveler.Faction?.Name ?? "?";
             string targetLabel = DescribeAntiAirTarget(impactTarget);
-            var look = impactTarget != null && !impactTarget.Destroyed ? new LookTargets(impactTarget) : new LookTargets(traveler);
+            var look = WdPlayerIntel.LookTargetsOrNull(
+                impactTarget != null && !impactTarget.Destroyed ? impactTarget : null,
+                traveler);
             bool notify = ShouldNotifyAntiAir(traveler.originObject, impactTarget);
             LetterDef letterDef = GetAntiAirLetterDef(traveler.originObject, impactTarget);
 
@@ -840,7 +846,7 @@ namespace TSA_WorldDomination
                 // Player AA miss: Neutral (hits stay Positive via GetAntiAirLetterDef).
                 if (IsPlayerFactionObject(traveler.originObject))
                     missLetter = LetterDefOf.NeutralEvent;
-                manager?.AddLog(new SpreadLogEntry(missText, traveler.originObject, impactTarget));
+                manager?.AddLog(new SpreadLogEntry(missText, traveler.originObject, impactTarget) { category = SpreadLogCategory.Raid });
                 if (notify)
                 {
                     Find.LetterStack.ReceiveLetter(
@@ -859,7 +865,7 @@ namespace TSA_WorldDomination
                 string hitText;
                 string hitLabel;
                 LetterDef hitLetter = letterDef;
-                LookTargets hitLook = traveler.originObject != null ? new LookTargets(traveler.originObject) : null;
+                LookTargets hitLook = WdPlayerIntel.LookTargetsOrNull(traveler.originObject);
                 if (IsPlayerOwnedAirborne(impactTarget))
                 {
                     string shellOrigin = DescribeAntiAirTarget(impactTarget);
@@ -883,7 +889,7 @@ namespace TSA_WorldDomination
                     }
                     hitLabel = "TSA_WD_AntiAir_MortarShell_Destroyed_Label".Translate();
                 }
-                manager?.AddLog(new SpreadLogEntry(hitText, traveler.originObject, impactTarget));
+                manager?.AddLog(new SpreadLogEntry(hitText, traveler.originObject, impactTarget) { category = SpreadLogCategory.Raid });
                 if (notify)
                 {
                     Find.LetterStack.ReceiveLetter(
@@ -935,7 +941,7 @@ namespace TSA_WorldDomination
             string hitTextPod = wiped
                 ? "TSA_WD_AntiAir_Hit_Destroyed_Text".Translate(originLabel, targetLabel, before.ToString("F0"))
                 : "TSA_WD_AntiAir_Hit_Text".Translate(originLabel, targetLabel, before.ToString("F0"), after.ToString("F0"), shellPotency.ToString("F0"));
-            manager?.AddLog(new SpreadLogEntry(hitTextPod, traveler.originObject, hitPod));
+            manager?.AddLog(new SpreadLogEntry(hitTextPod, traveler.originObject, hitPod) { category = SpreadLogCategory.Raid });
 
             bool cargoPod = OutpostDispatchMode.IsPlayerCargoDropPod(hitPod);
             bool forceCargoWipeLetter = wiped && cargoPod && IsPlayerOwnedAirborne(hitPod) && !IsPlayerFactionObject(traveler.originObject);
@@ -968,7 +974,7 @@ namespace TSA_WorldDomination
                     letterLabel,
                     letterText,
                     sendDef,
-                    wiped ? (traveler.originObject != null ? new LookTargets(traveler.originObject) : null) : look);
+                    wiped ? WdPlayerIntel.LookTargetsOrNull(traveler.originObject) : look);
             }
 
             if (wiped)
@@ -1082,7 +1088,7 @@ namespace TSA_WorldDomination
                 killedNames.Count.ToString(),
                 crashedNames.Count.ToString(),
                 unhit.Count.ToString());
-            manager?.AddLog(new SpreadLogEntry(logText, aaOrigin, rapidPod));
+            manager?.AddLog(new SpreadLogEntry(logText, aaOrigin, rapidPod) { category = SpreadLogCategory.Raid });
 
             bool sendPassengerLetter = ShouldSendAntiAirPassengerDeathLetter(aaOrigin)
                 || (notifyStrengthLetter && IsPlayerOwnedAirborne(rapidPod) && !IsPlayerFactionObject(aaOrigin));
@@ -1123,9 +1129,9 @@ namespace TSA_WorldDomination
                 sb.AppendLine(FormatKilledPawnNamesBlock(crashedNames));
             }
 
-            LookTargets look = crashSite != null && !crashSite.Destroyed
-                ? new LookTargets(crashSite)
-                : (aaOrigin != null ? new LookTargets(aaOrigin) : null);
+            LookTargets look = WdPlayerIntel.LookTargetsOrNull(
+                crashSite != null && !crashSite.Destroyed ? crashSite : null,
+                aaOrigin);
 
             Find.LetterStack.ReceiveLetter(
                 "TSA_WD_AntiAir_PawnPods_Outcome_Label".Translate(),
@@ -1165,7 +1171,7 @@ namespace TSA_WorldDomination
                 "TSA_WD_AntiAir_RapidResponsePawnsKilled_Label".Translate(),
                 "TSA_WD_AntiAir_RapidResponsePawnsKilled_Text".Translate(originLabel, names),
                 LetterDefOf.ThreatBig,
-                aaOrigin != null ? new LookTargets(aaOrigin) : null);
+                WdPlayerIntel.LookTargetsOrNull(aaOrigin));
             return true;
         }
 
@@ -1238,11 +1244,11 @@ namespace TSA_WorldDomination
             if (airborne is WorldObject_Traveler t)
             {
                 if (TravelerEndpointUtility.IsLiveEndpoint(t.originObject))
-                    return t.originObject.LabelCap;
+                    return WdPlayerIntel.LabelForLetter(t.originObject);
                 if (t.Faction != null)
                     return t.Faction.Name;
             }
-            return airborne.LabelCap;
+            return WdPlayerIntel.LabelForLetter(airborne);
         }
 
         /// <summary>Settlement/outpost name and faction for the launcher of a mortar shell traveler.</summary>
@@ -1253,9 +1259,9 @@ namespace TSA_WorldDomination
             if (!(airborne is WorldObject_Traveler t)) return;
 
             if (TravelerEndpointUtility.IsLiveEndpoint(t.originObject))
-                settlementName = t.originObject.LabelCap;
+                settlementName = WdPlayerIntel.LabelForLetter(t.originObject);
             else if (!t.LabelCap.NullOrEmpty())
-                settlementName = t.LabelCap;
+                settlementName = WdPlayerIntel.LabelForLetter(t);
 
             factionName = t.originObject?.Faction?.Name
                 ?? t.Faction?.Name
@@ -1280,14 +1286,14 @@ namespace TSA_WorldDomination
                 destroyLetter = LetterDefOf.NegativeEvent;
 
             string text = "TSA_WD_AntiAir_VfAerial_Destroyed_Text".Translate(originLabel, aerial.LabelCap);
-            manager?.AddLog(new SpreadLogEntry(text, origin, aerial));
+            manager?.AddLog(new SpreadLogEntry(text, origin, aerial) { category = SpreadLogCategory.Raid });
             if (notify)
             {
                 Find.LetterStack.ReceiveLetter(
                     "TSA_WD_AntiAir_VfAerial_Destroyed_Label".Translate(),
                     text,
                     destroyLetter,
-                    origin != null ? new LookTargets(origin) : new LookTargets(aerial));
+                    WdPlayerIntel.LookTargetsOrNull(origin, aerial));
             }
 
             AntiAirFireUtils.NotifyTargetDestroyed(aerial);
@@ -1325,14 +1331,14 @@ namespace TSA_WorldDomination
             if (hit.EmptyCarrier)
             {
                 string emptyText = "TSA_WD_AntiAir_VanillaPods_Destroyed_Text".Translate(originLabel, pods.LabelCap);
-                manager?.AddLog(new SpreadLogEntry(emptyText, origin, pods));
+                manager?.AddLog(new SpreadLogEntry(emptyText, origin, pods) { category = SpreadLogCategory.Raid });
                 if (notify)
                 {
                     Find.LetterStack.ReceiveLetter(
                         "TSA_WD_AntiAir_VanillaPods_Destroyed_Label".Translate(),
                         emptyText,
                         destroyLetter,
-                        origin != null ? new LookTargets(origin) : null);
+                        WdPlayerIntel.LookTargetsOrNull(origin));
                 }
                 return true;
             }
@@ -1343,7 +1349,7 @@ namespace TSA_WorldDomination
                 string wipeText = hit.DeathLetterSent || hit.KilledNames.Count == 0
                     ? "TSA_WD_AntiAir_VanillaPods_Destroyed_Text".Translate(originLabel, pods.LabelCap)
                     : "TSA_WD_AntiAir_VanillaPods_Wiped_Text".Translate(originLabel, pods.LabelCap, namesBlock);
-                manager?.AddLog(new SpreadLogEntry(wipeText, origin, pods));
+                manager?.AddLog(new SpreadLogEntry(wipeText, origin, pods) { category = SpreadLogCategory.Raid });
                 // Who-died ThreatBig already covers the player-facing letter.
                 if (notify && !hit.DeathLetterSent)
                 {
@@ -1362,7 +1368,7 @@ namespace TSA_WorldDomination
                 ? "TSA_WD_AntiAir_VanillaPods_Wounded_WithNames_Text".Translate(
                     originLabel, pods.LabelCap, hit.Killed, hit.Wounded, FormatKilledPawnNamesBlock(hit.KilledNames))
                 : "TSA_WD_AntiAir_VanillaPods_Wounded_Text".Translate(originLabel, pods.LabelCap, hit.Killed, hit.Wounded);
-            manager?.AddLog(new SpreadLogEntry(woundText, origin, pods));
+            manager?.AddLog(new SpreadLogEntry(woundText, origin, pods) { category = SpreadLogCategory.Raid });
             if (notify && !hit.DeathLetterSent)
             {
                 LookTargets look = hit.KilledPawns.Count > 0

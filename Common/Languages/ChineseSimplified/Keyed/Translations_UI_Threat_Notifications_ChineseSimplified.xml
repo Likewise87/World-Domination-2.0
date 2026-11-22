@@ -42,7 +42,7 @@
   <TSA_WD_Dash_FarThreats>远处威胁</TSA_WD_Dash_FarThreats>
   <TSA_WD_Dash_NearbyThreatsTip>可攻击殖民地、且位于其自身攻击范围内侧一半（四个等距距离段中较近两段）的敌对势力。\n按距离由近到远排序。</TSA_WD_Dash_NearbyThreatsTip>
   <TSA_WD_Dash_FarThreatsTip>仍能打到你、但位于其自身攻击范围外侧一半（四个等距距离段中较远两段）的敌对势力。\n按进攻实力由高到低排序。</TSA_WD_Dash_FarThreatsTip>
-  <TSA_WD_Dash_NoNearbyThreats>附近范围内无敌对势力。</TSA_WD_Dash_NoNearbyThreats>
+  <TSA_WD_Dash_NoNearbyThreats>附近范围内没有已知的敌对势力。</TSA_WD_Dash_NoNearbyThreats>
   <TSA_WD_Dash_NoFarThreats>附近范围外无敌对势力。</TSA_WD_Dash_NoFarThreats>
   <TSA_WD_Dash_ThreatTiles>{0} 格</TSA_WD_Dash_ThreatTiles>
   <TSA_WD_Dash_TopThreatsTooltip>可攻击你殖民地的附近与远处敌对势力（含支援盟友）。当前叙事者袭击点数：{0}。到达时的实际点数将被钳制：至少为叙事者的 {1}，最多为 {2}（模组设置）。将鼠标悬停在“附近/远处”上可查看划分方式。</TSA_WD_Dash_TopThreatsTooltip>
@@ -149,6 +149,10 @@
   <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>原本指向你的殖民地或前哨的袭击发现机会目标并改向攻击时。</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
   <TSA_WD_Notify_RaidPartyDestroyed>信件：袭击队伍途中被毁</TSA_WD_Notify_RaidPartyDestroyed>
   <TSA_WD_Notify_RaidPartyDestroyedTooltip>冲着你而来的敌对袭击在世界地图上被消灭、尚未抵达时。</TSA_WD_Notify_RaidPartyDestroyedTooltip>
+  <TSA_WD_Notify_PlayerScoutDestroyed>信件：玩家侦察队被毁</TSA_WD_Notify_PlayerScoutDestroyed>
+  <TSA_WD_Notify_PlayerScoutDestroyedTooltip>你的侦察旅行者在世界地图上被摧毁时（陷阱、反坦克炮火、遭遇战等）。</TSA_WD_Notify_PlayerScoutDestroyedTooltip>
+  <TSA_WD_Notify_PlayerScoutLifetimeExpired>信件：侦察最长寿命</TSA_WD_Notify_PlayerScoutLifetimeExpired>
+  <TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>你的侦察旅行者达到最长寿命并解散时。关闭时仍会显示短消息。</TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>
   <TSA_WD_Notify_MortarHit>信件：迫击炮摧毁目标</TSA_WD_Notify_MortarHit>
   <TSA_WD_Notify_MortarHitTooltip>你的火炮前哨摧毁目标时的无声蓝色信件。未摧毁的命中只记入行动日志。</TSA_WD_Notify_MortarHitTooltip>
   <TSA_WD_Notify_MortarMiss>信件：迫击炮脱靶</TSA_WD_Notify_MortarMiss>

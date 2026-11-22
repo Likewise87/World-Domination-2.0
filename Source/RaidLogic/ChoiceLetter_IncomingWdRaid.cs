@@ -17,10 +17,20 @@ namespace TSA_WorldDomination
         {
             get
             {
-                yield return MakeJumpOption(
-                    "TSA_WD_Letter_IncomingRaid_JumpAttacker".Translate(),
-                    attacker,
-                    traveler != null ? traveler.originObject : null);
+                WorldObject jumpAttacker = WdPlayerIntel.CanJumpOrLookTarget(attacker) ? attacker : null;
+                WorldObject jumpOrigin = traveler != null && WdPlayerIntel.CanJumpOrLookTarget(traveler.originObject)
+                    ? traveler.originObject
+                    : null;
+                WorldObject jumpTraveler = traveler != null && WdPlayerIntel.CanJumpOrLookTarget(traveler)
+                    ? (WorldObject)traveler
+                    : null;
+                if (jumpAttacker != null || jumpOrigin != null || jumpTraveler != null)
+                {
+                    yield return MakeJumpOption(
+                        "TSA_WD_Letter_IncomingRaid_JumpAttacker".Translate(),
+                        jumpAttacker ?? jumpTraveler,
+                        jumpOrigin);
+                }
                 yield return MakeJumpOption(
                     "TSA_WD_Letter_IncomingRaid_JumpTarget".Translate(),
                     target,
@@ -48,28 +58,20 @@ namespace TSA_WorldDomination
 
         private static void JumpToPreferred(WorldObject? primary, WorldObject? fallback)
         {
-            if (TryJumpWorldObject(primary))
+            WorldObject prefer = WdPlayerIntel.CanJumpOrLookTarget(primary) ? primary : null;
+            WorldObject fall = WdPlayerIntel.CanJumpOrLookTarget(fallback) ? fallback : null;
+            if (TryJumpWorldObject(prefer))
                 return;
-            if (TryJumpWorldObject(fallback))
+            if (TryJumpWorldObject(fall))
                 return;
-            if (primary != null && primary.Tile.Valid)
-            {
-                CameraJumper.TryJump(new GlobalTargetInfo(primary.Tile));
-                WorldDomination_UIUtils.DismissWorldDominationUiForWorldMap();
-                SoundDefOf.Click.PlayOneShotOnCamera();
-                return;
-            }
-            if (fallback != null && fallback.Tile.Valid)
-            {
-                CameraJumper.TryJump(new GlobalTargetInfo(fallback.Tile));
-                WorldDomination_UIUtils.DismissWorldDominationUiForWorldMap();
-                SoundDefOf.Click.PlayOneShotOnCamera();
-            }
+            // Undiscovered: no silent tile jump that reveals origin.
         }
 
         private static bool TryJumpWorldObject(WorldObject? wo)
         {
             if (wo == null || wo.Destroyed || !wo.Spawned)
+                return false;
+            if (!WdPlayerIntel.CanJumpOrLookTarget(wo))
                 return false;
             WorldDomination_UIUtils.JumpToWorldObjectOnMap(wo);
             return true;

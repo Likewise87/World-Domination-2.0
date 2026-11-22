@@ -36,18 +36,24 @@ namespace TSA_WorldDomination
 
         public static void DrawRaidPowerBoxes(Rect rect, float atkPower, float defPower, string atkLabelKey = "TSA_WD_AttackerPower", string defLabelKey = "TSA_WD_DefenderPower")
         {
-            Rect atkRect = rect.LeftHalf().ContractedBy(5f);
-            Rect defRect = rect.RightHalf().ContractedBy(5f);
-            Widgets.DrawBoxSolid(atkRect, BoxBgColor);
-            Widgets.DrawBoxSolid(defRect, BoxBgColor);
+            DrawPowerBoxesRaw(rect, atkPower, defPower, atkLabelKey.Translate(), defLabelKey.Translate());
+        }
+
+        /// <summary>Power boxes with already-resolved labels (open-field clashes: side names, no attacker/defender keys).</summary>
+        public static void DrawPowerBoxesRaw(Rect rect, float leftPower, float rightPower, string leftLabel, string rightLabel)
+        {
+            Rect leftRect = rect.LeftHalf().ContractedBy(5f);
+            Rect rightRect = rect.RightHalf().ContractedBy(5f);
+            Widgets.DrawBoxSolid(leftRect, BoxBgColor);
+            Widgets.DrawBoxSolid(rightRect, BoxBgColor);
             Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(atkRect.TopHalf(), atkLabelKey.Translate());
+            Widgets.Label(leftRect.TopHalf(), leftLabel ?? string.Empty);
             Text.Font = GameFont.Medium;
-            Widgets.Label(atkRect.BottomHalf(), atkPower.ToString("F0"));
+            Widgets.Label(leftRect.BottomHalf(), leftPower.ToString("F0"));
             Text.Font = GameFont.Small;
-            Widgets.Label(defRect.TopHalf(), defLabelKey.Translate());
+            Widgets.Label(rightRect.TopHalf(), rightLabel ?? string.Empty);
             Text.Font = GameFont.Medium;
-            Widgets.Label(defRect.BottomHalf(), defPower.ToString("F0"));
+            Widgets.Label(rightRect.BottomHalf(), rightPower.ToString("F0"));
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
         }
@@ -459,9 +465,42 @@ namespace TSA_WorldDomination
 
             DrawWinChanceBar(winBar, displayWin, winTip, lossTip);
         }
+        public static BattleMarginTier GetOpenFieldWinnerTier(SpreadLogEntry entry)
+        {
+            if (entry == null) return BattleMarginTier.Normal;
+            if (entry.victory) return GetAttSeverityTier(entry);
+            return entry.defCoalitionSeverityTier;
+        }
+
+        public static float GetOpenFieldWinnerLossPct(SpreadLogEntry entry)
+        {
+            if (entry == null) return 0f;
+            return Mathf.Clamp01(entry.victory ? entry.attLossPct : entry.defLossPct);
+        }
+
+        public static string FormatOpenFieldWinType(BattleMarginTier tier)
+        {
+            if (tier == BattleMarginTier.Decisive) return "TSA_WD_OpenField_WinDecisive".Translate();
+            if (tier == BattleMarginTier.Normal) return "TSA_WD_OpenField_WinNormal".Translate();
+            return "TSA_WD_OpenField_WinClose".Translate();
+        }
+
+        public static string FormatOpenFieldLogSuffix(SpreadLogEntry entry)
+        {
+            if (entry == null) return null;
+            BattleMarginTier tier = GetOpenFieldWinnerTier(entry);
+            float lossPct = GetOpenFieldWinnerLossPct(entry);
+            return " " + "TSA_WD_OpenField_LogSuffix".Translate(
+                FormatOpenFieldWinType(tier),
+                (lossPct * 100f).ToString("F0"));
+        }
+
         public static string FormatRaidLogSuffix(SpreadLogEntry entry)
         {
-            if (entry == null || !entry.isRaid) return null;
+            if (entry == null) return null;
+            if (entry.isCaravanClash)
+                return FormatOpenFieldLogSuffix(entry);
+            if (!entry.isRaid) return null;
             if (entry.isAttempt)
                 return " (" + entry.winChance.ToStringPercent() + " " + "TSA_WD_WinChance".Translate() + ")";
 
@@ -548,7 +587,7 @@ namespace TSA_WorldDomination
             defaultLayerResolved = false;
         }
 
-        /// <summary>Shared label style matching SpreadLogEntry / Action Log rows.</summary>
+        /// <summary>Shared label style matching SpreadLogEntry / Action Log rows. Fogs proper name when undiscovered; keeps tier/type/faction.</summary>
         public static string FormatWorldObjectLabelLikeActionLog(WorldObject obj)
         {
             if (obj == null || obj.Destroyed) return "---";
@@ -560,7 +599,17 @@ namespace TSA_WorldDomination
                 typeLabel = " (Outpost)";
             else if (obj is Settlement)
                 typeLabel = comp != null ? $" ({comp.tier})" : " (Town)";
-            return $"{obj.LabelCap}{typeLabel} ({obj.Faction?.Name ?? "No Faction"})";
+            string name = WdPlayerIntel.LabelForLetter(obj);
+            return $"{name}{typeLabel} ({obj.Faction?.Name ?? "No Faction"})";
+        }
+
+        /// <summary>Jump to a world object, select it, and dismiss WD UI covering the map. No-op when FoW forbids jump.</summary>
+        public static bool TryJumpToWorldObjectOnMap(WorldObject wo)
+        {
+            if (wo == null || wo.Destroyed) return false;
+            if (!WdPlayerIntel.CanJumpOrLookTarget(wo)) return false;
+            JumpToWorldObjectOnMap(wo);
+            return true;
         }
 
         /// <summary>Format ticks to "Day N, Xh" label (shared across Action Log and Dashboard).</summary>
@@ -606,14 +655,33 @@ namespace TSA_WorldDomination
             }
         }
 
-        /// <summary>True if a faction icon was drawn for this target (tile-only targets return false).</summary>
+        /// <summary>
+        /// True if an icon was drawn for this target (tile-only targets return false).
+        /// Player WD outposts use their outpost ExpandingIcon (type art / AA mortar), not the faction crest.
+        /// </summary>
         public static bool TryDrawFactionIconForTarget(Rect rect, GlobalTargetInfo target, out Faction faction)
         {
             faction = null;
+            WorldObject wo = null;
             if (target.HasWorldObject && target.WorldObject != null)
-                faction = target.WorldObject.Faction;
+            {
+                wo = target.WorldObject;
+                faction = wo.Faction;
+            }
             else if (target.HasThing && target.Thing != null)
                 faction = target.Thing.Faction;
+
+            if (wo is WorldObject_WD_Outpost outpost)
+            {
+                Texture2D outpostIcon = outpost.ExpandingIcon;
+                if (outpostIcon != null)
+                {
+                    Color tint = faction != null ? faction.Color : Color.white;
+                    GUI.DrawTexture(rect, outpostIcon, ScaleMode.ScaleToFit, true, 0f, tint, 0f, 0f);
+                    return true;
+                }
+            }
+
             if (faction != null && faction.def?.FactionIcon != null)
             {
                 DrawFactionIconWithColor(rect, faction);
@@ -674,10 +742,11 @@ namespace TSA_WorldDomination
             WdNavWindows.CloseAllNavWindows(escapeMainTab: true);
         }
 
-        /// <summary>Jump to a world object, select it, and dismiss WD UI covering the map.</summary>
+        /// <summary>Jump to a world object, select it, and dismiss WD UI covering the map. Gated by FoW jump setting.</summary>
         public static void JumpToWorldObjectOnMap(WorldObject wo)
         {
-            if (wo == null) return;
+            if (wo == null || wo.Destroyed) return;
+            if (!WdPlayerIntel.CanJumpOrLookTarget(wo)) return;
             CameraJumper.TryJumpAndSelect(wo);
             DismissWorldDominationUiForWorldMap();
             SoundDefOf.Click.PlayOneShotOnCamera();

@@ -19,7 +19,7 @@ namespace TSA_WorldDomination
         /// Pass <paramref name="accuracyBandMaxRange"/> (absolute configured max) so shrink only clips the disk; colors stay locked to full max.
         /// Pass <paramref name="attackRangeBands"/> for NPC Attack equal-quarter raid-range rings.
         /// Pass <paramref name="allyInnerRadiusSplit"/> for Tunnel Network ally annulus (Cyan inner / CyanDeep outer).
-        /// Pass <paramref name="sightLosBands"/> for Intel MaxLOS target-size discovery rings.
+        /// Pass <paramref name="sightLosBands"/> for Intel LOS + Hunch rings (sightFracT1 = LOS/Hunch).
         /// </summary>
         public static void DrawOrFill(
             PlanetTile center,
@@ -38,38 +38,26 @@ namespace TSA_WorldDomination
         {
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
                 return;
-            if (UseHopRadiusRings)
+
+            // Sight always uses ApproxDistance hex fill (same metric as FoW clear/explore),
+            // even if UseHopRadiusRings — hop rings disagree with visible tiles.
+            if (sightLosBands || !UseHopRadiusRings)
             {
-                if (sightLosBands)
-                {
-                    float f1 = Mathf.Clamp01(sightFracT1);
-                    float f2 = Mathf.Clamp01(Mathf.Max(sightFracT1, sightFracT2));
-                    float f3 = Mathf.Clamp01(Mathf.Max(sightFracT2, sightFracT3));
-                    WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius * f1, WorldOverlayLineMaterials.RadiusRed);
-                    if (f2 > f1 + 0.01f)
-                        WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius * f2, WorldOverlayLineMaterials.RadiusOrange);
-                    if (f3 > f2 + 0.01f)
-                        WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius * f3, WorldOverlayLineMaterials.RadiusYellow);
-                    if (radius > radius * f3 + 0.05f)
-                        WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius, WorldOverlayLineMaterials.RadiusGold);
-                    else
-                        WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius, hopRingMat ?? WorldOverlayLineMaterials.RadiusGold);
-                }
-                else if (allyInnerRadiusSplit > 0f && fillKind == OutpostCoverageFillKind.Cyan)
-                {
-                    WorldMapRadiusVisual.DrawApproxRadiusRing(center, allyInnerRadiusSplit, WorldOverlayLineMaterials.RadiusCyan);
-                    WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius, WorldOverlayLineMaterials.RadiusCyanDeep);
-                }
-                else
-                {
-                    WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius, hopRingMat);
-                }
+                RadiusFillHoverController.Begin(
+                    center, radius, fillKind, accuracyBands, attackRangeBands, zealAttackInnerCyan,
+                    accuracyBandMaxRange, allyInnerRadiusSplit, sightLosBands, sightFracT1, sightFracT2, sightFracT3);
                 return;
             }
 
-            RadiusFillHoverController.Begin(
-                center, radius, fillKind, accuracyBands, attackRangeBands, zealAttackInnerCyan,
-                accuracyBandMaxRange, allyInnerRadiusSplit, sightLosBands, sightFracT1, sightFracT2, sightFracT3);
+            if (allyInnerRadiusSplit > 0f && fillKind == OutpostCoverageFillKind.Cyan)
+            {
+                WorldMapRadiusVisual.DrawApproxRadiusRing(center, allyInnerRadiusSplit, WorldOverlayLineMaterials.RadiusCyan);
+                WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius, WorldOverlayLineMaterials.RadiusCyanDeep);
+            }
+            else
+            {
+                WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius, hopRingMat);
+            }
         }
 
         public static void DrawOrFill(

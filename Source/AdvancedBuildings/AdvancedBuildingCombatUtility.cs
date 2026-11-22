@@ -11,7 +11,7 @@ namespace TSA_WorldDomination
     /// </summary>
     public static class AdvancedBuildingCombatUtility
     {
-        /// <summary>"Silo of Kerbal Town" for advanced buildings with a live owner; LabelCap otherwise.</summary>
+        /// <summary>"Silo of Kerbal Town" for advanced buildings with a live owner; LabelCap otherwise. Fogs owner name when undiscovered.</summary>
         public static string LabelWithOwner(WorldObject wo)
         {
             if (wo == null) return "?";
@@ -19,9 +19,11 @@ namespace TSA_WorldDomination
             {
                 Settlement owner = b.builtBySettlement;
                 if (owner != null && !owner.Destroyed)
-                    return "TSA_WD_AdvBuild_LabelWithOwner".Translate(b.LabelCap, owner.LabelCap).ToString();
+                    return "TSA_WD_AdvBuild_LabelWithOwner".Translate(
+                        b.LabelCap,
+                        WdPlayerIntel.LabelForLetter(owner)).ToString();
             }
-            return wo.LabelCap;
+            return WdPlayerIntel.LabelForLetter(wo);
         }
 
         public static void LogBuildingDestroyed(WorldObject_WD_AdvancedBuilding building, WorldObject attacker)
@@ -31,12 +33,15 @@ namespace TSA_WorldDomination
             if (manager == null) return;
             string label = LabelWithOwner(building);
             string text = attacker != null
-                ? "TSA_WD_AdvBuild_Log_DestroyedBy".Translate(label, attacker.LabelCap).ToString()
+                ? "TSA_WD_AdvBuild_Log_DestroyedBy".Translate(label, WdPlayerIntel.LabelForLetter(attacker)).ToString()
                 : "TSA_WD_AdvBuild_Log_Destroyed".Translate(label).ToString();
+            SpreadLogEntry entry;
             if (attacker != null)
-                manager.AddLog(new SpreadLogEntry(text, attacker, building.Tile.tileId));
+                entry = new SpreadLogEntry(text, attacker, building.Tile.tileId);
             else
-                manager.AddLog(new SpreadLogEntry(text, building.builtBySettlement, building.Tile.tileId));
+                entry = new SpreadLogEntry(text, building.builtBySettlement, building.Tile.tileId);
+            entry.category = SpreadLogCategory.BuiltAdvancedBuilding;
+            manager.AddLog(entry);
         }
 
         /// <summary>Destroy with one log line naming <paramref name="attacker"/> (no duplicate line from Destroy).</summary>

@@ -134,7 +134,8 @@ namespace TSA_WorldDomination
             || WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp)
             || WorldActions_AtTurrets.HasActiveAtTurretProject(comp)
             || WorldActions_Decontamination.HasActiveDecontaminationProject(comp)
-            || WorldActions_Trenches.HasActiveTrenchProject(comp);
+            || WorldActions_Trenches.HasActiveTrenchProject(comp)
+            || WorldActions_PlayerScout.HasActiveScoutProject(comp);
 
         private static string BuildBridgeTooltip(WorldObject actor)
         {

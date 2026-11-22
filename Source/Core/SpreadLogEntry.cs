@@ -51,6 +51,8 @@ namespace TSA_WorldDomination
         public bool isAborted;
         public bool isCaravanClash;
         public SpreadLogHighlightKind highlightKind;
+        /// <summary>Action Log type filter category (scribed; Infer fills legacy Other).</summary>
+        public SpreadLogCategory category;
         /// <summary>Raid path expected pollution exit damage &gt; 0.</summary>
         public bool pollutionDamageExpected;
         /// <summary>Raid path differed from pollution-blind route (or High repath used).</summary>
@@ -140,22 +142,8 @@ namespace TSA_WorldDomination
             this.labelB = "---";
         }
 
-        private string FormatLabel(WorldObject obj)
-        {
-            if (obj == null || obj.Destroyed) return "---";
-
-            var comp = obj.GetComponent<CompViralSpread>();
-            string typeLabel = "";
-
-            if (obj is WorldObject_Traveler)
-                typeLabel = " (Expedition Force)";
-            else if (obj is WorldObject_WD_Outpost)
-                typeLabel = " (Outpost)";
-            else if (obj is Settlement)
-                typeLabel = comp != null ? $" ({comp.tier})" : " (Town)";
-
-            return $"{obj.LabelCap}{typeLabel} ({obj.Faction?.Name ?? "No Faction"})";
-        }
+        private string FormatLabel(WorldObject obj) =>
+            WorldDomination_UIUtils.FormatWorldObjectLabelLikeActionLog(obj);
 
         public void ExposeData()
         {
@@ -196,6 +184,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref isAborted, "isAborted", false);
             Scribe_Values.Look(ref isCaravanClash, "isCaravanClash", false);
             Scribe_Values.Look(ref highlightKind, "highlightKind", SpreadLogHighlightKind.None);
+            Scribe_Values.Look(ref category, "category", SpreadLogCategory.Other);
             Scribe_Values.Look(ref pollutionDamageExpected, "pollutionDamageExpected", false);
             Scribe_Values.Look(ref pollutionRouteAltered, "pollutionRouteAltered", false);
             Scribe_Values.Look(ref pollutionExpectedLoss, "pollutionExpectedLoss", -1f);

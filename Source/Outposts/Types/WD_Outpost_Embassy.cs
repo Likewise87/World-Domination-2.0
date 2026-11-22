@@ -145,7 +145,7 @@ namespace TSA_WorldDomination
                 {
                     Faction = settlement.Faction,
                     Tier = tier,
-                    Label = settlement.LabelCap,
+                    Label = WdPlayerIntel.LabelForLetter(settlement),
                     DistanceTiles = dist,
                     Settlement = settlement,
                     ContributesToFaction = false,

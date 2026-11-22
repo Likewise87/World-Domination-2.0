@@ -61,6 +61,8 @@ namespace TSA_WorldDomination
         internal bool isInvasionRaid;
         /// <summary>Drought / forced host: keep the chosen attacker (no colony executor handoff).</summary>
         internal bool skipColonyExecutorHandoff;
+        /// <summary>Quiet-stretch drought force via <see cref="ForcedPlayerRaidDroughtUtil"/>.</summary>
+        internal bool isDroughtRaid;
         /// <summary>Copied onto the traveler before the incoming letter so OOR copy can append.</summary>
         internal bool beyondNormalAttackRange;
         /// <summary>Set by <see cref="WorldActions_Raid.FinalizeRaid"/> when a traveler is successfully committed.</summary>
@@ -598,12 +600,24 @@ namespace TSA_WorldDomination
                     target.GetComponent<CompViralSpread>()?.MarkPlayerColonyWdRaidPicked();
             }
 
+            string attLogLabel = WdPlayerIntel.LabelForLetter(attacker);
+            string tgtLogLabel = WdPlayerIntel.LabelForLetter(target);
             SpreadLogEntry launchLog;
             if (eval.isInvasionRaid)
             {
                 string ratioNote = finalGate.passed ? "" : " " + "TSA_WD_Log_ForwardAssault_RatioBypass".Translate();
                 launchLog = new SpreadLogEntry(
-                    "TSA_WD_Log_ForwardAssault_PackUpInvasion".Translate(attacker.Label, target.Label) + ratioNote,
+                    "TSA_WD_Log_ForwardAssault_PackUpInvasion".Translate(attLogLabel, tgtLogLabel) + ratioNote,
+                    attacker,
+                    target);
+            }
+            else if (eval.isDroughtRaid)
+            {
+                string droughtKey = eval.beyondNormalAttackRange
+                    ? "TSA_WD_Log_Raid_DroughtLaunchedBeyondRange"
+                    : "TSA_WD_Log_Raid_DroughtLaunched";
+                launchLog = new SpreadLogEntry(
+                    droughtKey.Translate(attLogLabel, tgtLogLabel),
                     attacker,
                     target);
             }
@@ -612,18 +626,19 @@ namespace TSA_WorldDomination
                 launchLog = new SpreadLogEntry(
                     "TSA_WD_Log_Raid_FactionDispatch".Translate(
                         attacker.Faction.Name,
-                        attacker.Label,
-                        target.Label),
+                        attLogLabel,
+                        tgtLogLabel),
                     attacker,
                     target);
             }
             else
             {
                 launchLog = new SpreadLogEntry(
-                    "TSA_WD_Log_Raid_ExpeditionLaunched".Translate(attacker.Label, target.Label),
+                    "TSA_WD_Log_Raid_ExpeditionLaunched".Translate(attLogLabel, tgtLogLabel),
                     attacker,
                     target);
             }
+            launchLog.category = SpreadLogCategory.Raid;
             if (!bandPickMsg.NullOrEmpty())
                 launchLog.message = launchLog.message + " " + bandPickMsg;
             launchLog.isRaid = true;
@@ -651,6 +666,9 @@ namespace TSA_WorldDomination
             launchLog.winChance = forecastedWinChance;
 
             float attStrengthAtArrival = totalInvestedPower * finalEfficiency;
+            // FoW: optional uncover of raider town before incoming letter (not gated on notifyIncoming*).
+            if (targetingPlayer)
+                WdPlayerIntel.TryUncoverRaiderSettlementOnPlayerRaid(attacker);
             // Drop-pod / gravship colony raids get a dedicated letter; avoid also sending the generic colony letter.
             bool ballisticColonyLetter = (useDropPod || useGravship)
                 && target is Settlement dropSett
@@ -697,10 +715,9 @@ namespace TSA_WorldDomination
                 traveler.intelAssessedDefTotal = fogSnap.Total;
                 if (intel != null)
                 {
+                    // Raider learns the target; do not auto-reveal the origin to the defender (FoW).
                     if (attacker.Faction != null)
                         intel.Discover(attacker.Faction, target, attacker);
-                    if (target.Faction != null)
-                        intel.Discover(target.Faction, attacker, target);
                 }
             }
 
@@ -835,6 +852,7 @@ namespace TSA_WorldDomination
                 totalAvailableAttPower = RaidLaunchGate.SumAvailableAttPower(host, attAllies, seth),
                 debugForce = true,
                 isInvasionRaid = false,
+                isDroughtRaid = true,
                 skipColonyExecutorHandoff = true,
                 beyondNormalAttackRange = beyondNormalAttackRange,
                 lockedColonyRequiredRatio = RaidLaunchGate.GetColonyRequiredRaidRatio(
@@ -1162,23 +1180,36 @@ namespace TSA_WorldDomination
                 attStrengthAtArrival,
                 ResolveRaidPointsMapForTarget(target));
             string eta = FormatRaidEtaDays(traveler);
+            string attFaction = attacker?.Faction?.Name ?? "?";
+            bool unknownOrigin = attacker != null && WdPlayerIntel.TrackingActive && !WdPlayerIntel.PlayerKnows(attacker);
             string label;
             string text;
-            if (colonyFactionDispatch && attacker?.Faction != null)
+            if (unknownOrigin)
             {
+                label = "TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Label".Translate(attFaction);
+                text = "TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Text".Translate(
+                    attFaction,
+                    target.LabelCap,
+                    expectedRaidPoints.ToString("F0"),
+                    eta);
+            }
+            else if (colonyFactionDispatch && attacker?.Faction != null)
+            {
+                string attLabel = WdPlayerIntel.LabelForLetter(attacker);
                 label = "TSA_WD_Letter_IncomingDropRaid_Dispatch_Label".Translate(attacker.Faction.Name);
                 text = "TSA_WD_Letter_IncomingDropRaid_Dispatch_Text".Translate(
                     attacker.Faction.Name,
-                    attacker.Label ?? "?",
+                    attLabel,
                     target.LabelCap,
                     expectedRaidPoints.ToString("F0"),
                     eta);
             }
             else
             {
+                string attLabel = WdPlayerIntel.LabelForLetter(attacker);
                 label = "TSA_WD_Letter_IncomingDropRaid_Label".Translate();
                 text = "TSA_WD_Letter_IncomingDropRaid_Text".Translate(
-                    attacker?.Label ?? "?",
+                    attLabel,
                     target.LabelCap,
                     expectedRaidPoints.ToString("F0"),
                     eta);
@@ -1242,29 +1273,50 @@ namespace TSA_WorldDomination
                 ResolveRaidPointsMapForTarget(target));
             string raidPointsStr = expectedRaidPoints.ToString("F0");
             string targetName = target.LabelCap;
-            string attFaction = attacker.Faction.Name;
-            string attLabel = attacker.Label;
+            string attFaction = attacker.Faction?.Name ?? "?";
             string eta = FormatRaidEtaDays(traveler);
+            bool unknownOrigin = WdPlayerIntel.TrackingActive && !WdPlayerIntel.PlayerKnows(attacker);
 
             string label;
             string text;
             if (isColony)
             {
-                if (colonyFactionDispatch)
+                if (unknownOrigin)
                 {
+                    label = "TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Label".Translate(attFaction);
+                    text = "TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Text".Translate(
+                        attFaction, targetName, raidPointsStr, eta);
+                }
+                else if (colonyFactionDispatch)
+                {
+                    string attLabel = WdPlayerIntel.LabelForLetter(attacker);
                     label = "TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label".Translate(targetName, attFaction);
                     text = "TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text".Translate(
                         attFaction, attLabel, targetName, raidPointsStr, eta);
                 }
                 else
                 {
+                    string attLabel = WdPlayerIntel.LabelForLetter(attacker);
                     label = "TSA_WD_Letter_IncomingRaid_Colony_Label".Translate(targetName, attFaction);
                     text = "TSA_WD_Letter_IncomingRaid_Colony_Text".Translate(attLabel, targetName, raidPointsStr, eta);
                 }
             }
+            else if (unknownOrigin)
+            {
+                float defenderWinChance = 1f - attackerWinChance;
+                label = "TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Label".Translate(targetName, attFaction);
+                text = "TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Text".Translate(
+                    attFaction,
+                    targetName,
+                    raidPointsStr,
+                    defStrength.ToString("F0"),
+                    defenderWinChance.ToStringPercent(),
+                    eta);
+            }
             else
             {
                 float defenderWinChance = 1f - attackerWinChance;
+                string attLabel = WdPlayerIntel.LabelForLetter(attacker);
                 label = "TSA_WD_Letter_IncomingRaid_Outpost_Label".Translate(targetName, attFaction);
                 text = "TSA_WD_Letter_IncomingRaid_Outpost_Text".Translate(
                     attLabel,
@@ -1297,15 +1349,15 @@ namespace TSA_WorldDomination
         {
             LetterDef letterDef = DefDatabase<LetterDef>.GetNamed("TSA_WD_IncomingRaid", errorOnFail: false)
                 ?? LetterDefOf.ThreatBig;
-            LookTargets look = traveler != null && !traveler.Destroyed
-                ? new LookTargets(traveler)
-                : (attacker != null ? new LookTargets(attacker) : null);
+            LookTargets look = WdPlayerIntel.LookTargetsOrFallback(
+                traveler != null && !traveler.Destroyed && WdPlayerIntel.CanJumpOrLookTarget(traveler) ? traveler : null,
+                WdPlayerIntel.CanJumpOrLookTarget(attacker) ? attacker : null);
             ChoiceLetter letter = LetterMaker.MakeLetter(label, text, letterDef, look);
             if (letter is ChoiceLetter_IncomingWdRaid raidLetter)
             {
-                raidLetter.attacker = attacker;
+                raidLetter.attacker = WdPlayerIntel.CanJumpOrLookTarget(attacker) ? attacker : null;
                 raidLetter.target = target;
-                raidLetter.traveler = traveler;
+                raidLetter.traveler = traveler != null && WdPlayerIntel.CanJumpOrLookTarget(traveler) ? traveler : null;
             }
             Find.LetterStack.ReceiveLetter(letter);
         }

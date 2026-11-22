@@ -425,7 +425,7 @@ namespace TSA_WorldDomination
                     "TSA_WD_Letter_DesperationRaid_Label".Translate(victim.Name),
                     "TSA_WD_Letter_DesperationRaid_Text".Translate(target.Label),
                     LetterDefOf.ThreatBig,
-                    new LookTargets(target));
+                    WdPlayerIntel.LookTargetsOrNull(target));
             }
 
             failReason = null;

@@ -2078,7 +2078,8 @@ namespace TSA_WorldDomination
                                     Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                                         "TSA_WD_Log_RapidResponseDropPodsLaunched".Translate(outpost.LabelCap, target.LabelCap, removed.Count.ToString()),
                                         outpost,
-                                        target));
+                                        target)
+                                    { category = SpreadLogCategory.Raid });
                                     Messages.Message(
                                         "TSA_WD_RapidResponse_DropPodsLaunched".Translate(removed.Count.ToString(), target.LabelCap),
                                         MessageTypeDefOf.TaskCompletion,
@@ -2160,7 +2161,8 @@ namespace TSA_WorldDomination
                                     Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                                         "TSA_WD_Log_RapidResponseDropPodsLaunched".Translate(outpost.LabelCap, destLabel, removed.Count.ToString()),
                                         outpost,
-                                        null));
+                                        null)
+                                    { category = SpreadLogCategory.Raid });
                                     Messages.Message(
                                         "TSA_WD_RapidResponse_DropPodsLaunched".Translate(removed.Count.ToString(), destLabel),
                                         MessageTypeDefOf.TaskCompletion,

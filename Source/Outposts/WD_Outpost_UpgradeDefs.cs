@@ -158,6 +158,12 @@ namespace TSA_WorldDomination
         /// <summary>Flat daily food production added per built level for this outpost.</summary>
         public float foodProductionFlatBonus;
 
+        /// <summary>
+        /// Extra player-scout max lifetime days per built level (added to <see cref="WorldDominationSettings.intelPlayerScoutMaxLifetimeDays"/>).
+        /// Values via 1.7/Patches only when shipping new upgrade XML — never bake into Common Defs for dual-version.
+        /// </summary>
+        public float playerScoutMaxLifetimeDaysBonus;
+
         public List<OutpostUpgradeCostEntry> cost = new List<OutpostUpgradeCostEntry>();
         public string requiredResearch;
         public List<string> requiredResearches = new List<string>();

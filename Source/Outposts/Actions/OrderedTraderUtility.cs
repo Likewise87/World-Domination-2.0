@@ -151,7 +151,7 @@ namespace TSA_WorldDomination
             manager?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_OrderedTraderLaunched".Translate(sender.LabelCap, dest.LabelCap, kind.LabelCap),
                 sender,
-                dest));
+                dest) { category = SpreadLogCategory.Trader });
             return true;
         }
     }

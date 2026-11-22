@@ -221,7 +221,14 @@ namespace TSA_WorldDomination
 
             if (worldObject is Settlement settlement)
             {
-                if (settlement.Faction == null || settlement.Faction.IsPlayer) return false;
+                if (settlement.Faction == null) return false;
+                // Player map colony: Sight prefs share NpcSettlement (see GetSightForPlayerColony).
+                if (settlement.Faction.IsPlayer)
+                {
+                    if (!settlement.HasMap) return false;
+                    category = WD_RadiusOverlayCategory.NpcSettlement;
+                    return true;
+                }
                 var comp = settlement.GetComponent<CompViralSpread>();
                 if (comp == null) return false;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(settlement))
@@ -320,13 +327,19 @@ namespace TSA_WorldDomination
 
             WD_RadiusOverlayKind kind = Get(category);
             if (kind == WD_RadiusOverlayKind.Off) return;
+            // Player colony shares NpcSettlement prefs; only Sight is meaningful there.
+            if (WorldComponent_SettlementIntel.IsPlayerColonyObserver(worldObject)
+                && kind != WD_RadiusOverlayKind.Sight)
+                return;
 
             float radius;
             OutpostCoverageFillKind fillKind;
             Material hopMat;
             float allyInnerSplit;
             int tick = Find.TickManager?.TicksGame ?? 0;
-            bool cacheHit = resolveCacheOk
+            // Sight MaxLOS tracks live strength/age — never serve a stale radius (pawn transfers shrink it).
+            bool cacheHit = kind != WD_RadiusOverlayKind.Sight
+                && resolveCacheOk
                 && resolveCacheObjectId == worldObject.ID
                 && resolveCacheKind == kind
                 && tick - resolveCacheTick < ResolveCacheFreshTicks;
@@ -359,6 +372,7 @@ namespace TSA_WorldDomination
                 || (kind == WD_RadiusOverlayKind.Attack
                     && (worldObject is WorldObject_AT_Turret || worldObject is WorldObject_WD_ArtilleryTurret));
             bool attackRangeBands = kind == WD_RadiusOverlayKind.Attack && worldObject is Settlement;
+            // Sight: two rings — LOS (inner) + Hunch (outer). Same for colonies and NPCs.
             bool sightLosBands = kind == WD_RadiusOverlayKind.Sight;
             bool zealAttackInnerCyan = false;
             if (attackRangeBands && worldObject is Settlement settlement)
@@ -386,9 +400,9 @@ namespace TSA_WorldDomination
                     accuracyBandMax = AntiAirFireUtils.GetNpcAntiAirMaxRangeTiles();
             }
 
-            float sightF1 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T1);
-            float sightF2 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T2);
-            float sightF3 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T3);
+            float sightF1 = WorldComponent_SettlementIntel.GetLosFrac();
+            float sightF2 = sightF1;
+            float sightF3 = 1f;
 
             WD_RadiusOverlayMode.DrawOrFill(worldObject, radius, fillKind, hopMat,
                 accuracyBands: accuracyBands,

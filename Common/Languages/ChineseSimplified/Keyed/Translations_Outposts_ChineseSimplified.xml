@@ -175,11 +175,11 @@
   <TSA_WD_RapidResponse_CancelIntercept>取消拦截</TSA_WD_RapidResponse_CancelIntercept>
   <TSA_WD_RapidResponse_CancelInterceptDesc>立即召回此快速反应商队，并将强度退还给来源前哨站。</TSA_WD_RapidResponse_CancelInterceptDesc>
   <TSA_WD_RapidResponse_InterceptCancelled>{0} 的快速反应拦截已取消（退还强度 {1}）。</TSA_WD_RapidResponse_InterceptCancelled>
-  <TSA_WD_Log_RapidResponseLaunched>{0} 派出快速反应商队拦截 {1}（强度 {2}）。</TSA_WD_Log_RapidResponseLaunched>
-  <TSA_WD_Log_RapidResponseAborted>{0} 的快速反应拦截已取消：目标已消失或不再敌对。</TSA_WD_Log_RapidResponseAborted>
-  <TSA_WD_Log_RapidResponseCancelled>{0} 的快速反应拦截已取消（退还强度 {1}）。</TSA_WD_Log_RapidResponseCancelled>
-  <TSA_WD_Log_RapidResponseResolved>{0} 的快速反应拦截了 {1}：{2}。</TSA_WD_Log_RapidResponseResolved>
-  <TSA_WD_Log_RapidResponseDropPodsLaunched>{0} 将 {2} 名殖民者通过空投舱投送到 {1}。</TSA_WD_Log_RapidResponseDropPodsLaunched>
+  <TSA_WD_Log_RapidResponseLaunched>RAID：{0} 派出快速反应旅队拦截 {1}（强度 {2}）。</TSA_WD_Log_RapidResponseLaunched>
+  <TSA_WD_Log_RapidResponseAborted>RAID：{0} 的快速反应拦截已取消：目标已消失或不再敌对。</TSA_WD_Log_RapidResponseAborted>
+  <TSA_WD_Log_RapidResponseCancelled>RAID：{0} 的快速反应拦截已取消（退还强度 {1}）。</TSA_WD_Log_RapidResponseCancelled>
+  <TSA_WD_Log_RapidResponseResolved>RAID：{0} 的快速反应拦截了 {1}：{2}。</TSA_WD_Log_RapidResponseResolved>
+  <TSA_WD_Log_RapidResponseDropPodsLaunched>RAID：{0} 将 {2} 名殖民者通过空投舱投送到 {1}。</TSA_WD_Log_RapidResponseDropPodsLaunched>
   <TSA_WD_Won>胜利</TSA_WD_Won>
   <TSA_WD_Lost>失败</TSA_WD_Lost>
   <TSA_WD_Pod_AddToOutpost>加入 {0}(运输舱)</TSA_WD_Pod_AddToOutpost>
@@ -485,14 +485,17 @@
   <TSA_WD_Log_Road_Progress>{0} 向 {1} 铺设了道路格。剩余 {2} 格完成。</TSA_WD_Log_Road_Progress>
   <TSA_WD_Log_TravelerClash>商队冲突</TSA_WD_Log_TravelerClash>
   <TSA_WD_Log_NpcCaravanClash>{0} 商队与 {1} 交战（{2} 对 {3}）。</TSA_WD_Log_NpcCaravanClash>
-  <TSA_WD_CaravanClash_Header>商队冲突已结算</TSA_WD_CaravanClash_Header>
-  <TSA_WD_CaravanClash_Intro>野外冲突使用与聚落战相同的世界袭击结果算法（按实力比决定胜率与伤亡）。轻微的防守方优势来自该表，以及谁被指定为防守方。</TSA_WD_CaravanClash_Intro>
-  <TSA_WD_CaravanClash_Attacker>进攻方：{0}</TSA_WD_CaravanClash_Attacker>
-  <TSA_WD_CaravanClash_Defender>防守方：{0}</TSA_WD_CaravanClash_Defender>
-  <TSA_WD_CaravanClash_Ratio>实力比（进攻 / 防守）：{0}</TSA_WD_CaravanClash_Ratio>
-  <TSA_WD_CaravanClash_AttackerWon>进攻方获胜</TSA_WD_CaravanClash_AttackerWon>
-  <TSA_WD_CaravanClash_DefenderWon>防守方获胜</TSA_WD_CaravanClash_DefenderWon>
+  <TSA_WD_CaravanClash_Header>野外冲突已结算</TSA_WD_CaravanClash_Header>
+  <TSA_WD_CaravanClash_Intro>野外战斗使用独立胜率曲线（非围城表）。败方全灭。胜方按战斗胶着程度保留残存实力。</TSA_WD_CaravanClash_Intro>
+  <TSA_WD_CaravanClash_Ratio>实力比：{0}</TSA_WD_CaravanClash_Ratio>
+  <TSA_WD_CaravanClash_Winner>{0} 获胜</TSA_WD_CaravanClash_Winner>
+  <TSA_WD_CaravanClash_WinnerLoss>胜方损失 {0}% 实力（损失 {1} / 原 {2}，残存 {3}）。</TSA_WD_CaravanClash_WinnerLoss>
+  <TSA_WD_CaravanClash_LoserWiped>{0} 全灭。</TSA_WD_CaravanClash_LoserWiped>
   <TSA_WD_CaravanClash_ResultingStrengths>战后实力：</TSA_WD_CaravanClash_ResultingStrengths>
+  <TSA_WD_OpenField_WinClose>险胜</TSA_WD_OpenField_WinClose>
+  <TSA_WD_OpenField_WinNormal>普通胜利</TSA_WD_OpenField_WinNormal>
+  <TSA_WD_OpenField_WinDecisive>大胜</TSA_WD_OpenField_WinDecisive>
+  <TSA_WD_OpenField_LogSuffix>{0} (-{1}%)</TSA_WD_OpenField_LogSuffix>
   <TSA_WD_Message_RerollSuccess>定居点等级已重掷:{0} 个定居点已更新。</TSA_WD_Message_RerollSuccess>
   <TSA_WD_MiningBaseline_Header>采矿基准倍率</TSA_WD_MiningBaseline_Header>
   <TSA_WD_MiningBaseline_Ores>矿石</TSA_WD_MiningBaseline_Ores>
@@ -653,8 +656,8 @@
   <TSA_WD_Outpost_SilverValuePerSkillTooltip>每次交货固定，不因前哨周期 10 天或 100 天而改变。狩猎：一次交货可含肉、皮革/毛皮与羊毛（若动物产出）；每种产物基准/技能 =（预算÷单次击杀总银价）× 该产物每杀数量。种植/采矿：基准≈预算÷市价。再 × 地块效率 × 技能 × 产出倍率。</TSA_WD_Outpost_SilverValuePerSkillTooltip>
   <TSA_WD_Outpost_ClampSkillsAtLevel20>将前哨技能限制在 20 级</TSA_WD_Outpost_ClampSkillsAtLevel20>
   <TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>启用后，前哨计算会将高于 20 的技能视为 20。若使用 Endless Growth 类模组，请保持关闭，让更高技能等级完整贡献。</TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycle>每个生产周期的驻员技能经验</TSA_WD_Outpost_OccupantSkillXpPerCycle>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>一个完整生产周期内，前哨每名殖民者在每项相关技能（种植、狩猎等）获得的经验总值。在生产计时器运行期间按日分摊。设为 0 关闭。空闲、暂停或受阻的日子不发放。</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycle>驻员每日技能经验</TSA_WD_Outpost_OccupantSkillXpPerCycle>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>生产计时器运行时，前哨每名殖民者每天在每项相关技能（种植、狩猎等）获得的经验。设为 0 关闭。空闲、暂停或受阻的日子不发放。</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>前哨经验技能上限</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>技能达到该等级或更高时不再从前哨交货获得经验。</TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>
   <TSA_WD_Outpost_RecruitSocialXpPerResistance>每降低抗性的社交经验池</TSA_WD_Outpost_RecruitSocialXpPerResistance>
@@ -1263,7 +1266,7 @@
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>派遣快速反制远行队拦截敌对旅者。敌方商队经过此前哨时，总会立刻触发攻击。运输舱研究后可空投殖民者。不产出物资</TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_DrugLab>产出毒品（烟叶、精神叶、活力水、清醒剂）。随智力技能变化。需要「毒品生产」研究</TSA_WD_OutpostTooltip_TSA_WD_Outpost_DrugLab>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Research>推进当前活跃研究项目。随智力技能变化。可通过升级提升效率</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Research>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>向殖民地输送远程电力。无需本地线路或燃料。不产出物资</TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>向殖民地输送远程电力。无需本地线路或燃料。在殖民地图放置 WD 远程电力接入点可指定 Keep 进入哪些电网。不产出物资</TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Warehouse>储存物品且不会腐坏。其他前哨可将配送发往此处。可手动发货至殖民地或其他仓库</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Warehouse>
   <TSA_WD_Research_NoActiveProject>未选择活跃研究项目。</TSA_WD_Research_NoActiveProject>
   <TSA_WD_Research_NoResearchers>此前哨站没有具备智力技能的科研人员。</TSA_WD_Research_NoResearchers>
@@ -2308,10 +2311,22 @@
   <TSA_WD_OutpostStats_Row_AtTurretMax>炮塔上限</TSA_WD_OutpostStats_Row_AtTurretMax>
   <TSA_WD_OutpostStats_Row_AtTurretMaxTip>归属此前哨的 AT 炮塔（已放置与在途）相对实验设置中的每站点上限。全局玩家上限仍可能阻止新建。</TSA_WD_OutpostStats_Row_AtTurretMaxTip>
   <TSA_WD_Build>建造</TSA_WD_Build>
+  <TSA_WD_BuildAndScout>Build &amp; Scout</TSA_WD_BuildAndScout>
   <TSA_WD_BuildDesc>从此前哨建造道路、路障或尖刺陷阱。</TSA_WD_BuildDesc>
   <TSA_WD_ColonyBuildDesc>从殖民地建造道路、路障或尖刺陷阱。进度使用殖民地建造技能。不消耗实力。</TSA_WD_ColonyBuildDesc>
   <TSA_WD_Conquest_AllyGiftBlockedAlliedToConquered>无法将此定居点交给该派系，因为他们与该定居点原属派系结盟。</TSA_WD_Conquest_AllyGiftBlockedAlliedToConquered>
   <TSA_WD_DeliverySpot_AlreadyExists>每张地图只允许一个 WD 前哨交付点。</TSA_WD_DeliverySpot_AlreadyExists>
+  <TSA_WD_RemotePowerSpot_NeedColonyHome>只能建在你的殖民地主地图上。</TSA_WD_RemotePowerSpot_NeedColonyHome>
+  <TSA_WD_RemotePowerSpot_GizmoShare>远程电力份额</TSA_WD_RemotePowerSpot_GizmoShare>
+  <TSA_WD_RemotePowerSpot_GizmoShareDesc>设置该点位在发电厂前哨 Keep 远程电力中的相对份额。已接通点位之间会归一化，使全部 Keep 都进入这些电网。</TSA_WD_RemotePowerSpot_GizmoShareDesc>
+  <TSA_WD_RemotePowerSpot_ShareTitle>远程电力份额</TSA_WD_RemotePowerSpot_ShareTitle>
+  <TSA_WD_RemotePowerSpot_ShareBody>设定此接入点应从 WD 发电厂前哨全部产出电力中分得多少权重。</TSA_WD_RemotePowerSpot_ShareBody>
+  <TSA_WD_RemotePowerSpot_ShareSlider>权重：{0}</TSA_WD_RemotePowerSpot_ShareSlider>
+  <TSA_WD_RemotePowerSpot_ShareEffective>有效份额：{0} %</TSA_WD_RemotePowerSpot_ShareEffective>
+  <TSA_WD_RemotePowerSpot_ShareEffectiveWatts>有效电力：{0}</TSA_WD_RemotePowerSpot_ShareEffectiveWatts>
+  <TSA_WD_RemotePowerSpot_InspectShare>远程份额权重 {0}（有效 {1}%）</TSA_WD_RemotePowerSpot_InspectShare>
+  <TSA_WD_RemotePowerSpot_InspectIneligible>远程份额权重 {0}（未接通；若无有效点位则均分各电网）</TSA_WD_RemotePowerSpot_InspectIneligible>
+  <TSA_WD_RemotePowerSpot_InspectWatts>输送 {0}</TSA_WD_RemotePowerSpot_InspectWatts>
   <TSA_WD_StatsTooltip_BandBase>区间基数：{0}%</TSA_WD_StatsTooltip_BandBase>
   <TSA_WD_StatsTooltip_Baseline>基准：{0}</TSA_WD_StatsTooltip_Baseline>
   <TSA_WD_StatsTooltip_MaxRange>最大射程：{0}</TSA_WD_StatsTooltip_MaxRange>

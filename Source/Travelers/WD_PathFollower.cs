@@ -87,6 +87,9 @@ namespace TSA_WorldDomination
             WdPollutionPathContext.Scope pollutionScope = usePollutionCost
                 ? WdPollutionPathContext.Activate(pollutionWeightMultiplier)
                 : null;
+            WdScoutTrapAvoidPathContext.Scope scoutTrapScope = WdScoutTrapAvoidPathContext.ShouldAvoidFor(traveler)
+                ? WdScoutTrapAvoidPathContext.Activate(traveler.Faction)
+                : null;
 
             bool hasVanillaPath = false;
             int tpm = TravelUtils.ResolveTicksPerMove(traveler.ticksPerMove);
@@ -228,9 +231,10 @@ namespace TSA_WorldDomination
             finally
             {
                 pollutionScope?.Dispose();
+                scoutTrapScope?.Dispose();
             }
 
-            // Sum travel ticks with context off so hop timing stays pollution-blind (damage is the real cost).
+            // Sum travel ticks with context off so hop timing stays pollution/trap-blind (damage is the real cost).
             bool hasPath = (curPath != null && curPath.Found) || (fallbackPathNodes != null && fallbackPathNodes.Count > 1);
             WD_DevPerformanceSpikeLog.Msg(
                 $"Traveler.WD_PathFollower.StartPath traveler=\"{traveler.Label}\" fromTile={traveler.Tile} toTile={destTile.tileId} vanillaFound={hasVanillaPath} fallbackNodeCount={fallbackPathNodes?.Count ?? 0} hasPath={hasPath}");
@@ -289,7 +293,17 @@ namespace TSA_WorldDomination
             WorldPath newPath = null;
             if (pathStart != dest)
             {
-                newPath = pathStart.Layer.Pather.FindPath(pathStart, dest, null);
+                WdScoutTrapAvoidPathContext.Scope scoutTrapScope = WdScoutTrapAvoidPathContext.ShouldAvoidFor(traveler)
+                    ? WdScoutTrapAvoidPathContext.Activate(traveler.Faction)
+                    : null;
+                try
+                {
+                    newPath = pathStart.Layer.Pather.FindPath(pathStart, dest, null);
+                }
+                finally
+                {
+                    scoutTrapScope?.Dispose();
+                }
                 if (newPath == null || !newPath.Found)
                 {
                     newPath?.ReleaseToPool();
@@ -400,13 +414,9 @@ namespace TSA_WorldDomination
                     // Feature D: event-driven ground RR/mortar dispatch fast path (airborne/ballistic AA untouched).
                     WorldComponent_InterceptionScheduler.Current?.TryEventDrivenGroundIntercept(traveler, traveler.Tile.tileId);
                     if (traveler.Destroyed) return;
-                    // Settlement intel: settlements/caravans spot this traveler; scouts spot sites around themselves.
+                    // Settlement intel: one path only (TrySpot reveals traveler + sites; no duplicate scout bubble).
                     if (WorldComponent_SettlementIntel.IsTracking())
-                    {
                         WorldComponent_SettlementIntel.Get()?.TrySpotTravelerFromSettlementsAndCaravans(traveler);
-                        if (traveler.mission == TravelerMission.Scout && traveler.Faction != null)
-                            WorldActions_Scout.DiscoverSitesInScoutBubble(traveler.Faction, traveler.Tile.tileId, traveler);
-                    }
                     if (traveler.Destroyed) return;
                 }
 

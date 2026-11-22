@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 using RimWorld;
 using RimWorld.Planet;
 
@@ -16,6 +17,9 @@ namespace TSA_WorldDomination
         private string filterTarget = "";
         private string filterMessage = "";
 
+        private static readonly HashSet<SpreadLogCategory> selectedCategories = new HashSet<SpreadLogCategory>();
+        private static bool excludeSelectedCategories;
+
         private WorldComponent_SpreadManager cachedManager;
 
         private readonly List<SpreadLogEntry> viewEntries = new List<SpreadLogEntry>();
@@ -25,11 +29,13 @@ namespace TSA_WorldDomination
         private string viewCachedFilterActor = "\u0001";
         private string viewCachedFilterTarget = "\u0001";
         private string viewCachedFilterMessage = "\u0001";
+        private int viewCachedTypeFp = int.MinValue;
         private readonly List<string> viewTimeLabels = new List<string>();
 
         private static string labelWindowTitle, labelFilterByActor, labelFilterByTarget, labelFilterByMessage;
         private static string labelHeaderTime, labelHeaderActor, labelHeaderTarget, labelHeaderAction;
         private static string labelBtnDetails;
+        private static string labelTypeFilterTitle, labelExcludeSelected, labelClearTypeFilter;
 
         public Window_ActionLog()
         {
@@ -39,6 +45,12 @@ namespace TSA_WorldDomination
             this.absorbInputAroundWindow = false;
             this.preventCameraMotion = false;
             this.closeOnCancel = true;
+        }
+
+        public override void PreClose()
+        {
+            PawnRosterHeaderFilter.CloseDropdown();
+            base.PreClose();
         }
 
         public override void PostClose()
@@ -51,6 +63,8 @@ namespace TSA_WorldDomination
         {
             WdNavWindows.ProcessHotkeys();
             if (!IsOpen) return;
+            if (PawnRosterHeaderFilter.TryCloseDropdownOnCancel())
+                return;
             if (WdWindowEsc.TryCloseOnCancel(this))
                 return;
 
@@ -66,6 +80,9 @@ namespace TSA_WorldDomination
                 labelHeaderTarget = "TSA_WD_Log_HeaderTarget".Translate();
                 labelHeaderAction = "TSA_WD_Log_HeaderAction".Translate();
                 labelBtnDetails = "TSA_WD_Log_BtnDetails".Translate();
+                labelTypeFilterTitle = "TSA_WD_Log_TypeFilterTitle".Translate();
+                labelExcludeSelected = "TSA_WD_Log_TypeFilterExclude".Translate();
+                labelClearTypeFilter = "TSA_WD_Log_TypeFilterClear".Translate();
             }
             Widgets.Label(new Rect(0, 0, inRect.width, 35f), labelWindowTitle);
 
@@ -93,7 +110,22 @@ namespace TSA_WorldDomination
             Widgets.Label(new Rect(0, headerRect.y, colTime, 25f), labelHeaderTime);
             Widgets.Label(new Rect(colTime + 30f, headerRect.y, col12Width - 30f, 25f), labelHeaderActor);
             Widgets.Label(new Rect(colTime + col12Width + 40f, headerRect.y, col12Width - 30f, 25f), labelHeaderTarget);
-            Widgets.Label(new Rect(colTime + (col12Width * 2) + 20f, headerRect.y, col3Width, 25f), labelHeaderAction);
+
+            float actionHeaderX = colTime + (col12Width * 2) + 20f;
+            bool typeFilterActive = selectedCategories.Count > 0 || excludeSelectedCategories;
+            PawnRosterHeaderFilter.DrawFilterableHeader(
+                ref actionHeaderX,
+                headerRect.y,
+                col3Width,
+                25f,
+                labelHeaderAction,
+                isSorted: false,
+                sortAscending: true,
+                TextAnchor.MiddleLeft,
+                typeFilterActive,
+                "TSA_WD_Log_TypeFilterTip".Translate(),
+                icon => OpenTypeFilterDropdown(icon),
+                onSort: null);
 
             GUI.color = Color.white; Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.UpperLeft;
@@ -167,6 +199,89 @@ namespace TSA_WorldDomination
                 }
             }
             Widgets.EndScrollView();
+
+            PawnRosterHeaderFilter.DrawDropdownIfOpen();
+        }
+
+        private void OpenTypeFilterDropdown(Rect iconRect)
+        {
+            const float footerH = 28f + 6f + 28f;
+            PawnRosterHeaderFilter.OpenMultiChoiceDropdown(
+                iconRect,
+                labelTypeFilterTitle,
+                BuildTypeFilterChoices,
+                (inner, y) =>
+                {
+                    Rect excludeRect = new Rect(inner.x, y, inner.width, 28f);
+                    bool excl = excludeSelectedCategories;
+                    Widgets.CheckboxLabeled(excludeRect, labelExcludeSelected, ref excl);
+                    if (excl != excludeSelectedCategories)
+                        excludeSelectedCategories = excl;
+                    Rect clear = new Rect(inner.x, excludeRect.yMax + 6f, inner.width, 28f);
+                    if (Widgets.ButtonText(clear, labelClearTypeFilter))
+                    {
+                        selectedCategories.Clear();
+                        excludeSelectedCategories = false;
+                        SoundDefOf.Click.PlayOneShotOnCamera();
+                    }
+                },
+                width: 280f,
+                footerH: footerH);
+        }
+
+        private List<HeaderFilterChoice> BuildTypeFilterChoices()
+        {
+            // Counts from text-filtered population (ignore type filter itself).
+            var counts = new Dictionary<SpreadLogCategory, int>();
+            for (int i = 0; i < SpreadLogCategoryUtil.All.Length; i++)
+                counts[SpreadLogCategoryUtil.All[i]] = 0;
+
+            if (cachedManager != null)
+            {
+                List<SpreadLogEntry> raw = cachedManager.GetLog();
+                bool fa = !filterActor.NullOrEmpty();
+                bool ft = !filterTarget.NullOrEmpty();
+                bool fm = !filterMessage.NullOrEmpty();
+                for (int i = 0; i < raw.Count; i++)
+                {
+                    SpreadLogEntry l = raw[i];
+                    if (fa && ((l.labelA ?? "").IndexOf(filterActor, StringComparison.OrdinalIgnoreCase) < 0)) continue;
+                    if (ft && ((l.labelB ?? "").IndexOf(filterTarget, StringComparison.OrdinalIgnoreCase) < 0)) continue;
+                    if (fm && ((l.message ?? "").IndexOf(filterMessage, StringComparison.OrdinalIgnoreCase) < 0)) continue;
+                    SpreadLogCategory cat = EffectiveCategory(l);
+                    counts[cat] = counts.TryGetValue(cat, out int n) ? n + 1 : 1;
+                    if (cat != SpreadLogCategory.Pollution && SpreadLogCategoryUtil.IsPollutionRelated(l))
+                        counts[SpreadLogCategory.Pollution] = counts.TryGetValue(SpreadLogCategory.Pollution, out int pn) ? pn + 1 : 1;
+                }
+            }
+
+            var list = new List<HeaderFilterChoice>(SpreadLogCategoryUtil.All.Length);
+            for (int i = 0; i < SpreadLogCategoryUtil.All.Length; i++)
+            {
+                SpreadLogCategory cat = SpreadLogCategoryUtil.All[i];
+                int count = counts.TryGetValue(cat, out int c) ? c : 0;
+                SpreadLogCategory captured = cat;
+                list.Add(new HeaderFilterChoice(
+                    SpreadLogCategoryUtil.Label(cat),
+                    selectedCategories.Contains(cat),
+                    () =>
+                    {
+                        if (!selectedCategories.Add(captured))
+                            selectedCategories.Remove(captured);
+                    },
+                    tip: null,
+                    separatorAfter: cat == SpreadLogCategory.BuiltFortification,
+                    countLabel: count.ToString()));
+            }
+            return list;
+        }
+
+        private static SpreadLogCategory EffectiveCategory(SpreadLogEntry entry)
+        {
+            if (entry == null) return SpreadLogCategory.Other;
+            if (entry.category != SpreadLogCategory.Other)
+                return entry.category;
+            return SpreadLogCategoryUtil.Infer(entry);
         }
 
         private static bool MessageHasBandPickSuffix(string message)
@@ -192,6 +307,17 @@ namespace TSA_WorldDomination
                 && entry.defDetails.Count == 1;
         }
 
+        private static int TypeFilterFingerprint()
+        {
+            unchecked
+            {
+                int hash = excludeSelectedCategories ? 1 : 0;
+                foreach (SpreadLogCategory c in selectedCategories)
+                    hash = hash * 31 + (int)c;
+                return hash;
+            }
+        }
+
         private void EnsureActionLogView(List<SpreadLogEntry> raw)
         {
             if (raw == null || raw.Count == 0)
@@ -202,13 +328,18 @@ namespace TSA_WorldDomination
                 viewCachedFilterActor = filterActor;
                 viewCachedFilterTarget = filterTarget;
                 viewCachedFilterMessage = filterMessage;
+                viewCachedTypeFp = TypeFilterFingerprint();
                 return;
             }
             int c = raw.Count;
             int headTs = raw[0].timestamp;
             int tailTs = raw[c - 1].timestamp;
+            int typeFp = TypeFilterFingerprint();
             bool fpSame = c == viewLogFpCount && headTs == viewLogFpHeadTs && tailTs == viewLogFpTailTs;
-            bool filtersSame = filterActor == viewCachedFilterActor && filterTarget == viewCachedFilterTarget && filterMessage == viewCachedFilterMessage;
+            bool filtersSame = filterActor == viewCachedFilterActor
+                && filterTarget == viewCachedFilterTarget
+                && filterMessage == viewCachedFilterMessage
+                && typeFp == viewCachedTypeFp;
             if (fpSame && filtersSame) return;
 
             viewEntries.Clear();
@@ -219,6 +350,7 @@ namespace TSA_WorldDomination
             viewCachedFilterActor = filterActor;
             viewCachedFilterTarget = filterTarget;
             viewCachedFilterMessage = filterMessage;
+            viewCachedTypeFp = typeFp;
 
             bool fa = !filterActor.NullOrEmpty();
             bool ft = !filterTarget.NullOrEmpty();
@@ -229,6 +361,8 @@ namespace TSA_WorldDomination
                 if (fa && ((l.labelA ?? "").IndexOf(filterActor, StringComparison.OrdinalIgnoreCase) < 0)) continue;
                 if (ft && ((l.labelB ?? "").IndexOf(filterTarget, StringComparison.OrdinalIgnoreCase) < 0)) continue;
                 if (fm && ((l.message ?? "").IndexOf(filterMessage, StringComparison.OrdinalIgnoreCase) < 0)) continue;
+                if (!SpreadLogCategoryUtil.PassesFilter(l, selectedCategories, excludeSelectedCategories))
+                    continue;
                 viewEntries.Add(l);
             }
             for (int j = 0; j < viewEntries.Count; j++)
@@ -246,8 +380,21 @@ namespace TSA_WorldDomination
         private void DrawJumpLabel(Rect rect, string label, GlobalTargetInfo target)
         {
             Text.Anchor = TextAnchor.MiddleLeft;
-            if (target.IsValid)
+            WorldObject wo = target.IsValid ? target.WorldObject : null;
+            bool canJump = wo != null && WdPlayerIntel.CanJumpOrLookTarget(wo);
+            if (canJump)
             {
+                Widgets.DrawHighlightIfMouseover(rect);
+                if (Widgets.ButtonInvisible(rect))
+                {
+                    CameraJumper.TryJumpAndSelect(wo);
+                    this.Close();
+                    if (Find.MainTabsRoot.OpenTab != null) Find.MainTabsRoot.EscapeCurrentTab();
+                }
+            }
+            else if (target.IsValid && wo == null && target.Tile.Valid)
+            {
+                // Tile-only targets (road work sites) — no FoW settlement leak.
                 Widgets.DrawHighlightIfMouseover(rect);
                 if (Widgets.ButtonInvisible(rect))
                 {

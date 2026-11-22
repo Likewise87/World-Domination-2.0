@@ -106,7 +106,7 @@ namespace TSA_WorldDomination
         {
             return ExecuteWdColonyRaidIncidentFromFaction(
                 attacker.Faction,
-                attacker.Label,
+                WdPlayerIntel.LabelForLetter(attacker),
                 attacker.GetComponent<CompViralSpread>()?.tier ?? SettlementTier.T1,
                 target,
                 map,

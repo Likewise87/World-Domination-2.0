@@ -86,6 +86,10 @@ namespace TSA_WorldDomination
                 ref s.enableColonyRoadLinkQuest,
                 "TSA_WD_Quest_EnableColonyRoadLinkTip".Translate(),
                 defaultValue: WorldDominationSettings.DefEnableColonyRoadLinkQuest);
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Quest_EnableScoutWorldMap".Translate(),
+                ref s.enableScoutWorldMapQuest,
+                "TSA_WD_Quest_EnableScoutWorldMapTip".Translate(),
+                defaultValue: WorldDominationSettings.DefEnableScoutWorldMapQuest);
 
             bool victoryQuestWas = s.enableWorldDominationVictoryQuest;
             SettingsUI.DrawCheckbox(l, "TSA_WD_Quest_EnableWorldDominationVictory".Translate(),

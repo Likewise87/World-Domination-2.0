@@ -149,8 +149,8 @@ var s = WorldDominationMod.settings;
                 "TSA_WD_Outpost_SilverValuePerSkillTooltip".Translate(), 10f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostSilverValuePerSkillPerCycle);
             SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ClampSkillsAtLevel20".Translate(), ref s.clampOutpostSkillsAtLevel20,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip".Translate(), WorldDominationSettings.DefClampOutpostSkillsAtLevel20));
-            s.outpostOccupantSkillXpPerProductionCycle = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_OccupantSkillXpPerCycle".Translate(), s.outpostOccupantSkillXpPerProductionCycle, 0f, 20000f,
-                "TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip".Translate(), 50f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostOccupantSkillXpPerProductionCycle);
+            s.outpostOccupantSkillXpPerProductionCycle = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_OccupantSkillXpPerCycle".Translate(), s.outpostOccupantSkillXpPerProductionCycle, 0f, 2000f,
+                "TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip".Translate(), 10f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostOccupantSkillXpPerProductionCycle);
             s.outpostOccupantSkillXpMaxLevel = (int)SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_OccupantSkillXpMaxLevel".Translate(), s.outpostOccupantSkillXpMaxLevel, 0f, 20f,
                 "TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostOccupantSkillXpMaxLevel);
             s.outpostRecruitSocialXpPerResistance = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_RecruitSocialXpPerResistance".Translate(), s.outpostRecruitSocialXpPerResistance, 0f, 2000f,

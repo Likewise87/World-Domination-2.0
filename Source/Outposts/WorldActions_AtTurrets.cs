@@ -262,7 +262,7 @@ namespace TSA_WorldDomination
                         new SpreadLogEntry(
                             "TSA_WD_Log_AT_TurretBuilt".Translate(origin.LabelCap, tile.ToString()),
                             origin,
-                            tile));
+                            tile) { category = SpreadLogCategory.BuiltFortification });
                 }
             }
 

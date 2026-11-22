@@ -24,7 +24,7 @@ namespace TSA_WorldDomination
             // AT is always in the root menu, so the Build button is always shown for player outposts.
             yield return new Command_Action
             {
-                defaultLabel = "TSA_WD_Build".Translate(),
+                defaultLabel = BuildGizmoLabel(),
                 defaultDesc = "TSA_WD_BuildDesc".Translate(),
                 icon = cachedBuildIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Build", false) ?? TexCommand.Replant,
                 defaultIconColor = Color.cyan,
@@ -45,6 +45,8 @@ namespace TSA_WorldDomination
                 yield return g;
             foreach (var g in Action_Outpost_Decontamination.GetGizmos(outpost))
                 yield return g;
+            foreach (var g in WorldActions_PlayerScout.GetGizmos(outpost))
+                yield return g;
         }
 
         /// <summary>Experimental colony Build menu (roads / blocks / traps; no decontamination).</summary>
@@ -57,7 +59,7 @@ namespace TSA_WorldDomination
 
             yield return new Command_Action
             {
-                defaultLabel = "TSA_WD_Build".Translate(),
+                defaultLabel = BuildGizmoLabel(),
                 defaultDesc = "TSA_WD_ColonyBuildDesc".Translate(),
                 icon = cachedBuildIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Build", false) ?? TexCommand.Replant,
                 defaultIconColor = Color.cyan,
@@ -74,7 +76,15 @@ namespace TSA_WorldDomination
                 yield return g;
             foreach (var g in Action_Outpost_AtTurrets.GetGizmos(colony))
                 yield return g;
+            foreach (var g in WorldActions_PlayerScout.GetGizmos(colony))
+                yield return g;
         }
+
+        /// <summary>Build gizmo title: includes Scout when Settlement Intel / FoW tracking is on.</summary>
+        public static string BuildGizmoLabel() =>
+            WorldComponent_SettlementIntel.IsTracking()
+                ? "TSA_WD_BuildAndScout".Translate()
+                : "TSA_WD_Build".Translate();
 
         /// <summary>Root Build menu: build rows on top, remove rows at the bottom (via orderInPriority). Decontamination only for WD outposts.</summary>
         public static List<FloatMenuOption> BuildRootMenuOptions(WorldObject outpost, CompViralSpread comp)
@@ -85,6 +95,14 @@ namespace TSA_WorldDomination
             bool roads = seth == null || seth.enableOutpostBuildRoads;
             bool blocks = seth == null || seth.enableOutpostBuildRoadBlocks;
             bool traps = seth == null || seth.enableOutpostBuildTraps;
+
+            // Scout muster: player outposts + colony Build menu (trap-style waypoints, asphalt prep).
+            if (outpost is WorldObject_WD_Outpost || ColonyWorldBuildUtility.IsPlayerColonyBuildActor(outpost))
+            {
+                FloatMenuOption scout = WorldActions_PlayerScout.MakeBuildMenuOption(outpost, comp);
+                scout.orderInPriority = 600;
+                list.Add(scout);
+            }
 
             if (roads)
             {

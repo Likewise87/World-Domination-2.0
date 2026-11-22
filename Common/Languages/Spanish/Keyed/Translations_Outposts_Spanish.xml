@@ -175,11 +175,11 @@
   <TSA_WD_RapidResponse_CancelIntercept>Cancelar intercepción</TSA_WD_RapidResponse_CancelIntercept>
   <TSA_WD_RapidResponse_CancelInterceptDesc>Retira de inmediato esta caravana de respuesta rápida y reembolsa su fuerza a la avanzadilla de origen.</TSA_WD_RapidResponse_CancelInterceptDesc>
   <TSA_WD_RapidResponse_InterceptCancelled>Intercepción de respuesta rápida de {0} cancelada ({1} de fuerza reembolsada).</TSA_WD_RapidResponse_InterceptCancelled>
-  <TSA_WD_Log_RapidResponseLaunched>{0} envió una caravana de respuesta rápida para interceptar a {1} ({2} de fuerza).</TSA_WD_Log_RapidResponseLaunched>
-  <TSA_WD_Log_RapidResponseAborted>La intercepción de respuesta rápida de {0} se canceló porque el objetivo desapareció o ya no era hostil.</TSA_WD_Log_RapidResponseAborted>
-  <TSA_WD_Log_RapidResponseCancelled>La intercepción de respuesta rápida de {0} fue cancelada ({1} de fuerza reembolsada).</TSA_WD_Log_RapidResponseCancelled>
-  <TSA_WD_Log_RapidResponseResolved>La respuesta rápida de {0} interceptó a {1}: {2}.</TSA_WD_Log_RapidResponseResolved>
-  <TSA_WD_Log_RapidResponseDropPodsLaunched>{0} lanzó {2} peón(es) por cápsulas contra {1}.</TSA_WD_Log_RapidResponseDropPodsLaunched>
+  <TSA_WD_Log_RapidResponseLaunched>RAID: {0} envió un viajero de respuesta rápida para interceptar a {1} ({2} de fuerza).</TSA_WD_Log_RapidResponseLaunched>
+  <TSA_WD_Log_RapidResponseAborted>RAID: la intercepción de respuesta rápida de {0} se canceló porque el objetivo desapareció o ya no era hostil.</TSA_WD_Log_RapidResponseAborted>
+  <TSA_WD_Log_RapidResponseCancelled>RAID: la intercepción de respuesta rápida de {0} fue cancelada ({1} de fuerza reembolsada).</TSA_WD_Log_RapidResponseCancelled>
+  <TSA_WD_Log_RapidResponseResolved>RAID: la respuesta rápida de {0} interceptó a {1}: {2}.</TSA_WD_Log_RapidResponseResolved>
+  <TSA_WD_Log_RapidResponseDropPodsLaunched>RAID: {0} lanzó {2} peón(es) por cápsulas contra {1}.</TSA_WD_Log_RapidResponseDropPodsLaunched>
   <TSA_WD_Won>victoria</TSA_WD_Won>
   <TSA_WD_Lost>derrota</TSA_WD_Lost>
   <TSA_WD_Pod_AddToOutpost>Añadir a {0} (cápsulas de transporte)</TSA_WD_Pod_AddToOutpost>
@@ -485,14 +485,17 @@
   <TSA_WD_Log_Road_Progress>{0} construyó una casilla de carretera hacia {1}. Quedan {2} casillas para completar.</TSA_WD_Log_Road_Progress>
   <TSA_WD_Log_TravelerClash>Enfrentamiento entre caravanas</TSA_WD_Log_TravelerClash>
   <TSA_WD_Log_NpcCaravanClash>La caravana {0} combatió contra {1} ({2} vs {3}).</TSA_WD_Log_NpcCaravanClash>
-  <TSA_WD_CaravanClash_Header>Enfrentamiento de caravanas resuelto</TSA_WD_CaravanClash_Header>
-  <TSA_WD_CaravanClash_Intro>Los enfrentamientos en campo abierto usan la misma matemática de resultados de asaltos mundiales que las batallas por asentamientos (probabilidad de victoria y bajas según la proporción de fuerza). El ligero favor al defensor viene de esa tabla y de quién se designa como defensor.</TSA_WD_CaravanClash_Intro>
-  <TSA_WD_CaravanClash_Attacker>Atacante: {0}</TSA_WD_CaravanClash_Attacker>
-  <TSA_WD_CaravanClash_Defender>Defensor: {0}</TSA_WD_CaravanClash_Defender>
-  <TSA_WD_CaravanClash_Ratio>Proporción de fuerza (atacante / defensor): {0}</TSA_WD_CaravanClash_Ratio>
-  <TSA_WD_CaravanClash_AttackerWon>Victoria del atacante</TSA_WD_CaravanClash_AttackerWon>
-  <TSA_WD_CaravanClash_DefenderWon>Victoria del defensor</TSA_WD_CaravanClash_DefenderWon>
-  <TSA_WD_CaravanClash_ResultingStrengths>Fuerzas resultantes:</TSA_WD_CaravanClash_ResultingStrengths>
+  <TSA_WD_CaravanClash_Header>Enfrentamiento a campo abierto resuelto</TSA_WD_CaravanClash_Header>
+  <TSA_WD_CaravanClash_Intro>Los combates a campo abierto usan su propia curva de victoria (no la tabla de asedio). El perdedor queda aniquilado. El ganador conserva un remanente según lo reñido del combate.</TSA_WD_CaravanClash_Intro>
+  <TSA_WD_CaravanClash_Ratio>Proporción de fuerza: {0}</TSA_WD_CaravanClash_Ratio>
+  <TSA_WD_CaravanClash_Winner>{0} ganó</TSA_WD_CaravanClash_Winner>
+  <TSA_WD_CaravanClash_WinnerLoss>El ganador perdió un {0}% de fuerza ({1} de {2}, remanente {3}).</TSA_WD_CaravanClash_WinnerLoss>
+  <TSA_WD_CaravanClash_LoserWiped>{0} aniquilado.</TSA_WD_CaravanClash_LoserWiped>
+  <TSA_WD_CaravanClash_ResultingStrengths>Después del combate:</TSA_WD_CaravanClash_ResultingStrengths>
+  <TSA_WD_OpenField_WinClose>Victoria cercana</TSA_WD_OpenField_WinClose>
+  <TSA_WD_OpenField_WinNormal>Victoria normal</TSA_WD_OpenField_WinNormal>
+  <TSA_WD_OpenField_WinDecisive>Victoria decisiva</TSA_WD_OpenField_WinDecisive>
+  <TSA_WD_OpenField_LogSuffix>{0} (-{1}%)</TSA_WD_OpenField_LogSuffix>
   <TSA_WD_Message_RerollSuccess>Niveles de asentamientos rehechos: {0} asentamientos actualizados.</TSA_WD_Message_RerollSuccess>
   <TSA_WD_MiningBaseline_Header>Multiplicadores base de minería</TSA_WD_MiningBaseline_Header>
   <TSA_WD_MiningBaseline_Ores>Minerales</TSA_WD_MiningBaseline_Ores>
@@ -653,8 +656,8 @@
   <TSA_WD_Outpost_SilverValuePerSkillTooltip>Fijo por entrega: no cambia si el ciclo es 10 o 100 días. Caza: cada entrega puede incluir carne, cuero/piel y lana (si el animal lo da); por producto, base/hab = (presupuesto ÷ plata total por pieza) × unidades de ese producto por pieza. Cultivos/minería: base ≈ presupuesto ÷ precio. Luego × casilla × habilidad × salida.</TSA_WD_Outpost_SilverValuePerSkillTooltip>
   <TSA_WD_Outpost_ClampSkillsAtLevel20>Limitar habilidades de avanzadilla al nivel 20</TSA_WD_Outpost_ClampSkillsAtLevel20>
   <TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>Si está activado, los cálculos de avanzadilla tratan las habilidades por encima de 20 como 20. Déjalo desactivado para mods tipo Endless Growth, de modo que los niveles superiores contribuyan por completo.</TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycle>XP de habilidad por ciclo de producción</TSA_WD_Outpost_OccupantSkillXpPerCycle>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>Experiencia total a cada habilidad relevante del puesto (cultivo, caza, etc.) para cada colono en un ciclo de producción completo. Se reparte como fracción diaria mientras el temporizador de producción corre. 0 para desactivar. Los días inactivos, en pausa o bloqueados no otorgan nada.</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycle>XP de habilidad por día</TSA_WD_Outpost_OccupantSkillXpPerCycle>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>Experiencia a cada habilidad relevante del puesto (cultivo, caza, etc.) para cada colono cada día mientras el temporizador de producción corre. 0 para desactivar. Los días inactivos, en pausa o bloqueados no otorgan nada.</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>Nivel máximo para XP del puesto</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>No se gana XP de pago en una habilidad si ya está en este nivel o superior.</TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>
   <TSA_WD_Outpost_RecruitSocialXpPerResistance>Reserva de XP Social por resistencia reducida</TSA_WD_Outpost_RecruitSocialXpPerResistance>
@@ -1263,7 +1266,7 @@
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>Envía contra-caravanas rápidas contra viajeros hostiles. Las caravanas enemigas que pasen por esta avanzadilla siempre provocan un ataque inmediato. Puede lanzar colonos con cápsulas de transporte. No produce bienes</TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_DrugLab>Produce drogas (hoja de humo, psicina, go-juice, despertar). Escala con Intelectual. Requiere investigación Producción de drogas</TSA_WD_OutpostTooltip_TSA_WD_Outpost_DrugLab>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Research>Avanza tu proyecto de investigación activo. Escala con Intelectual. La eficiencia puede mejorarse con mejoras</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Research>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>Envía energía remota a tu colonia. Sin cables ni combustible local. No produce bienes</TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>Envía energía remota a tu colonia. Sin cables ni combustible local. Coloca puntos de energía remota WD en el mapa de la colonia para elegir qué redes reciben la Keep. No produce bienes</TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Warehouse>Almacena objetos sin deterioro. Otras avanzadillas pueden enviar entregas aquí. Envía stock manualmente a colonias u otros almacenes</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Warehouse>
   <TSA_WD_Research_NoActiveProject>No hay proyecto de investigación activo seleccionado.</TSA_WD_Research_NoActiveProject>
   <TSA_WD_Research_NoResearchers>No hay investigadores con habilidad Intelectual en esta avanzadilla.</TSA_WD_Research_NoResearchers>
@@ -2308,10 +2311,22 @@
   <TSA_WD_OutpostStats_Row_AtTurretMax>Máx. torretas</TSA_WD_OutpostStats_Row_AtTurretMax>
   <TSA_WD_OutpostStats_Row_AtTurretMaxTip>AT Turrets atribuidas a esta avanzadilla (colocadas y en tránsito) frente al tope por sitio de Ajustes experimentales. Un tope global aparte aún puede bloquear nuevas construcciones.</TSA_WD_OutpostStats_Row_AtTurretMaxTip>
   <TSA_WD_Build>Construir</TSA_WD_Build>
+  <TSA_WD_BuildAndScout>Build &amp; Scout</TSA_WD_BuildAndScout>
   <TSA_WD_BuildDesc>Construye carreteras, bloqueos de carretera o trampas de pinchos desde esta avanzadilla.</TSA_WD_BuildDesc>
   <TSA_WD_ColonyBuildDesc>Construye carreteras, bloqueos o trampas desde tu colonia. El progreso usa la Construcción de la colonia. Sin coste de fuerza.</TSA_WD_ColonyBuildDesc>
   <TSA_WD_Conquest_AllyGiftBlockedAlliedToConquered>No se puede entregar este asentamiento a esta facción porque está aliada con la facción a la que pertenecía.</TSA_WD_Conquest_AllyGiftBlockedAlliedToConquered>
   <TSA_WD_DeliverySpot_AlreadyExists>Solo se permite un punto de entrega de avanzadilla WD por mapa.</TSA_WD_DeliverySpot_AlreadyExists>
+  <TSA_WD_RemotePowerSpot_NeedColonyHome>Coloca esto solo en el mapa de tu colonia principal.</TSA_WD_RemotePowerSpot_NeedColonyHome>
+  <TSA_WD_RemotePowerSpot_GizmoShare>Cuota de energia remota</TSA_WD_RemotePowerSpot_GizmoShare>
+  <TSA_WD_RemotePowerSpot_GizmoShareDesc>Define la cuota relativa de la energia Keep remota de las centrales. Las cuotas se normalizan entre puntos conectados para que toda la Keep vaya a ellos.</TSA_WD_RemotePowerSpot_GizmoShareDesc>
+  <TSA_WD_RemotePowerSpot_ShareTitle>Cuota de energia remota</TSA_WD_RemotePowerSpot_ShareTitle>
+  <TSA_WD_RemotePowerSpot_ShareBody>Define el peso de cuanta energia de toda la producida por centrales WD debe recibir este punto.</TSA_WD_RemotePowerSpot_ShareBody>
+  <TSA_WD_RemotePowerSpot_ShareSlider>Peso: {0}</TSA_WD_RemotePowerSpot_ShareSlider>
+  <TSA_WD_RemotePowerSpot_ShareEffective>Cuota efectiva: {0} %</TSA_WD_RemotePowerSpot_ShareEffective>
+  <TSA_WD_RemotePowerSpot_ShareEffectiveWatts>Potencia efectiva: {0}</TSA_WD_RemotePowerSpot_ShareEffectiveWatts>
+  <TSA_WD_RemotePowerSpot_InspectShare>Peso de cuota remota {0} (efectivo {1}%)</TSA_WD_RemotePowerSpot_InspectShare>
+  <TSA_WD_RemotePowerSpot_InspectIneligible>Peso de cuota remota {0} (sin conexion; si no hay puntos validos se usa el reparto igual)</TSA_WD_RemotePowerSpot_InspectIneligible>
+  <TSA_WD_RemotePowerSpot_InspectWatts>Entrega {0}</TSA_WD_RemotePowerSpot_InspectWatts>
   <TSA_WD_StatsTooltip_BandBase>Base de banda: {0}%</TSA_WD_StatsTooltip_BandBase>
   <TSA_WD_StatsTooltip_Baseline>Base: {0}</TSA_WD_StatsTooltip_Baseline>
   <TSA_WD_StatsTooltip_MaxRange>Alcance máx.: {0}</TSA_WD_StatsTooltip_MaxRange>

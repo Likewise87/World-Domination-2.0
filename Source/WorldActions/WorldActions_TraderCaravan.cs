@@ -43,6 +43,8 @@ namespace TSA_WorldDomination
 
             if (!WorldActions_TraderCaravan.IsValidTraderDestination(wo))
                 return IsComplete;
+            if (!WorldActions_TraderCaravan.SenderKnowsTraderDestination(sender.Faction, wo, seth))
+                return IsComplete;
 
             int dist = WorldActions_Utils.GetDistance(sender.Tile, wo.Tile, manager);
             if (dist > seth.traderDestinationSearchRadius)
@@ -76,7 +78,8 @@ namespace TSA_WorldDomination
 
             if (senderComp.IsTraderOnCooldown)
             {
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedCooldown".Translate(sender.LabelCap), sender));
+                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedCooldown".Translate(sender.LabelCap), sender)
+                { category = SpreadLogCategory.Trader });
                 return false;
             }
 
@@ -84,7 +87,8 @@ namespace TSA_WorldDomination
             float retainFloor = WorldActions_Utils.GetGarrisonRetainFloor(senderComp, seth);
             if (senderComp.strength - cost < retainFloor)
             {
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedGarrison".Translate(sender.LabelCap, cost.ToString("F0"), retainFloor.ToString("F0"), senderComp.strength.ToString("F0")), sender));
+                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedGarrison".Translate(sender.LabelCap, cost.ToString("F0"), retainFloor.ToString("F0"), senderComp.strength.ToString("F0")), sender)
+                { category = SpreadLogCategory.Trader });
                 return false;
             }
 
@@ -104,6 +108,7 @@ namespace TSA_WorldDomination
                 if (s.Faction == sender.Faction) continue;
                 if (!IsValidTraderDestination(s)) continue;
                 if (!IsNeutralOrAllied(sender.Faction, s.Faction)) continue;
+                if (!SenderKnowsTraderDestination(sender.Faction, s, seth)) continue;
                 if (!TryGetDistanceIfInRange(sender, s, manager, seth, out float dist)) continue;
                 eval.pending.Add(new PendingTraderEvaluation.CandidateEntry { target = s, dist = dist });
             }
@@ -118,6 +123,7 @@ namespace TSA_WorldDomination
                     if (op.Destroyed || op.Faction == null || !op.Faction.IsPlayer) continue;
                     if (!IsValidTraderDestination(op)) continue;
                     if (!IsNeutralOrAllied(sender.Faction, op.Faction)) continue;
+                    if (!SenderKnowsTraderDestination(sender.Faction, op, seth)) continue;
                     if (!TryGetDistanceIfInRange(sender, op, manager, seth, out float dist)) continue;
                     eval.pending.Add(new PendingTraderEvaluation.CandidateEntry { target = op, dist = dist });
                 }
@@ -126,7 +132,8 @@ namespace TSA_WorldDomination
             if (eval.pending.Count == 0)
             {
                 WDVerbose.Msg($"AttemptTraderCaravan: no neutral/allied candidates in range {sender.LabelCap}");
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedNoTarget".Translate(sender.LabelCap), sender));
+                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedNoTarget".Translate(sender.LabelCap), sender)
+                { category = SpreadLogCategory.Trader });
                 return false;
             }
 
@@ -159,7 +166,8 @@ namespace TSA_WorldDomination
 
             if (eval.viable.Count == 0)
             {
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedNoTarget".Translate(sender.LabelCap), sender));
+                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedNoTarget".Translate(sender.LabelCap), sender)
+                { category = SpreadLogCategory.Trader });
                 return;
             }
 
@@ -171,7 +179,8 @@ namespace TSA_WorldDomination
 
             if (eval.viable.Count == 0)
             {
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedNoTarget".Translate(sender.LabelCap), sender));
+                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedNoTarget".Translate(sender.LabelCap), sender)
+                { category = SpreadLogCategory.Trader });
                 return;
             }
 
@@ -181,7 +190,8 @@ namespace TSA_WorldDomination
             var def = DefDatabase<WorldObjectDef>.GetNamedSilentFail("TSA_WD_Traveler_Trader");
             if (def == null)
             {
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedNoDef".Translate(sender.LabelCap, target.LabelCap), sender, target));
+                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Trader_SkippedNoDef".Translate(sender.LabelCap, target.LabelCap), sender, target)
+                { category = SpreadLogCategory.Trader });
                 return;
             }
 
@@ -212,7 +222,8 @@ namespace TSA_WorldDomination
             Find.WorldObjects.Add(traveler);
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(target.Tile, sender));
 
-            manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_TraderLaunched".Translate(sender.LabelCap, target.LabelCap), sender, target));
+            manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_TraderLaunched".Translate(sender.LabelCap, target.LabelCap), sender, target)
+            { category = SpreadLogCategory.Trader });
         }
 
         private static bool TryGetDistanceIfInRange(
@@ -242,6 +253,19 @@ namespace TSA_WorldDomination
             if (targetComp == null) return;
             targetComp.playerColonyWdTraderCooldownTick =
                 Find.TickManager.TicksGame + CompViralSpread.CooldownTicksFromDays(seth.cooldownPlayerColonyTraderDays);
+        }
+
+        /// <summary>
+        /// When FoW raid-logic is active and the Intel toggle is on, traders only go to known destinations.
+        /// Off / FoW inactive = previous omniscient destination pick.
+        /// </summary>
+        internal static bool SenderKnowsTraderDestination(Faction senderFaction, WorldObject target, WorldDominationSettings seth)
+        {
+            if (seth == null || !seth.intelTradersRequireKnownTarget) return true;
+            if (senderFaction == null || target == null || target.Destroyed) return false;
+            var intel = WorldComponent_SettlementIntel.Get();
+            if (intel == null) return true;
+            return intel.Knows(senderFaction, target);
         }
 
         private static bool IsNeutralOrAllied(Faction a, Faction b)

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -170,38 +170,52 @@ namespace TSA_WorldDomination
                 FullWidth = true
             };
 
-            float baseline = WorldComponent_SettlementIntel.GetViewBaselineRange(observer);
-            float maxLos = WorldComponent_SettlementIntel.GetMaxLos(observer);
+            float hunch = WorldComponent_SettlementIntel.GetHunchRadius(observer);
+            float los = WorldComponent_SettlementIntel.GetLosRadius(observer);
+            string medStr = WorldComponent_SettlementIntel.GetHunchSpotMinTravelerStrength().ToString("F0");
             var seth = WorldDominationMod.settings;
-            float m1 = seth?.intelTargetRingFracT1 ?? WorldDominationSettings.DefIntelTargetRingFracT1;
-            float m2 = seth?.intelTargetRingFracT2 ?? WorldDominationSettings.DefIntelTargetRingFracT2;
-            float m3 = seth?.intelTargetRingFracT3 ?? WorldDominationSettings.DefIntelTargetRingFracT3;
-            float m4 = seth?.intelTargetRingFracT4 ?? WorldDominationSettings.DefIntelTargetRingFracT4;
+
+            if (WorldComponent_SettlementIntel.IsPlayerColonyObserver(observer))
+            {
+                int pawns = WorldComponent_SettlementIntel.GetPlayerColonySightPawnCount(observer);
+                float losPer = WorldComponent_SettlementIntel.GetPlayerSightLosPerPawn(seth);
+                float hunchPer = WorldComponent_SettlementIntel.GetPlayerSightHunchPerPawn(seth);
+                AddRow(section,
+                    "TSA_WD_SettlementIntel_Row_SightPawns".Translate().ToString(),
+                    pawns.ToString(),
+                    "TSA_WD_SettlementIntel_Row_SightPawnsTip".Translate(
+                        losPer.ToString("F1"),
+                        hunchPer.ToString("F1")).ToString());
+                AddRow(section,
+                    "TSA_WD_SettlementIntel_Row_PerPawnLos".Translate().ToString(),
+                    losPer.ToString("F1"),
+                    "TSA_WD_SettlementIntel_Row_SightPawnsTip".Translate(
+                        losPer.ToString("F1"),
+                        hunchPer.ToString("F1")).ToString());
+                AddRow(section,
+                    "TSA_WD_SettlementIntel_Row_PerPawnHunch".Translate().ToString(),
+                    hunchPer.ToString("F1"),
+                    "TSA_WD_SettlementIntel_Row_SightPawnsTip".Translate(
+                        losPer.ToString("F1"),
+                        hunchPer.ToString("F1")).ToString());
+            }
+            else
+            {
+                float baseline = WorldComponent_SettlementIntel.GetViewBaselineRange(observer);
+                AddRow(section,
+                    "TSA_WD_SettlementIntel_Row_BaselineR".Translate().ToString(),
+                    baseline.ToString("F1"),
+                    "TSA_WD_SettlementIntel_Row_BaselineRTip".Translate().ToString());
+            }
 
             AddRow(section,
-                "TSA_WD_SettlementIntel_Row_BaselineR".Translate().ToString(),
-                baseline.ToString("F1"),
-                "TSA_WD_SettlementIntel_Row_BaselineRTip".Translate().ToString());
+                "TSA_WD_SettlementIntel_Row_Los".Translate().ToString(),
+                los.ToString("F1"),
+                "TSA_WD_SettlementIntel_Row_LosTip".Translate().ToString());
             AddRow(section,
-                "TSA_WD_SettlementIntel_Row_MaxLos".Translate().ToString(),
-                maxLos.ToString("F1"),
-                "TSA_WD_SettlementIntel_Row_MaxLosTip".Translate().ToString());
-            AddRow(section,
-                "TSA_WD_SettlementIntel_Row_BandT1".Translate().ToString(),
-                (maxLos * m1).ToString("F1"),
-                "TSA_WD_SettlementIntel_Row_BandT1Tip".Translate(m1.ToString("F2")).ToString());
-            AddRow(section,
-                "TSA_WD_SettlementIntel_Row_BandT2".Translate().ToString(),
-                (maxLos * m2).ToString("F1"),
-                "TSA_WD_SettlementIntel_Row_BandT2Tip".Translate(m2.ToString("F2")).ToString());
-            AddRow(section,
-                "TSA_WD_SettlementIntel_Row_BandT3".Translate().ToString(),
-                (maxLos * m3).ToString("F1"),
-                "TSA_WD_SettlementIntel_Row_BandT3Tip".Translate(m3.ToString("F2")).ToString());
-            AddRow(section,
-                "TSA_WD_SettlementIntel_Row_BandT4".Translate().ToString(),
-                (maxLos * m4).ToString("F1"),
-                "TSA_WD_SettlementIntel_Row_BandT4Tip".Translate(m4.ToString("F2")).ToString());
+                "TSA_WD_SettlementIntel_Row_Hunch".Translate().ToString(),
+                hunch.ToString("F1"),
+                "TSA_WD_SettlementIntel_Row_HunchTip".Translate(medStr).ToString());
             return section;
         }
 
@@ -232,7 +246,6 @@ namespace TSA_WorldDomination
                 string factionName = other.Faction?.Name
                     ?? "TSA_WD_SettlementIntel_UnknownFaction".Translate().ToString();
                 bool known = owner != null && (intel == null || intel.IsDiscovered(owner, other));
-                SettlementTier sightTier = WorldComponent_SettlementIntel.GetSightTier(other);
                 string kind = other is WorldObject_WD_Outpost
                     ? "TSA_WD_SettlementIntel_KindOutpost".Translate().ToString()
                     : "TSA_WD_SettlementIntel_KindSettlement".Translate().ToString();
@@ -250,7 +263,6 @@ namespace TSA_WorldDomination
                         factionName,
                         d.ToString("F1"),
                         sight.ToString("F1"),
-                        sightTier.ToString(),
                         YesNo(known)).ToString(),
                     Distance = d,
                     LabelIcon = siteIcon,
@@ -355,7 +367,7 @@ namespace TSA_WorldDomination
                     // Only player caravans (real pawns); NPC mobiles are WD travelers.
                     if (c.Faction?.IsPlayer != true) continue;
                     float d = WorldActions_Utils.GetDistance(observer.Tile, c.Tile, manager);
-                    float caravanSight = maxLos * WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T1);
+                    float caravanSight = maxLos;
                     if (d > 1f && d > caravanSight) continue;
 
                     string factionName = c.Faction?.Name

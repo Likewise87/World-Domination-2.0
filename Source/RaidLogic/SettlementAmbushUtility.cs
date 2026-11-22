@@ -331,7 +331,7 @@ namespace TSA_WorldDomination
             watchIndex.StampAmbushTarget(target);
             manager?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_SettlementAmbush".Translate(settlement.LabelCap, DescribeTargetKind(target), target.LabelCap),
-                settlement, target));
+                settlement, target) { category = SpreadLogCategory.Raid });
             return true;
         }
 

@@ -42,7 +42,7 @@
   <TSA_WD_Dash_FarThreats>Amenazas lejanas</TSA_WD_Dash_FarThreats>
   <TSA_WD_Dash_NearbyThreatsTip>Hostiles que pueden atacar tu colonia y están dentro de la mitad interior de su propio alcance de ataque (las dos bandas más cercanas de cuatro iguales).\nOrdenados del más cercano al más lejano.</TSA_WD_Dash_NearbyThreatsTip>
   <TSA_WD_Dash_FarThreatsTip>Hostiles que aún pueden alcanzarte pero están en la mitad exterior de su propio alcance de ataque (las dos bandas más lejanas de cuatro iguales).\nOrdenados por fuerza de ataque (más fuertes primero).</TSA_WD_Dash_FarThreatsTip>
-  <TSA_WD_Dash_NoNearbyThreats>No hay hostiles en el alcance Cercano.</TSA_WD_Dash_NoNearbyThreats>
+  <TSA_WD_Dash_NoNearbyThreats>No hay hostiles conocidos en el alcance cercano.</TSA_WD_Dash_NoNearbyThreats>
   <TSA_WD_Dash_NoFarThreats>No hay hostiles más allá del alcance Cercano.</TSA_WD_Dash_NoFarThreats>
   <TSA_WD_Dash_ThreatTiles>{0} casillas</TSA_WD_Dash_ThreatTiles>
   <TSA_WD_Dash_TopThreatsTooltip>Hostiles cercanos y lejanos que pueden apuntar a tu colonia (incluidos aliados). Puntos de incursión actuales del narrador: {0}. Al llegar se limitan: al menos {1} del narrador, máximo {2} (ajustes del mod). Pasa el cursor por Cercanas / Lejanas para ver cómo se divide.</TSA_WD_Dash_TopThreatsTooltip>
@@ -149,6 +149,10 @@
   <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>Cuando una incursión hacia tu colonia o una avanzadilla detecta un objetivo de oportunidad y se desvía para atacarlo.</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
   <TSA_WD_Notify_RaidPartyDestroyed>Carta: grupo de incursión destruido en ruta</TSA_WD_Notify_RaidPartyDestroyed>
   <TSA_WD_Notify_RaidPartyDestroyedTooltip>Cuando una incursión hostil hacia ti es aniquilada en el mapa mundial antes de alcanzarte.</TSA_WD_Notify_RaidPartyDestroyedTooltip>
+  <TSA_WD_Notify_PlayerScoutDestroyed>Carta: explorador del jugador destruido</TSA_WD_Notify_PlayerScoutDestroyed>
+  <TSA_WD_Notify_PlayerScoutDestroyedTooltip>Cuando tu viajero explorador es destruido en el mapa mundial (trampas, torretas AT, enfrentamientos y similares).</TSA_WD_Notify_PlayerScoutDestroyedTooltip>
+  <TSA_WD_Notify_PlayerScoutLifetimeExpired>Carta: vida maxima del explorador</TSA_WD_Notify_PlayerScoutLifetimeExpired>
+  <TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>Cuando tu viajero explorador se disuelve al alcanzar su vida maxima. Desactivado: sigues recibiendo un mensaje corto.</TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>
   <TSA_WD_Notify_MortarHit>Carta: mortero destruye un objetivo</TSA_WD_Notify_MortarHit>
   <TSA_WD_Notify_MortarHitTooltip>Carta azul silenciosa cuando tu puesto de artillería destruye un objetivo. Los impactos parciales solo van al registro de acciones.</TSA_WD_Notify_MortarHitTooltip>
   <TSA_WD_Notify_MortarMiss>Carta: mortero falla</TSA_WD_Notify_MortarMiss>

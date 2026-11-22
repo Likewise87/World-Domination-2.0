@@ -584,6 +584,12 @@ namespace TSA_WorldDomination
         private bool spikeTrapBuilderInField;
         private int lastSpikeTrapProgressTick = -1;
 
+        // --- Player scout muster (asphalt-equivalent prep; mutex with world-build projects) ---
+        public List<int> scoutPlannedWaypoints = new List<int>();
+        public float scoutProgress;
+        public string scoutTargetName = string.Empty;
+        public int lastScoutProgressTick = -1;
+
         // --- AT Turret project (multi-tile queue; mutex with road / block / trap / decontam) ---
         public List<int> atTurretPlannedTiles = new List<int>();
         public int atTurretWorkIndex;
@@ -946,6 +952,8 @@ namespace TSA_WorldDomination
                     WorldActions_BuildBridge.ClearBridgeProject(this);
                 if (WorldActions_Trenches.HasActiveTrenchProject(this))
                     WorldActions_Trenches.ClearTrenchProject(this);
+                if (WorldActions_PlayerScout.HasActiveScoutProject(this))
+                    WorldActions_PlayerScout.ClearScoutProject(this);
                 ClearNpcHybridCorridor();
             }
             if (parent is Settlement settlement)
@@ -1029,6 +1037,11 @@ namespace TSA_WorldDomination
             dest.spikeTrapBuilderInField = spikeTrapBuilderInField;
             dest.lastSpikeTrapProgressTick = lastSpikeTrapProgressTick;
 
+            dest.scoutPlannedWaypoints = CloneIntList(scoutPlannedWaypoints);
+            dest.scoutProgress = scoutProgress;
+            dest.scoutTargetName = scoutTargetName;
+            dest.lastScoutProgressTick = lastScoutProgressTick;
+
             dest.atTurretPlannedTiles = CloneIntList(atTurretPlannedTiles);
             dest.atTurretWorkIndex = atTurretWorkIndex;
             dest.atTurretProgress = atTurretProgress;
@@ -1065,6 +1078,10 @@ namespace TSA_WorldDomination
             spikeTrapCachedPathTiles = null;
             spikeTrapProgress = 0f;
             spikeTrapBuilderInField = false;
+            scoutPlannedWaypoints = null;
+            scoutProgress = 0f;
+            scoutTargetName = string.Empty;
+            lastScoutProgressTick = -1;
             atTurretPlannedTiles = null;
             atTurretProgress = 0f;
             atTurretBuilderInField = false;
@@ -1758,6 +1775,13 @@ namespace TSA_WorldDomination
                 }
             }
 
+            // Player scout muster: outposts always; colonies when world-build feature on (or project already set).
+            if (WorldActions_PlayerScout.HasActiveScoutProject(this)
+                && (IsOutpost || colonyWorldBuild || IsPlayerMapSettlement))
+            {
+                WorldActions_PlayerScout.TickScoutMuster(this, parent);
+            }
+
             int ticksNow = Find.TickManager.TicksGame;
             if (ticksNow - lastStrengthRegenTick >= 60000)
             {
@@ -1964,6 +1988,8 @@ namespace TSA_WorldDomination
             UpdateInterceptorRegistration();
             StampT4WorldDefensesOnCooldownIfEntering(oldTier, newTier);
             NotifySettlementTypeIconDirty();
+            if (oldTier != newTier && parent is Settlement settlement)
+                WorldComponent_SettlementIntel.Get()?.NotifyStationaryObserverLosChanged(settlement);
         }
 
         /// <summary>
@@ -2120,7 +2146,8 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// WD trader arrival: flat strength reward; at/near offensive cap may roll additive tier-up (regional localMaxT*; no Develop neighbor gate)
+        /// WD trader arrival: flat strength reward; at/near offensive cap may roll additive tier-up
+        /// (<see cref="WorldActions_GrowthExpand.CanUpgradeTierFully"/>: pyramid support + regional localMaxT*)
         /// and additive infra (advanced building, else kit-tier AT). Chances use pre-promote tier; placement uses final tier.
         /// </summary>
         public TraderArrivalRewardResult ApplyTraderArrivalReward(
@@ -2177,7 +2204,7 @@ namespace TSA_WorldDomination
             SettlementTier nextTier = tierBefore;
             bool wantTier = Rand.Value < tierChance
                 && TryGetNextTraderTier(tierBefore, out nextTier)
-                && WorldActions_GrowthExpand.CanPromoteNextTierRegionally(parent, tierBefore);
+                && WorldActions_GrowthExpand.CanUpgradeTierFully(parent, tierBefore);
             bool wantInfra = Rand.Value < infraChance;
 
             if (wantTier)
@@ -2247,7 +2274,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Gift/buy investment tier-up: pay already deducted by caller. Rolls investment upgrade success chance.
-        /// Regional <c>localMaxT*</c> is checked by the caller before spending silver; also enforced here.
+        /// Pyramid support + regional <c>localMaxT*</c> checked by the caller before spending silver; also enforced here.
         /// </summary>
         public enum InvestmentPromoteResult : byte { Ineligible, FailedRoll, RegionallyBlocked, Promoted }
 
@@ -2255,7 +2282,7 @@ namespace TSA_WorldDomination
         {
             if (IsOutpost || IsPlayerMapSettlement || !IsSettlement) return InvestmentPromoteResult.Ineligible;
             if (!TryGetNextTraderTier(tier, out SettlementTier nextTier)) return InvestmentPromoteResult.Ineligible;
-            if (!WorldActions_GrowthExpand.CanPromoteNextTierRegionally(parent, tier))
+            if (!WorldActions_GrowthExpand.CanUpgradeTierFully(parent, tier))
                 return InvestmentPromoteResult.RegionallyBlocked;
 
             var s = WorldDominationMod.settings;
@@ -2345,6 +2372,8 @@ namespace TSA_WorldDomination
                 UpdateInterceptorRegistration();
                 StampT4WorldDefensesOnCooldownIfEntering(oldTier, tier);
                 NotifySettlementTypeIconDirty();
+                if (parent is Settlement settlement)
+                    WorldComponent_SettlementIntel.Get()?.NotifyStationaryObserverLosChanged(settlement);
             }
         }
 
@@ -2535,6 +2564,16 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref selectedSpikeTrapKind, "selectedSpikeTrapKind", SpikeTrapKind.Spike);
             Scribe_Values.Look(ref spikeTrapBuilderInField, "spikeTrapBuilderInField", false);
             Scribe_Values.Look(ref lastSpikeTrapProgressTick, "lastSpikeTrapProgressTick", -1);
+
+            Scribe_Collections.Look(ref scoutPlannedWaypoints, "scoutPlannedWaypoints", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && scoutPlannedWaypoints == null)
+                scoutPlannedWaypoints = new List<int>();
+            Scribe_Values.Look(ref scoutProgress, "scoutProgress", 0f);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && scoutProgress > 1f)
+                scoutProgress = 1f;
+            Scribe_Values.Look(ref scoutTargetName, "scoutTargetName", string.Empty);
+            Scribe_Values.Look(ref lastScoutProgressTick, "lastScoutProgressTick", -1);
+
             Scribe_Collections.Look(ref atTurretPlannedTiles, "atTurretPlannedTiles", LookMode.Value);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && atTurretPlannedTiles == null)
                 atTurretPlannedTiles = new List<int>();
@@ -2932,6 +2971,13 @@ namespace TSA_WorldDomination
                     else
                         sb.Append("TSA_WD_Inspect_SpikeTrapStatus".Translate(trapLabel, trapPct, dest));
                 }
+            }
+            else if (WorldActions_PlayerScout.HasActiveScoutProject(this))
+            {
+                sb.AppendLine();
+                string dest = scoutTargetName.NullOrEmpty() ? "…" : scoutTargetName;
+                string pct = (Mathf.Min(1f, scoutProgress) * 100f).ToString("F0");
+                sb.Append("TSA_WD_Intel_PlayerScout_Status".Translate(pct, dest));
             }
             else if (WorldActions_AtTurrets.HasActiveAtTurretProject(this))
             {

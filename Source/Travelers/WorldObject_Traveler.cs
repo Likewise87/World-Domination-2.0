@@ -23,6 +23,21 @@ namespace TSA_WorldDomination
             || mission == TravelerMission.RaidDropPod
             || mission == TravelerMission.RaidGravship;
 
+        /// <summary>Aerial delivery missions that paint FoW at 2× land scout/caravan radius (not mortar/AA shells).</summary>
+        public static bool IsDropPodRevealMission(TravelerMission mission) =>
+            mission == TravelerMission.RaidDropPod
+            || mission == TravelerMission.RaidGravship
+            || mission == TravelerMission.RapidResponseDropPod;
+
+        /// <summary>True for any ballistic FoW reveal observer (missions + goods/upgrade/trade drop pods).</summary>
+        public static bool IsDropPodRevealObserver(WorldObject_Traveler t)
+        {
+            if (t == null) return false;
+            if (IsShellMission(t.mission)) return false;
+            if (IsDropPodRevealMission(t.mission)) return true;
+            return WD_PathFollower.IsBallisticWorldFlight(t);
+        }
+
         public WD_PathFollower pather;
         public TravelerMission mission;
         public int ticksPerMove = DefaultTicksPerMove;
@@ -117,6 +132,15 @@ namespace TSA_WorldDomination
         public bool isNimbleScout;
         /// <summary>Extra ring/hop waypoints after the first scout target; 0 = finish on next arrival.</summary>
         public int scoutExtraWaypointsLeft;
+        /// <summary>Player scout: remaining destination tile ids (visited in order). Null for NPC chaos scouts.</summary>
+        public List<int> scoutWaypointQueue;
+        /// <summary>Player scout: TicksGame when max lifetime ends. ≤0 = no lifetime cap (NPC scouts).</summary>
+        public int playerScoutExpireTick = -1;
+        /// <summary>
+        /// Player scout: set before Destroy for cancel / lifetime / finished waypoints so
+        /// <see cref="WorldActions_PlayerScout.NotifyPlayerScoutDestroyedIfNeeded"/> does not fire.
+        /// </summary>
+        public bool playerScoutQuietDismiss;
         /// <summary>TicksGame stamp from <see cref="WorldComponent_SpreadManager.RecordPlayerWdRaidLaunch"/>; -1 if none.</summary>
         public int playerWdRaidCapStampTick = -1;
         /// <summary>True after this raid reaches player colony / outpost defense / player clash (drought timer + no unstamp).</summary>
@@ -223,6 +247,8 @@ namespace TSA_WorldDomination
         public RoadBlockKind fortifyRoadBlockKind = RoadBlockKind.Light;
         /// <summary>Isolation Pressure forced expand: stamp founding raid/defense shields on arrival.</summary>
         public bool isolationPressureExpand;
+        /// <summary>Strategic Expand (safe tuck-away). Used for Action Log success wording.</summary>
+        public bool strategicExpand;
 
         // --- SURGICAL: Road Path Caching for Travelers ---
         public List<int> cachedPathTiles = new List<int>();
@@ -416,6 +442,8 @@ namespace TSA_WorldDomination
             foreach (Gizmo g in base.GetGizmos())
                 yield return g;
             foreach (Gizmo g in WD_Outpost_RapidResponse.GetTravelerGizmos(this))
+                yield return g;
+            foreach (Gizmo g in WorldActions_PlayerScout.GetTravelerGizmos(this))
                 yield return g;
             foreach (Gizmo g in Action_Settlement_Bribe.GetRaidGizmos(this))
                 yield return g;
@@ -634,60 +662,62 @@ namespace TSA_WorldDomination
 
         public override void Destroy()
         {
-            if (!Destroyed)
+            // Re-entrant / already-destroyed: never call base.Destroy twice (StartPath fail mid-scout hop, etc.).
+            if (Destroyed) return;
+
+            MortarWorldFx.TryNotifyGroundCombatCaravanDestroyed(this);
+            if (playerColonyRaidCooldownReservationTick > 0
+                && targetObject is Settlement playerSettlement
+                && playerSettlement.Faction?.IsPlayer == true)
+                Raid_OnPlayerColony.ReleaseRaidDefenseCooldownReservation(playerSettlement, playerColonyRaidCooldownReservationTick);
+            if (targetRaidDefenseCooldownReservationTick > 0)
+                Raid_DefenseCooldownReservations.ReleaseRaidDefenseCooldownReservation(targetObject, targetRaidDefenseCooldownReservationTick);
+            if (this is WorldObject_Traveler_Outpost_Upgrade upgradeTraveler
+                && upgradeTraveler.targetObject is WorldObject_WD_Outpost outpost
+                && !outpost.Destroyed)
             {
-                MortarWorldFx.TryNotifyGroundCombatCaravanDestroyed(this);
-                if (playerColonyRaidCooldownReservationTick > 0
-                    && targetObject is Settlement playerSettlement
-                    && playerSettlement.Faction?.IsPlayer == true)
-                    Raid_OnPlayerColony.ReleaseRaidDefenseCooldownReservation(playerSettlement, playerColonyRaidCooldownReservationTick);
-                if (targetRaidDefenseCooldownReservationTick > 0)
-                    Raid_DefenseCooldownReservations.ReleaseRaidDefenseCooldownReservation(targetObject, targetRaidDefenseCooldownReservationTick);
-                if (this is WorldObject_Traveler_Outpost_Upgrade upgradeTraveler
-                    && upgradeTraveler.targetObject is WorldObject_WD_Outpost outpost
-                    && !outpost.Destroyed)
+                IReadOnlyList<PendingOutpostUpgradeEntry> cargo = upgradeTraveler.UpgradeCargo;
+                for (int i = 0; i < cargo.Count; i++)
                 {
-                    IReadOnlyList<PendingOutpostUpgradeEntry> cargo = upgradeTraveler.UpgradeCargo;
-                    for (int i = 0; i < cargo.Count; i++)
-                    {
-                        PendingOutpostUpgradeEntry e = cargo[i];
-                        if (e == null || string.IsNullOrEmpty(e.defName)) continue;
-                        outpost.ClearPendingUpgradeIfMatches(e.defName, e.level);
-                    }
+                    PendingOutpostUpgradeEntry e = cargo[i];
+                    if (e == null || string.IsNullOrEmpty(e.defName)) continue;
+                    outpost.ClearPendingUpgradeIfMatches(e.defName, e.level);
                 }
-                // Rapid-response strength is deducted at dispatch; refunds only via TravelerEndpointUtility (abort / surviving clash strength).
-                liveTravelers.RemoveAll(t => t == this);
-                ActiveCount = liveTravelers.Count;
-                pather?.StopDead();
-                if (mission == TravelerMission.RoadBuilding && originObject != null && !originObject.Destroyed)
-                    originObject.GetComponent<CompViralSpread>()?.NotifyRoadBuilderReturned();
-                if ((mission == TravelerMission.BridgeBuilding || mission == TravelerMission.BridgeDeconstruct)
-                    && originObject != null && !originObject.Destroyed)
-                    originObject.GetComponent<CompViralSpread>()?.NotifyBridgeCrewReturned();
-                if (mission == TravelerMission.RoadBlock && originObject != null && !originObject.Destroyed)
-                    originObject.GetComponent<CompViralSpread>()?.NotifyRoadBlockCrewReturned();
-                if (mission == TravelerMission.SpikeTrap && originObject != null && !originObject.Destroyed)
-                    originObject.GetComponent<CompViralSpread>()?.NotifySpikeTrapCrewReturned();
-                if (mission == TravelerMission.AtTurret && originObject != null && !originObject.Destroyed)
-                    originObject.GetComponent<CompViralSpread>()?.NotifyAtTurretCrewReturned();
-                if (mission == TravelerMission.Decontamination && originObject != null && !originObject.Destroyed)
-                    originObject.GetComponent<CompViralSpread>()?.NotifyDecontaminationCrewReturned();
-                if ((mission == TravelerMission.TrenchBuilding || mission == TravelerMission.TrenchClearing)
-                    && originObject != null && !originObject.Destroyed)
-                    WorldActions_Trenches.NotifyBuilderDestroyed(this);
-                if (mission == TravelerMission.TurtleConsolidate && !turtleLeafResolved && turtleGroupId > 0)
-                    WorldActions_Turtle.NotifyTurtleTravelerDestroyedUnresolved(this);
-                WorldComponent_InterceptionScheduler.Current?.UnregisterTraveler(this);
-                if (isSettlementAmbushSally)
-                    WorldComponent_SettlementWatchIndex.Get()?.NotifyAmbushSallyDestroyed();
-                if (assaultArtillerySupport && mission == TravelerMission.MortarStrike)
-                    WD_AssaultArtillerySupport.NotifyAssaultShellRemoved(this);
-                PlayerWdRaidDispatchUtil.NotifyDestroyedBeforeContact(this);
-                if (isNimbleScout)
-                    WorldActions_Scout.RecordScoutKillBearing(this);
-                if (destroyedByFaction?.IsPlayer == true)
-                    NpcRaidKillGoodwillUtility.TryRewardPlayerForKillingTraveler(this, playerAttributed: true);
             }
+            // Rapid-response strength is deducted at dispatch; refunds only via TravelerEndpointUtility (abort / surviving clash strength).
+            liveTravelers.RemoveAll(t => t == this);
+            ActiveCount = liveTravelers.Count;
+            pather?.StopDead();
+            if (mission == TravelerMission.RoadBuilding && originObject != null && !originObject.Destroyed)
+                originObject.GetComponent<CompViralSpread>()?.NotifyRoadBuilderReturned();
+            if ((mission == TravelerMission.BridgeBuilding || mission == TravelerMission.BridgeDeconstruct)
+                && originObject != null && !originObject.Destroyed)
+                originObject.GetComponent<CompViralSpread>()?.NotifyBridgeCrewReturned();
+            if (mission == TravelerMission.RoadBlock && originObject != null && !originObject.Destroyed)
+                originObject.GetComponent<CompViralSpread>()?.NotifyRoadBlockCrewReturned();
+            if (mission == TravelerMission.SpikeTrap && originObject != null && !originObject.Destroyed)
+                originObject.GetComponent<CompViralSpread>()?.NotifySpikeTrapCrewReturned();
+            if (mission == TravelerMission.AtTurret && originObject != null && !originObject.Destroyed)
+                originObject.GetComponent<CompViralSpread>()?.NotifyAtTurretCrewReturned();
+            if (mission == TravelerMission.Decontamination && originObject != null && !originObject.Destroyed)
+                originObject.GetComponent<CompViralSpread>()?.NotifyDecontaminationCrewReturned();
+            if ((mission == TravelerMission.TrenchBuilding || mission == TravelerMission.TrenchClearing)
+                && originObject != null && !originObject.Destroyed)
+                WorldActions_Trenches.NotifyBuilderDestroyed(this);
+            if (mission == TravelerMission.TurtleConsolidate && !turtleLeafResolved && turtleGroupId > 0)
+                WorldActions_Turtle.NotifyTurtleTravelerDestroyedUnresolved(this);
+            WorldComponent_InterceptionScheduler.Current?.UnregisterTraveler(this);
+            if (isSettlementAmbushSally)
+                WorldComponent_SettlementWatchIndex.Get()?.NotifyAmbushSallyDestroyed();
+            if (assaultArtillerySupport && mission == TravelerMission.MortarStrike)
+                WD_AssaultArtillerySupport.NotifyAssaultShellRemoved(this);
+            PlayerWdRaidDispatchUtil.NotifyDestroyedBeforeContact(this);
+            if (isNimbleScout)
+                WorldActions_Scout.RecordScoutKillBearing(this);
+            if (destroyedByFaction?.IsPlayer == true)
+                NpcRaidKillGoodwillUtility.TryRewardPlayerForKillingTraveler(this, playerAttributed: true);
+            WorldActions_PlayerScout.NotifyPlayerScoutDestroyedIfNeeded(this);
+
             base.Destroy();
         }
 
@@ -706,16 +736,7 @@ namespace TSA_WorldDomination
             tweenFromTileId = tweenToTileId = Tile.tileId;
             if (spawnTick == 0) spawnTick = Find.TickManager.TicksGame;
             if (newlyLive)
-            {
                 WorldComponent_InterceptionScheduler.Current?.RegisterTraveler(this);
-                // Temporary player omniscience in discovery sets (shells excluded by DiscoverTraveler callers).
-                if (!IsShellMission(mission) && WorldComponent_SettlementIntel.IsTracking())
-                {
-                    Faction player = Faction.OfPlayerSilentFail;
-                    if (player != null)
-                        WorldComponent_SettlementIntel.Get()?.DiscoverTraveler(player, this);
-                }
-            }
 
             // --- SURGICAL: Capture Initial Strength if not set yet ---
             if (initialStrength <= 0) initialStrength = travelerStrength;
@@ -765,13 +786,13 @@ namespace TSA_WorldDomination
             float daysSinceDeparture = ticksSinceDeparture / 60000f;
 
             string originLabel = TravelerEndpointUtility.IsLiveEndpoint(originObject)
-                ? originObject.LabelCap
+                ? WdPlayerIntel.LabelForLetter(originObject)
                 : (!packUpOriginLabel.NullOrEmpty()
                     ? packUpOriginLabel
                     : "TSA_WD_Traveller_Unknown".Translate().ToString());
 
             string destLabel = TravelerEndpointUtility.IsLiveEndpoint(targetObject)
-                ? targetObject.LabelCap
+                ? WdPlayerIntel.LabelForLetter(targetObject)
                 : (pather != null ? pather.destTile.tileId.ToString() : "TSA_WD_Traveller_Unknown".Translate());
             sb.AppendLine($"{"TSA_WD_Traveller_Origin".Translate()}: {originLabel}");
 
@@ -783,6 +804,12 @@ namespace TSA_WorldDomination
             else
                 sb.AppendLine($"{"TSA_WD_Traveller_TotalExpectedTravelTime".Translate()}: {"TSA_WD_Traveller_Unknown".Translate()}");
 
+            if (playerScoutExpireTick > 0 && mission == TravelerMission.Scout)
+            {
+                float left = Mathf.Max(0f, (playerScoutExpireTick - Find.TickManager.TicksGame) / 60000f);
+                sb.AppendLine("TSA_WD_Intel_PlayerScout_LifetimeLeft".Translate(left.ToString("F1")));
+            }
+
             return sb.ToString().TrimEnd('\r', '\n');
         }
 
@@ -791,6 +818,8 @@ namespace TSA_WorldDomination
             base.DrawExtraSelectionOverlays();
             WD_RadiusOverlayPrefs.DrawSelectDrivenIfNeeded(this);
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
+            // Scout remaining stops (orange building-project markers) — independent of path zoom hide.
+            WorldActions_PlayerScout.DrawScoutWaypointsIfSelected(this);
             // Path must live here — not in Draw(). When always-show-icon is on,
             // Patch_WdWorldObjectNoExpandingIcon skips both world-object draw layers,
             // so Draw() never runs for travelers (expanding OnGUI icon still does).
@@ -891,6 +920,15 @@ namespace TSA_WorldDomination
             pather?.PatherTick(delta);
             if (Destroyed)
                 return;
+
+            if (WorldActions_PlayerScout.TryExpirePlayerScoutIfLifetimeElapsed(this))
+                return;
+
+            // Ballistic drop pods skip per-tile intel; paint FoW on an interval while airborne.
+            if (IsDropPodRevealObserver(this)
+                && WorldComponent_SettlementIntel.IsTracking()
+                && this.IsHashIntervalTick(120, delta))
+                WorldComponent_SettlementIntel.Get()?.TrySpotTravelerFromSettlementsAndCaravans(this);
 
             if (mission == TravelerMission.DesperationRally && desperationIsHost
                 && this.IsHashIntervalTick(250, delta))
@@ -1241,7 +1279,9 @@ namespace TSA_WorldDomination
             TravelerEndpointUtility.AbortTraveler(
                 this,
                 "TSA_WD_Log_RapidResponseAborted".Translate(originObject?.LabelCap ?? "?").ToString(),
-                manager);
+                manager,
+                refundCargo: true,
+                category: SpreadLogCategory.Raid);
         }
 
         /// <summary>Feature C sally: give up if the quarry is farther than <see cref="SettlementAmbushUtility.PursuitRangeMult"/> × the origin's ambush watch range.</summary>
@@ -1533,6 +1573,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref fortifySpikeTrapKind, "fortifySpikeTrapKind", SpikeTrapKind.Spike);
             Scribe_Values.Look(ref fortifyRoadBlockKind, "fortifyRoadBlockKind", RoadBlockKind.Light);
             Scribe_Values.Look(ref isolationPressureExpand, "isolationPressureExpand", false);
+            Scribe_Values.Look(ref strategicExpand, "strategicExpand", false);
             Scribe_Collections.Look(ref constructionMaterialCosts, "constructionMaterialCosts", LookMode.Deep);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && constructionMaterialCosts == null)
                 constructionMaterialCosts = null;
@@ -1562,6 +1603,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref intelAssessedDefTotal, "intelAssessedDefTotal", -1f);
             Scribe_Values.Look(ref isNimbleScout, "isNimbleScout", false);
             Scribe_Values.Look(ref scoutExtraWaypointsLeft, "scoutExtraWaypointsLeft", 0);
+            Scribe_Values.Look(ref playerScoutExpireTick, "playerScoutExpireTick", -1);
+            Scribe_Collections.Look(ref scoutWaypointQueue, "scoutWaypointQueue", LookMode.Value);
             Scribe_Values.Look(ref playerWdRaidCapStampTick, "playerWdRaidCapStampTick", -1);
             Scribe_Values.Look(ref playerRaidContacted, "playerRaidContacted", false);
             Scribe_Values.Look(ref beyondNormalAttackRange, "beyondNormalAttackRange", false);

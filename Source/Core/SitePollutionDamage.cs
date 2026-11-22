@@ -113,7 +113,7 @@ namespace TSA_WorldDomination
                 comp.parent.LabelCap,
                 damage.ToString("F0"),
                 Mathf.RoundToInt(avg * 100f));
-            manager?.AddLog(new SpreadLogEntry(text, comp.parent));
+            manager?.AddLog(new SpreadLogEntry(text, comp.parent) { category = SpreadLogCategory.Pollution });
             WDVerbose.Msg(
                 $"[WD] Site pollution dmg site={comp.parent.LabelCap} dmg={damage:F0} avgP={avg:F2} r={radius} " +
                 $"off {offBefore:F1}->{comp.offensiveStrength:F1} def {defBefore:F1}->{comp.defensiveStrength:F1} " +
@@ -205,7 +205,7 @@ namespace TSA_WorldDomination
             string ctx = FormatSiteContext(comp);
 
             string destroyText = "TSA_WD_Log_Pollution_DestroyedSite".Translate(label);
-            manager?.AddLog(new SpreadLogEntry(destroyText, outpost));
+            manager?.AddLog(new SpreadLogEntry(destroyText, outpost) { category = SpreadLogCategory.Pollution });
             WDVerbose.Msg(
                 $"[WD] Pollution destroyed outpost={label} tile={tile.tileId} reason={wipeReason} " +
                 $"avgP={avgPollution01:F2} r={radius} {ctx}");
@@ -240,7 +240,7 @@ namespace TSA_WorldDomination
             string ctx = FormatSiteContext(comp);
 
             string destroyText = "TSA_WD_Log_Pollution_DestroyedSite".Translate(label);
-            manager?.AddLog(new SpreadLogEntry(destroyText, settlement));
+            manager?.AddLog(new SpreadLogEntry(destroyText, settlement) { category = SpreadLogCategory.Pollution });
             WDVerbose.Msg(
                 $"[WD] Pollution destroyed settlement={label} tile={tile} reason={wipeReason} " +
                 $"avgP={avgPollution01:F2} r={radius} {ctx}");

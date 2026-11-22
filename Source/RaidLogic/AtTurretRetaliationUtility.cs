@@ -165,7 +165,7 @@ namespace TSA_WorldDomination
                     traveler.LabelCap,
                     traveler.preTurretDetourTarget?.LabelCap ?? "?",
                     AdvancedBuildingCombatUtility.LabelWithOwner(turret)),
-                traveler, turret));
+                traveler, turret) { category = SpreadLogCategory.Raid });
 
             return true;
         }
@@ -257,13 +257,13 @@ namespace TSA_WorldDomination
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             manager?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_AT_TurretResume".Translate(traveler.LabelCap, savedTarget.LabelCap),
-                traveler, savedTarget));
+                traveler, savedTarget) { category = SpreadLogCategory.Raid });
 
             return true;
         }
 
         /// <summary>
-        /// Open-field raid math: traveler is always attacker, AT turret always defender. Winner keeps severity remnant.
+        /// Open-field clash: traveler is always attacker, AT turret always defender. Winner keeps open-field remnant.
         /// </summary>
         public static void ResolveClash(WorldObject_Traveler traveler, WorldObject turret, WorldComponent_SpreadManager manager)
         {

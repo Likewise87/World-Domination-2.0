@@ -89,6 +89,12 @@
   <TSA_WD_Letter_IncomingRaid_Label>来袭袭击:{0}</TSA_WD_Letter_IncomingRaid_Label>
   <TSA_WD_Letter_IncomingRaid_Text>来自 {0} 的敌对远征军已出发!他们正穿越世界地图前往袭击 {1}。\n\n你有时间巩固防御或在他们抵达前在世界地图上拦截他们。</TSA_WD_Letter_IncomingRaid_Text>
   <TSA_WD_Letter_IncomingRaid_Colony_Label>WD 对殖民地袭击已发动:{0}({1})</TSA_WD_Letter_IncomingRaid_Colony_Label>
+  <TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Label>WD对殖民地的突袭已出发：{0}</TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Label>
+  <TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Text>有传言称，势力{0}的某个未知据点正派出突袭部队前往玩家殖民地{1}。\n\n预计抵达时突袭点数：{2}\n预计{3}天后抵达。\n\n你仍有时间在{1}准备防御，或在世界地图上拦截他们。</TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Text>
+  <TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Label>WD对{0}的突袭已出发（{1}）</TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Label>
+  <TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Text>有传言称，势力{1}的某个未知据点正派出突袭部队前往你的哨站{0}。\n\n预计抵达时突袭点数：{2}\n哨站战力：{3}\n防守胜算（自动结算）：{4}\n预计{5}天后抵达。\n\n你仍有时间准备防御，或在世界地图上拦截他们。</TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Text>
+  <TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Label>WD空降突袭来袭（{0}）</TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Label>
+  <TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Text>有传言称，势力{0}的某个未知据点正派出运输舱飞往你的殖民地{1}。\n\n预计抵达时突袭点数：{2}\n预计{3}天后抵达。</TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Text>
   <TSA_WD_Letter_IncomingRaid_Colony_Text>来自 {0} 的敌对远征军正穿越世界地图前往你的殖民地 {1}。\n\n预计抵达时袭击点数:{2}\n预计 {3} 天后抵达。\n\n你有时间在 {1} 巩固防御,或在他们抵达前在世界地图上拦截。</TSA_WD_Letter_IncomingRaid_Colony_Text>
   <TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label>WD 对殖民地袭击已发动:{0}({1})</TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label>
   <TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text>{0} 已从 {1} 派出部队进攻你的殖民地 {2}。\n\n预计抵达时袭击点数:{3}\n预计 {4} 天后抵达。\n\n你有时间在 {2} 巩固防御,或在他们抵达前在世界地图上拦截。</TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text>
@@ -130,7 +136,9 @@
   <TSA_WD_Target_NotHostile>无效目标。只能选择敌对目标。</TSA_WD_Target_NotHostile>
   <TSA_WD_Log_Raid_DefBase>{0} 守军:{1} 强度。</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0}({1})提供 +{2} 防守力量。(原始:{3},效率:{4}%,距离 {5} 格)。</TSA_WD_Log_Raid_DefContrib>
-  <TSA_WD_Log_Raid_ExpeditionLaunched>袭击: {0} 对 {1} 派出了袭击。</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_Log_Raid_ExpeditionLaunched>RAID: {0} 对 {1} 派出了袭击。</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_Log_Raid_DroughtLaunched>RAID: {0} 对 {1} 派出了强制袭击（安静期）。</TSA_WD_Log_Raid_DroughtLaunched>
+  <TSA_WD_Log_Raid_DroughtLaunchedBeyondRange>RAID: {0} 对 {1} 派出了强制袭击（安静期，超射程）。</TSA_WD_Log_Raid_DroughtLaunchedBeyondRange>
   <TSA_WD_RaidExpeditionLaunched>已对 {0} 派出袭击远征。</TSA_WD_RaidExpeditionLaunched>
   <TSA_WD_Log_Raid_FactionDispatch>{0} 已从 {1} 派出袭击部队进攻 {2}。</TSA_WD_Log_Raid_FactionDispatch>
   <TSA_WD_Log_Raid_ColonyDelegated>袭击: 选定殖民地为目标，并委托给更近的盟友。</TSA_WD_Log_Raid_ColonyDelegated>

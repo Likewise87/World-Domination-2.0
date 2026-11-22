@@ -132,13 +132,18 @@ namespace TSA_WorldDomination
             if (seth == null || !seth.notifyRaidPartyDestroyed) return;
             if (Find.LetterStack == null) return;
 
-            string attacker = traveler.Faction?.Name ?? traveler.originObject?.LabelCap ?? "?";
-            string target = traveler.targetObject?.LabelCap ?? "?";
+            string attacker = traveler.Faction?.Name
+                ?? (traveler.originObject != null ? WdPlayerIntel.LabelForLetter(traveler.originObject) : "?");
+            string target = traveler.targetObject != null
+                ? WdPlayerIntel.LabelForLetter(traveler.targetObject)
+                : "?";
+            LookTargets look = WdPlayerIntel.LookTargetsOrNull(traveler.originObject, traveler.targetObject)
+                ?? WdPlayerIntel.LookTargetsOrNull(traveler.targetObject);
             Find.LetterStack.ReceiveLetter(
                 "TSA_WD_Letter_RaidPartyDestroyed_Label".Translate(),
                 "TSA_WD_Letter_RaidPartyDestroyed_Text".Translate(attacker, target),
                 LetterDefOf.NeutralEvent,
-                traveler.originObject ?? traveler.targetObject);
+                look);
         }
     }
 }

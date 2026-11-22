@@ -29,15 +29,18 @@ namespace TSA_WorldDomination
             float sightFracT2 = 0.75f,
             float sightFracT3 = 1.00f)
         {
-            if (WD_RadiusOverlayMode.UseHopRadiusRings) return;
+            // Sight always fills (ApproxDistance match). Other kinds respect hop-ring rollback.
+            if (WD_RadiusOverlayMode.UseHopRadiusRings && !sightLosBands) return;
             if (!center.Valid || radius <= 0f) return;
 
             touchedFrame = Time.frameCount;
             if (!WorldComponent_WDVisualizerToggle.IsOutpostCoverageFillLayerRegisteredPublic())
                 WorldComponent_WDVisualizerToggle.EnsureOutpostCoverageFillLayerRegisteredPublic();
-            if (WD_WorldLayer_OutpostCoverageFill.TrySetTarget(
+            bool changed = WD_WorldLayer_OutpostCoverageFill.TrySetTarget(
                     center, radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan,
-                    accuracyBandMaxRange, allyInnerRadiusSplit, sightLosBands, sightFracT1, sightFracT2, sightFracT3))
+                    accuracyBandMaxRange, allyInnerRadiusSplit, sightLosBands, sightFracT1, sightFracT2, sightFracT3);
+            // Abandoned mid-regen leaves hasTarget set but an empty mesh; force dirty even if params match.
+            if (changed || WorldComponent_WDVisualizerToggle.ConsumeCoverageFillForceRebuild())
                 WorldComponent_WDVisualizerToggle.MarkOutpostCoverageFillDirtyPublic();
         }
 
@@ -73,7 +76,10 @@ namespace TSA_WorldDomination
             // Grace: touched this frame or previous (covers OnGUI order vs world draw).
             if (touchedFrame >= Time.frameCount - 1) return;
             if (WD_WorldLayer_OutpostCoverageFill.ClearTarget())
+            {
+                WorldComponent_WDVisualizerToggle.ClearCoverageFillForceRebuild();
                 WorldComponent_WDVisualizerToggle.MarkOutpostCoverageFillDirtyPublic();
+            }
         }
     }
 }

@@ -162,11 +162,11 @@
   <TSA_WD_Daily_Tier2Tip>Actions per day added for each T2 Settlement.</TSA_WD_Daily_Tier2Tip>
   <TSA_WD_Daily_Tier3Tip>Actions per day added for each T3 Settlement.</TSA_WD_Daily_Tier3Tip>
   <TSA_WD_Daily_Tier4Tip>Actions per day added for each T4 Settlement.</TSA_WD_Daily_Tier4Tip>
-  <TSA_WD_Daily_WeightGrow>Develop likelihood</TSA_WD_Daily_WeightGrow>
+  <TSA_WD_Daily_WeightGrow>Tier Upgrade or Expansion</TSA_WD_Daily_WeightGrow>
   <TSA_WD_Daily_WeightGrowTip>Likelihood of a near-cap settlement to upgrade its tier or found a new settlement. Only rolls when strength is at least 95% of the tier maximum.</TSA_WD_Daily_WeightGrowTip>
   <TSA_WD_Daily_HeaderNearCapActions>Actions at 95-100% of tier max strength</TSA_WD_Daily_HeaderNearCapActions>
-  <TSA_WD_Daily_IncludeDevelopInPercent>Include Develop in the percentages above</TSA_WD_Daily_IncludeDevelopInPercent>
-  <TSA_WD_Daily_IncludeDevelopInPercentTip>Settings menu only. When on, Develop is counted in the percentages next to the usual action sliders. In-game rolls are unchanged: Develop only competes when a settlement is near its tier max.</TSA_WD_Daily_IncludeDevelopInPercentTip>
+  <TSA_WD_Daily_IncludeDevelopInPercent>Include Tier Upgrade or Expansion in the percentages above</TSA_WD_Daily_IncludeDevelopInPercent>
+  <TSA_WD_Daily_IncludeDevelopInPercentTip>Settings menu only. When on, Tier Upgrade or Expansion and Strategic Expand are counted in the percentages next to the usual action sliders. In-game rolls are unchanged: those actions only compete when a settlement is near its tier max.</TSA_WD_Daily_IncludeDevelopInPercentTip>
   <TSA_WD_Daily_WeightMajor>Major Incident likelihood</TSA_WD_Daily_WeightMajor>
   <TSA_WD_Daily_WeightMajorTip>Likelihood of a Settlement to suffer from a major incident.</TSA_WD_Daily_WeightMajorTip>
   <TSA_WD_Daily_WeightMinor>Minor Incident likelihood</TSA_WD_Daily_WeightMinor>
@@ -459,24 +459,26 @@
   <TSA_WD_Growth_PlayerOutpostDefensiveStrength>Player outpost defensive strength</TSA_WD_Growth_PlayerOutpostDefensiveStrength>
   <TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>Base local defensive strength for player outposts (before upgrades).</TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>
   <TSA_WD_Growth_HeaderIncidents>Incident Severity</TSA_WD_Growth_HeaderIncidents>
+  <TSA_WD_Growth_ClusterRadius>Cluster radius</TSA_WD_Growth_ClusterRadius>
+  <TSA_WD_Growth_ClusterRadiusTooltip>Tile radius for local max tier caps, pyramid upgrade support counts, and blocking further expansion when too many T1s are nearby.</TSA_WD_Growth_ClusterRadiusTooltip>
   <TSA_WD_Growth_LocalMaxT1>Local Max T1 Outposts</TSA_WD_Growth_LocalMaxT1>
-  <TSA_WD_Growth_LocalMaxT1Tooltip>Maximum T1 settlements allowed within the max Expansion Radius before further expansion is blocked.</TSA_WD_Growth_LocalMaxT1Tooltip>
+  <TSA_WD_Growth_LocalMaxT1Tooltip>Maximum T1 settlements allowed within the Cluster radius before further expansion is blocked.</TSA_WD_Growth_LocalMaxT1Tooltip>
   <TSA_WD_Growth_LocalMaxT2>Local Max T2 Villages</TSA_WD_Growth_LocalMaxT2>
-  <TSA_WD_Growth_LocalMaxT2Tooltip>Maximum T2 settlements allowed within the max Expansion Radius.</TSA_WD_Growth_LocalMaxT2Tooltip>
+  <TSA_WD_Growth_LocalMaxT2Tooltip>Maximum T2 settlements allowed within the Cluster radius.</TSA_WD_Growth_LocalMaxT2Tooltip>
   <TSA_WD_Growth_LocalMaxT3>Local Max T3 Towns</TSA_WD_Growth_LocalMaxT3>
-  <TSA_WD_Growth_LocalMaxT3Tooltip>Maximum T3 settlements allowed within the max Expansion Radius.</TSA_WD_Growth_LocalMaxT3Tooltip>
+  <TSA_WD_Growth_LocalMaxT3Tooltip>Maximum T3 settlements allowed within the Cluster radius.</TSA_WD_Growth_LocalMaxT3Tooltip>
   <TSA_WD_Growth_LocalMaxT4>Local Max T4 Citadels</TSA_WD_Growth_LocalMaxT4>
-  <TSA_WD_Growth_LocalMaxT4Tooltip>Maximum T4 settlements allowed within the max Expansion Radius.</TSA_WD_Growth_LocalMaxT4Tooltip>
-  <TSA_WD_Growth_SameTierUpgradeT1>T1 same-tier neighbors to upgrade</TSA_WD_Growth_SameTierUpgradeT1>
-  <TSA_WD_Growth_SameTierUpgradeT1Tooltip>Required nearby same-faction T1 settlements before a T1 settlement may upgrade to T2.</TSA_WD_Growth_SameTierUpgradeT1Tooltip>
-  <TSA_WD_Growth_SameTierUpgradeT2>T2 same-tier neighbors to upgrade</TSA_WD_Growth_SameTierUpgradeT2>
-  <TSA_WD_Growth_SameTierUpgradeT2Tooltip>Required nearby same-faction T2 settlements before a T2 settlement may upgrade to T3.</TSA_WD_Growth_SameTierUpgradeT2Tooltip>
-  <TSA_WD_Growth_SameTierUpgradeT3>T3 same-tier neighbors to upgrade</TSA_WD_Growth_SameTierUpgradeT3>
-  <TSA_WD_Growth_SameTierUpgradeT3Tooltip>Required nearby same-faction T3 settlements before a T3 settlement may upgrade to T4.</TSA_WD_Growth_SameTierUpgradeT3Tooltip>
+  <TSA_WD_Growth_LocalMaxT4Tooltip>Maximum T4 settlements allowed within the Cluster radius.</TSA_WD_Growth_LocalMaxT4Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT1>T1→T2 support count</TSA_WD_Growth_SameTierUpgradeT1>
+  <TSA_WD_Growth_SameTierUpgradeT1Tooltip>Within Cluster radius, need this many other T1 settlements before upgrading to T2. Also limited by Local Max T2.</TSA_WD_Growth_SameTierUpgradeT1Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT2>T2→T3 support count</TSA_WD_Growth_SameTierUpgradeT2>
+  <TSA_WD_Growth_SameTierUpgradeT2Tooltip>Within Cluster radius, need this many other T2 settlements plus this many T1 before upgrading to T3. Also limited by Local Max T3.</TSA_WD_Growth_SameTierUpgradeT2Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT3>T3→T4 support count</TSA_WD_Growth_SameTierUpgradeT3>
+  <TSA_WD_Growth_SameTierUpgradeT3Tooltip>Within Cluster radius, need this many other T3 settlements plus this many T2 and T1 before upgrading to T4. Also limited by Local Max T4.</TSA_WD_Growth_SameTierUpgradeT3Tooltip>
   <TSA_WD_Growth_MajorInc>Major Incident Strength Loss</TSA_WD_Growth_MajorInc>
   <TSA_WD_Growth_MajorIncTooltip>Strength points lost during a major catastrophe.</TSA_WD_Growth_MajorIncTooltip>
   <TSA_WD_Growth_MaxRadius>Max Expansion Radius</TSA_WD_Growth_MaxRadius>
-  <TSA_WD_Growth_MaxRadiusTooltip>Maximum tile distance allowed for expansion and the radius used to calculate local density.</TSA_WD_Growth_MaxRadiusTooltip>
+  <TSA_WD_Growth_MaxRadiusTooltip>Maximum tile distance allowed when founding a new settlement (founding ring only; density uses Cluster radius).</TSA_WD_Growth_MaxRadiusTooltip>
   <TSA_WD_Growth_MaxSettlements>Max Planet Settlements</TSA_WD_Growth_MaxSettlements>
   <TSA_WD_Growth_MaxSettlementsTooltip>Maximum total settlements allowed globally before expansion is capped. Also set by Setting presets → Performance (200 / 400 / 800).</TSA_WD_Growth_MaxSettlementsTooltip>
   <TSA_WD_Growth_MinRadius>Min Expansion Radius</TSA_WD_Growth_MinRadius>
@@ -746,6 +748,18 @@
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>Strength granted per 100 market value when gifting by launch pod (same rate as other faction investment). Vanilla goodwill is unchanged. Leftover value can fill nearby same-faction towns and buy tier-ups after caps are full.</TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>
   <TSA_WD_Raid_Col0>Rel. Strength</TSA_WD_Raid_Col0>
   <TSA_WD_Raid_Col1>Win Chance</TSA_WD_Raid_Col1>
+  <TSA_WD_Raid_OpenField_Header>Open-field clashes</TSA_WD_Raid_OpenField_Header>
+  <TSA_WD_Raid_OpenField_Tip>Traveler, caravan, and AT melee fights use this curve instead of the siege win table. Loser is wiped. Winner keeps a remnant based on how close the fight was. Hard-fought wins can wipe both sides.</TSA_WD_Raid_OpenField_Tip>
+  <TSA_WD_Raid_OpenField_WinPower>Win curve power</TSA_WD_Raid_OpenField_WinPower>
+  <TSA_WD_Raid_OpenField_WinPowerTip>Higher makes unequal fights more certain. Equal strength stays a coin flip. Lower allows more underdog upsets.</TSA_WD_Raid_OpenField_WinPowerTip>
+  <TSA_WD_Raid_OpenField_WinnerLossClose>Winner loss (close)</TSA_WD_Raid_OpenField_WinnerLossClose>
+  <TSA_WD_Raid_OpenField_WinnerLossCloseTip>Strength the winner loses on a hard-fought victory. Can leave almost nothing and destroy the winner.</TSA_WD_Raid_OpenField_WinnerLossCloseTip>
+  <TSA_WD_Raid_OpenField_WinnerLossNormal>Winner loss (normal)</TSA_WD_Raid_OpenField_WinnerLossNormal>
+  <TSA_WD_Raid_OpenField_WinnerLossNormalTip>Strength the winner loses on a typical victory.</TSA_WD_Raid_OpenField_WinnerLossNormalTip>
+  <TSA_WD_Raid_OpenField_WinnerLossDecisive>Winner loss (decisive)</TSA_WD_Raid_OpenField_WinnerLossDecisive>
+  <TSA_WD_Raid_OpenField_WinnerLossDecisiveTip>Strength the winner loses on a one-sided stomp.</TSA_WD_Raid_OpenField_WinnerLossDecisiveTip>
+  <TSA_WD_Raid_OpenField_PreviewHeader>Preview (attacker strength ratio → win chance, expected winner remnant)</TSA_WD_Raid_OpenField_PreviewHeader>
+  <TSA_WD_Raid_OpenField_PreviewRow>{0}x → {1}% win, ~{2}% remnant</TSA_WD_Raid_OpenField_PreviewRow>
   <TSA_WD_Raid_Section1_WinChance>Attacker win likelihood per relative strength ratio</TSA_WD_Raid_Section1_WinChance>
   <TSA_WD_Raid_Section2_Desc>When the attacker wins, how decisive is the victory?</TSA_WD_Raid_Section2_Desc>
   <TSA_WD_Raid_Section3_Desc>When the attacker loses, how bad will the loss be?</TSA_WD_Raid_Section3_Desc>

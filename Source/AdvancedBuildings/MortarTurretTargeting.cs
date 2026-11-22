@@ -43,6 +43,8 @@ namespace TSA_WorldDomination
                 if (!WorldActions_Utils.SafeHostileTo(wo.Faction, iFaction)) return false;
                 if (wo.Faction.IsPlayer && (!canTargetPlayer || !playerHostile)) return false;
                 if (sched != null && sched.IsInboundMortarTarget(wo.ID)) return false;
+                // Mortars need discovery and current LOS (AA still fires blind).
+                if (intelActive && !WdPlayerIntel.IsCurrentlyVisibleToFaction(iFaction, wo)) return false;
                 d = Dist(turret, wo, manager);
                 return d <= range;
             }

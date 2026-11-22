@@ -328,7 +328,7 @@ namespace TSA_WorldDomination
                     if (!SpawnBuilder(actor, comp, def, tile, cost)) return false;
                     manager?.AddLog(new SpreadLogEntry(
                         "TSA_WD_AdvBuild_Log_BuilderLaunched".Translate(actor.LabelCap, def.LabelText).ToString(),
-                        actor, tile));
+                        actor, tile) { category = SpreadLogCategory.BuiltAdvancedBuilding });
                     comp.advancedBuildCooldownTick = Find.TickManager.TicksGame
                         + Mathf.RoundToInt(Mathf.Max(0f, seth.cooldownAdvancedBuildingDays) * GenDate.TicksPerDay);
                     return true;
@@ -396,7 +396,7 @@ namespace TSA_WorldDomination
                 return;
             }
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
-                "TSA_WD_AdvBuild_Log_Built".Translate(origin.LabelCap, def.LabelText).ToString(), origin, tile));
+                "TSA_WD_AdvBuild_Log_Built".Translate(origin.LabelCap, def.LabelText).ToString(), origin, tile) { category = SpreadLogCategory.BuiltAdvancedBuilding });
         }
 
         private static bool CanStillPlace(Settlement owner, CompViralSpread comp, AdvancedBuildingDef def, int excludeInFlight)
@@ -591,7 +591,7 @@ namespace TSA_WorldDomination
             var b = Place(def, s, tile);
             if (b == null) return;
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
-                "TSA_WD_AdvBuild_Log_FreeArtillery".Translate(s.LabelCap, def.LabelText).ToString(), s, tile));
+                "TSA_WD_AdvBuild_Log_FreeArtillery".Translate(s.LabelCap, def.LabelText).ToString(), s, tile) { category = SpreadLogCategory.BuiltAdvancedBuilding });
         }
 
         /// <summary>

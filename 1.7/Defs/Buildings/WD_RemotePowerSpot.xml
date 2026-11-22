@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Colony-map marker: wired spots take all Keep remote watts (weighted). 1.7-only (custom ThingClass/Comp). -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>TSA_WD_RemotePowerSpot</defName>
+    <label>WD remote power spot</label>
+    <description>Designates where remote power from World Domination power plant outposts should enter your colony grid. Wire it into a power net. If any spots are connected, all colony Keep power goes to those nets by relative share. With no connected spots, power splits equally across every net.</description>
+    <category>Building</category>
+    <thingClass>Building</thingClass>
+    <selectable>true</selectable>
+    <drawerType>MapMeshOnly</drawerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <fillPercent>0.15</fillPercent>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <tickerType>Rare</tickerType>
+    <useHitPoints>false</useHitPoints>
+    <rotatable>false</rotatable>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+    <size>(1,1)</size>
+    <statBases>
+      <WorkToBuild>0</WorkToBuild>
+    </statBases>
+    <researchPrerequisites>
+      <li>Electricity</li>
+    </researchPrerequisites>
+    <designationCategory>Power</designationCategory>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <graphicData>
+      <texPath>WorldObjects/Outposts/WD_Outpost_Powerplant</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <!-- Same cyan as player world-map / WD UI icons (Unity Color.cyan). -->
+      <color>(0, 1, 1)</color>
+    </graphicData>
+    <building>
+      <isEdifice>true</isEdifice>
+      <ai_chillDestination>false</ai_chillDestination>
+    </building>
+    <placeWorkers>
+      <li>TSA_WorldDomination.PlaceWorker_WdColonyHomeOnly</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>0</basePowerConsumption>
+      </li>
+      <li Class="TSA_WorldDomination.CompProperties_WdRemotePowerSpot" />
+    </comps>
+  </ThingDef>
+</Defs>

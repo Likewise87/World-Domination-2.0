@@ -38,6 +38,21 @@ namespace TSA_WorldDomination
             return Mathf.RoundToInt(v);
         }
 
+        /// <summary>
+        /// Scout ticks per tile = walking / <see cref="WorldDominationSettings.intelScoutSpeedMult"/>
+        /// (Def 1.2× faster). Lower = faster. Stable buff still applies on top for NPC scouts.
+        /// </summary>
+        public static int GetScoutTicksPerMove()
+        {
+            float mult = WorldDominationMod.settings?.intelScoutSpeedMult
+                ?? WorldDominationSettings.DefIntelScoutSpeedMult;
+            mult = Mathf.Clamp(
+                mult,
+                WorldDominationSettings.MinIntelScoutSpeedMult,
+                WorldDominationSettings.MaxIntelScoutSpeedMult);
+            return Mathf.Max(60, Mathf.RoundToInt(GetWalkingTicksPerMove() / mult));
+        }
+
         public static bool ValidateMission(WorldObject_Traveler traveler, PlanetTile destTile)
         {
             switch (traveler.mission)
@@ -206,7 +221,8 @@ namespace TSA_WorldDomination
             {
                 case TravelerMission.Expansion:
                     ExecuteExpansion(traveler);
-                    traveler.Destroy();
+                    if (traveler != null && !traveler.Destroyed)
+                        traveler.Destroy();
                     break;
                 case TravelerMission.MassRelocation:
                     WorldActions_PackUp.ExecuteMassRelocationArrival(traveler);
@@ -327,14 +343,15 @@ namespace TSA_WorldDomination
                         WorldActions_Scout.DiscoverSitesInScoutBubble(traveler.Faction, traveler.Tile.tileId, traveler);
                         WorldComponent_SettlementIntel.Get()?.RecordScoutTileSeen(traveler.Faction, traveler.Tile.tileId);
                     }
-                    if (traveler != null && !traveler.Destroyed)
-                    {
-                        // More chaotic waypoints before finish. Arrival is not a kill — no kill bearing stamp.
-                        if (WorldActions_Scout.TryContinueScoutMission(traveler))
-                            break;
-                        traveler.isNimbleScout = false;
-                        traveler.Destroy();
-                    }
+                    // Continue may Destroy via StartPath fail; re-check before finishing the scout.
+                    if (traveler == null || traveler.Destroyed) break;
+                    if (WorldActions_Scout.TryContinueScoutMission(traveler))
+                        break;
+                    if (traveler.Destroyed) break;
+                    traveler.isNimbleScout = false;
+                    if (WorldActions_PlayerScout.IsLivePlayerScout(traveler))
+                        traveler.playerScoutQuietDismiss = true;
+                    traveler.Destroy();
                     break;
                 case TravelerMission.OutpostUpgrade:
                     if (traveler is WorldObject_Traveler_Outpost_Upgrade upgradeTraveler)
@@ -427,7 +444,8 @@ namespace TSA_WorldDomination
                 manager?.AddLog(new SpreadLogEntry(
                     "TSA_WD_Log_RapidResponseAborted".Translate(traveler.originObject?.LabelCap ?? "?"),
                     traveler.originObject,
-                    traveler.targetObject));
+                    traveler.targetObject)
+                { category = SpreadLogCategory.Raid });
                 traveler.suppressDestroyedWorldFx = true;
                 return true;
             }
@@ -485,7 +503,8 @@ namespace TSA_WorldDomination
                 manager?.AddLog(new SpreadLogEntry(
                     "TSA_WD_Log_RapidResponseAborted".Translate(traveler.originObject?.LabelCap ?? "?"),
                     traveler.originObject,
-                    traveler.targetObject));
+                    traveler.targetObject)
+                { category = SpreadLogCategory.Raid });
                 traveler.suppressDestroyedWorldFx = true;
                 return true;
             }
@@ -614,7 +633,8 @@ namespace TSA_WorldDomination
                     origin?.LabelCap ?? "?",
                     loser.LabelCap),
                 origin,
-                loser));
+                loser)
+            { category = SpreadLogCategory.Trade });
             LogTraderTradeParty(
                 manager,
                 "TSA_WD_Log_TraderTrade_RoleInterceptor".Translate(origin?.LabelCap ?? "?"),
@@ -638,9 +658,9 @@ namespace TSA_WorldDomination
                 targetStrengthBefore,
                 targetStrengthAfter,
                 captivesTaken,
-                target != null && !target.Destroyed
-                    ? new LookTargets(target)
-                    : (response?.originObject != null ? new LookTargets(response.originObject) : null));
+                WdPlayerIntel.LookTargetsOrNull(
+                    target != null && !target.Destroyed ? target : null,
+                    response?.originObject));
         }
 
         internal static void SendRapidResponseClashLetter(
@@ -873,16 +893,41 @@ namespace TSA_WorldDomination
                 }
                 int added = 0;
                 var failed = new List<Pawn>();
+                var refuseDump = new List<Pawn>();
                 for (int i = 0; i < removed.Count; i++)
                 {
                     Pawn pawn = removed[i];
                     if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                    // Transfer keeps GuestStatus.Prisoner; re-capture like land/transporters (do not AddPawn → Occupants).
+                    if (destOutpost.TryHandleArrivingPrisoner(pawn, null))
+                    {
+                        if (destOutpost.Prisoners.Contains(pawn))
+                            added++;
+                        else
+                            refuseDump.Add(pawn);
+                        continue;
+                    }
                     if (destOutpost.AddPawn(pawn, null!))
                         added++;
                     else if (!unescorted && originWo is WorldObject_WD_Outpost originLive && !originLive.Destroyed)
-                        originLive.AddPawn(pawn, null!);
+                    {
+                        if (originLive.TryHandleArrivingPrisoner(pawn, null)
+                            && originLive.Prisoners.Contains(pawn))
+                            added++;
+                        else if (!pawn.IsPrisonerOfColony && originLive.AddPawn(pawn, null!))
+                            added++;
+                        else
+                            failed.Add(pawn);
+                    }
                     else
                         failed.Add(pawn);
+                }
+                if (refuseDump.Count > 0)
+                {
+                    if (unescorted)
+                        WdRrInterceptDropUtility.DisposeUnescortedDropPodCargo(refuseDump);
+                    else
+                        WdRrInterceptDropUtility.DumpPawnsAsCaravan(refuseDump, destOutpost.Tile.tileId);
                 }
                 if (failed.Count > 0)
                     WdRrInterceptDropUtility.DisposeUnescortedDropPodCargo(failed);
@@ -1236,7 +1281,8 @@ namespace TSA_WorldDomination
                 manager.AddLog(new SpreadLogEntry(
                     "TSA_WD_Log_TraderTrade_Header".Translate(origin?.LabelCap ?? "?", target?.LabelCap ?? "?"),
                     origin,
-                    target));
+                    target)
+                { category = SpreadLogCategory.Trade });
 
                 string senderLabel = origin?.LabelCap ?? "?";
                 string receiverLabel = target?.LabelCap ?? "?";
@@ -1249,7 +1295,8 @@ namespace TSA_WorldDomination
         {
             if (result.Outcome == TraderArrivalRewardOutcome.NoEffect)
             {
-                manager.AddLog(new SpreadLogEntry("TSA_WD_Log_TraderTrade_NoStrengthLine".Translate(roleTagged), a, b));
+                manager.AddLog(new SpreadLogEntry("TSA_WD_Log_TraderTrade_NoStrengthLine".Translate(roleTagged), a, b)
+                { category = SpreadLogCategory.Trade });
                 return;
             }
 
@@ -1258,7 +1305,8 @@ namespace TSA_WorldDomination
                 : "TSA_WD_Log_TraderTrade_OutcomeStrength".Translate();
             if (!string.IsNullOrEmpty(result.InfraLabel))
                 detail = "TSA_WD_Log_TraderTrade_OutcomeWithInfra".Translate(detail, result.InfraLabel);
-            manager.AddLog(new SpreadLogEntry("TSA_WD_Log_TraderTrade_Line".Translate(roleTagged, detail), a, b));
+            manager.AddLog(new SpreadLogEntry("TSA_WD_Log_TraderTrade_Line".Translate(roleTagged, detail), a, b)
+            { category = SpreadLogCategory.Trade });
         }
 
         private static void ExecuteOutpostDelivery(WorldObject_Traveler_Outpost_Delivery delivery)
@@ -1948,7 +1996,7 @@ namespace TSA_WorldDomination
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_SettlementBuyLaunched".Translate(origin.LabelCap, settlement.LabelCap, sellerFaction?.Name ?? "?"),
                 origin,
-                settlement));
+                settlement) { category = SpreadLogCategory.Diplomacy });
             return true;
         }
 
@@ -1986,7 +2034,7 @@ namespace TSA_WorldDomination
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_SettlementGiftLaunched".Translate(origin.LabelCap, settlement.LabelCap, recipientFaction?.Name ?? "?"),
                 origin,
-                settlement));
+                settlement) { category = SpreadLogCategory.Diplomacy });
             return true;
         }
 
@@ -2093,7 +2141,7 @@ namespace TSA_WorldDomination
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_BribeSettlementLaunched".Translate(origin.LabelCap, settlement.LabelCap, targetFaction?.Name ?? "?"),
                 origin,
-                settlement));
+                settlement) { category = SpreadLogCategory.Diplomacy });
             return true;
         }
 
@@ -2131,7 +2179,7 @@ namespace TSA_WorldDomination
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_BribeRaidLaunched".Translate(origin.LabelCap, raid.LabelCap, targetFaction?.Name ?? "?"),
                 origin,
-                raid));
+                raid) { category = SpreadLogCategory.Diplomacy });
             return true;
         }
 
@@ -2178,7 +2226,7 @@ namespace TSA_WorldDomination
 
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_SettlementGiftCompleted".Translate(settlement.LabelCap, settlement.Faction?.Name ?? "?"),
-                settlement));
+                settlement) { category = SpreadLogCategory.Diplomacy });
         }
 
         private static void ExecuteSettlementBuyArrival(WorldObject_Traveler_SettlementBuy buy)
@@ -2237,7 +2285,7 @@ namespace TSA_WorldDomination
 
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_SettlementBuyCompleted".Translate(name, seller.Name),
-                null));
+                null) { category = SpreadLogCategory.Diplomacy });
         }
 
         private static void ExecuteExpansion(WorldObject_Traveler traveler)
@@ -2287,8 +2335,13 @@ namespace TSA_WorldDomination
             // Always log success when a settlement was placed (comp setup is independent of visibility).
             if (spreadMgr != null)
             {
+                string successKey = traveler.isolationPressureExpand
+                    ? "TSA_WD_Log_ExpandSuccess_Isolation"
+                    : traveler.strategicExpand
+                        ? "TSA_WD_Log_ExpandSuccess_Strategic"
+                        : "TSA_WD_Log_ExpandSuccess";
                 var expandOk = new SpreadLogEntry(
-                    "TSA_WD_Log_ExpandSuccess".Translate(originLabel, newS.LabelCap),
+                    successKey.Translate(originLabel, newS.LabelCap),
                     traveler.originObject,
                     newS);
                 expandOk.highlightKind = SpreadLogHighlightKind.ExpansionSuccess;
@@ -2382,7 +2435,7 @@ namespace TSA_WorldDomination
                         ),
                         traveler.originObject,
                         workTile
-                    ));
+                    ) { category = SpreadLogCategory.Road });
                 }
 
                 Outpost_ConstructionXp.TryGrant(traveler, Outpost_ConstructionXp.XpForRoadTier(tier));

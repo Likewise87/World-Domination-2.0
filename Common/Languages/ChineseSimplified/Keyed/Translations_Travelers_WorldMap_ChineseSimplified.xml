@@ -68,7 +68,7 @@
   <TSA_WD_SpikeTrap_TriggeredDestroyed>{0} 触发了陷阱（−{1} 实力）。陷阱被摧毁。</TSA_WD_SpikeTrap_TriggeredDestroyed>
   <TSA_WD_SpikeTrap_TileInspect>{0}：敌对通过时造成 {1} 伤害 (HP {2}/{3})</TSA_WD_SpikeTrap_TileInspect>
   <TSA_WD_Log_SpikeTrap_Triggered>刺钉陷阱被 {0} 触发（伤害 {1}）。</TSA_WD_Log_SpikeTrap_Triggered>
-  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0} 被刺钉陷阱摧毁。</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
+  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0}：{1} 被刺钉陷阱摧毁。</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
   <TSA_WD_Log_Pollution_DamagedTraveler>{0} 离开受污染格子时损失了 {1} 力量（污染 {2}%）。</TSA_WD_Log_Pollution_DamagedTraveler>
   <TSA_WD_Log_Pollution_DestroyedTraveler>{0} 被污染摧毁。</TSA_WD_Log_Pollution_DestroyedTraveler>
   <TSA_WD_Log_Pollution_DamagedSite>{0} 因附近污染损失了 {1} 力量（平均 {2}%）。</TSA_WD_Log_Pollution_DamagedSite>
@@ -150,7 +150,9 @@
   <TSA_WD_Log_ActionNoWeights>{0} 的每日行动:无可用加权行动(所有行动权重为零)。</TSA_WD_Log_ActionNoWeights>
   <TSA_WD_Log_ActionSkip>为 {0} 跳过行动:无可用活跃定居点。</TSA_WD_Log_ActionSkip>
   <TSA_WD_Log_BtnDetails>详情</TSA_WD_Log_BtnDetails>
-  <TSA_WD_Log_ExpandSuccess>扩张:成功。{0} 建立了新 T1 {1}。</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_ExpandSuccess>EXPAND: {0} 建立了新 T1 {1}。</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_ExpandSuccess_Strategic>EXPAND: {0} 建立了新 T1 {1}（战略）。</TSA_WD_Log_ExpandSuccess_Strategic>
+  <TSA_WD_Log_ExpandSuccess_Isolation>ISOLATION: {0} 在你附近建立了新 T1 {1}。</TSA_WD_Log_ExpandSuccess_Isolation>
   <TSA_WD_Log_MassRelocationCancelled>先锋：{0} 中止；在附近重新驻扎。</TSA_WD_Log_MassRelocationCancelled>
   <TSA_WD_Log_ForwardAssault_Vanguard>先锋：{0} 编成 {1} 路纵队开向你的前线。</TSA_WD_Log_ForwardAssault_Vanguard>
   <TSA_WD_Log_ForwardAssault_Invasion>入侵：{0} 发动 {1} 路协同突袭进攻你的据点。</TSA_WD_Log_ForwardAssault_Invasion>
@@ -165,7 +167,10 @@
   <TSA_WD_Log_ForwardAssault_Refound>先锋：{0} 重新驻扎为 {1}。</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>征服:{0} 在成功突袭后建立了 {1}（{2}）。</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>{0} 任务取消:地块已被占领或饱和。</TSA_WD_Log_ExpansionCancelled>
-  <TSA_WD_Log_ExpeditionLaunched>扩张尝试:{0} 已派遣定居者建立新殖民地。</TSA_WD_Log_ExpeditionLaunched>
+  <TSA_WD_Log_ExpeditionLaunched>EXPAND: {0} 派出定居者建立新据点。</TSA_WD_Log_ExpeditionLaunched>
+  <TSA_WD_Log_StrategicExpeditionLaunched>EXPAND: {0} 派出定居者前往更安全的边境（战略）。</TSA_WD_Log_StrategicExpeditionLaunched>
+  <TSA_WD_Log_IsolationExpeditionLaunched>ISOLATION: {0} 派出定居者在你附近建城。</TSA_WD_Log_IsolationExpeditionLaunched>
+  <TSA_WD_Log_IsolationPressure>ISOLATION: {0} 被迫在你附近建立 {1} 个据点。</TSA_WD_Log_IsolationPressure>
   <TSA_WD_Log_Expand_SkippedGlobalCap>扩张:{0} 已跳过(世界 NPC 定居点数 {1},上限 {2})。</TSA_WD_Log_Expand_SkippedGlobalCap>
   <TSA_WD_Log_Expand_SkippedNoValidTile>扩张:{0} 已跳过(范围内无可用新定居点地块)。</TSA_WD_Log_Expand_SkippedNoValidTile>
   <TSA_WD_Log_Grow>成长:强度 {0} -> {1}</TSA_WD_Log_Grow>
@@ -186,15 +191,15 @@
   <TSA_WD_Log_Trader_SkippedNoTarget>贸易商队:{0} 已跳过(范围内无有效中立或盟友定居点)。</TSA_WD_Log_Trader_SkippedNoTarget>
   <TSA_WD_Log_TraderLaunched>贸易商队:已从 {0} 派往 {1}。</TSA_WD_Log_TraderLaunched>
   <TSA_WD_Log_TraderTrade_Header>贸易：WD 贸易商队已从 {0} 抵达 {1} 并完成交易。</TSA_WD_Log_TraderTrade_Header>
-  <TSA_WD_Log_TraderTrade_HeaderIntercept>贸易：{0} 截获商队（{1}）；已应用接收方交易奖励。</TSA_WD_Log_TraderTrade_HeaderIntercept>
-  <TSA_WD_Log_TraderTrade_Line>{0}：{1}</TSA_WD_Log_TraderTrade_Line>
-  <TSA_WD_Log_TraderTrade_RoleSender>出发方（{0}）</TSA_WD_Log_TraderTrade_RoleSender>
-  <TSA_WD_Log_TraderTrade_RoleReceiver>接收方（{0}）</TSA_WD_Log_TraderTrade_RoleReceiver>
-  <TSA_WD_Log_TraderTrade_RoleInterceptor>拦截方（{0}）</TSA_WD_Log_TraderTrade_RoleInterceptor>
-  <TSA_WD_Log_TraderTrade_OutcomeStrength>进攻实力提升（本次交易未升级阶层）。</TSA_WD_Log_TraderTrade_OutcomeStrength>
-  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>进攻实力提升且定居点阶层已升级（贸易途径；不受同阶邻居要求限制）。</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <TSA_WD_Log_TraderTrade_HeaderIntercept>贸易：{0} 截获 WD 贸易商队（{1}）；已应用接收方交易奖励。</TSA_WD_Log_TraderTrade_HeaderIntercept>
+  <TSA_WD_Log_TraderTrade_Line>贸易：{0}：{1}</TSA_WD_Log_TraderTrade_Line>
+  <TSA_WD_Log_TraderTrade_RoleSender>出发定居点（{0}）</TSA_WD_Log_TraderTrade_RoleSender>
+  <TSA_WD_Log_TraderTrade_RoleReceiver>接收定居点（{0}）</TSA_WD_Log_TraderTrade_RoleReceiver>
+  <TSA_WD_Log_TraderTrade_RoleInterceptor>拦截定居点（{0}）</TSA_WD_Log_TraderTrade_RoleInterceptor>
+  <TSA_WD_Log_TraderTrade_OutcomeStrength>因贸易商抵达而获得进攻实力（未升级阶层）。</TSA_WD_Log_TraderTrade_OutcomeStrength>
+  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>因贸易商抵达而获得进攻实力并升级了定居点阶层。</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
   <TSA_WD_Log_TraderTrade_OutcomeWithInfra>{0} 并放置了{1}。</TSA_WD_Log_TraderTrade_OutcomeWithInfra>
-  <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}：未应用 WD 定居点实力（非 WD 定居点或已排除）。</TSA_WD_Log_TraderTrade_NoStrengthLine>
+  <TSA_WD_Log_TraderTrade_NoStrengthLine>贸易：{0}：未应用 WD 定居点实力（非 WD 定居点或已排除）。</TSA_WD_Log_TraderTrade_NoStrengthLine>
   <TSA_WD_Log_TraderArrived>贸易商队:已从 {0} 抵达 {1}。</TSA_WD_Log_TraderArrived>
   <TSA_WD_Log_OutpostUpgradeLaunched>前哨升级:商队从 {0} 前往 {1},运送 {2}(等级 {3})。</TSA_WD_Log_OutpostUpgradeLaunched>
   <TSA_WD_Log_OutpostUpgradeBatchLaunched>前哨升级:商队从 {0} 前往 {1},运送 {2} 项升级（{3}）。</TSA_WD_Log_OutpostUpgradeBatchLaunched>
@@ -233,6 +238,37 @@
   <TSA_WD_AT_Turret_PlayerOverran_Text>你的商队碾过了 {0}。</TSA_WD_AT_Turret_PlayerOverran_Text>
   <TSA_WD_AT_Turret_Miss_Text>{0} 未命中 {1}。</TSA_WD_AT_Turret_Miss_Text>
   <TSA_WD_Log_WindowTitle>行动日志(最近 500 条)</TSA_WD_Log_WindowTitle>
+  <TSA_WD_Log_TypeFilterTitle>行动类型</TSA_WD_Log_TypeFilterTitle>
+  <TSA_WD_Log_TypeFilterTip>按类型筛选行动日志</TSA_WD_Log_TypeFilterTip>
+  <TSA_WD_Log_TypeFilterExclude>排除所选</TSA_WD_Log_TypeFilterExclude>
+  <TSA_WD_Log_TypeFilterClear>清除类型筛选</TSA_WD_Log_TypeFilterClear>
+  <TSA_WD_LogCategory_Other>其他</TSA_WD_LogCategory_Other>
+  <TSA_WD_LogCategory_Raid>突袭</TSA_WD_LogCategory_Raid>
+  <TSA_WD_LogCategory_Trader>商人</TSA_WD_LogCategory_Trader>
+  <TSA_WD_LogCategory_Trade>贸易</TSA_WD_LogCategory_Trade>
+  <TSA_WD_LogCategory_Road>道路</TSA_WD_LogCategory_Road>
+  <TSA_WD_LogCategory_Expand>扩张</TSA_WD_LogCategory_Expand>
+  <TSA_WD_LogCategory_Grow>发展</TSA_WD_LogCategory_Grow>
+  <TSA_WD_LogCategory_Upgrade>升级</TSA_WD_LogCategory_Upgrade>
+  <TSA_WD_LogCategory_Turtle>龟缩</TSA_WD_LogCategory_Turtle>
+  <TSA_WD_LogCategory_Vanguard>先锋</TSA_WD_LogCategory_Vanguard>
+  <TSA_WD_LogCategory_Invasion>入侵</TSA_WD_LogCategory_Invasion>
+  <TSA_WD_LogCategory_Desperation>绝望</TSA_WD_LogCategory_Desperation>
+  <TSA_WD_LogCategory_Conquest>征服</TSA_WD_LogCategory_Conquest>
+  <TSA_WD_LogCategory_Revolt>叛乱</TSA_WD_LogCategory_Revolt>
+  <TSA_WD_LogCategory_Fortify>设防</TSA_WD_LogCategory_Fortify>
+  <TSA_WD_LogCategory_OutpostUpgrade>哨站升级</TSA_WD_LogCategory_OutpostUpgrade>
+  <TSA_WD_LogCategory_MajorIncident>重大事件</TSA_WD_LogCategory_MajorIncident>
+  <TSA_WD_LogCategory_MinorIncident>次要事件</TSA_WD_LogCategory_MinorIncident>
+  <TSA_WD_LogCategory_Isolation>孤立</TSA_WD_LogCategory_Isolation>
+  <TSA_WD_LogCategory_Scout>侦察</TSA_WD_LogCategory_Scout>
+  <TSA_WD_LogCategory_Intel>情报</TSA_WD_LogCategory_Intel>
+  <TSA_WD_LogCategory_Sabotage>破坏</TSA_WD_LogCategory_Sabotage>
+  <TSA_WD_LogCategory_Disinformation>虚假情报</TSA_WD_LogCategory_Disinformation>
+  <TSA_WD_LogCategory_Diplomacy>外交</TSA_WD_LogCategory_Diplomacy>
+  <TSA_WD_LogCategory_Pollution>污染</TSA_WD_LogCategory_Pollution>
+  <TSA_WD_LogCategory_BuiltAdvancedBuilding>建成高级建筑</TSA_WD_LogCategory_BuiltAdvancedBuilding>
+  <TSA_WD_LogCategory_BuiltFortification>建成工事（陷阱 / 防空炮 / 路障）</TSA_WD_LogCategory_BuiltFortification>
   <TSA_WD_RaiderCaravan>袭击者商队</TSA_WD_RaiderCaravan>
   <TSA_WD_RaiderDropPods>袭击者空投舱</TSA_WD_RaiderDropPods>
   <TSA_WD_TraderCaravan>贸易商队</TSA_WD_TraderCaravan>

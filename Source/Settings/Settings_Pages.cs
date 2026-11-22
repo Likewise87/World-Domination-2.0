@@ -114,7 +114,7 @@ namespace TSA_WorldDomination
                     "UI/Commands/Icon_Diplomacy", "TSA_WD_HeaderGeneral", false,
                     Dialog_DiplomacySettings.DrawEmbedded, null, NavIconCyan),
                 P(WdSettingsPage.Quests, "TSA_WD_BtnQuests", "TSA_WD_DescQuests",
-                    "UI/Commands/Bribe", "TSA_WD_HeaderGeneral", false,
+                    "UI/Commands/AcademyTeach", "TSA_WD_HeaderGeneral", false,
                     Dialog_QuestSettings.DrawEmbedded, null, NavIconCyan),
                 P(WdSettingsPage.Outposts, "TSA_WD_BtnOutpostSettings", "TSA_WD_DescOutpostSettings",
                     "UI/Commands/EstablishOutpost", "TSA_WD_HeaderOutposts", false,

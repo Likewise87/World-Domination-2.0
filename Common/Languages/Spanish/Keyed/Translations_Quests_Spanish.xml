@@ -10,10 +10,10 @@
   <TSA_WD_Quest_EnableSpyOpsSettlementTip>Una sola vez entre los días 10-16, un aliado (o neutral) puede pedirte debilitar un pueblo hostil compartido con una caravana del jugador en una casilla adyacente: Desinformación (Social) o Sabotaje (Crafting). No hace falta destruirlo. Desactivado impide la oferta; una misión activa puede terminar.</TSA_WD_Quest_EnableSpyOpsSettlementTip>
 
   <TSA_WD_Quest_EnableFortifySettlement>Misión de fortificar asentamiento</TSA_WD_Quest_EnableFortifySettlement>
-  <TSA_WD_Quest_EnableFortifySettlementTip>Tras terminar la intro de espionaje (o si esa misión está desactivada), un aliado o neutral puede pedirte Fortificar uno de sus pueblos con una caravana del jugador en casilla adyacente (Crafting; añade fuerza defensiva). Solo una oferta. Desactivado impide la oferta; una misión activa puede terminar.</TSA_WD_Quest_EnableFortifySettlementTip>
+  <TSA_WD_Quest_EnableFortifySettlementTip>Unos 6-12 días después de terminar la intro de espionaje (o alrededor de los días 16-24 si esa misión está desactivada), un aliado o neutral puede pedirte Fortificar uno de sus pueblos con una caravana del jugador en casilla adyacente (Crafting; añade fuerza defensiva). Solo una oferta. Desactivado impide la oferta; una misión activa puede terminar.</TSA_WD_Quest_EnableFortifySettlementTip>
 
   <TSA_WD_Quest_EnableCommonEnemySettlement>Misión de asentamiento enemigo común</TSA_WD_Quest_EnableCommonEnemySettlement>
-  <TSA_WD_Quest_EnableCommonEnemySettlementTip>Tras el día 20, aliados (o neutrales) pueden pedirte que destruyas o conquistes un pueblo cercano hostil a ambos. Cuenta si lo destruyes tú (incursión desde tu puesto WD, en persona, sabotaje, bombardeo y similares). Las órdenes de incursión aliadas y que otra facción acabe con el pueblo no cuentan. Desactivado impide nuevas ofertas; una misión activa puede terminar.</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+  <TSA_WD_Quest_EnableCommonEnemySettlementTip>Tras el día 30, aliados (o neutrales) pueden pedirte que destruyas o conquistes un pueblo cercano hostil a ambos. Cuenta si lo destruyes tú (incursión desde tu puesto WD, en persona, sabotaje, bombardeo y similares). Las órdenes de incursión aliadas y que otra facción acabe con el pueblo no cuentan. Desactivado impide nuevas ofertas; una misión activa puede terminar.</TSA_WD_Quest_EnableCommonEnemySettlementTip>
 
   <TSA_WD_SpyOps_LetterLabelFailed>Misión fallida: [resolvedQuestName]</TSA_WD_SpyOps_LetterLabelFailed>
   <TSA_WD_SpyOps_LetterTextHostile>[faction_name] se volvió hostil. La petición de espionaje ha fallado.</TSA_WD_SpyOps_LetterTextHostile>
@@ -30,7 +30,17 @@
   <TSA_WD_FortifyQuest_LetterTextTargetGone>{0} quería que fortificaras {1}, pero ese pueblo ya no existe. La petición ha fallado.</TSA_WD_FortifyQuest_LetterTextTargetGone>
 
   <TSA_WD_Quest_EnableColonyRoadLink>Misión de enlace por carretera</TSA_WD_Quest_EnableColonyRoadLink>
-  <TSA_WD_Quest_EnableColonyRoadLinkTip>Tras el día 10, un pueblo aliado o neutral cercano (hasta 30 casillas) puede pedir una carretera entre tu colonia y el suyo. Conectar ambos por cualquier carretera lo completa de forma permanente. Si falla (tiempo, hostilidad o desaparición del pueblo), puede volver a ofrecerse en unos días. Desactivado impide nuevas ofertas; una misión activa puede terminar.</TSA_WD_Quest_EnableColonyRoadLinkTip>
+  <TSA_WD_Quest_EnableColonyRoadLinkTip>Tras el día 14, un pueblo aliado o neutral cercano (hasta 30 casillas) puede pedir una carretera entre tu colonia y el suyo. Conectar ambos por cualquier carretera lo completa de forma permanente. Si falla (tiempo, hostilidad o desaparición del pueblo), puede volver a ofrecerse en unos días. Desactivado impide nuevas ofertas; una misión activa puede terminar.</TSA_WD_Quest_EnableColonyRoadLinkTip>
+
+  <TSA_WD_Quest_EnableScoutWorldMap>Misión de explorar el mapa mundial</TSA_WD_Quest_EnableScoutWorldMap>
+  <TSA_WD_Quest_EnableScoutWorldMapTip>Cuando el seguimiento de niebla de guerra esté activo, tras 1-5 días el pueblo aliado o neutral más cercano puede pedirte lanzar un explorador desde una colonia o puesto. Completarla otorga +5 de ánimo durante 5 días. Solo una oferta (se omite si ya lanzaste un explorador). Desactivado impide la oferta; una misión activa puede terminar.</TSA_WD_Quest_EnableScoutWorldMapTip>
+
+  <TSA_WD_ScoutWorldMap_LetterLabelFailed>Misión fallida: [resolvedQuestName]</TSA_WD_ScoutWorldMap_LetterLabelFailed>
+  <TSA_WD_ScoutWorldMap_LetterTextHostile>[faction_name] se volvió hostil. La petición de exploración ha fallado.</TSA_WD_ScoutWorldMap_LetterTextHostile>
+  <TSA_WD_ScoutWorldMap_LetterLabelExpired>Misión expirada: [resolvedQuestName]</TSA_WD_ScoutWorldMap_LetterLabelExpired>
+  <TSA_WD_ScoutWorldMap_LetterTextExpired>Se acabó el tiempo de la petición de [faction_name] en [askerSettlement_label] para empezar a explorar el mapa mundial.</TSA_WD_ScoutWorldMap_LetterTextExpired>
+  <TSA_WD_ScoutWorldMap_LetterLabelAskerGone>Misión fallida: {0}</TSA_WD_ScoutWorldMap_LetterLabelAskerGone>
+  <TSA_WD_ScoutWorldMap_LetterTextAskerGone>{0} quería que empezaras a explorar cerca de {1}, pero ese pueblo ya no existe. La petición ha fallado.</TSA_WD_ScoutWorldMap_LetterTextAskerGone>
 
   <TSA_WD_Quest_EnableWorldDominationVictory>Misión de victoria de World Domination</TSA_WD_Quest_EnableWorldDominationVictory>
   <TSA_WD_Quest_EnableWorldDominationVictoryTip>Tras 4-6 días, ofrece un objetivo a largo plazo: mantener el primer puesto WD durante 15 días seguidos. Activarla a mitad de partida lanza la misión de inmediato. Desactivarla elimina una misión activa de inmediato.</TSA_WD_Quest_EnableWorldDominationVictoryTip>

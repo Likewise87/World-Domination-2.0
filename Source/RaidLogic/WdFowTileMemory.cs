@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using RimWorld;
@@ -21,14 +22,19 @@ namespace TSA_WorldDomination
         private BitArray visibleBits;
         private BitArray previousVisibleBits;
         private int visibleFactionId = int.MinValue;
-        private int visibleCacheVersion = -1;
+        /// <summary>Bumped when LOS disks must rebuild (observer move / view change). Not tied to discovery Version.</summary>
+        private int visibleStructureEpoch;
+        private int visibleCacheEpoch = -1;
         private int visibleCacheTick = -999;
         private int tilesCount;
+        private bool visibleForceFullReconcile;
 
         private readonly List<int> dirtyIncognita = new List<int>(256);
         private readonly List<int> dirtyShroud = new List<int>(256);
         private readonly HashSet<int> dirtyIncognitaSet = new HashSet<int>();
         private readonly HashSet<int> dirtyShroudSet = new HashSet<int>();
+        /// <summary>Coalesce trench mesh rebuild when newly explored tiles may reveal edges.</summary>
+        private bool trenchOverlayDirty;
 
         private readonly Queue<PlanetTile> openTiles = new Queue<PlanetTile>();
         private readonly Dictionary<int, int> distancesByTileId = new Dictionary<int, int>(256);
@@ -44,48 +50,73 @@ namespace TSA_WorldDomination
             visibleBits = null;
             previousVisibleBits = null;
             visibleFactionId = int.MinValue;
-            visibleCacheVersion = -1;
+            visibleCacheEpoch = -1;
             visibleCacheTick = -999;
+            visibleStructureEpoch = 0;
+            visibleForceFullReconcile = true;
             ClearDirtyQueues();
             LayersReady = true;
         }
 
+        // Instance fields: ExposeData is invoked per Scribe mode; locals filled in LoadingVars are discarded
+        // before PostLoadInit, so Look no-ops would rebuild from null and wipe explored tiles on every load.
+        private List<int> scribeExploredKeys;
+        private List<string> scribeExploredBlobsB64;
+
         public void ExposeExplored()
         {
-            List<int> keys = null;
-            List<byte[]> blobs = null;
+            // Byte[] cannot use LookMode.Value (saves as "System.Byte[]" and fails parse on load).
+            // Persist explored bitsets as Base64 strings. Legacy label siFowExploredFactionBits is dead/corrupt.
             if (Scribe.mode == LoadSaveMode.Saving)
             {
-                keys = new List<int>();
-                blobs = new List<byte[]>();
+                scribeExploredKeys = new List<int>();
+                scribeExploredBlobsB64 = new List<string>();
                 foreach (var kv in exploredByFaction)
                 {
                     if (kv.Value == null || kv.Value.Length == 0) continue;
-                    keys.Add(kv.Key);
-                    blobs.Add(BitArrayToBytes(kv.Value));
+                    scribeExploredKeys.Add(kv.Key);
+                    scribeExploredBlobsB64.Add(Convert.ToBase64String(BitArrayToBytes(kv.Value)));
                 }
             }
 
-            Scribe_Collections.Look(ref keys, "siFowExploredFactionKeys", LookMode.Value);
-            Scribe_Collections.Look(ref blobs, "siFowExploredFactionBits", LookMode.Value);
+            Scribe_Collections.Look(ref scribeExploredKeys, "siFowExploredFactionKeys", LookMode.Value);
+            Scribe_Collections.Look(ref scribeExploredBlobsB64, "siFowExploredFactionBitsB64", LookMode.Value);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                ApplyLoadedExploredBits();
+        }
+
+        /// <summary>Rebuild explored bitsets from scribed Base64. Safe to call from PostLoadInit or FinalizeInit.</summary>
+        public void ApplyLoadedExploredBits()
+        {
+            if (scribeExploredKeys == null || scribeExploredBlobsB64 == null) return;
+
+            exploredByFaction.Clear();
+            knownFeaturesByFaction.Clear();
+            int n = Mathf.Min(scribeExploredKeys.Count, scribeExploredBlobsB64.Count);
+            int expect = Find.WorldGrid?.TilesCount ?? 0;
+            for (int i = 0; i < n; i++)
             {
-                exploredByFaction.Clear();
-                knownFeaturesByFaction.Clear();
-                if (keys == null || blobs == null) return;
-                int n = Mathf.Min(keys.Count, blobs.Count);
-                int expect = Find.WorldGrid?.TilesCount ?? 0;
-                for (int i = 0; i < n; i++)
+                string b64 = scribeExploredBlobsB64[i];
+                if (string.IsNullOrEmpty(b64) || b64 == "System.Byte[]")
+                    continue;
+                byte[] bytes;
+                try
                 {
-                    BitArray bits = BytesToBitArray(blobs[i], expect);
-                    if (bits != null)
-                        exploredByFaction[keys[i]] = bits;
+                    bytes = Convert.FromBase64String(b64);
                 }
-                // Feature name sets are derived (not scribed); rebuild after tiles exist.
-                foreach (int factionId in exploredByFaction.Keys)
-                    RebuildKnownFeaturesFromExplored(factionId);
+                catch (FormatException)
+                {
+                    continue;
+                }
+                // If grid tile count is not ready yet, keep byte-derived length; EnsureTilesCount resizes later.
+                int len = expect > 0 ? expect : bytes.Length * 8;
+                BitArray bits = BytesToBitArray(bytes, len);
+                if (bits != null)
+                    exploredByFaction[scribeExploredKeys[i]] = bits;
             }
+            foreach (int factionId in exploredByFaction.Keys)
+                RebuildKnownFeaturesFromExplored(factionId);
         }
 
         public void EnsureTilesCount()
@@ -151,9 +182,10 @@ namespace TSA_WorldDomination
             return visibleBits[tileId];
         }
 
+
         public bool IsTileExploredForView(int tileId)
         {
-            Faction view = WdFowDraw.ViewFaction;
+            Faction view = WdFowDraw.EffectiveViewFaction;
             if (view == null) return true;
             return IsExplored(view.loadID, tileId);
         }
@@ -162,7 +194,7 @@ namespace TSA_WorldDomination
         public bool IsFeatureKnownForView(WorldFeature feature)
         {
             if (feature == null || !WdFowDraw.IsActive) return true;
-            Faction view = WdFowDraw.ViewFaction;
+            Faction view = WdFowDraw.EffectiveViewFaction;
             if (view == null) return true;
             if (!knownFeaturesByFaction.TryGetValue(view.loadID, out HashSet<int> set) || set == null)
                 return false;
@@ -210,8 +242,15 @@ namespace TSA_WorldDomination
 
         public void InvalidateVisibleCache()
         {
-            visibleCacheVersion = -1;
+            visibleCacheEpoch = -1;
             visibleCacheTick = -999;
+            visibleForceFullReconcile = true;
+        }
+
+        /// <summary>Observer move / MaxLOS change: rebuild visible disks soon (not on every discovery).</summary>
+        public void MarkVisibleStructureDirty()
+        {
+            visibleStructureEpoch++;
         }
 
         public void BeginViewFactionSwitch()
@@ -263,20 +302,21 @@ namespace TSA_WorldDomination
             }
 
             EnsureTilesCount();
-            Faction view = WdFowDraw.ViewFaction;
+            Faction view = WdFowDraw.EffectiveViewFaction;
             if (view == null || tilesCount <= 0) return;
 
-            var intel = WorldComponent_SettlementIntel.Get();
-            int version = intel?.Version ?? 0;
             int tick = Find.TickManager?.TicksGame ?? 0;
             int viewId = view.loadID;
+            // Discovery Version no longer forces full-planet rebuild; observer moves bump visibleStructureEpoch.
+            bool intervalDue = tick - visibleCacheTick < 0
+                || tick - visibleCacheTick >= WorldComponent_SettlementIntel.FowCacheIntervalTicksPublic;
             if (!force
-                && visibleCacheVersion == version
+                && !visibleForceFullReconcile
+                && !intervalDue
+                && visibleCacheEpoch == visibleStructureEpoch
                 && visibleFactionId == viewId
                 && visibleBits != null
-                && visibleBits.Length == tilesCount
-                && tick - visibleCacheTick >= 0
-                && tick - visibleCacheTick < WorldComponent_SettlementIntel.FowCacheIntervalTicksPublic)
+                && visibleBits.Length == tilesCount)
                 return;
 
             if (previousVisibleBits == null || previousVisibleBits.Length != tilesCount)
@@ -296,9 +336,10 @@ namespace TSA_WorldDomination
                 visibleBits.SetAll(false);
 
             RebuildVisibleBits(view);
-            visibleCacheVersion = version;
+            visibleCacheEpoch = visibleStructureEpoch;
             visibleCacheTick = tick;
             visibleFactionId = viewId;
+            visibleForceFullReconcile = false;
 
             // Fog dirty for visibility transitions (explored tiles only matter for shroud).
             BitArray explored = GetExplored(viewId);
@@ -327,34 +368,41 @@ namespace TSA_WorldDomination
             {
                 WorldObject obs = observers[i];
                 if (obs == null || obs.Destroyed) continue;
-                float maxLos = WorldComponent_SettlementIntel.GetMaxLos(obs);
-                if (maxLos <= 0f) continue;
-                ApplyDisk(obs.Tile, maxLos, visibleBits, explored, view.loadID, queueIncognitaOnExplore: true);
+                float hunch = WorldComponent_SettlementIntel.GetHunchRadius(obs);
+                if (hunch <= 0f) continue;
+                float los = WorldComponent_SettlementIntel.GetLosRadius(obs);
+                // Explore out to Hunch; clear tiles only to LOS.
+                ApplyDisk(obs.Tile, hunch, los, visibleBits, explored, view.loadID, queueIncognitaOnExplore: true);
             }
         }
 
-        /// <summary>Reveal MaxLOS disk into explored for a faction (gameplay tracking).</summary>
-        public void RevealTilesInRadius(Faction faction, PlanetTile center, float maxLos)
+        /// <summary>Reveal Hunch disk into explored for a faction (gameplay tracking). Does not clear tiles.</summary>
+        public void RevealTilesInRadius(Faction faction, PlanetTile center, float hunchRadius)
         {
-            if (faction == null || !center.Valid || maxLos <= 0f) return;
+            if (faction == null || !center.Valid || hunchRadius <= 0f) return;
             if (!WorldComponent_SettlementIntel.IsTracking()) return;
             EnsureTilesCount();
             BitArray explored = GetExplored(faction.loadID);
             if (explored == null) return;
-            ApplyDisk(center, maxLos, visibleOverlay: null, explored, faction.loadID, queueIncognitaOnExplore: true);
+            ApplyDisk(center, hunchRadius, clearRadius: 0f, visibleOverlay: null, explored, faction.loadID, queueIncognitaOnExplore: true);
             RequestIncrementalMeshUpdate();
         }
 
-        public void RevealTilesInRadius(Faction faction, int centerTileId, float maxLos)
+        public void RevealTilesInRadius(Faction faction, int centerTileId, float hunchRadius)
         {
             PlanetLayer surface = Find.WorldGrid?.Surface;
             if (surface == null || centerTileId < 0) return;
-            RevealTilesInRadius(faction, new PlanetTile(centerTileId, surface), maxLos);
+            RevealTilesInRadius(faction, new PlanetTile(centerTileId, surface), hunchRadius);
         }
 
+        /// <summary>
+        /// Flood from center: mark explored within exploreRadius; mark clear (visible) within clearRadius.
+        /// clearRadius should be ≤ exploreRadius (LOS ≤ Hunch).
+        /// </summary>
         private void ApplyDisk(
             PlanetTile center,
-            float maxLos,
+            float exploreRadius,
+            float clearRadius,
             BitArray visibleOverlay,
             BitArray explored,
             int factionLoadId,
@@ -363,8 +411,9 @@ namespace TSA_WorldDomination
             WorldGrid grid = Find.WorldGrid;
             if (grid == null || !center.Valid) return;
 
+            float hopBasis = Mathf.Max(exploreRadius, clearRadius);
             int hopWindow = Mathf.Min(
-                Mathf.Max(WorldMapRadiusVisual.GetHopDrawRadius(maxLos), Mathf.CeilToInt(maxLos) + 2),
+                Mathf.Max(WorldMapRadiusVisual.GetHopDrawRadius(hopBasis), Mathf.CeilToInt(hopBasis) + 2),
                 MaxRevealHopRadius);
 
             openTiles.Clear();
@@ -372,7 +421,7 @@ namespace TSA_WorldDomination
             openTiles.Enqueue(center);
             distancesByTileId[center.tileId] = 0;
 
-            Faction view = WdFowDraw.ViewFaction;
+            Faction view = WdFowDraw.EffectiveViewFaction;
             bool viewMatches = view != null && view.loadID == factionLoadId;
 
             while (openTiles.Count > 0)
@@ -380,14 +429,15 @@ namespace TSA_WorldDomination
                 PlanetTile tile = openTiles.Dequeue();
                 int hop = distancesByTileId[tile.tileId];
                 float approx = grid.ApproxDistanceInTiles(center, tile);
-                if (approx <= maxLos)
+                int id = tile.tileId;
+                if (id >= 0 && id < tilesCount)
                 {
-                    int id = tile.tileId;
-                    if (id >= 0 && id < tilesCount)
+                    if (visibleOverlay != null && clearRadius > 0f && approx <= clearRadius)
+                        visibleOverlay[id] = true;
+
+                    if (explored != null && approx <= exploreRadius)
                     {
-                        if (visibleOverlay != null)
-                            visibleOverlay[id] = true;
-                        if (explored != null && !explored[id])
+                        if (!explored[id])
                         {
                             explored[id] = true;
                             NoteFeatureOnExploredTile(factionLoadId, id);
@@ -395,9 +445,10 @@ namespace TSA_WorldDomination
                             {
                                 QueueIncognita(id);
                                 QueueShroud(id);
+                                trenchOverlayDirty = true;
                             }
                         }
-                        else if (explored != null && explored[id])
+                        else
                         {
                             NoteFeatureOnExploredTile(factionLoadId, id);
                         }
@@ -424,9 +475,9 @@ namespace TSA_WorldDomination
             {
                 WorldObject obs = observers[i];
                 if (obs == null || obs.Destroyed) continue;
-                float maxLos = WorldComponent_SettlementIntel.GetMaxLos(obs);
-                if (maxLos <= 0f) continue;
-                RevealTilesInRadius(faction, obs.Tile, maxLos);
+                float hunch = WorldComponent_SettlementIntel.GetHunchRadius(obs);
+                if (hunch <= 0f) continue;
+                RevealTilesInRadius(faction, obs.Tile, hunch);
             }
         }
 
@@ -473,6 +524,11 @@ namespace TSA_WorldDomination
             if (!WdFowDraw.IsActive || !LayersReady || !HasPendingMeshWork) return;
             WD_WorldLayer_FowIncognita.SetDirty();
             WD_WorldLayer_FowShroud.SetDirty();
+            if (trenchOverlayDirty)
+            {
+                trenchOverlayDirty = false;
+                WD_WorldLayer_Trenches.SetDirty();
+            }
         }
 
         private static byte[] BitArrayToBytes(BitArray bits)

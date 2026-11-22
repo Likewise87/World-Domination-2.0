@@ -5,15 +5,23 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Hover ShowAllyRadius + AttackRadius on NPC settlements (player colony excluded; outposts wire their own).</summary>
+    /// <summary>Hover ShowAllyRadius + AttackRadius on NPC settlements; sight-only on player colonies (outposts wire their own).</summary>
     public static class Patch_SettlementAllyRadiusGizmo
     {
         public static IEnumerable<Gizmo> GetGizmos(Settlement settlement)
         {
             if (settlement == null || settlement.Destroyed)
                 yield break;
-            if (settlement.Faction == null || settlement.Faction.IsPlayer)
+            if (settlement.Faction == null)
                 yield break;
+
+            if (settlement.Faction.IsPlayer)
+            {
+                foreach (var g in RadiusHoverGizmos.GetSightForPlayerColony(settlement))
+                    yield return g;
+                yield break;
+            }
+
             if (settlement.GetComponent<CompViralSpread>() == null)
                 yield break;
 

@@ -237,7 +237,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static BattleMarginTier RollMarginTier(RaidMarginShares shares)
+        public static BattleMarginTier RollMarginTier(RaidMarginShares shares)
         {
             shares.Normalize();
             float roll = Rand.Value;

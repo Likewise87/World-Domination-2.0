@@ -508,7 +508,7 @@ namespace TSA_WorldDomination
 
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_BribeSettlementCompleted".Translate(settlement.LabelCap, settlement.Faction?.Name ?? "?", days.ToString()),
-                settlement));
+                settlement) { category = SpreadLogCategory.Diplomacy });
         }
 
         public static void ExecuteRaidBribeArrival(WorldObject_Traveler_SettlementBribe bribe)
@@ -572,7 +572,7 @@ namespace TSA_WorldDomination
 
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_BribeRaidCompleted".Translate(raidLabel, raidFaction?.Name ?? "?"),
-                bribe.originObject));
+                bribe.originObject) { category = SpreadLogCategory.Diplomacy });
         }
 
         private static void SafeDissolveRaid(WorldObject_Traveler raid)

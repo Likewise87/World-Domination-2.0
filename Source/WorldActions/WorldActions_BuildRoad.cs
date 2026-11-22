@@ -459,6 +459,7 @@ namespace TSA_WorldDomination
                 {
                     manager.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_AbortedDanger".Translate(actor.LabelCap, closestEnemy.LabelCap, closestEnemyDist), actor, closestEnemy)
                     {
+                        category = SpreadLogCategory.Road,
                         labelA = actor.LabelCap,
                         labelB = closestEnemy.LabelCap
                     });

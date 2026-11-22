@@ -376,6 +376,18 @@ namespace TSA_WorldDomination
                 });
 
             l.Gap(12f);
+            // Redundant with Intel page: FoW is a key mechanic; keep it visible on Overview.
+            bool prevEnableIntel = s.enableSettlementIntel;
+            SettingsUI.DrawCheckbox(
+                l,
+                "TSA_WD_Intel_EnableSettlementIntel".Translate(),
+                ref s.enableSettlementIntel,
+                "TSA_WD_Intel_EnableSettlementIntelTip".Translate(),
+                defaultValue: WorldDominationSettings.DefEnableSettlementIntel);
+            if (prevEnableIntel && !s.enableSettlementIntel && Current.ProgramState == ProgramState.Playing)
+                Messages.Message("TSA_WD_Intel_DisableRestartTip".Translate(), MessageTypeDefOf.CautionInput, false);
+
+            l.Gap(12f);
             bool prevMedieval = s.wdMedievalMode;
             SettingsUI.DrawCheckbox(
                 l,

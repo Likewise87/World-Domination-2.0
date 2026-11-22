@@ -134,8 +134,8 @@
   <TSA_WD_SpikeTrap_TileInspect>{0}：敵人經過時造成{1}傷害（耐久{2}/{3}）</TSA_WD_SpikeTrap_TileInspect>
   <!-- EN: Spike trap triggered by {0} (damage {1}). -->
   <TSA_WD_Log_SpikeTrap_Triggered>尖刺陷阱被{0}觸發（傷害{1}）。</TSA_WD_Log_SpikeTrap_Triggered>
-  <!-- EN: {0} was destroyed by spike traps. -->
-  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0}被尖刺陷阱消滅了。</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
+  <!-- EN: {0}: {1} was destroyed by spike traps. -->
+  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0}：{1}被尖刺陷阱消滅了。</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
   <!-- EN: {0} lost {1} strength leaving a polluted tile ({2}% pollution). -->
   <TSA_WD_Log_Pollution_DamagedTraveler>{0}離開汙染地塊時損失了{1}戰力（汙染{2}%）。</TSA_WD_Log_Pollution_DamagedTraveler>
   <!-- EN: {0} was destroyed by pollution. -->
@@ -304,8 +304,12 @@
   <TSA_WD_Log_ActionSkip>{0}略過行動：沒有可用的有效據點。</TSA_WD_Log_ActionSkip>
   <!-- EN: Details -->
   <TSA_WD_Log_BtnDetails>詳細資訊</TSA_WD_Log_BtnDetails>
-  <!-- EN: EXPAND: Success. {0} founded new T1 {1}. -->
-  <TSA_WD_Log_ExpandSuccess>擴張：成功。{0}建立了新的T1據點{1}。</TSA_WD_Log_ExpandSuccess>
+  <!-- EN: EXPAND: {0} founded new T1 {1}. -->
+  <TSA_WD_Log_ExpandSuccess>EXPAND：{0}建立了新的T1據點{1}。</TSA_WD_Log_ExpandSuccess>
+  <!-- EN: EXPAND: {0} founded new T1 {1} (strategic). -->
+  <TSA_WD_Log_ExpandSuccess_Strategic>EXPAND：{0}建立了新的T1據點{1}（戰略）。</TSA_WD_Log_ExpandSuccess_Strategic>
+  <!-- EN: ISOLATION: {0} founded new T1 {1} near you. -->
+  <TSA_WD_Log_ExpandSuccess_Isolation>ISOLATION：{0}在你附近建立了新的T1據點{1}。</TSA_WD_Log_ExpandSuccess_Isolation>
   <!-- EN: VANGUARD: {0} aborted; remounting near destination. -->
   <TSA_WD_Log_MassRelocationCancelled>先鋒：{0}已中止；在目的地附近重新整隊。</TSA_WD_Log_MassRelocationCancelled>
   <!-- EN: VANGUARD: {0} packs into {1} columns toward your front. -->
@@ -334,10 +338,14 @@
   <TSA_WD_Log_ConquestSettlementFounded>征服：{0}在突襲成功後建立了{1}（{2}）。</TSA_WD_Log_ConquestSettlementFounded>
   <!-- EN: {0} mission cancelled: Tile occupied or saturated. -->
   <TSA_WD_Log_ExpansionCancelled>{0}任務取消：地塊已被佔用或已飽和。</TSA_WD_Log_ExpansionCancelled>
-  <!-- EN: EXPANSION ATTEMPT: {0} dispatched settlers to establish a new colony. -->
-  <TSA_WD_Log_ExpeditionLaunched>擴張嘗試：{0}派出拓荒者建立新聚落。</TSA_WD_Log_ExpeditionLaunched>
-  <!-- EN: ISOLATION PRESSURE: {0} forced to found {1} settlement(s) near you. -->
-  <TSA_WD_Log_IsolationPressure>孤立壓力：{0}被迫在你附近建立{1}個據點。</TSA_WD_Log_IsolationPressure>
+  <!-- EN: EXPAND: {0} dispatched settlers to found a new settlement. -->
+  <TSA_WD_Log_ExpeditionLaunched>EXPAND：{0}派出拓荒者建立新據點。</TSA_WD_Log_ExpeditionLaunched>
+  <!-- EN: EXPAND: {0} dispatched settlers toward a safer frontier (strategic). -->
+  <TSA_WD_Log_StrategicExpeditionLaunched>EXPAND：{0}派出拓荒者前往更安全的邊境（戰略）。</TSA_WD_Log_StrategicExpeditionLaunched>
+  <!-- EN: ISOLATION: {0} dispatched settlers to found near you. -->
+  <TSA_WD_Log_IsolationExpeditionLaunched>ISOLATION：{0}派出拓荒者在你附近建城。</TSA_WD_Log_IsolationExpeditionLaunched>
+  <!-- EN: ISOLATION: {0} forced to found {1} settlement(s) near you. -->
+  <TSA_WD_Log_IsolationPressure>ISOLATION：{0}被迫在你附近建立{1}個據點。</TSA_WD_Log_IsolationPressure>
   <!-- EN: EXPAND: {0} skipped (world NPC settlement count {1} at cap {2}). -->
   <TSA_WD_Log_Expand_SkippedGlobalCap>擴張：{0}略過（世界NPC據點數{1}已達上限{2}）。</TSA_WD_Log_Expand_SkippedGlobalCap>
   <!-- EN: EXPAND: {0} skipped (no valid tile in range for a new settlement). -->
@@ -378,24 +386,24 @@
   <TSA_WD_Log_TraderLaunched>商人：商隊從{0}出發前往{1}。</TSA_WD_Log_TraderLaunched>
   <!-- EN: TRADE: WD trader caravan completed from {0} to {1}. -->
   <TSA_WD_Log_TraderTrade_Header>貿易：WD商隊已完成從{0}到{1}的行程。</TSA_WD_Log_TraderTrade_Header>
-  <!-- EN: TRADE: {0} seized a trader caravan ({1}); receiver trade reward applied. -->
-  <TSA_WD_Log_TraderTrade_HeaderIntercept>貿易：{0}奪取了一支商隊（{1}）；已套用接收方的貿易獎勵。</TSA_WD_Log_TraderTrade_HeaderIntercept>
-  <!-- EN: {0}: {1} -->
-  <TSA_WD_Log_TraderTrade_Line>{0}：{1}</TSA_WD_Log_TraderTrade_Line>
-  <!-- EN: Sender ({0}) -->
-  <TSA_WD_Log_TraderTrade_RoleSender>發送方（{0}）</TSA_WD_Log_TraderTrade_RoleSender>
-  <!-- EN: Receiver ({0}) -->
-  <TSA_WD_Log_TraderTrade_RoleReceiver>接收方（{0}）</TSA_WD_Log_TraderTrade_RoleReceiver>
-  <!-- EN: Interceptor ({0}) -->
-  <TSA_WD_Log_TraderTrade_RoleInterceptor>攔截方（{0}）</TSA_WD_Log_TraderTrade_RoleInterceptor>
-  <!-- EN: offensive strength increased (no tier upgrade on this trade). -->
-  <TSA_WD_Log_TraderTrade_OutcomeStrength>進攻戰力增加（此次貿易未提升據點等級）。</TSA_WD_Log_TraderTrade_OutcomeStrength>
-  <!-- EN: offensive strength increased and settlement tier upgraded (trade path; ignores same-tier neighbor requirements). -->
-  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>進攻戰力增加且據點等級提升（貿易途徑；忽略同等級鄰近據點的條件）。</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <!-- EN: TRADE: {0} seized a WD trader caravan ({1}); receiver trade reward applied. -->
+  <TSA_WD_Log_TraderTrade_HeaderIntercept>貿易：{0}奪取了一支WD商隊（{1}）；已套用接收方的貿易獎勵。</TSA_WD_Log_TraderTrade_HeaderIntercept>
+  <!-- EN: TRADE: {0}: {1} -->
+  <TSA_WD_Log_TraderTrade_Line>貿易：{0}：{1}</TSA_WD_Log_TraderTrade_Line>
+  <!-- EN: Sender settlement ({0}) -->
+  <TSA_WD_Log_TraderTrade_RoleSender>發送據點（{0}）</TSA_WD_Log_TraderTrade_RoleSender>
+  <!-- EN: Receiver settlement ({0}) -->
+  <TSA_WD_Log_TraderTrade_RoleReceiver>接收據點（{0}）</TSA_WD_Log_TraderTrade_RoleReceiver>
+  <!-- EN: Interceptor settlement ({0}) -->
+  <TSA_WD_Log_TraderTrade_RoleInterceptor>攔截據點（{0}）</TSA_WD_Log_TraderTrade_RoleInterceptor>
+  <!-- EN: gained offensive strength from the trader arrival (no tier upgrade). -->
+  <TSA_WD_Log_TraderTrade_OutcomeStrength>因商隊抵達而獲得進攻戰力（未提升據點等級）。</TSA_WD_Log_TraderTrade_OutcomeStrength>
+  <!-- EN: gained offensive strength and upgraded settlement tier from the trader arrival. -->
+  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>因商隊抵達而獲得進攻戰力並提升據點等級。</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
   <!-- EN: {0} Also placed {1}. -->
   <TSA_WD_Log_TraderTrade_OutcomeWithInfra>{0} 並放置了{1}。</TSA_WD_Log_TraderTrade_OutcomeWithInfra>
-  <!-- EN: {0}: no settlement strength applied (not a WD settlement / excluded). -->
-  <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}：未套用據點戰力（非WD據點／已排除）。</TSA_WD_Log_TraderTrade_NoStrengthLine>
+  <!-- EN: TRADE: {0}: no settlement strength applied (not a WD settlement / excluded). -->
+  <TSA_WD_Log_TraderTrade_NoStrengthLine>貿易：{0}：未套用據點戰力（非WD據點／已排除）。</TSA_WD_Log_TraderTrade_NoStrengthLine>
   <!-- EN: TRADER: Caravan arrived from {0} at {1}. -->
   <TSA_WD_Log_TraderArrived>商人：來自{0}的商隊抵達{1}。</TSA_WD_Log_TraderArrived>
   <!-- EN: OUTPOST UPGRADE: Caravan launched from {0} to {1} for {2} (level {3}). -->
@@ -472,6 +480,37 @@
   <TSA_WD_AT_Turret_Miss_Text>{0}未擊中{1}。</TSA_WD_AT_Turret_Miss_Text>
   <!-- EN: Action Log (Last 500) -->
   <TSA_WD_Log_WindowTitle>行動紀錄（最近500筆）</TSA_WD_Log_WindowTitle>
+  <TSA_WD_Log_TypeFilterTitle>行動類型</TSA_WD_Log_TypeFilterTitle>
+  <TSA_WD_Log_TypeFilterTip>依類型篩選行動紀錄</TSA_WD_Log_TypeFilterTip>
+  <TSA_WD_Log_TypeFilterExclude>排除所選</TSA_WD_Log_TypeFilterExclude>
+  <TSA_WD_Log_TypeFilterClear>清除類型篩選</TSA_WD_Log_TypeFilterClear>
+  <TSA_WD_LogCategory_Other>其他</TSA_WD_LogCategory_Other>
+  <TSA_WD_LogCategory_Raid>突襲</TSA_WD_LogCategory_Raid>
+  <TSA_WD_LogCategory_Trader>商人</TSA_WD_LogCategory_Trader>
+  <TSA_WD_LogCategory_Trade>貿易</TSA_WD_LogCategory_Trade>
+  <TSA_WD_LogCategory_Road>道路</TSA_WD_LogCategory_Road>
+  <TSA_WD_LogCategory_Expand>擴張</TSA_WD_LogCategory_Expand>
+  <TSA_WD_LogCategory_Grow>發展</TSA_WD_LogCategory_Grow>
+  <TSA_WD_LogCategory_Upgrade>升級</TSA_WD_LogCategory_Upgrade>
+  <TSA_WD_LogCategory_Turtle>龜縮</TSA_WD_LogCategory_Turtle>
+  <TSA_WD_LogCategory_Vanguard>先鋒</TSA_WD_LogCategory_Vanguard>
+  <TSA_WD_LogCategory_Invasion>入侵</TSA_WD_LogCategory_Invasion>
+  <TSA_WD_LogCategory_Desperation>絕望</TSA_WD_LogCategory_Desperation>
+  <TSA_WD_LogCategory_Conquest>征服</TSA_WD_LogCategory_Conquest>
+  <TSA_WD_LogCategory_Revolt>叛亂</TSA_WD_LogCategory_Revolt>
+  <TSA_WD_LogCategory_Fortify>設防</TSA_WD_LogCategory_Fortify>
+  <TSA_WD_LogCategory_OutpostUpgrade>哨站升級</TSA_WD_LogCategory_OutpostUpgrade>
+  <TSA_WD_LogCategory_MajorIncident>重大事件</TSA_WD_LogCategory_MajorIncident>
+  <TSA_WD_LogCategory_MinorIncident>次要事件</TSA_WD_LogCategory_MinorIncident>
+  <TSA_WD_LogCategory_Isolation>孤立</TSA_WD_LogCategory_Isolation>
+  <TSA_WD_LogCategory_Scout>偵察</TSA_WD_LogCategory_Scout>
+  <TSA_WD_LogCategory_Intel>情報</TSA_WD_LogCategory_Intel>
+  <TSA_WD_LogCategory_Sabotage>破壞</TSA_WD_LogCategory_Sabotage>
+  <TSA_WD_LogCategory_Disinformation>虛假情報</TSA_WD_LogCategory_Disinformation>
+  <TSA_WD_LogCategory_Diplomacy>外交</TSA_WD_LogCategory_Diplomacy>
+  <TSA_WD_LogCategory_Pollution>污染</TSA_WD_LogCategory_Pollution>
+  <TSA_WD_LogCategory_BuiltAdvancedBuilding>建成高級建築</TSA_WD_LogCategory_BuiltAdvancedBuilding>
+  <TSA_WD_LogCategory_BuiltFortification>建成工事（陷阱 / 防空炮 / 路障）</TSA_WD_LogCategory_BuiltFortification>
   <!-- EN: Raider Caravan -->
   <TSA_WD_RaiderCaravan>突襲旅隊</TSA_WD_RaiderCaravan>
   <!-- EN: Raider Drop Pods -->

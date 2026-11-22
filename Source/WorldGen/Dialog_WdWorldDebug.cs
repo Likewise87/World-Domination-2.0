@@ -492,6 +492,9 @@ namespace TSA_WorldDomination
                 "Immediately destroy every spawned WD traveler.",
                 DebugDashKind.Instant, DebugActions_Travelers.DestroyAllActiveTravelers);
 
+            Add(intelTools, "View World as / Show FoW", IconConfig,
+                "Debug: pick a faction POV or toggle Show fog of war. Normal play uses player FoW when Settlement Intel is enabled.",
+                DebugDashKind.Instant, WorldComponent_WDVisualizerToggle.OpenViewWorldAsFloatMenu);
             Add(intelTools, "Make site known to faction", IconConfig,
                 "Click a settlement/outpost, then pick To all factions or a single faction to Discover it.",
                 DebugDashKind.SelfManaged, WD_WorldDebugOps.BeginMakeSiteKnownToFaction);
@@ -542,6 +545,9 @@ namespace TSA_WorldDomination
             Add(questsTools, "Fortify quest: force generate", IconConfig,
                 "Force the fortify intro quest (ignores setting; needs asker + their land-reachable town).",
                 DebugDashKind.Instant, DebugActions_Quests.FortifyQuestForceGenerate);
+            Add(questsTools, "Scout world map quest: force generate", IconConfig,
+                "Force the scout-the-world-map intro quest (ignores setting; needs closest ally/neutral town).",
+                DebugDashKind.Instant, DebugActions_Quests.ScoutWorldMapForceGenerate);
             Add(questsTools, "Victory: force generate quest", IconConfig,
                 "Start / re-roll the World Domination victory quest.",
                 DebugDashKind.Instant, DebugActions_Quests.VictoryForceGenerateQuest);
@@ -552,6 +558,12 @@ namespace TSA_WorldDomination
                 "Complete active victory quest or open victory dialog.",
                 DebugDashKind.Instant, DebugActions_Quests.VictoryForceComplete);
 
+            Add(miscTools, "Pollution +25%", IconPlus,
+                "WD debug: click a world tile to add 25% pollution (Biotech). Clamped 0-100%.",
+                DebugDashKind.Click, DebugActions_WorldDebug.PollutionPlus25AtMouse, PlusMinusIconInnerPad);
+            Add(miscTools, "Pollution -25%", IconMinus,
+                "WD debug: click a world tile to remove 25% pollution (Biotech). Clamped 0-100%.",
+                DebugDashKind.Click, DebugActions_WorldDebug.PollutionMinus25AtMouse, PlusMinusIconInnerPad);
             Add(miscTools, "Force outpost type change", IconConfig,
                 "Click a player outpost, then pick a new outpost type (debug force apply).",
                 DebugDashKind.SelfManaged, WD_WorldDebugOps.BeginForceOutpostTypeChange);

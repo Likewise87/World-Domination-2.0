@@ -104,13 +104,13 @@ namespace TSA_WorldDomination
                 damage.ToString("F0"),
                 Mathf.RoundToInt(pollution01 * 100f));
             // Actor A = caravan/traveler; no Actor B.
-            manager?.AddLog(new SpreadLogEntry(damageText, traveler));
+            manager?.AddLog(new SpreadLogEntry(damageText, traveler) { category = SpreadLogCategory.Pollution });
             WDVerbose.Msg($"[WD] Pollution exit dmg tile={leftTileId} traveler={traveler.LabelCap} dmg={damage:F0} p={pollution01:F2}");
 
             if (traveler.travelerStrength <= 0.01f && !traveler.Destroyed)
             {
                 string destroyText = "TSA_WD_Log_Pollution_DestroyedTraveler".Translate(traveler.LabelCap);
-                manager?.AddLog(new SpreadLogEntry(destroyText, traveler));
+                manager?.AddLog(new SpreadLogEntry(destroyText, traveler) { category = SpreadLogCategory.Pollution });
                 WDVerbose.Msg($"[WD] Pollution destroyed traveler={traveler.LabelCap} tile={leftTileId}");
                 // Empty reason: we already logged with Actor A only (AbortTraveler would pair origin as B).
                 PlayerWdRaidDispatchUtil.MarkDestroyedByEnvironment(traveler);

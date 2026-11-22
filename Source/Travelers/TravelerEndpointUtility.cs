@@ -14,7 +14,7 @@ namespace TSA_WorldDomination
         {
             if (traveler == null) return null;
             if (IsLiveEndpoint(traveler.originObject))
-                return traveler.originObject.LabelCap;
+                return WdPlayerIntel.LabelForLetter(traveler.originObject);
             return traveler.packUpOriginLabel.NullOrEmpty() ? null : traveler.packUpOriginLabel;
         }
 
@@ -87,7 +87,8 @@ namespace TSA_WorldDomination
             WorldObject_Traveler traveler,
             string reason,
             WorldComponent_SpreadManager manager = null,
-            bool refundCargo = true)
+            bool refundCargo = true,
+            SpreadLogCategory category = SpreadLogCategory.Other)
         {
             if (traveler == null || traveler.Destroyed) return;
 
@@ -104,7 +105,12 @@ namespace TSA_WorldDomination
                 traveler.rapidResponseStrengthRefunded = true;
 
             if (!string.IsNullOrEmpty(reason))
-                manager?.AddLog(new SpreadLogEntry(reason, traveler, traveler.originObject));
+            {
+                var entry = new SpreadLogEntry(reason, traveler, traveler.originObject);
+                if (category != SpreadLogCategory.Other)
+                    entry.category = category;
+                manager?.AddLog(entry);
+            }
 
             // Combat wipes (spike traps, pollution) zero strength before abort; keep destroyed-caravan FX.
             // Peaceful abort / refund still has strength: skip the wipe overlay.
@@ -113,6 +119,30 @@ namespace TSA_WorldDomination
 
             traveler.pather?.StopDead();
             traveler.Destroy();
+        }
+
+        /// <summary>Action Log category for a traveler wiped by fortifications (spike traps, etc.).</summary>
+        public static SpreadLogCategory CategoryForFortificationKill(WorldObject_Traveler traveler)
+        {
+            if (traveler == null) return SpreadLogCategory.BuiltFortification;
+            if (traveler.mission == TravelerMission.Scout) return SpreadLogCategory.Scout;
+            if (traveler.mission == TravelerMission.Trader) return SpreadLogCategory.Trader;
+            if (WorldObject_Traveler.IsRaidMission(traveler.mission)
+                || traveler.mission == TravelerMission.RapidResponseIntercept)
+                return SpreadLogCategory.Raid;
+            return SpreadLogCategory.BuiltFortification;
+        }
+
+        /// <summary>English Action Log tag for <see cref="CategoryForFortificationKill"/> (COPY_STYLE prefixes).</summary>
+        public static string TagForFortificationKill(SpreadLogCategory category)
+        {
+            switch (category)
+            {
+                case SpreadLogCategory.Scout: return "SCOUT";
+                case SpreadLogCategory.Trader: return "TRADER";
+                case SpreadLogCategory.Raid: return "RAID";
+                default: return "FORTIFICATION";
+            }
         }
     }
 }

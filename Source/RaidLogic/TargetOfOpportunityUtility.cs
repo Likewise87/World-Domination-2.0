@@ -80,8 +80,12 @@ namespace TSA_WorldDomination
             traveler.targetOfOpportunityRetargets++;
 
             manager?.AddLog(new SpreadLogEntry(
-                "TSA_WD_Log_TargetOfOpportunity".Translate(traveler.LabelCap, oldTarget?.LabelCap ?? "?", best.LabelCap),
-                traveler, best));
+                "TSA_WD_Log_TargetOfOpportunity".Translate(
+                    WdPlayerIntel.LabelForLetter(traveler),
+                    oldTarget != null ? WdPlayerIntel.LabelForLetter(oldTarget) : "?",
+                    WdPlayerIntel.LabelForLetter(best)),
+                traveler, best)
+            { category = SpreadLogCategory.Raid });
 
             bool newTargetIsPlayer = candidateKind == RaidLaunchTargetKind.PlayerColony || candidateKind == RaidLaunchTargetKind.PlayerSimulated;
             if (originalTargetWasPlayer && !newTargetIsPlayer
@@ -89,9 +93,11 @@ namespace TSA_WorldDomination
             {
                 Find.LetterStack.ReceiveLetter(
                     "TSA_WD_Letter_RaidDivertedFromPlayer_Label".Translate(),
-                    "TSA_WD_Letter_RaidDivertedFromPlayer_Text".Translate(traveler.LabelCap, best.LabelCap),
+                    "TSA_WD_Letter_RaidDivertedFromPlayer_Text".Translate(
+                        WdPlayerIntel.LabelForLetter(traveler),
+                        WdPlayerIntel.LabelForLetter(best)),
                     LetterDefOf.PositiveEvent,
-                    new LookTargets(traveler));
+                    WdPlayerIntel.LookTargetsOrNull(traveler));
             }
         }
 
@@ -150,8 +156,12 @@ namespace TSA_WorldDomination
             traveler.maraudingChainCount++;
 
             manager?.AddLog(new SpreadLogEntry(
-                "TSA_WD_Log_Marauding".Translate(traveler.LabelCap, defeatedLabel ?? "?", best.LabelCap),
-                traveler, best));
+                "TSA_WD_Log_Marauding".Translate(
+                    WdPlayerIntel.LabelForLetter(traveler),
+                    defeatedLabel ?? "?",
+                    WdPlayerIntel.LabelForLetter(best)),
+                traveler, best)
+            { category = SpreadLogCategory.Raid });
 
             return true;
         }

@@ -262,11 +262,7 @@ namespace TSA_WorldDomination
             int captivesTaken)
         {
             WorldObject origin = rapidResponse?.originObject;
-            LookTargets look = null;
-            if (target != null && !target.Destroyed)
-                look = new LookTargets(target);
-            else if (origin != null && !origin.Destroyed)
-                look = new LookTargets(origin);
+            LookTargets look = WdPlayerIntel.LookTargetsOrNull(target, origin);
 
             WorldActions_Traveler.SendRapidResponseClashLetter(
                 rapidResponse,
@@ -304,7 +300,7 @@ namespace TSA_WorldDomination
                 if (travelerWon)
                 {
                     WorldObject origin = traveler.originObject;
-                    LookTargets look = origin != null && !origin.Destroyed ? new LookTargets(origin) : null;
+                    LookTargets look = WdPlayerIntel.LookTargetsOrNull(origin);
                     WorldActions_Traveler.SendRapidResponseClashLetter(
                         traveler,
                         caravanLabel,

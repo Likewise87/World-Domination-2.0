@@ -366,7 +366,7 @@ namespace TSA_WorldDomination
                 WDVerbose.Msg($"Raid choke intercept: {traveler.LabelCap} diverted from {prevLabel} to fortress {fortress.LabelCap} tile={fortress.Tile.tileId} mission={traveler.mission}");
                 manager?.AddLog(new SpreadLogEntry(
                     "TSA_WD_Log_Raid_ChokeIntercept".Translate(traveler.LabelCap, fortress.LabelCap, prevLabel),
-                    traveler, fortress));
+                    traveler, fortress) { category = SpreadLogCategory.Raid });
 
                 HandlePlayerOutpostRaidArrival(traveler, manager);
             }
@@ -421,7 +421,7 @@ namespace TSA_WorldDomination
                 WDVerbose.Msg($"Raid colony choke: {traveler.LabelCap} diverted from {prevLabel} to colony {colony.LabelCap} tile={colony.Tile.tileId} mission={traveler.mission}");
                 manager?.AddLog(new SpreadLogEntry(
                     "TSA_WD_Log_Raid_ChokeInterceptColony".Translate(traveler.LabelCap, colony.LabelCap, prevLabel),
-                    traveler, colony));
+                    traveler, colony) { category = SpreadLogCategory.Raid });
 
                 WorldObject attacker = TravelerEndpointUtility.GetRaidAttackerContext(traveler);
                 if (attacker is Settlement attSettlement)
@@ -497,7 +497,7 @@ namespace TSA_WorldDomination
             WDVerbose.Msg($"Raid camp choke: {traveler.LabelCap} diverted from {prevLabel} to camp {camp.LabelCap} tile={camp.Tile.tileId} mission={traveler.mission}");
             manager?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_Raid_ChokeInterceptCamp".Translate(traveler.LabelCap, camp.LabelCap, prevLabel),
-                traveler, camp));
+                traveler, camp) { category = SpreadLogCategory.Raid });
 
             WD_CaravanClashUtility.StartCampClashEncounter(camp, traveler);
             return true;

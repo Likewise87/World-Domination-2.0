@@ -119,14 +119,21 @@ namespace TSA_WorldDomination
 				if (outposts.Count == 0)
 					return;
 
-				int netCount = CountPowerNets(net.Map);
-				if (netCount <= 0)
+				// Same split as Harmony inject (spot weights per net, else equal across nets).
+				float netWatts = Outpost_PowerPlant.GetRemotePowerWattsForPowerNet(net);
+				if (netWatts <= 0f)
+					return;
+				float totalKeep = Outpost_PowerPlant.GetTotalRemotePowerWatts();
+				if (totalKeep <= 0f)
 					return;
 
 				for (int i = 0; i < outposts.Count; i++)
 				{
 					WorldObject_WD_Outpost outpost = outposts[i];
-					float watts = Outpost_PowerPlant.GetColonyFacingRemotePowerWatts(outpost) / netCount;
+					float plantKeep = Outpost_PowerPlant.GetColonyFacingRemotePowerWatts(outpost);
+					if (plantKeep <= 0f)
+						continue;
+					float watts = netWatts * (plantKeep / totalKeep);
 					if (watts <= 0f)
 						continue;
 
@@ -215,12 +222,6 @@ namespace TSA_WorldDomination
 					result.Add(outpost);
 			}
 			return result;
-		}
-
-		private static int CountPowerNets(Map map)
-		{
-			var nets = map?.powerNetManager?.AllNetsListForReading;
-			return nets?.Count ?? 0;
 		}
 
 		private static Building GetOrCreateProxyBuilding(WorldObject_WD_Outpost outpost, float watts)

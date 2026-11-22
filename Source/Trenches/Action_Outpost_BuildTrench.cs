@@ -172,6 +172,7 @@ namespace TSA_WorldDomination
             if (WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp)) return true;
             if (WorldActions_AtTurrets.HasActiveAtTurretProject(comp)) return true;
             if (WorldActions_Decontamination.HasActiveDecontaminationProject(comp)) return true;
+            if (WorldActions_PlayerScout.HasActiveScoutProject(comp)) return true;
             return false;
         }
 

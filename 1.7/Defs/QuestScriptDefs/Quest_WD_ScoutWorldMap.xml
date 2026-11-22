@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestScriptDef>
+    <defName>TSA_WD_ScoutWorldMap</defName>
+    <autoAccept>true</autoAccept>
+    <isRootSpecial>true</isRootSpecial>
+    <sendAvailableLetter>true</sendAvailableLetter>
+    <defaultChallengeRating>1</defaultChallengeRating>
+    <questAvailableLetterTextIsDescription>true</questAvailableLetterTextIsDescription>
+
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Scout the world for [askerSettlement_label]</li>
+        <li>questName->Explore beyond [askerSettlement_label]</li>
+        <li>questName->Map scouts: [askerSettlement_label]</li>
+      </rulesStrings>
+    </questNameRules>
+
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[faction_name] at [askerSettlement_label] wants you to start scouting the world map.\n\nUse Scout from a colony or outpost Build menu while Fog of War tracking is on, then confirm waypoints. Completing it lifts colony mood for a few days. You have 10 days.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_GetWdScoutWorldMapAsker">
+          <storeAskerAs>faction</storeAskerAs>
+          <storeSettlementAs>askerSettlement</storeSettlementAs>
+        </li>
+
+        <li Class="QuestNode_QuestUnique">
+          <tag>TSA_WD_ScoutWorldMap</tag>
+        </li>
+
+        <li Class="QuestNode_Letter">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <label TKey="TSA_WD_ScoutWorldMap_LetterLabelFailed">Quest failed: [resolvedQuestName]</label>
+          <text TKey="TSA_WD_ScoutWorldMap_LetterTextHostile">[faction_name] became hostile. The scouting request has failed.</text>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>600000</delayTicks>
+          <outSignalComplete>ScoutWorldMapTimeout</outSignalComplete>
+        </li>
+        <li Class="QuestNode_Signal">
+          <inSignal>ScoutWorldMapTimeout</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="TSA_WD_ScoutWorldMap_LetterLabelExpired">Quest expired: [resolvedQuestName]</label>
+                <text TKey="TSA_WD_ScoutWorldMap_LetterTextExpired">Time ran out on the request from [faction_name] at [askerSettlement_label] to start scouting the world map.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

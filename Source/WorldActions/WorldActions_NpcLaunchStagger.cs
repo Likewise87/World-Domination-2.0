@@ -108,7 +108,7 @@ namespace TSA_WorldDomination
                 Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                     "TSA_WD_Log_Fortify".Translate(p.origin.LabelCap, p.destTile.ToString()),
                     p.origin,
-                    p.destTile));
+                    p.destTile) { category = SpreadLogCategory.BuiltFortification });
             }
 
             for (int i = roadQueue.Count - 1; i >= 0; i--)

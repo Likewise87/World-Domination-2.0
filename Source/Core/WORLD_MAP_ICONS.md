@@ -20,24 +20,26 @@ Rules:
 - Dictionaries of materials (`Dictionary<int, Material>`) are not flagged the same way, but if you add a bare `static Material` / `static Texture` / `static Texture2D` field, add the attribute.
 - Treat this warning as a regression, not as harmless noise. If a new static cached icon/texture/material is added, the owning type must get the attribute in the same pass.
 
-## Faction FoW view (View intel as)
+## Settlement Intel / player FoW (world icons + tiles)
 
-Session overlay (`WdFowDraw.ViewFaction`, WD world menu). Not ModSettings.
+Session overlay (`WdFowDraw`). Requires kill switch `enableSettlementIntel` + stage gate ≠ Never (`IsGateConfigured`). Not ModSettings. Normal play uses **player** discovery (`EffectiveViewFaction`). Debug **View World as** (WD Debug Tools only) may override to an NPC; **Show fog of war** can turn draw off while inspecting.
 
 | Rule | Behavior |
 |------|----------|
-| Active | Intel gate configured + **non-player** faction selected (`View World as` float menu; Player = omniscient) |
-| Hide | `SuppressWorldIcon` when `IsFowHidden` (raw `IsDiscovered` / `IsTravelerDiscovered`, never raid `Knows`) |
-| Force ExpandingIcon | While FoW active, FoW targets (settlement / outpost / AT / advanced / non-shell traveler) use ForceFixedIcon + Material skip so dim does not fight a full-bright mesh |
-| Dim | `WdFowDraw.ApplyIconColor` multiplies ExpandingIcon alpha (~0.40) for known-but-out-of-LOS; Harmony on `WorldObject.get_ExpandingIconColor` plus `WorldObject_WD_AdvancedBuilding` override (base postfix alone misses overrides) |
+| Active | `WdFowDraw.IsActive` = Show FoW + gate configured (player FoW by default; NPC only when debug view set) |
+| Hide (WorldObjects) | `SuppressWorldIcon` when `IsFowHidden` (raw `IsDiscovered` / `IsTravelerDiscovered`, never raid `Knows`). Own-faction always viewable |
+| FoW targets | Settlement, WD outpost, AT turret, advanced building, non-shell WD traveler |
+| Force ExpandingIcon | While FoW active, FoW targets use ForceFixedIcon + Material skip so dim does not fight a full-bright mesh |
+| Dim | `WdFowDraw.ApplyIconColor` multiplies ExpandingIcon alpha (~0.40) for known sites outside LOS (Hunch band or memory) and travelers in Hunch / remain-visible; bright only in LOS. Harmony on `WorldObject.get_ExpandingIconColor` plus `WorldObject_WD_AdvancedBuilding` override. Draw path: cache read only — no `EnsureFowDrawCacheFresh` |
 | Ghosts | Relation/player underlays, settlement tier labels, outpost world-map labels skip hidden WOs |
-| Shells / caravans / roads | Not FoW targets (always visible) |
+| Shells / vanilla caravans / roads | Not FoW **icon** targets (always visible). Vanilla caravans still **paint explored tiles** at scout Hunch |
 | Tile never seen | `WD_WorldLayer_FowIncognita` opaque black hexes (`WdFowTileMemory` explored bits) |
-| Tile explored, out of LOS | `WD_WorldLayer_FowShroud` semi-transparent black (~0.5a) |
+| Tile explored, out of LOS | `WD_WorldLayer_FowShroud` semi-transparent black (~0.5a) — Hunch explore or remembered explore outside clear LOS |
 | Tile current LOS | Clear (verts collapsed); MutatorWorldIcons allowed |
+| Traps / road blocks / trenches | Not WorldObjects. Hide when tile (or trench edge endpoint) is unexplored via `WdFowDraw.ShouldDrawTileOverlay` |
 | MutatorWorldIcons | Optional Compat Prefix on `DrawTileMaterials`: skip unless FoW inactive or `IsTileCurrentlyVisibleForFow` |
 
-Call `NotifyIconModeChanged` when the view faction changes. Icon cache: `EnsureFowDrawCacheFresh`. Tile mesh: dirty queues + progressive `Regenerate` (RWE-style persistent verts); `NotifyTileFowViewChanged` on view switch.
+Call `NotifyIconModeChanged` when the view faction changes. Icon cache rebuild: `EnsureFowDrawCacheFresh` on **world tick only**. Tile mesh: dirty queues + progressive `Regenerate`; `NotifyTileFowViewChanged` on view switch (also dirties trench mesh). `SetDirty` must not `EnsureRegistered` mid-draw.
 
 ## WD outpost world-map icons (`Material` vs expanding)
 
@@ -104,4 +106,4 @@ Do **not** use `*_Colorized` texture filenames. Greyscale WorldObjects art is ti
 
 Advanced buildings are `ForceFixedIcon` like AT turrets. Their art is drawn upright, so `WorldObject_WD_AdvancedBuilding` does **not** override `ExpandingIconRotation`. If top-down turret art is added later, mirror `WorldObject_AT_Turret` (facing state + `ExpandingIconRotation` + north-art offset) so the VeryClose re-blit keeps the facing. The old `WorldObjects/AA_Gun` texture was removed; AA Turrets use `WorldObjects/AdvancedBuildings/AdvWO_AA`.
 
-World-map float menu **Road blocks, traps, AT, buildings, and trenches** (`ShowRoadBlocksAndTraps`, hotkey R, default on): road-block / trap overlays skip their draw; trench berm strips (`WD_WorldLayer_Trenches`) and bridge/wire decorations skip when off (dirty layer on flip); AT turrets and advanced buildings suppress ExpandingIcon + Material via `HideAtTurretWhenFortificationsHidden` in `Patch_WdWorldObjectNoExpandingIcon` (call `NotifyIconModeChanged` when the flag flips). Build/remove trench targeting overlays stay visible while the tool is active.
+World-map float menu **Road blocks, traps, AT, buildings, and trenches** (`ShowRoadBlocksAndTraps`, hotkey R, default on): road-block / trap overlays skip their draw; trench berm strips (`WD_WorldLayer_Trenches`) and bridge/wire decorations skip when off (dirty layer on flip); AT turrets and advanced buildings suppress ExpandingIcon + Material via `HideAtTurretWhenFortificationsHidden` in `Patch_WdWorldObjectNoExpandingIcon` (call `NotifyIconModeChanged` when the flag flips). Build/remove trench targeting overlays stay visible while the tool is active. When Settlement Intel FoW is active, traps/blocks/trenches also honor `ShouldDrawTileOverlay` (unexplored = black = hidden) independently of that float-menu toggle.

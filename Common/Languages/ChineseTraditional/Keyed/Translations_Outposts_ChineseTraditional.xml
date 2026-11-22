@@ -362,16 +362,16 @@
   <TSA_WD_RapidResponse_CancelInterceptDesc>立即召回此快速反應旅隊，並將其戰力退還給出發的哨站。</TSA_WD_RapidResponse_CancelInterceptDesc>
   <!-- EN: {0}'s rapid response intercept cancelled ({1} strength refunded). -->
   <TSA_WD_RapidResponse_InterceptCancelled>{0}的快速反應攔截已取消（退還{1}戰力）。</TSA_WD_RapidResponse_InterceptCancelled>
-  <!-- EN: {0} dispatched a rapid response caravan to intercept {1} ({2} strength). -->
-  <TSA_WD_Log_RapidResponseLaunched>{0}派出快速反應旅隊攔截{1}（{2}戰力）。</TSA_WD_Log_RapidResponseLaunched>
-  <!-- EN: {0}'s rapid response intercept was aborted because the target was gone or no longer hostile. -->
-  <TSA_WD_Log_RapidResponseAborted>{0}的快速反應攔截已中止，因為目標已消失或不再敵對。</TSA_WD_Log_RapidResponseAborted>
-  <!-- EN: {0}'s rapid response intercept was cancelled ({1} strength refunded). -->
-  <TSA_WD_Log_RapidResponseCancelled>{0}的快速反應攔截已取消（退還{1}戰力）。</TSA_WD_Log_RapidResponseCancelled>
-  <!-- EN: {0}'s rapid response intercepted {1}: {2}. -->
-  <TSA_WD_Log_RapidResponseResolved>{0}的快速反應攔截了{1}：{2}。</TSA_WD_Log_RapidResponseResolved>
-  <!-- EN: {0} launched {2} pawn(s) by drop pod at {1}. -->
-  <TSA_WD_Log_RapidResponseDropPodsLaunched>{0}以運輸艙將{2}名角色發射至{1}。</TSA_WD_Log_RapidResponseDropPodsLaunched>
+  <!-- EN: RAID: {0} dispatched a rapid response traveler to intercept {1} ({2} strength). -->
+  <TSA_WD_Log_RapidResponseLaunched>RAID：{0}派出快速反應旅隊攔截{1}（{2}戰力）。</TSA_WD_Log_RapidResponseLaunched>
+  <!-- EN: RAID: {0}'s rapid response intercept was aborted because the target was gone or no longer hostile. -->
+  <TSA_WD_Log_RapidResponseAborted>RAID：{0}的快速反應攔截已中止，因為目標已消失或不再敵對。</TSA_WD_Log_RapidResponseAborted>
+  <!-- EN: RAID: {0}'s rapid response intercept was cancelled ({1} strength refunded). -->
+  <TSA_WD_Log_RapidResponseCancelled>RAID：{0}的快速反應攔截已取消（退還{1}戰力）。</TSA_WD_Log_RapidResponseCancelled>
+  <!-- EN: RAID: {0}'s rapid response intercepted {1}: {2}. -->
+  <TSA_WD_Log_RapidResponseResolved>RAID：{0}的快速反應攔截了{1}：{2}。</TSA_WD_Log_RapidResponseResolved>
+  <!-- EN: RAID: {0} launched {2} pawn(s) by drop pod at {1}. -->
+  <TSA_WD_Log_RapidResponseDropPodsLaunched>RAID：{0}以運輸艙將{2}名角色發射至{1}。</TSA_WD_Log_RapidResponseDropPodsLaunched>
   <!-- EN: won -->
   <TSA_WD_Won>勝利</TSA_WD_Won>
   <!-- EN: lost -->
@@ -520,6 +520,7 @@
   <TSA_WD_Biome_Tooltip_TradingNearbyPartnersNone>範圍內沒有。</TSA_WD_Biome_Tooltip_TradingNearbyPartnersNone>
   <!-- EN: Build -->
   <TSA_WD_Build>建造</TSA_WD_Build>
+  <TSA_WD_BuildAndScout>Build &amp; Scout</TSA_WD_BuildAndScout>
   <!-- EN: Construct roads, road blocks, or spike traps from this outpost. -->
   <TSA_WD_BuildDesc>從此哨站修建道路、路障或尖刺陷阱。</TSA_WD_BuildDesc>
   <!-- EN: Construct roads, road blocks, or spike traps from your colony. Progress uses colony Construction skill. No strength cost. -->
@@ -1106,22 +1107,28 @@
   <TSA_WD_Log_TravelerClash>旅隊交戰</TSA_WD_Log_TravelerClash>
   <!-- EN: {0} caravan fought {1} ({2} vs {3}). -->
   <TSA_WD_Log_NpcCaravanClash>{0}旅隊與{1}交戰（{2}對{3}）。</TSA_WD_Log_NpcCaravanClash>
-  <!-- EN: Caravan Clash Resolved -->
-  <TSA_WD_CaravanClash_Header>旅隊交戰結果</TSA_WD_CaravanClash_Header>
-  <!-- EN: Open-field clashes use the same World Raids outcome math as settlement battles (win chance and casualties by strength ratio). Soft defender favor comes from that table and from who is designated defender. -->
-  <TSA_WD_CaravanClash_Intro>野戰交戰與據點戰鬥使用相同的世界突襲結果公式（依戰力比計算勝率與傷亡）。防守方的些微優勢來自該表格以及誰被指定為防守方。</TSA_WD_CaravanClash_Intro>
-  <!-- EN: Attacker: {0} -->
-  <TSA_WD_CaravanClash_Attacker>進攻方：{0}</TSA_WD_CaravanClash_Attacker>
-  <!-- EN: Defender: {0} -->
-  <TSA_WD_CaravanClash_Defender>防守方：{0}</TSA_WD_CaravanClash_Defender>
-  <!-- EN: Strength ratio (attacker / defender): {0} -->
-  <TSA_WD_CaravanClash_Ratio>戰力比（進攻方 / 防守方）：{0}</TSA_WD_CaravanClash_Ratio>
-  <!-- EN: Attacker won -->
-  <TSA_WD_CaravanClash_AttackerWon>進攻方勝利</TSA_WD_CaravanClash_AttackerWon>
-  <!-- EN: Defender won -->
-  <TSA_WD_CaravanClash_DefenderWon>防守方勝利</TSA_WD_CaravanClash_DefenderWon>
-  <!-- EN: Resulting strengths: -->
+  <!-- EN: Open-field clash resolved -->
+  <TSA_WD_CaravanClash_Header>野外衝突已結算</TSA_WD_CaravanClash_Header>
+  <!-- EN: Open-field fights use their own win curve (not the siege table). The loser is wiped. The winner keeps a remnant based on how close the fight was. -->
+  <TSA_WD_CaravanClash_Intro>野外戰鬥使用獨立勝率曲線（非圍城表）。敗方全滅。勝方依戰鬥膠著程度保留殘存戰力。</TSA_WD_CaravanClash_Intro>
+  <!-- EN: Strength ratio: {0} -->
+  <TSA_WD_CaravanClash_Ratio>戰力比：{0}</TSA_WD_CaravanClash_Ratio>
+  <!-- EN: {0} won -->
+  <TSA_WD_CaravanClash_Winner>{0} 獲勝</TSA_WD_CaravanClash_Winner>
+  <!-- EN: Winner lost {0}% strength ({1} of {2}, remnant {3}). -->
+  <TSA_WD_CaravanClash_WinnerLoss>勝方損失 {0}% 戰力（損失 {1} / 原 {2}，殘存 {3}）。</TSA_WD_CaravanClash_WinnerLoss>
+  <!-- EN: {0} wiped out. -->
+  <TSA_WD_CaravanClash_LoserWiped>{0} 全滅。</TSA_WD_CaravanClash_LoserWiped>
+  <!-- EN: After the fight: -->
   <TSA_WD_CaravanClash_ResultingStrengths>戰後戰力：</TSA_WD_CaravanClash_ResultingStrengths>
+  <!-- EN: Close Win -->
+  <TSA_WD_OpenField_WinClose>險勝</TSA_WD_OpenField_WinClose>
+  <!-- EN: Normal Win -->
+  <TSA_WD_OpenField_WinNormal>普通勝利</TSA_WD_OpenField_WinNormal>
+  <!-- EN: Decisive Win -->
+  <TSA_WD_OpenField_WinDecisive>大勝</TSA_WD_OpenField_WinDecisive>
+  <!-- EN: {0} (-{1}%) -->
+  <TSA_WD_OpenField_LogSuffix>{0} (-{1}%)</TSA_WD_OpenField_LogSuffix>
   <!-- EN: Settlement tiers rerolled: {0} settlements updated. -->
   <TSA_WD_Message_RerollSuccess>已重新擲定據點等級：更新了{0}個據點。</TSA_WD_Message_RerollSuccess>
   <!-- EN: Mining baseline multipliers -->
@@ -1152,6 +1159,17 @@
   <TSA_WD_OutpostDelivery_LetterLabel>收到來自{0}的物品</TSA_WD_OutpostDelivery_LetterLabel>
   <!-- EN: Only one WD Outpost Delivery Spot is allowed per map. -->
   <TSA_WD_DeliverySpot_AlreadyExists>每張地圖只能有一個WD哨站配送點。</TSA_WD_DeliverySpot_AlreadyExists>
+  <TSA_WD_RemotePowerSpot_NeedColonyHome>只能建在你的殖民地主地圖上。</TSA_WD_RemotePowerSpot_NeedColonyHome>
+  <TSA_WD_RemotePowerSpot_GizmoShare>遠程電力份額</TSA_WD_RemotePowerSpot_GizmoShare>
+  <TSA_WD_RemotePowerSpot_GizmoShareDesc>設定此點位在發電廠哨站 Keep 遠程電力中的相對份額。已接通點位之間會正規化，使全部 Keep 都進入這些電網。</TSA_WD_RemotePowerSpot_GizmoShareDesc>
+  <TSA_WD_RemotePowerSpot_ShareTitle>遠程電力份額</TSA_WD_RemotePowerSpot_ShareTitle>
+  <TSA_WD_RemotePowerSpot_ShareBody>設定此接入點應從 WD 發電廠哨站全部產出電力中分得多少權重。</TSA_WD_RemotePowerSpot_ShareBody>
+  <TSA_WD_RemotePowerSpot_ShareSlider>權重：{0}</TSA_WD_RemotePowerSpot_ShareSlider>
+  <TSA_WD_RemotePowerSpot_ShareEffective>有效份額：{0} %</TSA_WD_RemotePowerSpot_ShareEffective>
+  <TSA_WD_RemotePowerSpot_ShareEffectiveWatts>有效電力：{0}</TSA_WD_RemotePowerSpot_ShareEffectiveWatts>
+  <TSA_WD_RemotePowerSpot_InspectShare>遠程份額權重 {0}（有效 {1}%）</TSA_WD_RemotePowerSpot_InspectShare>
+  <TSA_WD_RemotePowerSpot_InspectIneligible>遠程份額權重 {0}（未接通；若無有效點位則均分各電網）</TSA_WD_RemotePowerSpot_InspectIneligible>
+  <TSA_WD_RemotePowerSpot_InspectWatts>輸送 {0}</TSA_WD_RemotePowerSpot_InspectWatts>
   <!-- EN: Outpost Overview -->
   <TSA_WD_OutpostManager>哨站總覽</TSA_WD_OutpostManager>
   <!-- EN: Outpost Overview Page -->
@@ -1448,10 +1466,10 @@
   <TSA_WD_Outpost_ClampSkillsAtLevel20>哨站技能上限鎖定為20級</TSA_WD_Outpost_ClampSkillsAtLevel20>
   <!-- EN: When enabled, outpost math treats pawn skills above 20 as 20. Leave disabled for Endless Growth-style mods so higher skill levels can fully contribute. -->
   <TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>啟用時，哨站計算會將超過20的角色技能視為20。若使用Endless Growth類模組，請保持停用，讓更高技能等級能完整發揮作用。</TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>
-  <!-- EN: Occupant skill XP per successful payout -->
-  <TSA_WD_Outpost_OccupantSkillXpPerCycle>每個生產週期的駐員技能經驗</TSA_WD_Outpost_OccupantSkillXpPerCycle>
-  <!-- EN: Experience granted to each relevant outpost skill (farming, hunting, etc.) for every colonist at the outpost when a delivery actually launches. Set to 0 to disable. Does not apply while payout is blocked. -->
-  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>一個完整生產週期內，哨站每名殖民者在每項相關技能（種植、狩獵等）獲得的經驗總值。在生產計時器運行期間按日分攤。設為0即停用。空閒、暫停或受阻的日子不發放。</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
+  <!-- EN: Occupant skill XP per day -->
+  <TSA_WD_Outpost_OccupantSkillXpPerCycle>駐員每日技能經驗</TSA_WD_Outpost_OccupantSkillXpPerCycle>
+  <!-- EN: Experience granted to each relevant outpost skill (farming, hunting, etc.) for every colonist each day while the production timer is running. Set to 0 to disable. Idle, paused, or blocked days grant nothing. -->
+  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>生產計時器運行時，哨站每名殖民者每天在每項相關技能（種植、狩獵等）獲得的經驗。設為0即停用。空閒、暫停或受阻的日子不發放。</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <!-- EN: Max skill level for outpost XP -->
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>哨站經驗的技能等級上限</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <!-- EN: Pawns do not gain outpost payout XP in a skill once it is at this level or higher. -->
@@ -2625,7 +2643,7 @@
   <!-- EN: Progresses your active research project. Scales with Intellectual skill. Efficiency can be boosted via Upgrades -->
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Research>推進你目前的研究專案。依智識技能調整。效率可透過升級提升</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Research>
   <!-- EN: Sends remote power to your colony. No local wiring or fuel needed. Does not produce goods -->
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>將遠端電力送往你的殖民地。不需要本地電線或燃料。不生產物資</TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>將遠端電力送往你的殖民地。不需要本地電線或燃料。在殖民地圖放置 WD 遠程電力接入點可指定 Keep 進入哪些電網。不生產物資</TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>
   <!-- EN: Stores items with no spoilage. Other outposts can route deliveries here. Ship stock manually to colonies or other warehouses -->
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Warehouse>儲存物品且不會腐壞。其他哨站可將配送送往此處。可手動將庫存運送到殖民地或其他倉庫</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Warehouse>
   <!-- EN: No active research project selected. -->

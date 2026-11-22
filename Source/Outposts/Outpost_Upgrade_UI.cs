@@ -34,6 +34,7 @@ namespace TSA_WorldDomination
         AllyPullRadius,
         FoodStorageMax,
         FoodProductionFlat,
+        PlayerScoutMaxLifetime,
         PrisonerRecruitSpeed,
         UnwaveringRecruitUnlock,
         EcologyBaselineFloor,
@@ -136,6 +137,7 @@ namespace TSA_WorldDomination
             if (def.allyPullRadiusBonus > 0f) n++;
             if (def.foodStorageMaxBonus > 0f) n++;
             if (def.foodProductionFlatBonus > 0f) n++;
+            if (def.playerScoutMaxLifetimeDaysBonus > 0f) n++;
             if (def.prisonerRecruitSpeedBonus > 0f) n++;
             if (def.enablesUnwaveringRecruit) n++;
             if (def.raiseTileEcologyBaselineToFull) n++;
@@ -209,6 +211,8 @@ namespace TSA_WorldDomination
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitFoodStorageMax", def.foodStorageMaxBonus.ToString("F0")));
             if (def.foodProductionFlatBonus > 0f)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat", def.foodProductionFlatBonus.ToString("F0")));
+            if (def.playerScoutMaxLifetimeDaysBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitPlayerScoutLifetime", def.playerScoutMaxLifetimeDaysBonus.ToString("F1")));
             if (def.prisonerRecruitSpeedBonus > 0f)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed", (def.prisonerRecruitSpeedBonus * 100f).ToString("F0")));
             if (def.enablesUnwaveringRecruit)
@@ -262,6 +266,7 @@ namespace TSA_WorldDomination
             if (def.allyPullRadiusBonus > 0f) into.Add(UpgradeBenefitKind.AllyPullRadius);
             if (def.foodStorageMaxBonus > 0f) into.Add(UpgradeBenefitKind.FoodStorageMax);
             if (def.foodProductionFlatBonus > 0f) into.Add(UpgradeBenefitKind.FoodProductionFlat);
+            if (def.playerScoutMaxLifetimeDaysBonus > 0f) into.Add(UpgradeBenefitKind.PlayerScoutMaxLifetime);
             if (def.prisonerRecruitSpeedBonus > 0f) into.Add(UpgradeBenefitKind.PrisonerRecruitSpeed);
             if (def.enablesUnwaveringRecruit) into.Add(UpgradeBenefitKind.UnwaveringRecruitUnlock);
             if (def.raiseTileEcologyBaselineToFull)
@@ -328,6 +333,8 @@ namespace TSA_WorldDomination
                     return Key("TSA_WD_OutpostUpgradeImpact_FoodStorageMax");
                 case UpgradeBenefitKind.FoodProductionFlat:
                     return Key("TSA_WD_OutpostUpgradeImpact_FoodProductionFlat");
+                case UpgradeBenefitKind.PlayerScoutMaxLifetime:
+                    return Key("TSA_WD_OutpostUpgradeImpact_PlayerScoutLifetime");
                 case UpgradeBenefitKind.PrisonerRecruitSpeed:
                     return Key("TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed");
                 case UpgradeBenefitKind.UnwaveringRecruitUnlock:
@@ -499,6 +506,11 @@ namespace TSA_WorldDomination
                 lines.Add(MakeAggregateLine(UpgradeBenefitKind.FoodProductionFlat,
                     Key("TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat", flatFood.ToString("F0"))));
 
+            float scoutLife = outpost.GetBuiltUpgradePlayerScoutMaxLifetimeDaysBonus();
+            if (scoutLife > 1e-6f)
+                lines.Add(MakeAggregateLine(UpgradeBenefitKind.PlayerScoutMaxLifetime,
+                    Key("TSA_WD_OutpostUpgrades_BenefitPlayerScoutLifetime", scoutLife.ToString("F1"))));
+
             float recruitSpeed = outpost.GetBuiltUpgradePrisonerRecruitSpeedBonus();
             if (recruitSpeed > 1e-6f)
                 lines.Add(MakeAggregateLine(UpgradeBenefitKind.PrisonerRecruitSpeed,
@@ -602,6 +614,8 @@ namespace TSA_WorldDomination
                     return def.foodStorageMaxBonus;
                 case UpgradeBenefitKind.FoodProductionFlat:
                     return def.foodProductionFlatBonus;
+                case UpgradeBenefitKind.PlayerScoutMaxLifetime:
+                    return def.playerScoutMaxLifetimeDaysBonus;
                 case UpgradeBenefitKind.PrisonerRecruitSpeed:
                     return def.prisonerRecruitSpeedBonus;
                 case UpgradeBenefitKind.UnwaveringRecruitUnlock:
@@ -858,6 +872,11 @@ namespace TSA_WorldDomination
                     Key("TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat", def.foodProductionFlatBonus.ToString("F0")),
                     benefitColor,
                     ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.FoodProductionFlat));
+            if (def.playerScoutMaxLifetimeDaysBonus > 0f)
+                y = DrawBenefitLine(x, y, w,
+                    Key("TSA_WD_OutpostUpgrades_BenefitPlayerScoutLifetime", def.playerScoutMaxLifetimeDaysBonus.ToString("F1")),
+                    benefitColor,
+                    ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.PlayerScoutMaxLifetime));
             if (def.prisonerRecruitSpeedBonus > 0f)
                 y = DrawBenefitLine(x, y, w,
                     Key("TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed", (def.prisonerRecruitSpeedBonus * 100f).ToString("F0")),

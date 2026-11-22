@@ -355,15 +355,17 @@ namespace TSA_WorldDomination
 
         // --- GROWTH & EXPANSION PAGE ---
         public const int DefMaxSettlements = 400;
-        public const float DefPassiveGrowthT1 = 50f;
-        public const float DefPassiveGrowthT2 = 80f;
-        public const float DefPassiveGrowthT3 = 110f;
-        public const float DefPassiveGrowthT4 = 140f;
+        public const float DefPassiveGrowthT1 = 40f;
+        public const float DefPassiveGrowthT2 = 65f;
+        public const float DefPassiveGrowthT3 = 90f;
+        public const float DefPassiveGrowthT4 = 110f;
         /// <summary>Legacy single growth default; maps to T1 passive for old saves / references.</summary>
         public const float DefBaseGrowth = DefPassiveGrowthT1;
         public const float DefGrowthScaling = 0f;
         public const int DefExpandMinRad = 5;
-        public const int DefExpandMaxRad = 12;
+        public const int DefExpandMaxRad = 16;
+        /// <summary>Radius for localMaxT* densification, pyramid upgrade support, and expand saturation (not founding ring).</summary>
+        public const int DefLocalTierClusterRadius = 16;
         public const int DefMaxRoadRange = 16;
         /// <summary>NPC faction road-building max tile range (<see cref="WorldActions_Roads"/>).</summary>
         public const int DefMaxRoadRangeNpc = 40;
@@ -427,13 +429,13 @@ namespace TSA_WorldDomination
         public const TechLevel DefNpcGlitterRoadMinTechLevel = TechLevel.Spacer;
         public const float DefMinorIncSev = 150f;
         public const float DefMajorIncSev = 450f;
-        public const int DefLocalMaxT1 = 5;
-        public const int DefLocalMaxT2 = 4;
-        public const int DefLocalMaxT3 = 3;
+        public const int DefLocalMaxT1 = 7;
+        public const int DefLocalMaxT2 = 5;
+        public const int DefLocalMaxT3 = 4;
         public const int DefLocalMaxT4 = 1;
         public const int DefSameTierNeighborsToUpgradeT1 = 0;
-        public const int DefSameTierNeighborsToUpgradeT2 = 1;
-        public const int DefSameTierNeighborsToUpgradeT3 = 1;
+        public const int DefSameTierNeighborsToUpgradeT2 = 2;
+        public const int DefSameTierNeighborsToUpgradeT3 = 2;
         public const float DefExpansionSuccessChance = 0.40f;
         public const float DefTier1BaseDefensiveStrength = 100f;
         public const float DefTier2BaseDefensiveStrength = 200f;
@@ -492,26 +494,47 @@ namespace TSA_WorldDomination
         public const WdThreatStageGate DefGateThreatStrongFactionWar = WdThreatStageGate.Always;
         public const WdThreatStageGate DefGateThreatIsolationPressure = WdThreatStageGate.Always;
         public const WdThreatStageGate DefGateThreatAttritionRest = WdThreatStageGate.FromMid;
-        public const WdThreatStageGate DefGateSettlementIntel = WdThreatStageGate.Never;
-        public const float DefIntelTargetRingFracT1 = 0.50f;
-        public const float DefIntelTargetRingFracT2 = 0.75f;
+        public const WdThreatStageGate DefGateSettlementIntel = WdThreatStageGate.Always;
+        /// <summary>Master kill switch for Settlement Intel / player FoW. Default off = zero cost, omniscient play.</summary>
+        public const bool DefEnableSettlementIntel = false;
+        public const bool DefIntelPlayerColoniesAlwaysKnown = false;
+        public const bool DefIntelNotifyJumpUndiscovered = false;
+        /// <summary>When on, Discover + FoW disk the attacker settlement at player-bound raid launch.</summary>
+        public const bool DefIntelUncoverOnRaid = false;
+        public const bool DefIntelListUndiscoveredTravelers = false;
+        /// <summary>When FoW tracking is on, threat math / alert only use discovered hostiles.</summary>
+        public const bool DefIntelThreatKnownOnly = true;
+        /// <summary>When FoW raid-logic is active, WD trader destinations must be known to the sender.</summary>
+        public const bool DefIntelTradersRequireKnownTarget = true;
+        /// <summary>When on, discovered travelers stay on the FoW map after leaving sight (dimmed). Default off = hide out of sight.</summary>
+        public const bool DefIntelSpottedCaravansRemainVisible = false;
+        public const float DefIntelTargetRingFracT1 = 0.60f;
+        public const float DefIntelTargetRingFracT2 = 0.80f;
         public const float DefIntelTargetRingFracT3 = 1.00f;
         public const float DefIntelTargetRingFracT4 = 1.00f;
-        public const float DefIntelSettlementLosMaxMult = 2.00f;
+        /// <summary>Clear line-of-sight radius as a fraction of Hunch (former MaxLOS). Def matches old T1 ring.</summary>
+        public const float DefIntelLosFrac = 0.60f;
+        public const float DefIntelSettlementLosMaxMult = 1.45f;
         public const float DefIntelTravelerMaxLosT1 = 4f;
         public const float DefIntelTravelerMaxLosT2 = 5f;
-        public const float DefIntelTravelerMaxLosT3 = 6f;
-        public const float DefIntelTravelerMaxLosT4 = 8f;
-        public const float DefIntelTravelerStrengthT2 = 100f;
-        public const float DefIntelTravelerStrengthT3 = 400f;
+        public const float DefIntelTravelerMaxLosT3 = 7f;
+        public const float DefIntelTravelerMaxLosT4 = 9f;
+        public const float DefIntelTravelerStrengthT2 = 500f;
+        public const float DefIntelTravelerStrengthT3 = 750f;
         public const float DefIntelTravelerStrengthT4 = 1000f;
-        public const float DefIntelScoutMaxLos = 8f;
+        public const float DefIntelScoutMaxLos = 5f;
+        /// <summary>Scout move speed vs walking WD caravans. 1.2 = 20% faster (fewer ticks per tile).</summary>
+        public const float DefIntelScoutSpeedMult = 1.2f;
+        public const float MinIntelScoutSpeedMult = 1.0f;
+        public const float MaxIntelScoutSpeedMult = 2.0f;
+        /// <summary>Player scout caravan max lifetime (days). Outpost upgrades can add bonus days later.</summary>
+        public const float DefIntelPlayerScoutMaxLifetimeDays = 2f;
         public const float DefIntelPlayerCaravanMaxLos = 4f;
         public const float DefSettlementIntelBurnedHiddenStrengthPct = 0.75f;
         public const float DefSettlementIntelGotBurnedDays = 10f;
         public const float DefSettlementIntelBurnTriggerRatio = 1.25f;
-        public const float DefSettlementIntelScoutStrengthMin = 100f;
-        public const float DefSettlementIntelScoutStrengthMax = 200f;
+        public const float DefSettlementIntelScoutStrengthMin = 500f;
+        public const float DefSettlementIntelScoutStrengthMax = 700f;
         public const float DefSettlementIntelScoutCooldownDays = 3f;
         public const float DefSettlementIntelScoutCrackFallChance = 0.70f;
         public const float DefWeightScout = 50f;
@@ -737,6 +760,7 @@ namespace TSA_WorldDomination
         public const bool DefEnableSpyOpsSettlementQuest = true;
         public const bool DefEnableFortifySettlementQuest = true;
         public const bool DefEnableColonyRoadLinkQuest = true;
+        public const bool DefEnableScoutWorldMapQuest = true;
         public const bool DefEnableWorldDominationVictoryQuest = true;
         public const bool DefEnableAtTurretTargetPlayerTravelers = true;
         public const bool DefEnableAtTurretTargetPlayerCaravans = true;
@@ -933,6 +957,15 @@ namespace TSA_WorldDomination
         public const float DefAtTurretMediumExpeditionStrength = 100f;
         public const float DefAtTurretHeavyExpeditionStrength = 150f;
         public const float DefRaidAllyLossMultiplier = 0.40f;
+        /// <summary>Open-field win curve power (p = 1/(1+r^(-k))). Higher = fewer upsets at unequal strength.</summary>
+        public const float DefOpenFieldWinPower = 2.0f;
+        public const float OpenFieldWinChanceMin = 0.02f;
+        public const float OpenFieldWinChanceMax = 0.98f;
+        /// <summary>At this attacker/defender ratio (or inverse), open-field win chance is certain (1 or 0). No diplomacy upset.</summary>
+        public const float DefOpenFieldCertainWinRatio = 10f;
+        public const float DefOpenFieldWinnerLossClose = 0.72f;
+        public const float DefOpenFieldWinnerLossNormal = 0.40f;
+        public const float DefOpenFieldWinnerLossDecisive = 0.12f;
         /// <summary>Legacy ModConfig only. Field-lerp on clash/outpost defense removed; unused.</summary>
         public const float DefMaxRaidDays = 4.0f;
         /// <summary>Legacy ModConfig only. Field-lerp on clash/outpost defense removed; unused.</summary>
@@ -1015,10 +1048,12 @@ namespace TSA_WorldDomination
         public const bool DefEmbassyMayGainGoodwillWithHostiles = true;
         /// <summary>Compatibility toggle for vanilla-style outpost skill math. Off by default so Endless Growth-style skill levels can contribute above 20.</summary>
         public const bool DefClampOutpostSkillsAtLevel20 = false;
-        /// <summary>Skill XP per relevant skill per occupant when an outpost production payout succeeds (delivery launched).</summary>
-        public const float DefOutpostOccupantSkillXpPerProductionCycle = 5000f;
-        /// <summary>No outpost XP for a skill at this level or higher (default 10).</summary>
-        public const int DefOutpostOccupantSkillXpMaxLevel = 10;
+        /// <summary>Skill XP per relevant skill per occupant per day while the production timer runs (Def 300).</summary>
+        public const float DefOutpostOccupantSkillXpPerProductionCycle = 300f;
+        /// <summary>Pre-v8 meaning was XP per full production cycle (spread daily). Used only for settings migration.</summary>
+        public const float LegacyOutpostOccupantSkillXpPerProductionCycle = 5000f;
+        /// <summary>No outpost XP for a skill at this level or higher (default 12).</summary>
+        public const int DefOutpostOccupantSkillXpMaxLevel = 12;
         /// <summary>Social XP pool per prisoner resistance point reduced at an outpost; split equally among uncapped humanlike occupants.</summary>
         public const float DefOutpostRecruitSocialXpPerResistance = 400f;
         /// <summary>Academy default: base skill XP each eligible student receives per day before teacher multiplier.</summary>
@@ -1201,7 +1236,7 @@ namespace TSA_WorldDomination
         public const bool DefNotifyStrongFactionWar = true;
         public const bool DefNotifyDesperationRaid = true;
         public const bool DefNotifyTurtle = true;
-        public const int CurrentSettingsDataVersion = 7;
+        public const int CurrentSettingsDataVersion = 8;
         // SURGICAL: New Defaults for Incoming Raid Notifications
         public const bool DefNotifyIncomingRaidColony = true;
         public const bool DefNotifyIncomingRaidOutpost = true;
@@ -1213,6 +1248,10 @@ namespace TSA_WorldDomination
         public const bool DefNotifyRaidDivertedFromPlayer = true;
         /// <summary>Letter when a player-bound WD raid party is destroyed mid-travel before contact.</summary>
         public const bool DefNotifyRaidPartyDestroyed = true;
+        /// <summary>Letter when a player scout traveler is destroyed (trap, AT, clash, etc.). On by default.</summary>
+        public const bool DefNotifyPlayerScoutDestroyed = true;
+        /// <summary>Letter when a player scout dissolves after max lifetime. Off by default (Message still shows).</summary>
+        public const bool DefNotifyPlayerScoutLifetimeExpired = false;
         /// <summary>Silent blue letter when YOUR mortar outpost destroys a target. On by default. Misses use <see cref="DefNotifyMortarMiss"/>.</summary>
         public const bool DefNotifyMortarHit = true;
         /// <summary>Silent blue letter when YOUR mortar misses. Off by default.</summary>
@@ -1511,6 +1550,8 @@ namespace TSA_WorldDomination
         public float growthScalingIntensity = DefGrowthScaling;
         public int expandMinRadius = DefExpandMinRad;
         public int expandMaxRadius = DefExpandMaxRad;
+        /// <summary>Cluster radius for localMaxT*, pyramid support counts, and IsTargetSaturated.</summary>
+        public int localTierClusterRadius = DefLocalTierClusterRadius;
         /// <summary>Player outpost road-planning max tile range.</summary>
         public int maxRoadRange = DefMaxRoadRange;
         /// <summary>NPC settlement road-building max tile range.</summary>
@@ -1628,10 +1669,30 @@ namespace TSA_WorldDomination
         public WdThreatStageGate gateThreatIsolationPressure = DefGateThreatIsolationPressure;
         public WdThreatStageGate gateThreatAttritionRest = DefGateThreatAttritionRest;
         public WdThreatStageGate gateSettlementIntel = DefGateSettlementIntel;
+        /// <summary>Master kill switch. Off = no FoW ticks/layers cost; perfect info. Restart tip when disabling.</summary>
+        public bool enableSettlementIntel = DefEnableSettlementIntel;
+        /// <summary>When true, player map colonies stay known to all factions.</summary>
+        public bool intelPlayerColoniesAlwaysKnown = DefIntelPlayerColoniesAlwaysKnown;
+        /// <summary>When true, letters may LookTarget/jump to undiscovered origins.</summary>
+        public bool intelNotifyJumpUndiscovered = DefIntelNotifyJumpUndiscovered;
+        /// <summary>When true, Discover + FoW-reveal the attacker settlement when it raids the player.</summary>
+        public bool intelUncoverOnRaid = DefIntelUncoverOnRaid;
+        /// <summary>When true, Active Travelers lists undiscovered hostiles.</summary>
+        public bool intelListUndiscoveredTravelers = DefIntelListUndiscoveredTravelers;
+        /// <summary>When tracking + true, world threat / alert only use discovered hostiles.</summary>
+        public bool intelThreatKnownOnly = DefIntelThreatKnownOnly;
+        /// <summary>When FoW raid-logic is active, WD trader caravans only pick destinations the sender Knows.</summary>
+        public bool intelTradersRequireKnownTarget = DefIntelTradersRequireKnownTarget;
+        /// <summary>When on, spotted travelers remain FoW-visible after leaving sight (dim). Off = hide out of sight.</summary>
+        public bool intelSpottedCaravansRemainVisible = DefIntelSpottedCaravansRemainVisible;
         public float intelTargetRingFracT1 = DefIntelTargetRingFracT1;
         public float intelTargetRingFracT2 = DefIntelTargetRingFracT2;
         public float intelTargetRingFracT3 = DefIntelTargetRingFracT3;
         public float intelTargetRingFracT4 = DefIntelTargetRingFracT4;
+        /// <summary>LOS / Hunch split. Legacy size-ring fracs stay scribed unused.</summary>
+        public float intelLosFrac = DefIntelLosFrac;
+        /// <summary>One-shot: seed intelLosFrac from intelTargetRingFracT1 on first load after two-ring sight.</summary>
+        public bool intelSightTwoRingMigrated = false;
         public float intelSettlementLosMaxMult = DefIntelSettlementLosMaxMult;
         public float intelTravelerMaxLosT1 = DefIntelTravelerMaxLosT1;
         public float intelTravelerMaxLosT2 = DefIntelTravelerMaxLosT2;
@@ -1641,6 +1702,10 @@ namespace TSA_WorldDomination
         public float intelTravelerStrengthT3 = DefIntelTravelerStrengthT3;
         public float intelTravelerStrengthT4 = DefIntelTravelerStrengthT4;
         public float intelScoutMaxLos = DefIntelScoutMaxLos;
+        /// <summary>Scout speed vs walking caravans (1.2 = 20% faster). Applied to NPC and player scouts.</summary>
+        public float intelScoutSpeedMult = DefIntelScoutSpeedMult;
+        /// <summary>Player scout max lifetime in days (base; outpost upgrades may add).</summary>
+        public float intelPlayerScoutMaxLifetimeDays = DefIntelPlayerScoutMaxLifetimeDays;
         public float intelPlayerCaravanMaxLos = DefIntelPlayerCaravanMaxLos;
         public float settlementIntelBurnedHiddenStrengthPct = DefSettlementIntelBurnedHiddenStrengthPct;
         public float settlementIntelGotBurnedDays = DefSettlementIntelGotBurnedDays;
@@ -1887,6 +1952,11 @@ namespace TSA_WorldDomination
         public List<RaidSideLossEntry> raidDefLossOnWin = new List<RaidSideLossEntry>();
         public List<RaidSideLossEntry> raidDefLossOnLoss = new List<RaidSideLossEntry>();
         public float raidAllyLossMultiplier = DefRaidAllyLossMultiplier;
+        /// <summary>Open-field attacker win power k. Clamps are fixed at <see cref="OpenFieldWinChanceMin"/> / <see cref="OpenFieldWinChanceMax"/>.</summary>
+        public float openFieldWinPower = DefOpenFieldWinPower;
+        public float openFieldWinnerLossClose = DefOpenFieldWinnerLossClose;
+        public float openFieldWinnerLossNormal = DefOpenFieldWinnerLossNormal;
+        public float openFieldWinnerLossDecisive = DefOpenFieldWinnerLossDecisive;
         private List<RaidCasualtyEntry> _pendingLegacyRaidCasualties;
         private List<RaidOutcome> _cachedSortedRaidOutcomes;
 
@@ -2005,6 +2075,7 @@ namespace TSA_WorldDomination
         public bool enableSpyOpsSettlementQuest = DefEnableSpyOpsSettlementQuest;
         public bool enableFortifySettlementQuest = DefEnableFortifySettlementQuest;
         public bool enableColonyRoadLinkQuest = DefEnableColonyRoadLinkQuest;
+        public bool enableScoutWorldMapQuest = DefEnableScoutWorldMapQuest;
         public bool enableWorldDominationVictoryQuest = DefEnableWorldDominationVictoryQuest;
         public bool enableAtTurretTargetPlayerTravelers = DefEnableAtTurretTargetPlayerTravelers;
         public bool enableAtTurretTargetPlayerCaravans = DefEnableAtTurretTargetPlayerCaravans;
@@ -2288,6 +2359,8 @@ namespace TSA_WorldDomination
         public bool notifyRaidArrivalOutpost = DefNotifyRaidArrivalOutpost;
         public bool notifyRaidDivertedFromPlayer = DefNotifyRaidDivertedFromPlayer;
         public bool notifyRaidPartyDestroyed = DefNotifyRaidPartyDestroyed;
+        public bool notifyPlayerScoutDestroyed = DefNotifyPlayerScoutDestroyed;
+        public bool notifyPlayerScoutLifetimeExpired = DefNotifyPlayerScoutLifetimeExpired;
         public bool notifyMortarHit = DefNotifyMortarHit;
         public bool notifyMortarMiss = DefNotifyMortarMiss;
         public bool notifyAntiAirHit = DefNotifyAntiAirHit;
@@ -2841,6 +2914,9 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref growthScalingIntensity, "growthScalingIntensity", DefGrowthScaling);
             Scribe_Values.Look(ref expandMinRadius, "expandMinRadius", DefExpandMinRad);
             Scribe_Values.Look(ref expandMaxRadius, "expandMaxRadius", DefExpandMaxRad);
+            Scribe_Values.Look(ref localTierClusterRadius, "localTierClusterRadius", DefLocalTierClusterRadius);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                localTierClusterRadius = Mathf.Clamp(localTierClusterRadius, 5, 80);
             Scribe_Values.Look(ref maxRoadRange, "maxRoadRange", DefMaxRoadRange);
             Scribe_Values.Look(ref maxRoadRangeNpc, "maxRoadRangeNpc", DefMaxRoadRangeNpc);
             Scribe_Values.Look(ref worldBuildStrengthCostMult, "worldBuildStrengthCostMult", DefWorldBuildStrengthCostMult);
@@ -2992,10 +3068,22 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref gateThreatIsolationPressure, "gateThreatIsolationPressure", DefGateThreatIsolationPressure);
             Scribe_Values.Look(ref gateThreatAttritionRest, "gateThreatAttritionRest", DefGateThreatAttritionRest);
             Scribe_Values.Look(ref gateSettlementIntel, "gateSettlementIntel", DefGateSettlementIntel);
+            Scribe_Values.Look(ref enableSettlementIntel, "enableSettlementIntel", DefEnableSettlementIntel);
+            Scribe_Values.Look(ref intelTradersRequireKnownTarget, "intelTradersRequireKnownTarget", DefIntelTradersRequireKnownTarget);
+            Scribe_Values.Look(ref intelSpottedCaravansRemainVisible, "intelSpottedCaravansRemainVisible", DefIntelSpottedCaravansRemainVisible);
+            Scribe_Values.Look(ref intelPlayerColoniesAlwaysKnown, "intelPlayerColoniesAlwaysKnown", DefIntelPlayerColoniesAlwaysKnown);
+            Scribe_Values.Look(ref intelNotifyJumpUndiscovered, "intelNotifyJumpUndiscovered", DefIntelNotifyJumpUndiscovered);
+            Scribe_Values.Look(ref intelUncoverOnRaid, "intelUncoverOnRaid", DefIntelUncoverOnRaid);
+            Scribe_Values.Look(ref intelListUndiscoveredTravelers, "intelListUndiscoveredTravelers", DefIntelListUndiscoveredTravelers);
+            Scribe_Values.Look(ref intelThreatKnownOnly, "intelThreatKnownOnly", DefIntelThreatKnownOnly);
             Scribe_Values.Look(ref intelTargetRingFracT1, "intelTargetRingFracT1", DefIntelTargetRingFracT1);
             Scribe_Values.Look(ref intelTargetRingFracT2, "intelTargetRingFracT2", DefIntelTargetRingFracT2);
             Scribe_Values.Look(ref intelTargetRingFracT3, "intelTargetRingFracT3", DefIntelTargetRingFracT3);
             Scribe_Values.Look(ref intelTargetRingFracT4, "intelTargetRingFracT4", DefIntelTargetRingFracT4);
+            Scribe_Values.Look(ref intelLosFrac, "intelLosFrac", DefIntelLosFrac);
+            Scribe_Values.Look(ref intelSightTwoRingMigrated, "intelSightTwoRingMigrated", false);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                MigrateIntelTwoRingSightIfNeeded();
             Scribe_Values.Look(ref intelSettlementLosMaxMult, "intelSettlementLosMaxMult", DefIntelSettlementLosMaxMult);
             Scribe_Values.Look(ref intelTravelerMaxLosT1, "intelTravelerMaxLosT1", DefIntelTravelerMaxLosT1);
             Scribe_Values.Look(ref intelTravelerMaxLosT2, "intelTravelerMaxLosT2", DefIntelTravelerMaxLosT2);
@@ -3005,6 +3093,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref intelTravelerStrengthT3, "intelTravelerStrengthT3", DefIntelTravelerStrengthT3);
             Scribe_Values.Look(ref intelTravelerStrengthT4, "intelTravelerStrengthT4", DefIntelTravelerStrengthT4);
             Scribe_Values.Look(ref intelScoutMaxLos, "intelScoutMaxLos", DefIntelScoutMaxLos);
+            Scribe_Values.Look(ref intelScoutSpeedMult, "intelScoutSpeedMult", DefIntelScoutSpeedMult);
+            Scribe_Values.Look(ref intelPlayerScoutMaxLifetimeDays, "intelPlayerScoutMaxLifetimeDays", DefIntelPlayerScoutMaxLifetimeDays);
             Scribe_Values.Look(ref intelPlayerCaravanMaxLos, "intelPlayerCaravanMaxLos", DefIntelPlayerCaravanMaxLos);
             Scribe_Values.Look(ref settlementIntelBurnedHiddenStrengthPct, "settlementIntelBurnedHiddenStrengthPct", DefSettlementIntelBurnedHiddenStrengthPct);
             Scribe_Values.Look(ref settlementIntelGotBurnedDays, "settlementIntelGotBurnedDays", DefSettlementIntelGotBurnedDays);
@@ -3242,6 +3332,10 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref raidDefLossOnWin, "raidDefLossOnWin", LookMode.Deep);
             Scribe_Collections.Look(ref raidDefLossOnLoss, "raidDefLossOnLoss", LookMode.Deep);
             Scribe_Values.Look(ref raidAllyLossMultiplier, "raidAllyLossMultiplier", DefRaidAllyLossMultiplier);
+            Scribe_Values.Look(ref openFieldWinPower, "openFieldWinPower", DefOpenFieldWinPower);
+            Scribe_Values.Look(ref openFieldWinnerLossClose, "openFieldWinnerLossClose", DefOpenFieldWinnerLossClose);
+            Scribe_Values.Look(ref openFieldWinnerLossNormal, "openFieldWinnerLossNormal", DefOpenFieldWinnerLossNormal);
+            Scribe_Values.Look(ref openFieldWinnerLossDecisive, "openFieldWinnerLossDecisive", DefOpenFieldWinnerLossDecisive);
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
                 InvalidateRaidOutcomesCache();
@@ -3366,6 +3460,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref enableSpyOpsSettlementQuest, "enableSpyOpsSettlementQuest", DefEnableSpyOpsSettlementQuest);
             Scribe_Values.Look(ref enableFortifySettlementQuest, "enableFortifySettlementQuest", DefEnableFortifySettlementQuest);
             Scribe_Values.Look(ref enableColonyRoadLinkQuest, "enableColonyRoadLinkQuest", DefEnableColonyRoadLinkQuest);
+            Scribe_Values.Look(ref enableScoutWorldMapQuest, "enableScoutWorldMapQuest", DefEnableScoutWorldMapQuest);
             Scribe_Values.Look(ref enableWorldDominationVictoryQuest, "enableWorldDominationVictoryQuest", DefEnableWorldDominationVictoryQuest);
             Scribe_Values.Look(ref enableAtTurretTargetPlayerTravelers, "enableAtTurretTargetPlayerTravelers", DefEnableAtTurretTargetPlayerTravelers);
             Scribe_Values.Look(ref enableAtTurretTargetPlayerCaravans, "enableAtTurretTargetPlayerCaravans", DefEnableAtTurretTargetPlayerCaravans);
@@ -3572,6 +3667,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref notifyRaidArrivalOutpost, "notifyRaidArrivalOutpost", DefNotifyRaidArrivalOutpost);
             Scribe_Values.Look(ref notifyRaidDivertedFromPlayer, "notifyRaidDivertedFromPlayer", DefNotifyRaidDivertedFromPlayer);
             Scribe_Values.Look(ref notifyRaidPartyDestroyed, "notifyRaidPartyDestroyed", DefNotifyRaidPartyDestroyed);
+            Scribe_Values.Look(ref notifyPlayerScoutDestroyed, "notifyPlayerScoutDestroyed", DefNotifyPlayerScoutDestroyed);
+            Scribe_Values.Look(ref notifyPlayerScoutLifetimeExpired, "notifyPlayerScoutLifetimeExpired", DefNotifyPlayerScoutLifetimeExpired);
             Scribe_Values.Look(ref notifyMortarHit, "notifyMortarHit", DefNotifyMortarHit);
             Scribe_Values.Look(ref notifyMortarMiss, "notifyMortarMiss", DefNotifyMortarMiss);
             Scribe_Values.Look(ref notifyAntiAirHit, "notifyAntiAirHit", DefNotifyAntiAirHit);
@@ -3795,6 +3892,8 @@ namespace TSA_WorldDomination
                     MigrateDailyActionWeightsV6();
                 if (settingsDataVersion < 7)
                     MigrateEnableTrenchesV7();
+                if (settingsDataVersion < 8)
+                    MigrateOutpostOccupantSkillXpToDailyV8();
                 settingsDataVersion = CurrentSettingsDataVersion;
             }
 
@@ -3927,6 +4026,18 @@ namespace TSA_WorldDomination
         private void MigrateEnableTrenchesV7()
         {
             enableTrenches = DefEnableTrenches;
+        }
+
+        /// <summary>
+        /// v8: occupant skill XP setting is XP/day (Def 300), not XP per production cycle.
+        /// Old default 5000 → 300. Other large values treated as cycle totals ÷ 20 (typical cycle length).
+        /// </summary>
+        private void MigrateOutpostOccupantSkillXpToDailyV8()
+        {
+            if (Approx(outpostOccupantSkillXpPerProductionCycle, LegacyOutpostOccupantSkillXpPerProductionCycle))
+                outpostOccupantSkillXpPerProductionCycle = DefOutpostOccupantSkillXpPerProductionCycle;
+            else if (outpostOccupantSkillXpPerProductionCycle > 500f)
+                outpostOccupantSkillXpPerProductionCycle = outpostOccupantSkillXpPerProductionCycle / 20f;
         }
 
         private void MigrateDiplomacyNotificationSettingsFromLegacy()
@@ -4165,6 +4276,7 @@ namespace TSA_WorldDomination
             ResetWorldGen();
             ResetGarrisons();
             ResetT4Mortar();
+            ResetIntelLos();
             performancePreset = DefPerformancePreset;
             difficultyPreset = DefDifficultyPreset;
             wdMedievalMode = DefWdMedievalMode;
@@ -4617,6 +4729,7 @@ namespace TSA_WorldDomination
             growthScalingIntensity = DefGrowthScaling;
             expandMinRadius = DefExpandMinRad;
             expandMaxRadius = DefExpandMaxRad;
+            localTierClusterRadius = DefLocalTierClusterRadius;
             maxRoadRange = DefMaxRoadRange;
             maxRoadRangeNpc = DefMaxRoadRangeNpc;
             maxRoadBlockRange = DefMaxRoadBlockRange;
@@ -4656,6 +4769,8 @@ namespace TSA_WorldDomination
             sameTierNeighborsToUpgradeT1 = DefSameTierNeighborsToUpgradeT1;
             sameTierNeighborsToUpgradeT2 = DefSameTierNeighborsToUpgradeT2;
             sameTierNeighborsToUpgradeT3 = DefSameTierNeighborsToUpgradeT3;
+            weightStrategicExpand = DefWeightStrategicExpand;
+            settlementIntelStrategicExpandSamples = DefSettlementIntelStrategicExpandSamples;
             expansionSuccessChance = DefExpansionSuccessChance;
             tier1BaseDefensiveStrength = DefTier1BaseDefensiveStrength;
             tier2BaseDefensiveStrength = DefTier2BaseDefensiveStrength;
@@ -5102,14 +5217,24 @@ namespace TSA_WorldDomination
                 revoltSettlementsMax = cap;
         }
 
-        /// <summary>Intel and Line of Sight page: gate, rings, MaxLOS, scouts, Strategic Expand, Got Burned.</summary>
+        /// <summary>Intel and Line of Sight page: gate, rings, MaxLOS, scouts, Got Burned. Strategic Expand resets with Growth.</summary>
         public void ResetIntelLos()
         {
             gateSettlementIntel = DefGateSettlementIntel;
+            enableSettlementIntel = DefEnableSettlementIntel;
+            intelPlayerColoniesAlwaysKnown = DefIntelPlayerColoniesAlwaysKnown;
+            intelNotifyJumpUndiscovered = DefIntelNotifyJumpUndiscovered;
+            intelUncoverOnRaid = DefIntelUncoverOnRaid;
+            intelListUndiscoveredTravelers = DefIntelListUndiscoveredTravelers;
+            intelThreatKnownOnly = DefIntelThreatKnownOnly;
+            intelTradersRequireKnownTarget = DefIntelTradersRequireKnownTarget;
+            intelSpottedCaravansRemainVisible = DefIntelSpottedCaravansRemainVisible;
             intelTargetRingFracT1 = DefIntelTargetRingFracT1;
             intelTargetRingFracT2 = DefIntelTargetRingFracT2;
             intelTargetRingFracT3 = DefIntelTargetRingFracT3;
             intelTargetRingFracT4 = DefIntelTargetRingFracT4;
+            intelLosFrac = DefIntelLosFrac;
+            intelSightTwoRingMigrated = true;
             intelSettlementLosMaxMult = DefIntelSettlementLosMaxMult;
             intelTravelerMaxLosT1 = DefIntelTravelerMaxLosT1;
             intelTravelerMaxLosT2 = DefIntelTravelerMaxLosT2;
@@ -5119,6 +5244,8 @@ namespace TSA_WorldDomination
             intelTravelerStrengthT3 = DefIntelTravelerStrengthT3;
             intelTravelerStrengthT4 = DefIntelTravelerStrengthT4;
             intelScoutMaxLos = DefIntelScoutMaxLos;
+            intelScoutSpeedMult = DefIntelScoutSpeedMult;
+            intelPlayerScoutMaxLifetimeDays = DefIntelPlayerScoutMaxLifetimeDays;
             intelPlayerCaravanMaxLos = DefIntelPlayerCaravanMaxLos;
             settlementIntelBurnedHiddenStrengthPct = DefSettlementIntelBurnedHiddenStrengthPct;
             settlementIntelGotBurnedDays = DefSettlementIntelGotBurnedDays;
@@ -5129,16 +5256,24 @@ namespace TSA_WorldDomination
             settlementIntelScoutCrackFallChance = DefSettlementIntelScoutCrackFallChance;
             weightScout = DefWeightScout;
             settlementIntelScoutClearWeightMult = DefSettlementIntelScoutClearWeightMult;
-            weightStrategicExpand = DefWeightStrategicExpand;
-            settlementIntelStrategicExpandSamples = DefSettlementIntelStrategicExpandSamples;
             settlementIntelScoutBearingAvoidDeg = DefSettlementIntelScoutBearingAvoidDeg;
             NormalizeIntelLosSliders();
             SyncLegacyThreatFlagsFromGates();
         }
 
-        /// <summary>Keep ring fracs non-decreasing and traveler class boundaries strictly increasing.</summary>
+        /// <summary>One-shot: seed LOS frac from legacy T1 size ring without touching world discovery.</summary>
+        public void MigrateIntelTwoRingSightIfNeeded()
+        {
+            if (intelSightTwoRingMigrated) return;
+            intelLosFrac = Mathf.Clamp(intelTargetRingFracT1, 0.10f, 1f);
+            intelSightTwoRingMigrated = true;
+        }
+
+        /// <summary>Keep LOS frac and traveler class boundaries valid. Legacy ring fracs stay scribed.</summary>
         public void NormalizeIntelLosSliders()
         {
+            MigrateIntelTwoRingSightIfNeeded();
+            intelLosFrac = Mathf.Clamp(intelLosFrac, 0.10f, 1f);
             intelTargetRingFracT1 = Mathf.Clamp(intelTargetRingFracT1, 0.10f, 1f);
             intelTargetRingFracT2 = Mathf.Clamp(intelTargetRingFracT2, 0.10f, 1f);
             intelTargetRingFracT3 = Mathf.Clamp(intelTargetRingFracT3, 0.10f, 1f);
@@ -5152,6 +5287,20 @@ namespace TSA_WorldDomination
             intelTravelerMaxLosT3 = Mathf.Max(intelTravelerMaxLosT2, intelTravelerMaxLosT3);
             intelTravelerMaxLosT4 = Mathf.Max(intelTravelerMaxLosT3, intelTravelerMaxLosT4);
 
+            // Soft bump: legacy Def ladder 100/400 (and scout 100–200) → 500/750 (scout 500–700).
+            if (Mathf.Approximately(intelTravelerStrengthT2, 100f))
+            {
+                intelTravelerStrengthT2 = DefIntelTravelerStrengthT2;
+                if (Mathf.Approximately(intelTravelerStrengthT3, 400f))
+                    intelTravelerStrengthT3 = DefIntelTravelerStrengthT3;
+            }
+            if (Mathf.Approximately(settlementIntelScoutStrengthMin, 100f)
+                && Mathf.Approximately(settlementIntelScoutStrengthMax, 200f))
+            {
+                settlementIntelScoutStrengthMin = DefSettlementIntelScoutStrengthMin;
+                settlementIntelScoutStrengthMax = DefSettlementIntelScoutStrengthMax;
+            }
+
             intelTravelerStrengthT2 = Mathf.Max(1f, intelTravelerStrengthT2);
             intelTravelerStrengthT3 = Mathf.Max(intelTravelerStrengthT2 + 1f, intelTravelerStrengthT3);
             intelTravelerStrengthT4 = Mathf.Max(intelTravelerStrengthT3 + 1f, intelTravelerStrengthT4);
@@ -5162,6 +5311,8 @@ namespace TSA_WorldDomination
                 settlementIntelScoutStrengthMin = intelTravelerStrengthT2;
             if (settlementIntelScoutStrengthMax < settlementIntelScoutStrengthMin)
                 settlementIntelScoutStrengthMax = settlementIntelScoutStrengthMin;
+
+            intelScoutSpeedMult = Mathf.Clamp(intelScoutSpeedMult, MinIntelScoutSpeedMult, MaxIntelScoutSpeedMult);
         }
 
         /// <summary>Combat Difficulty page: escalation, threat gates, raid pressure, stage combat, arrival, garrison, T4 hardware, FA/desperation/war knobs.</summary>
@@ -5673,7 +5824,32 @@ namespace TSA_WorldDomination
             raidDefLossOnWin = new List<RaidSideLossEntry>(RaidSeverityDefaults.DefaultDefWinLoss());
             raidDefLossOnLoss = new List<RaidSideLossEntry>(RaidSeverityDefaults.DefaultDefLossLoss());
             raidAllyLossMultiplier = DefRaidAllyLossMultiplier;
+            openFieldWinPower = DefOpenFieldWinPower;
+            openFieldWinnerLossClose = DefOpenFieldWinnerLossClose;
+            openFieldWinnerLossNormal = DefOpenFieldWinnerLossNormal;
+            openFieldWinnerLossDecisive = DefOpenFieldWinnerLossDecisive;
             InvalidateRaidOutcomesCache();
+        }
+
+        /// <summary>Role-symmetric open-field winner strength loss for a rolled margin tier.</summary>
+        public float GetOpenFieldWinnerLoss(BattleMarginTier tier)
+        {
+            switch (tier)
+            {
+                case BattleMarginTier.Close: return Mathf.Clamp01(openFieldWinnerLossClose);
+                case BattleMarginTier.Normal: return Mathf.Clamp01(openFieldWinnerLossNormal);
+                default: return Mathf.Clamp01(openFieldWinnerLossDecisive);
+            }
+        }
+
+        /// <summary>Expected open-field winner loss at a winner/loser strength ratio (uses AttOnWin decisiveness shares).</summary>
+        public float GetOpenFieldExpectedWinnerLoss(float winnerRatio)
+        {
+            RaidMarginShares shares = RaidSeverityDefaults.AttSeverityOnAttWinAt(winnerRatio);
+            shares.Normalize();
+            return shares.close * GetOpenFieldWinnerLoss(BattleMarginTier.Close)
+                + shares.normal * GetOpenFieldWinnerLoss(BattleMarginTier.Normal)
+                + shares.decisive * GetOpenFieldWinnerLoss(BattleMarginTier.Decisive);
         }
 
         private static RaidOutcome MakeDefaultRaidOutcome(float threshold, float winChance, float attLossWin, float defLossLoss, float defLossWin)
@@ -5785,6 +5961,7 @@ namespace TSA_WorldDomination
             enableSpyOpsSettlementQuest = DefEnableSpyOpsSettlementQuest;
             enableFortifySettlementQuest = DefEnableFortifySettlementQuest;
             enableColonyRoadLinkQuest = DefEnableColonyRoadLinkQuest;
+            enableScoutWorldMapQuest = DefEnableScoutWorldMapQuest;
             enableWorldDominationVictoryQuest = DefEnableWorldDominationVictoryQuest;
         }
 
@@ -5899,6 +6076,8 @@ namespace TSA_WorldDomination
             notifyRaidArrivalOutpost = DefNotifyRaidArrivalOutpost;
             notifyRaidDivertedFromPlayer = DefNotifyRaidDivertedFromPlayer;
             notifyRaidPartyDestroyed = DefNotifyRaidPartyDestroyed;
+            notifyPlayerScoutDestroyed = DefNotifyPlayerScoutDestroyed;
+            notifyPlayerScoutLifetimeExpired = DefNotifyPlayerScoutLifetimeExpired;
             notifyMortarHit = DefNotifyMortarHit;
             notifyMortarMiss = DefNotifyMortarMiss;
             notifyAntiAirHit = DefNotifyAntiAirHit;

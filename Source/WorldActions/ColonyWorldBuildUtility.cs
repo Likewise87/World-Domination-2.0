@@ -64,6 +64,8 @@ namespace TSA_WorldDomination
                 WorldActions_RoadBlocks.ClearRoadBlockProject(comp);
             if (WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp))
                 WorldActions_SpikeTraps.ClearSpikeTrapProject(comp);
+            if (WorldActions_PlayerScout.HasActiveScoutProject(comp))
+                WorldActions_PlayerScout.ClearScoutProject(comp);
         }
     }
 }

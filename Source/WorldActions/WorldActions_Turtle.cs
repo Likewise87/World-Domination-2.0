@@ -145,9 +145,9 @@ namespace TSA_WorldDomination
             {
                 Find.LetterStack.ReceiveLetter(
                     "TSA_WD_Letter_Turtle_Label".Translate(faction.Name),
-                    "TSA_WD_Letter_Turtle_Text".Translate(host.Label),
+                    "TSA_WD_Letter_Turtle_Text".Translate(WdPlayerIntel.LabelForLetter(host)),
                     LetterDefOf.NeutralEvent,
-                    new LookTargets(host));
+                    WdPlayerIntel.LookTargetsOrNull(host));
             }
 
             return true;
@@ -213,9 +213,9 @@ namespace TSA_WorldDomination
             {
                 Find.LetterStack.ReceiveLetter(
                     "TSA_WD_Letter_Turtle_Label".Translate(faction.Name),
-                    "TSA_WD_Letter_Turtle_Text".Translate(primaryHub.Label),
+                    "TSA_WD_Letter_Turtle_Text".Translate(WdPlayerIntel.LabelForLetter(primaryHub)),
                     LetterDefOf.NeutralEvent,
-                    new LookTargets(primaryHub));
+                    WdPlayerIntel.LookTargetsOrNull(primaryHub));
             }
 
             return true;
@@ -440,9 +440,9 @@ namespace TSA_WorldDomination
             {
                 Find.LetterStack.ReceiveLetter(
                     "TSA_WD_Letter_Turtle_Label".Translate(faction.Name),
-                    "TSA_WD_Letter_Turtle_Text".Translate(primaryHub.Label),
+                    "TSA_WD_Letter_Turtle_Text".Translate(WdPlayerIntel.LabelForLetter(primaryHub)),
                     LetterDefOf.NeutralEvent,
-                    new LookTargets(primaryHub));
+                    WdPlayerIntel.LookTargetsOrNull(primaryHub));
             }
 
             return true;

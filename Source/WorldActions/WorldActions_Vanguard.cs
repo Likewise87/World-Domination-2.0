@@ -154,9 +154,8 @@ namespace TSA_WorldDomination
             WDVerbose.Msg(
                 $"ForwardAssault Vanguard launched faction={faction.Name} columns={columns} travelers={travelersLaunched} assemblies={assemblies.Count}");
 
-            LookTargets letterLook = lookTargets.Count > 0
-                ? new LookTargets(lookTargets)
-                : new LookTargets(playerAnchor);
+            LookTargets letterLook = WdPlayerIntel.LookTargetsFromKnown(lookTargets)
+                ?? WdPlayerIntel.LookTargetsOrNull(playerAnchor);
             Find.LetterStack.ReceiveLetter(
                 "TSA_WD_Letter_Vanguard_Label".Translate(),
                 "TSA_WD_Letter_Vanguard_Text".Translate(faction.Name.Colorize(Color.cyan), columns.ToString()),

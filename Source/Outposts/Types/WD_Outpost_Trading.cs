@@ -139,7 +139,7 @@ namespace TSA_WorldDomination
                 {
                     Faction = settlement.Faction,
                     Tier = comp?.tier ?? SettlementTier.T1,
-                    Label = settlement.LabelCap,
+                    Label = WdPlayerIntel.LabelForLetter(settlement),
                     DistanceTiles = dist,
                     WorldObject = settlement,
                     ContributesToFaction = false,

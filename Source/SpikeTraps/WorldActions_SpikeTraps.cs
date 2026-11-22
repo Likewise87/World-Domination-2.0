@@ -121,6 +121,16 @@ namespace TSA_WorldDomination
             return traps != null && traps.HasTrapAt(tileId);
         }
 
+        /// <summary>True when a spike trap on <paramref name="tileId"/> would damage <paramref name="mover"/> (hostile builder).</summary>
+        public static bool IsHostileTrapTo(int tileId, Faction mover)
+        {
+            if (tileId < 0 || mover == null) return false;
+            WorldComponent_SpikeTraps traps = WorldComponent_SpikeTraps.Get();
+            if (traps == null || !traps.TryGet(tileId, out SpikeTrapRecord rec) || rec == null) return false;
+            if (rec.builtByFaction == null) return false;
+            return WorldActions_Utils.SafeHostileTo(mover, rec.builtByFaction);
+        }
+
         public static bool ClearIfPresent(int tileId)
         {
             WorldComponent_SpikeTraps traps = WorldComponent_SpikeTraps.Get();

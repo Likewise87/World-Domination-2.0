@@ -672,7 +672,7 @@ namespace TSA_WorldDomination
                 string targetLabel = p.target.LabelCap;
                 Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                     "TSA_WD_Log_AntiAirLaunched".Translate(p.origin.LabelCap, targetLabel, damage.ToString("F0")),
-                    p.origin, p.target));
+                    p.origin, p.target) { category = SpreadLogCategory.Raid });
             }
             finally
             {

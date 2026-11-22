@@ -99,7 +99,8 @@ namespace TSA_WorldDomination
                 return new FloatMenuOption(label, () => { }, icon, Color.cyan) { Disabled = true };
             }
 
-            if (roadBusy || blockBusy || trapBusy || decontamBusy)
+            if (roadBusy || blockBusy || trapBusy || decontamBusy
+                || WorldActions_PlayerScout.HasActiveScoutProject(comp))
             {
                 return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.cyan)
                 {

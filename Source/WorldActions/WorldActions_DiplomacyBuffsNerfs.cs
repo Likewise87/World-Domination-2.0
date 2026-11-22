@@ -130,6 +130,7 @@ namespace TSA_WorldDomination
             var anchor = manager.GetAnchorSettlementForFaction(f);
             var log = new SpreadLogEntry(msg, anchor, null);
             log.highlightKind = SpreadLogHighlightKind.Diplomacy;
+            log.category = SpreadLogCategory.Diplomacy;
             manager.AddLog(log);
         }
 
@@ -307,6 +308,7 @@ namespace TSA_WorldDomination
             var anchorSettlement = manager.GetAnchorSettlementForFaction(leader);
             var leaderLog = new SpreadLogEntry(msg, anchorSettlement, null);
             leaderLog.highlightKind = SpreadLogHighlightKind.Diplomacy;
+            leaderLog.category = SpreadLogCategory.Diplomacy;
             manager.AddLog(leaderLog);
 
             if (seth.notifyLeaderHandicap)
@@ -387,6 +389,7 @@ namespace TSA_WorldDomination
             var anchorSettlement = manager.GetAnchorSettlementForFaction(picked[0]);
             var underdogLog = new SpreadLogEntry(msg, anchorSettlement, null);
             underdogLog.highlightKind = SpreadLogHighlightKind.Diplomacy;
+            underdogLog.category = SpreadLogCategory.Diplomacy;
             manager.AddLog(underdogLog);
 
             if (seth.notifyUnderdogBuff)
@@ -526,6 +529,7 @@ namespace TSA_WorldDomination
                 : manager.GetAnchorSettlementForFaction(leader);
             var coalitionLog = new SpreadLogEntry(msg, logAnchor, null);
             coalitionLog.highlightKind = SpreadLogHighlightKind.Diplomacy;
+            coalitionLog.category = SpreadLogCategory.Diplomacy;
             manager.AddLog(coalitionLog);
 
             if (seth.notifyAntiLeaderCoalition)
@@ -589,6 +593,7 @@ namespace TSA_WorldDomination
 
                 var abandonedLog = new SpreadLogEntry(msg, logAnchor, null);
                 abandonedLog.highlightKind = SpreadLogHighlightKind.Diplomacy;
+                abandonedLog.category = SpreadLogCategory.Diplomacy;
                 manager.AddLog(abandonedLog);
 
                 var seth = WorldDominationMod.settings;
@@ -692,6 +697,7 @@ namespace TSA_WorldDomination
             {
                 var entry = new SpreadLogEntry(msg, anchor, null);
                 entry.highlightKind = SpreadLogHighlightKind.Diplomacy;
+                entry.category = SpreadLogCategory.Diplomacy;
                 manager.AddLog(entry);
             }
 
@@ -744,6 +750,7 @@ namespace TSA_WorldDomination
             var anchor = manager.GetAnchorSettlementForFaction(zealot);
             var zealLog = new SpreadLogEntry(msg, anchor, null);
             zealLog.highlightKind = SpreadLogHighlightKind.Diplomacy;
+            zealLog.category = SpreadLogCategory.Diplomacy;
             manager.AddLog(zealLog); // action log lists a random settlement of that faction (targetA)
 
             if (seth.notifyExpansionistZeal)
@@ -902,6 +909,7 @@ namespace TSA_WorldDomination
 
             var allegianceLog = new SpreadLogEntry(msg, setA, null);
             allegianceLog.highlightKind = SpreadLogHighlightKind.Diplomacy;
+            allegianceLog.category = SpreadLogCategory.Diplomacy;
             manager.AddLog(allegianceLog); // action log lists a random settlement of that faction (targetA)
 
             if (seth.notifyRandomDiplomacy)
@@ -996,6 +1004,7 @@ namespace TSA_WorldDomination
             var setA = manager.GetAnchorSettlementForFaction(facA);
             var log = new SpreadLogEntry(msg, setA, null);
             log.highlightKind = SpreadLogHighlightKind.Diplomacy;
+            log.category = SpreadLogCategory.Diplomacy;
             manager.AddLog(log);
 
             if (seth.notifyStrongFactionWar)
@@ -1067,6 +1076,7 @@ namespace TSA_WorldDomination
             var setA = manager.GetAnchorSettlementForFaction(facA);
             var allegianceLog = new SpreadLogEntry(msg, setA, null);
             allegianceLog.highlightKind = SpreadLogHighlightKind.Diplomacy;
+            allegianceLog.category = SpreadLogCategory.Diplomacy;
             manager.AddLog(allegianceLog);
 
             if (WorldDominationMod.settings.notifyRandomDiplomacy)

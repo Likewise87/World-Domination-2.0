@@ -41,7 +41,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Nominal production-skill XP each colonist gains per day while the timer runs
-        /// (<c>outpostOccupantSkillXpPerProductionCycle</c> / cycle days). False when this outpost type
+        /// (<c>outpostOccupantSkillXpPerProductionCycle</c>, Def 300 XP/day). False when this outpost type
         /// never grants that XP (academy / research / warehouse / power / scavenging / zero setting).
         /// </summary>
         public static bool TryGetProductionSkillXpPerPawnPerDay(WorldObject_WD_Outpost outpost, out float xpPerDay)
@@ -55,20 +55,19 @@ namespace TSA_WorldDomination
                 || Outpost_Production_Utils.IsWarehouseOutpost(outpost.def))
                 return false;
 
-            float cycleXp = settings.outpostOccupantSkillXpPerProductionCycle;
-            if (cycleXp <= 0f) return false;
+            float dailyXp = settings.outpostOccupantSkillXpPerProductionCycle;
+            if (dailyXp <= 0f) return false;
 
             List<SkillDef> skills = WorldObject_WD_Outpost.GetRelevantSkillDefs(outpost.def);
             if (skills == null || skills.Count == 0) return false;
 
-            float cycleDays = Mathf.Max(0.01f, Outpost_Production_Utils.GetProductionCycleDays(outpost));
-            xpPerDay = cycleXp / cycleDays;
+            xpPerDay = dailyXp;
             return xpPerDay > 0f;
         }
 
         /// <summary>
         /// Once-per-day production skill XP while the production timer is running.
-        /// Amount = settings cycle total / <see cref="Outpost_Production_Utils.GetProductionCycleDays"/> so a full cycle still grants the configured total.
+        /// Amount = settings XP/day (<c>outpostOccupantSkillXpPerProductionCycle</c>, Def 300).
         /// Skips Academy / warehouse / research / power plant, idle or requirement-paused timers, and scavenging (no relevant skills).
         /// </summary>
         public static void TickOccupantsProductionSkillXpOneDay(WorldObject_WD_Outpost outpost)

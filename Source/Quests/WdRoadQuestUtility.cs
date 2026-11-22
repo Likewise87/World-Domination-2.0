@@ -155,6 +155,8 @@ namespace TSA_WorldDomination
                 FactionRelationKind kind = WorldActions_Utils.SafeRelationKindWith(s.Faction, player);
                 if (kind != FactionRelationKind.Ally && kind != FactionRelationKind.Neutral)
                     continue;
+                if (!WdQuestDiscovery.PlayerSeesSettlement(s))
+                    continue;
 
                 float approx = Find.WorldGrid.ApproxDistanceInTiles(colonyTile, s.Tile);
                 if (approx > MaxOfferDistanceTiles)

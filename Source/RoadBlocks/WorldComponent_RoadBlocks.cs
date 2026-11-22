@@ -295,7 +295,7 @@ namespace TSA_WorldDomination
                     traveler.LabelCap,
                     damage.ToString("F0"));
                 Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(
-                    new SpreadLogEntry(text, traveler, traveler.originObject));
+                    new SpreadLogEntry(text, traveler, traveler.originObject) { category = SpreadLogCategory.BuiltFortification });
                 WDVerbose.Msg($"RoadBlock destroyed by traffic tile={leftTileId} traveler={traveler.LabelCap} dmg={damage:F0}");
             }
         }
@@ -360,6 +360,7 @@ namespace TSA_WorldDomination
             {
                 RoadBlockRecord r = records[i];
                 if (r == null || r.tileId < 0 || r.tileId >= grid.TilesCount) continue;
+                if (!WdFowDraw.ShouldDrawTileOverlay(r.tileId)) continue;
                 Color color = r.builtByFaction?.Color ?? Color.cyan;
                 Material mat = MatFor(r.kind, color);
                 if (mat == null) continue;

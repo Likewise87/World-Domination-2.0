@@ -1485,7 +1485,11 @@ namespace TSA_WorldDomination
             InvalidateInspectCache();
             OutpostExpertUtility.ValidateAssignments(this);
             TryAutoAssignExpertsAfterSlotUnlock();
+            // Sight range only moves when occupant count crosses a pawn band; skip full FoW rebuild on armory/academy noise.
+            SettlementTier losTierBefore = WorldComponent_SettlementIntel.GetPlayerOutpostSightTier(this);
             GetComponent<CompViralSpread>()?.UpdateOutpostStrengthLogically();
+            if (losTierBefore != WorldComponent_SettlementIntel.GetPlayerOutpostSightTier(this))
+                WorldComponent_SettlementIntel.Get()?.NotifyStationaryObserverLosChanged(this);
             if (IsAcademyOutpost)
                 Outpost_Academy.ValidateTeachingStateAfterOccupantsChanged(this);
             RecomputeProductionRequirementCache();
@@ -4121,6 +4125,20 @@ namespace TSA_WorldDomination
                 if (kv.Value <= 0) continue;
                 var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
                 if (def != null) total += def.mortarShellDamageBonus * kv.Value;
+            }
+            return total;
+        }
+
+        /// <summary>Σ <see cref="OutpostUpgradeDef.playerScoutMaxLifetimeDaysBonus"/> × built level.</summary>
+        public float GetBuiltUpgradePlayerScoutMaxLifetimeDaysBonus()
+        {
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return 0f;
+            float total = 0f;
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (def != null) total += def.playerScoutMaxLifetimeDaysBonus * kv.Value;
             }
             return total;
         }

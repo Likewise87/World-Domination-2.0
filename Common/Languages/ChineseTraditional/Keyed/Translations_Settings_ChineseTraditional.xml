@@ -310,16 +310,16 @@
   <TSA_WD_Daily_Tier3Tip>每個T3據點增加的每日行動數。</TSA_WD_Daily_Tier3Tip>
   <!-- EN: Actions per day added for each T4 Settlement. -->
   <TSA_WD_Daily_Tier4Tip>每個T4據點增加的每日行動數。</TSA_WD_Daily_Tier4Tip>
-  <!-- EN: Develop likelihood -->
-  <TSA_WD_Daily_WeightGrow>發展可能性</TSA_WD_Daily_WeightGrow>
+  <!-- EN: Tier Upgrade or Expansion -->
+  <TSA_WD_Daily_WeightGrow>階層升級或擴張</TSA_WD_Daily_WeightGrow>
   <!-- EN: Likelihood of a near-cap settlement to upgrade its tier or found a new settlement. Only rolls when strength is at least 95% of the tier maximum. -->
   <TSA_WD_Daily_WeightGrowTip>接近上限的據點提升等級或建立新據點的可能性。只有在戰力達到等級上限的95% 以上時才會擲骰。</TSA_WD_Daily_WeightGrowTip>
   <!-- EN: Actions at 95-100% of tier max strength -->
   <TSA_WD_Daily_HeaderNearCapActions>戰力達等級上限95-100% 時的行動</TSA_WD_Daily_HeaderNearCapActions>
-  <!-- EN: Include Develop in the percentages above -->
-  <TSA_WD_Daily_IncludeDevelopInPercent>將發展計入上方百分比</TSA_WD_Daily_IncludeDevelopInPercent>
-  <!-- EN: Settings menu only. When on, Develop is counted in the percentages next to the usual action sliders. In-game rolls are unchanged: Develop only competes when a settlement is near its tier max. -->
-  <TSA_WD_Daily_IncludeDevelopInPercentTip>僅影響設定選單。開啟時，發展會計入一般行動滑桿旁的百分比。遊戲中的擲骰不變：只有據點接近等級上限時，發展才會參與競爭。</TSA_WD_Daily_IncludeDevelopInPercentTip>
+  <!-- EN: Include Tier Upgrade or Expansion in the percentages above -->
+  <TSA_WD_Daily_IncludeDevelopInPercent>將階層升級或擴張計入上方百分比</TSA_WD_Daily_IncludeDevelopInPercent>
+  <!-- EN: Settings menu only. When on, Tier Upgrade or Expansion and Strategic Expand are counted in the percentages next to the usual action sliders. In-game rolls are unchanged: those actions only compete when a settlement is near its tier max. -->
+  <TSA_WD_Daily_IncludeDevelopInPercentTip>僅影響設定選單。開啟時，階層升級或擴張與戰略擴張會計入一般行動滑桿旁的百分比。遊戲中的擲骰不變：只有據點接近等級上限時，這些行動才會參與競爭。</TSA_WD_Daily_IncludeDevelopInPercentTip>
   <!-- EN: Major Incident likelihood -->
   <TSA_WD_Daily_WeightMajor>大型事件可能性</TSA_WD_Daily_WeightMajor>
   <!-- EN: Likelihood of a Settlement to suffer from a major incident. -->
@@ -893,42 +893,46 @@
   <TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>玩家哨站的基礎當地防禦戰力（升級前）。</TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>
   <!-- EN: Incident Severity -->
   <TSA_WD_Growth_HeaderIncidents>事件嚴重程度</TSA_WD_Growth_HeaderIncidents>
+  <!-- EN: Cluster radius -->
+  <TSA_WD_Growth_ClusterRadius>集群半徑</TSA_WD_Growth_ClusterRadius>
+  <!-- EN: Tile radius for local max tier caps, pyramid upgrade support counts, and blocking further expansion when too many T1s are nearby. -->
+  <TSA_WD_Growth_ClusterRadiusTooltip>用於本地階層上限、金字塔升級支援計數，以及附近T1過多時禁止繼續擴張的地塊半徑。</TSA_WD_Growth_ClusterRadiusTooltip>
   <!-- EN: Local Max T1 Outposts -->
   <TSA_WD_Growth_LocalMaxT1>區域T1哨站上限</TSA_WD_Growth_LocalMaxT1>
-  <!-- EN: Maximum T1 settlements allowed within the max Expansion Radius before further expansion is blocked. -->
-  <TSA_WD_Growth_LocalMaxT1Tooltip>最大擴張半徑內允許的T1據點上限，達到後即無法繼續擴張。</TSA_WD_Growth_LocalMaxT1Tooltip>
+  <!-- EN: Maximum T1 settlements allowed within the Cluster radius before further expansion is blocked. -->
+  <TSA_WD_Growth_LocalMaxT1Tooltip>集群半徑內允許的T1據點上限，達到後即無法繼續擴張。</TSA_WD_Growth_LocalMaxT1Tooltip>
   <!-- EN: Local Max T2 Villages -->
   <TSA_WD_Growth_LocalMaxT2>區域T2村莊上限</TSA_WD_Growth_LocalMaxT2>
-  <!-- EN: Maximum T2 settlements allowed within the max Expansion Radius. -->
-  <TSA_WD_Growth_LocalMaxT2Tooltip>最大擴張半徑內允許的T2據點上限。</TSA_WD_Growth_LocalMaxT2Tooltip>
+  <!-- EN: Maximum T2 settlements allowed within the Cluster radius. -->
+  <TSA_WD_Growth_LocalMaxT2Tooltip>集群半徑內允許的T2據點上限。</TSA_WD_Growth_LocalMaxT2Tooltip>
   <!-- EN: Local Max T3 Towns -->
   <TSA_WD_Growth_LocalMaxT3>區域T3城鎮上限</TSA_WD_Growth_LocalMaxT3>
-  <!-- EN: Maximum T3 settlements allowed within the max Expansion Radius. -->
-  <TSA_WD_Growth_LocalMaxT3Tooltip>最大擴張半徑內允許的T3據點上限。</TSA_WD_Growth_LocalMaxT3Tooltip>
+  <!-- EN: Maximum T3 settlements allowed within the Cluster radius. -->
+  <TSA_WD_Growth_LocalMaxT3Tooltip>集群半徑內允許的T3據點上限。</TSA_WD_Growth_LocalMaxT3Tooltip>
   <!-- EN: Local Max T4 Citadels -->
   <TSA_WD_Growth_LocalMaxT4>區域T4要塞上限</TSA_WD_Growth_LocalMaxT4>
-  <!-- EN: Maximum T4 settlements allowed within the max Expansion Radius. -->
-  <TSA_WD_Growth_LocalMaxT4Tooltip>最大擴張半徑內允許的T4據點上限。</TSA_WD_Growth_LocalMaxT4Tooltip>
-  <!-- EN: T1 same-tier neighbors to upgrade -->
-  <TSA_WD_Growth_SameTierUpgradeT1>T1升級所需同等級鄰居</TSA_WD_Growth_SameTierUpgradeT1>
-  <!-- EN: Required nearby same-faction T1 settlements before a T1 settlement may upgrade to T2. -->
-  <TSA_WD_Growth_SameTierUpgradeT1Tooltip>T1據點升級為T2前，附近需要的同派系T1據點數量。</TSA_WD_Growth_SameTierUpgradeT1Tooltip>
-  <!-- EN: T2 same-tier neighbors to upgrade -->
-  <TSA_WD_Growth_SameTierUpgradeT2>T2升級所需同等級鄰居</TSA_WD_Growth_SameTierUpgradeT2>
-  <!-- EN: Required nearby same-faction T2 settlements before a T2 settlement may upgrade to T3. -->
-  <TSA_WD_Growth_SameTierUpgradeT2Tooltip>T2據點升級為T3前，附近需要的同派系T2據點數量。</TSA_WD_Growth_SameTierUpgradeT2Tooltip>
-  <!-- EN: T3 same-tier neighbors to upgrade -->
-  <TSA_WD_Growth_SameTierUpgradeT3>T3升級所需同等級鄰居</TSA_WD_Growth_SameTierUpgradeT3>
-  <!-- EN: Required nearby same-faction T3 settlements before a T3 settlement may upgrade to T4. -->
-  <TSA_WD_Growth_SameTierUpgradeT3Tooltip>T3據點升級為T4前，附近需要的同派系T3據點數量。</TSA_WD_Growth_SameTierUpgradeT3Tooltip>
+  <!-- EN: Maximum T4 settlements allowed within the Cluster radius. -->
+  <TSA_WD_Growth_LocalMaxT4Tooltip>集群半徑內允許的T4據點上限。</TSA_WD_Growth_LocalMaxT4Tooltip>
+  <!-- EN: T1→T2 support count -->
+  <TSA_WD_Growth_SameTierUpgradeT1>T1→T2支援數量</TSA_WD_Growth_SameTierUpgradeT1>
+  <!-- EN: Within Cluster radius, need this many other T1 settlements before upgrading to T2. Also limited by Local Max T2. -->
+  <TSA_WD_Growth_SameTierUpgradeT1Tooltip>在集群半徑內，升至T2前需要這麼多其他T1。也受區域T2上限限制。</TSA_WD_Growth_SameTierUpgradeT1Tooltip>
+  <!-- EN: T2→T3 support count -->
+  <TSA_WD_Growth_SameTierUpgradeT2>T2→T3支援數量</TSA_WD_Growth_SameTierUpgradeT2>
+  <!-- EN: Within Cluster radius, need this many other T2 settlements plus this many T1 before upgrading to T3. Also limited by Local Max T3. -->
+  <TSA_WD_Growth_SameTierUpgradeT2Tooltip>在集群半徑內，升至T3前需要這麼多其他T2以及這麼多T1。也受區域T3上限限制。</TSA_WD_Growth_SameTierUpgradeT2Tooltip>
+  <!-- EN: T3→T4 support count -->
+  <TSA_WD_Growth_SameTierUpgradeT3>T3→T4支援數量</TSA_WD_Growth_SameTierUpgradeT3>
+  <!-- EN: Within Cluster radius, need this many other T3 settlements plus this many T2 and T1 before upgrading to T4. Also limited by Local Max T4. -->
+  <TSA_WD_Growth_SameTierUpgradeT3Tooltip>在集群半徑內，升至T4前需要這麼多其他T3以及這麼多T2與T1。也受區域T4上限限制。</TSA_WD_Growth_SameTierUpgradeT3Tooltip>
   <!-- EN: Major Incident Strength Loss -->
   <TSA_WD_Growth_MajorInc>大型事件戰力損失</TSA_WD_Growth_MajorInc>
   <!-- EN: Strength points lost during a major catastrophe. -->
   <TSA_WD_Growth_MajorIncTooltip>發生重大災難時損失的戰力點數。</TSA_WD_Growth_MajorIncTooltip>
   <!-- EN: Max Expansion Radius -->
   <TSA_WD_Growth_MaxRadius>最大擴張半徑</TSA_WD_Growth_MaxRadius>
-  <!-- EN: Maximum tile distance allowed for expansion and the radius used to calculate local density. -->
-  <TSA_WD_Growth_MaxRadiusTooltip>擴張允許的最大地塊距離，也是計算區域密度所用的半徑。</TSA_WD_Growth_MaxRadiusTooltip>
+  <!-- EN: Maximum tile distance allowed when founding a new settlement (founding ring only; density uses Cluster radius). -->
+  <TSA_WD_Growth_MaxRadiusTooltip>建立新據點允許的最大地塊距離（僅建城環；密度使用集群半徑）。</TSA_WD_Growth_MaxRadiusTooltip>
   <!-- EN: Max Planet Settlements -->
   <TSA_WD_Growth_MaxSettlements>星球據點上限</TSA_WD_Growth_MaxSettlements>
   <!-- EN: Maximum total settlements allowed globally before expansion is capped. Also set by Setting presets → Performance (200 / 400 / 800). -->
@@ -1464,6 +1468,18 @@
   <!-- EN: Win Chance -->
   <TSA_WD_Raid_Col1>勝率</TSA_WD_Raid_Col1>
   <!-- EN: Attacker win likelihood per relative strength ratio -->
+  <TSA_WD_Raid_OpenField_Header>野外衝突</TSA_WD_Raid_OpenField_Header>
+  <TSA_WD_Raid_OpenField_Tip>旅行者、商隊與反坦克砲近戰使用此曲線，而非圍城勝率表。敗方全滅。勝方依戰鬥膠著程度保留殘存戰力。險勝也可能兩敗俱傷。</TSA_WD_Raid_OpenField_Tip>
+  <TSA_WD_Raid_OpenField_WinPower>勝率曲線冪次</TSA_WD_Raid_OpenField_WinPower>
+  <TSA_WD_Raid_OpenField_WinPowerTip>越高，戰力差距越大時勝負越穩。勢均力敵仍是五五開。越低越容易爆冷。</TSA_WD_Raid_OpenField_WinPowerTip>
+  <TSA_WD_Raid_OpenField_WinnerLossClose>勝方損失（險勝）</TSA_WD_Raid_OpenField_WinnerLossClose>
+  <TSA_WD_Raid_OpenField_WinnerLossCloseTip>險勝時勝方損失的戰力。可能所剩無幾甚至同歸於盡。</TSA_WD_Raid_OpenField_WinnerLossCloseTip>
+  <TSA_WD_Raid_OpenField_WinnerLossNormal>勝方損失（普通）</TSA_WD_Raid_OpenField_WinnerLossNormal>
+  <TSA_WD_Raid_OpenField_WinnerLossNormalTip>普通勝利時勝方損失的戰力。</TSA_WD_Raid_OpenField_WinnerLossNormalTip>
+  <TSA_WD_Raid_OpenField_WinnerLossDecisive>勝方損失（大勝）</TSA_WD_Raid_OpenField_WinnerLossDecisive>
+  <TSA_WD_Raid_OpenField_WinnerLossDecisiveTip>一面倒大勝時勝方損失的戰力。</TSA_WD_Raid_OpenField_WinnerLossDecisiveTip>
+  <TSA_WD_Raid_OpenField_PreviewHeader>預覽（進攻方戰力比 → 勝率，勝方預期殘存）</TSA_WD_Raid_OpenField_PreviewHeader>
+  <TSA_WD_Raid_OpenField_PreviewRow>{0}x → {1}% 勝率，約 {2}% 殘存</TSA_WD_Raid_OpenField_PreviewRow>
   <TSA_WD_Raid_Section1_WinChance>依相對戰力比率的進攻方勝率</TSA_WD_Raid_Section1_WinChance>
   <!-- EN: When the attacker wins, how decisive is the victory? -->
   <TSA_WD_Raid_Section2_Desc>進攻方獲勝時，勝利有多徹底？</TSA_WD_Raid_Section2_Desc>

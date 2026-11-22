@@ -156,6 +156,7 @@ namespace TSA_WorldDomination
                 traveler.travelerStrength = strength;
                 traveler.initialStrength = strength;
                 traveler.originObject = settlement;
+                traveler.ticksPerMove = WorldActions_Traveler.GetScoutTicksPerMove();
                 AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, settlement);
                 WorldComponent_SettlementIntel.Get()?.EnsureTravelerTrackId(traveler);
 
@@ -181,6 +182,12 @@ namespace TSA_WorldDomination
         public static bool TryContinueScoutMission(WorldObject_Traveler traveler)
         {
             if (traveler == null || traveler.Destroyed) return false;
+            // Player queued waypoints take priority over NPC chaos hops.
+            if (traveler.Faction?.IsPlayer == true
+                && traveler.scoutWaypointQueue != null
+                && traveler.scoutWaypointQueue.Count > 0)
+                return WorldActions_PlayerScout.TryContinuePlayerScoutQueue(traveler);
+
             if (traveler.scoutExtraWaypointsLeft <= 0) return false;
             if (!(traveler.originObject is Settlement origin) || origin.Destroyed) return false;
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(origin)) return false;
@@ -264,9 +271,12 @@ namespace TSA_WorldDomination
                 float u = Rand.Value;
                 int steps = Mathf.Max(1, Mathf.RoundToInt(Mathf.Lerp(minDist, maxDist, u * u)));
 
-                int snapped = WalkBearingSteps(fromTileId, bearing, steps);
+                int snapped = WalkBearingSteps(fromTileId, bearing, steps, faction);
                 if (snapped < 0 || snapped == fromTileId) continue;
                 if (!IsValidScoutLandTile(snapped, origin.Tile.Layer)) continue;
+                // Do not hop onto a hostile spike trap (scouts die to trap damage easily).
+                if (WorldActions_SpikeTraps.IsHostileTrapTo(snapped, faction))
+                    continue;
 
                 WorldGrid grid = Find.WorldGrid;
                 if (grid == null) continue;
@@ -274,6 +284,10 @@ namespace TSA_WorldDomination
                 if (approx < minDist * 0.75f || approx > maxDist * 1.25f) continue;
 
                 if (IsTileInSameFactionLos(snapped, origin, originLos, fromTileId, attackRange, maxDist))
+                    continue;
+
+                // Must be pathable from the hop start (rejects impassable and landlocked passable pockets).
+                if (!CanScoutPathLand(fromTileId, snapped, origin.Tile.Layer, faction))
                     continue;
 
                 var intel = WorldComponent_SettlementIntel.Get();
@@ -295,13 +309,52 @@ namespace TSA_WorldDomination
             return true;
         }
 
+        private static bool AllowScoutWaterTravel()
+        {
+            var seth = WorldDominationMod.settings;
+            return seth?.allowCaravansTravelOverWater ?? WorldDominationSettings.DefAllowCaravansTravelOverWater;
+        }
+
         private static bool IsValidScoutLandTile(int tileId, PlanetLayer layer)
         {
             WorldGrid grid = Find.WorldGrid;
             if (grid == null || tileId < 0 || tileId >= grid.TilesCount) return false;
-            if (grid[tileId].WaterCovered) return false;
-            var pt = new PlanetTile(tileId, layer ?? PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface);
-            return PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(pt);
+            PlanetLayer L = layer ?? PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
+            var pt = new PlanetTile(tileId, L);
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(pt)) return false;
+            // Water is a valid scout dest when traveler water routing is on (oceans are Impassable to vanilla).
+            if (grid[tileId].WaterCovered)
+                return AllowScoutWaterTravel();
+            if (Find.World.Impassable(pt)) return false;
+            return true;
+        }
+
+        /// <summary>True when a scout traveler can reach <paramref name="toTileId"/> (vanilla land path and/or water A*).</summary>
+        private static bool CanScoutPathLand(int fromTileId, int toTileId, PlanetLayer layer, Faction faction = null)
+        {
+            if (fromTileId < 0 || toTileId < 0 || fromTileId == toTileId) return false;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return false;
+            PlanetLayer L = layer ?? PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
+            if (!IsValidScoutLandTile(toTileId, L)) return false;
+            var from = new PlanetTile(fromTileId, L);
+            var to = new PlanetTile(toTileId, L);
+            WdScoutTrapAvoidPathContext.Scope trapScope = faction != null
+                ? WdScoutTrapAvoidPathContext.Activate(faction)
+                : null;
+            try
+            {
+                using WorldPath path = L.Pather.FindPath(from, to, null);
+                if (path != null && path.Found) return true;
+            }
+            finally
+            {
+                trapScope?.Dispose();
+            }
+            if (!AllowScoutWaterTravel()) return false;
+            return TravelerWaterPathing.TryBuildFallbackPath(from, to, out List<PlanetTile> waterPath)
+                && waterPath != null
+                && waterPath.Count > 1;
         }
 
         private static bool IsTileInSameFactionLos(
@@ -341,7 +394,7 @@ namespace TSA_WorldDomination
             return false;
         }
 
-        private static int WalkBearingSteps(int fromTileId, float bearingDeg, int steps)
+        private static int WalkBearingSteps(int fromTileId, float bearingDeg, int steps, Faction faction = null)
         {
             WorldGrid grid = Find.WorldGrid;
             if (grid == null || fromTileId < 0 || steps < 1) return -1;
@@ -364,6 +417,9 @@ namespace TSA_WorldDomination
                 {
                     int n = neighborScratch[i].tileId;
                     if (n < 0) continue;
+                    // Skip mountains / invalid surface; water ok when traveler water routing is on.
+                    if (!IsValidScoutLandTile(n, layer)) continue;
+                    if (WorldActions_SpikeTraps.IsHostileTrapTo(n, faction)) continue;
                     Vector3 delta = grid.GetTileCenter(n) - curCenter;
                     delta.y = 0f;
                     if (delta.sqrMagnitude < 0.0001f) continue;
@@ -402,8 +458,7 @@ namespace TSA_WorldDomination
                 Settlement s = settlements[i];
                 if (s == null || s.Destroyed) continue;
                 if (intel.IsDiscovered(faction, s)) continue;
-                float r = WorldComponent_SettlementIntel.GetScoutSpotRadius(
-                    WorldComponent_SettlementIntel.GetSightTier(s));
+                float r = WorldComponent_SettlementIntel.GetScoutSpotRadius(s);
                 float d = WorldActions_Utils.GetDistance(tile, s.Tile.tileId, manager);
                 if (d <= 1f || d <= r)
                     intel.Discover(faction, s, observer);
@@ -415,14 +470,14 @@ namespace TSA_WorldDomination
                 WorldObject_WD_Outpost o = outposts[i];
                 if (o == null || o.Destroyed) continue;
                 if (intel.IsDiscovered(faction, o)) continue;
-                float r = WorldComponent_SettlementIntel.GetScoutSpotRadius(
-                    WorldComponent_SettlementIntel.GetSightTier(o));
+                float r = WorldComponent_SettlementIntel.GetScoutSpotRadius(o);
                 float d = WorldActions_Utils.GetDistance(tile, o.Tile.tileId, manager);
                 if (d <= 1f || d <= r)
                     intel.Discover(faction, o, observer);
             }
 
-            float t1R = scoutMax * WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T1);
+            // AT / advanced are small targets: scout Line of sight only.
+            float scoutLos = WorldComponent_SettlementIntel.GetScoutSpotRadius(SettlementTier.T1);
             IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
             for (int i = 0; i < ats.Count; i++)
             {
@@ -430,7 +485,7 @@ namespace TSA_WorldDomination
                 if (at == null || at.Destroyed) continue;
                 if (intel.IsDiscovered(faction, at)) continue;
                 float d = WorldActions_Utils.GetDistance(tile, at.Tile.tileId, manager);
-                if (d <= 1f || d <= t1R)
+                if (d <= 1f || d <= scoutLos)
                     intel.Discover(faction, at, observer);
             }
 
@@ -444,7 +499,7 @@ namespace TSA_WorldDomination
                     if (b == null || b.Destroyed) continue;
                     if (intel.IsDiscovered(faction, b)) continue;
                     float d = WorldActions_Utils.GetDistance(tile, b.Tile.tileId, manager);
-                    if (d <= 1f || d <= t1R)
+                    if (d <= 1f || d <= scoutLos)
                         intel.Discover(faction, b, observer);
                 }
             }

@@ -29,7 +29,7 @@ namespace TSA_WorldDomination
             manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
             var seth = WorldDominationMod.settings;
 
-            string gunLabel = origin.LabelCap;
+            string gunLabel = WdPlayerIntel.LabelForLetter(origin);
             string targetLabel = FormatTargetLabel(target);
             bool playerGun = IsPlayerFaction(origin);
             bool playerTarget = IsPlayerFaction(target);
@@ -47,7 +47,7 @@ namespace TSA_WorldDomination
                         targetLabel,
                         beforeStrength.ToString("F0"),
                         afterStrength.ToString("F0"));
-                manager?.AddLog(new SpreadLogEntry(logText.Resolve(), origin, target));
+                manager?.AddLog(new SpreadLogEntry(logText.Resolve(), origin, target) { category = SpreadLogCategory.Raid });
 
                 if (wiped)
                 {
@@ -80,7 +80,7 @@ namespace TSA_WorldDomination
                         targetLabel,
                         beforeStrength.ToString("F0"),
                         afterStrength.ToString("F0"));
-                manager?.AddLog(new SpreadLogEntry(logText.Resolve(), origin, target));
+                manager?.AddLog(new SpreadLogEntry(logText.Resolve(), origin, target) { category = SpreadLogCategory.Raid });
 
                 if (wiped)
                 {
@@ -112,7 +112,7 @@ namespace TSA_WorldDomination
                     targetLabel,
                     beforeStrength.ToString("F0"),
                     afterStrength.ToString("F0"));
-            manager?.AddLog(new SpreadLogEntry(npcLog.Resolve(), origin, target));
+            manager?.AddLog(new SpreadLogEntry(npcLog.Resolve(), origin, target) { category = SpreadLogCategory.Raid });
         }
 
         /// <summary>Player-owned AT Turret lost in combat (not ownership wipe).</summary>
@@ -130,13 +130,14 @@ namespace TSA_WorldDomination
                 : "TSA_WD_AT_Turret_PlayerDestroyed_Text".Translate(gunLabel);
 
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(
-                new SpreadLogEntry(text.Resolve(), turret, attacker));
+                new SpreadLogEntry(text.Resolve(), turret, attacker) { category = SpreadLogCategory.Raid });
 
             Find.LetterStack.ReceiveLetter(
                 "TSA_WD_AT_Turret_PlayerDestroyed_Label".Translate(),
                 text,
                 LetterDefOf.NegativeEvent,
-                attacker != null && !attacker.Destroyed ? new LookTargets(attacker) : new LookTargets(turret.Tile));
+                WdPlayerIntel.LookTargetsOrNull(attacker != null && !attacker.Destroyed ? attacker : null)
+                    ?? (turret != null ? new LookTargets(turret.Tile) : null));
         }
 
         /// <summary>AT shell miss: always write the WD action log (no mortar miss letter).</summary>
@@ -246,8 +247,7 @@ namespace TSA_WorldDomination
                     return "TSA_WD_Mortar_Destroyed_CaravanWithFaction".Translate(factionName).ToString();
                 return "TSA_WD_Mortar_Destroyed_Caravan".Translate().ToString();
             }
-            // LabelCap remains usable after Destroy for log lines.
-            string label = target.LabelCap;
+            string label = WdPlayerIntel.LabelForLetter(target);
             return string.IsNullOrEmpty(label) ? "?" : label;
         }
 
@@ -255,18 +255,8 @@ namespace TSA_WorldDomination
         /// Prefer a live world object; if it is already destroyed, jump to its last tile so the letter
         /// still opens the kill site. Fall back to another live object / its tile only if needed.
         /// </summary>
-        private static LookTargets LookFor(WorldObject primary, WorldObject fallback)
-        {
-            if (primary != null && !primary.Destroyed)
-                return new LookTargets(primary);
-            if (primary != null && primary.Tile.Valid)
-                return new LookTargets(new GlobalTargetInfo(primary.Tile));
-            if (fallback != null && !fallback.Destroyed)
-                return new LookTargets(fallback);
-            if (fallback != null && fallback.Tile.Valid)
-                return new LookTargets(new GlobalTargetInfo(fallback.Tile));
-            return null;
-        }
+        private static LookTargets LookFor(WorldObject primary, WorldObject fallback) =>
+            WdPlayerIntel.LookTargetsOrNull(primary, fallback);
 
         private static LookTargets LookAtTileOr(PlanetTile tile, WorldObject fallback)
         {

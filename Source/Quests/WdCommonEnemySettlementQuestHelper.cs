@@ -10,7 +10,7 @@ namespace TSA_WorldDomination
     public static class WdCommonEnemySettlementQuestHelper
     {
         public const string QuestDefName = "TSA_WD_CommonEnemySettlement";
-        public const int FirstOfferAfterDays = 20;
+        public const int FirstOfferAfterDays = 30;
         public const int TimeoutDays = 8;
         public const int CooldownDaysMin = 20;
         public const int CooldownDaysMax = 50;
@@ -317,6 +317,8 @@ namespace TSA_WorldDomination
                 if (!WorldActions_Utils.SafeHostileTo(s.Faction, player))
                     continue;
                 if (!WorldActions_Utils.SafeHostileTo(s.Faction, asker))
+                    continue;
+                if (!WdQuestDiscovery.PlayerSeesSettlement(s))
                     continue;
 
                 float approx = Find.WorldGrid.ApproxDistanceInTiles(originTile, s.Tile);

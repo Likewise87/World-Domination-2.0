@@ -251,7 +251,7 @@ namespace TSA_WorldDomination
                     traveler.LabelCap,
                     damage.ToString("F0"));
                 Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(
-                    new SpreadLogEntry(text, traveler, traveler.originObject));
+                    new SpreadLogEntry(text, traveler, traveler.originObject) { category = SpreadLogCategory.BuiltFortification });
                 WDVerbose.Msg($"SpikeTrap triggered tile={leftTileId} traveler={traveler.LabelCap} dmg={damage:F0} wear={wear:F0} destroyed={destroyed} count={traveler.spikeTrapsTriggered}");
             }
 
@@ -259,10 +259,14 @@ namespace TSA_WorldDomination
             {
                 PlayerWdRaidDispatchUtil.MarkDestroyedBy(traveler, builder);
                 var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+                SpreadLogCategory killCat = TravelerEndpointUtility.CategoryForFortificationKill(traveler);
+                string tag = TravelerEndpointUtility.TagForFortificationKill(killCat);
                 TravelerEndpointUtility.AbortTraveler(
                     traveler,
-                    "TSA_WD_Log_SpikeTrap_DestroyedTraveler".Translate(traveler.LabelCap),
-                    manager);
+                    "TSA_WD_Log_SpikeTrap_DestroyedTraveler".Translate(tag, traveler.LabelCap),
+                    manager,
+                    refundCargo: true,
+                    category: killCat);
             }
         }
 
@@ -327,6 +331,7 @@ namespace TSA_WorldDomination
             {
                 SpikeTrapRecord r = records[i];
                 if (r == null || r.tileId < 0 || r.tileId >= grid.TilesCount) continue;
+                if (!WdFowDraw.ShouldDrawTileOverlay(r.tileId)) continue;
                 Color color = r.builtByFaction?.Color ?? Color.cyan;
                 Material mat = MatFor(r.kind, color);
                 if (mat == null) continue;

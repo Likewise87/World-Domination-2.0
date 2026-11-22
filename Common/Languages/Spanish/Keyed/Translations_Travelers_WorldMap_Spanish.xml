@@ -71,7 +71,7 @@
   <TSA_WD_SpikeTrap_TriggeredDestroyed>{0} activó una trampa (−{1} fuerza). La trampa fue destruida.</TSA_WD_SpikeTrap_TriggeredDestroyed>
   <TSA_WD_SpikeTrap_TileInspect>{0}: {1} daño al pasar hostiles (PV {2}/{3})</TSA_WD_SpikeTrap_TileInspect>
   <TSA_WD_Log_SpikeTrap_Triggered>Trampa activada por {0} (daño {1}).</TSA_WD_Log_SpikeTrap_Triggered>
-  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0} fue destruido por trampas de pinchos.</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
+  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0}: {1} fue destruido por trampas de pinchos.</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
   <TSA_WD_Log_Pollution_DamagedTraveler>{0} perdió {1} de fuerza al salir de una casilla contaminada ({2}% contaminación).</TSA_WD_Log_Pollution_DamagedTraveler>
   <TSA_WD_Log_Pollution_DestroyedTraveler>{0} fue destruido por la contaminación.</TSA_WD_Log_Pollution_DestroyedTraveler>
   <TSA_WD_Log_Pollution_DamagedSite>{0} perdió {1} de fuerza por contaminación cercana (media {2}%).</TSA_WD_Log_Pollution_DamagedSite>
@@ -150,7 +150,9 @@
   <TSA_WD_Log_ActionNoWeights>Acción diaria en {0}: Ninguna acción ponderada disponible (todos los pesos a cero).</TSA_WD_Log_ActionNoWeights>
   <TSA_WD_Log_ActionSkip>Acción omitida para {0}: No hay asentamientos activos disponibles.</TSA_WD_Log_ActionSkip>
   <TSA_WD_Log_BtnDetails>Detalles</TSA_WD_Log_BtnDetails>
-  <TSA_WD_Log_ExpandSuccess>EXPANSIÓN: Éxito. {0} fundó el nuevo T1 {1}.</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_ExpandSuccess>EXPAND: {0} fundó el nuevo T1 {1}.</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_ExpandSuccess_Strategic>EXPAND: {0} fundó el nuevo T1 {1} (estratégica).</TSA_WD_Log_ExpandSuccess_Strategic>
+  <TSA_WD_Log_ExpandSuccess_Isolation>ISOLATION: {0} fundó el nuevo T1 {1} cerca de ti.</TSA_WD_Log_ExpandSuccess_Isolation>
   <TSA_WD_Log_MassRelocationCancelled>VANGUARDIA: {0} abortó; remonta cerca del destino.</TSA_WD_Log_MassRelocationCancelled>
   <TSA_WD_Log_ForwardAssault_Vanguard>VANGUARDIA: {0} forma {1} columnas hacia tu frente.</TSA_WD_Log_ForwardAssault_Vanguard>
   <TSA_WD_Log_ForwardAssault_Invasion>INVASIÓN: {0} lanza {1} incursiones coordinadas contra tus posesiones.</TSA_WD_Log_ForwardAssault_Invasion>
@@ -165,7 +167,10 @@
   <TSA_WD_Log_ForwardAssault_Refound>VANGUARDIA: {0} remonta como {1}.</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>CONQUISTA: {0} fundó {1} ({2}) tras una incursión exitosa.</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>Misión {0} cancelada: Casilla ocupada o saturada.</TSA_WD_Log_ExpansionCancelled>
-  <TSA_WD_Log_ExpeditionLaunched>INTENTO DE EXPANSIÓN: {0} envió colonos a fundar una nueva colonia.</TSA_WD_Log_ExpeditionLaunched>
+  <TSA_WD_Log_ExpeditionLaunched>EXPAND: {0} envió colonos a fundar un nuevo asentamiento.</TSA_WD_Log_ExpeditionLaunched>
+  <TSA_WD_Log_StrategicExpeditionLaunched>EXPAND: {0} envió colonos hacia una frontera más segura (estratégica).</TSA_WD_Log_StrategicExpeditionLaunched>
+  <TSA_WD_Log_IsolationExpeditionLaunched>ISOLATION: {0} envió colonos a fundar cerca de ti.</TSA_WD_Log_IsolationExpeditionLaunched>
+  <TSA_WD_Log_IsolationPressure>ISOLATION: {0} forzada a fundar {1} asentamiento(s) cerca de ti.</TSA_WD_Log_IsolationPressure>
   <TSA_WD_Log_Expand_SkippedGlobalCap>EXPANSIÓN: {0} omitida (asentamientos NPC en el mundo: {1}, límite {2}).</TSA_WD_Log_Expand_SkippedGlobalCap>
   <TSA_WD_Log_Expand_SkippedNoValidTile>EXPANSIÓN: {0} omitida (ninguna casilla válida en rango para un nuevo asentamiento).</TSA_WD_Log_Expand_SkippedNoValidTile>
   <TSA_WD_Log_Grow>CRECIMIENTO: Fuerza {0} -&gt; {1}</TSA_WD_Log_Grow>
@@ -186,15 +191,15 @@
   <TSA_WD_Log_Trader_SkippedNoTarget>COMERCIANTE: {0} omitido (ningún asentamiento neutral o aliado válido en rango).</TSA_WD_Log_Trader_SkippedNoTarget>
   <TSA_WD_Log_TraderLaunched>COMERCIANTE: Caravana enviada de {0} a {1}.</TSA_WD_Log_TraderLaunched>
   <TSA_WD_Log_TraderTrade_Header>COMERCIO: Caravana comerciante WD completada de {0} a {1}.</TSA_WD_Log_TraderTrade_Header>
-  <TSA_WD_Log_TraderTrade_HeaderIntercept>COMERCIO: {0} se apoderó de una caravana comerciante ({1}); se aplicó la recompensa del receptor.</TSA_WD_Log_TraderTrade_HeaderIntercept>
-  <TSA_WD_Log_TraderTrade_Line>{0}: {1}</TSA_WD_Log_TraderTrade_Line>
-  <TSA_WD_Log_TraderTrade_RoleSender>Remitente ({0})</TSA_WD_Log_TraderTrade_RoleSender>
-  <TSA_WD_Log_TraderTrade_RoleReceiver>Receptor ({0})</TSA_WD_Log_TraderTrade_RoleReceiver>
-  <TSA_WD_Log_TraderTrade_RoleInterceptor>Interceptor ({0})</TSA_WD_Log_TraderTrade_RoleInterceptor>
-  <TSA_WD_Log_TraderTrade_OutcomeStrength>fuerza ofensiva aumentada (sin ascenso de nivel en este comercio).</TSA_WD_Log_TraderTrade_OutcomeStrength>
-  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>fuerza ofensiva aumentada y nivel de asentamiento ascendido (comercio; ignora requisitos de vecinos del mismo nivel).</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <TSA_WD_Log_TraderTrade_HeaderIntercept>COMERCIO: {0} se apoderó de una caravana comerciante WD ({1}); se aplicó la recompensa del receptor.</TSA_WD_Log_TraderTrade_HeaderIntercept>
+  <TSA_WD_Log_TraderTrade_Line>COMERCIO: {0}: {1}</TSA_WD_Log_TraderTrade_Line>
+  <TSA_WD_Log_TraderTrade_RoleSender>Asentamiento remitente ({0})</TSA_WD_Log_TraderTrade_RoleSender>
+  <TSA_WD_Log_TraderTrade_RoleReceiver>Asentamiento receptor ({0})</TSA_WD_Log_TraderTrade_RoleReceiver>
+  <TSA_WD_Log_TraderTrade_RoleInterceptor>Asentamiento interceptor ({0})</TSA_WD_Log_TraderTrade_RoleInterceptor>
+  <TSA_WD_Log_TraderTrade_OutcomeStrength>ganó fuerza ofensiva por la llegada del comerciante (sin ascenso de nivel).</TSA_WD_Log_TraderTrade_OutcomeStrength>
+  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>ganó fuerza ofensiva y ascendió de nivel por la llegada del comerciante.</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
   <TSA_WD_Log_TraderTrade_OutcomeWithInfra>{0} También se colocó {1}.</TSA_WD_Log_TraderTrade_OutcomeWithInfra>
-  <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}: no se aplicó fuerza de asentamiento WD (no es asentamiento WD / excluido).</TSA_WD_Log_TraderTrade_NoStrengthLine>
+  <TSA_WD_Log_TraderTrade_NoStrengthLine>COMERCIO: {0}: no se aplicó fuerza de asentamiento WD (no es asentamiento WD / excluido).</TSA_WD_Log_TraderTrade_NoStrengthLine>
   <TSA_WD_Log_TraderArrived>COMERCIANTE: Caravana llegó de {0} a {1}.</TSA_WD_Log_TraderArrived>
   <TSA_WD_Log_OutpostUpgradeLaunched>MEJORA DE PUESTO: Caravana lanzada de {0} a {1} para {2} (nivel {3}).</TSA_WD_Log_OutpostUpgradeLaunched>
   <TSA_WD_Log_OutpostUpgradeBatchLaunched>MEJORA DE PUESTO: Caravana lanzada de {0} a {1} con {2} mejoras ({3}).</TSA_WD_Log_OutpostUpgradeBatchLaunched>
@@ -233,6 +238,37 @@
   <TSA_WD_AT_Turret_PlayerOverran_Text>Tu caravana arrolló {0}.</TSA_WD_AT_Turret_PlayerOverran_Text>
   <TSA_WD_AT_Turret_Miss_Text>{0} falló contra {1}.</TSA_WD_AT_Turret_Miss_Text>
   <TSA_WD_Log_WindowTitle>Registro de acciones (últimas 500)</TSA_WD_Log_WindowTitle>
+  <TSA_WD_Log_TypeFilterTitle>Tipo de acción</TSA_WD_Log_TypeFilterTitle>
+  <TSA_WD_Log_TypeFilterTip>Filtrar filas del registro por tipo</TSA_WD_Log_TypeFilterTip>
+  <TSA_WD_Log_TypeFilterExclude>Excluir seleccionados</TSA_WD_Log_TypeFilterExclude>
+  <TSA_WD_Log_TypeFilterClear>Borrar filtro de tipo</TSA_WD_Log_TypeFilterClear>
+  <TSA_WD_LogCategory_Other>Otros</TSA_WD_LogCategory_Other>
+  <TSA_WD_LogCategory_Raid>Incursión</TSA_WD_LogCategory_Raid>
+  <TSA_WD_LogCategory_Trader>Comerciante</TSA_WD_LogCategory_Trader>
+  <TSA_WD_LogCategory_Trade>Comercio</TSA_WD_LogCategory_Trade>
+  <TSA_WD_LogCategory_Road>Carretera</TSA_WD_LogCategory_Road>
+  <TSA_WD_LogCategory_Expand>Expansión</TSA_WD_LogCategory_Expand>
+  <TSA_WD_LogCategory_Grow>Crecimiento</TSA_WD_LogCategory_Grow>
+  <TSA_WD_LogCategory_Upgrade>Mejora</TSA_WD_LogCategory_Upgrade>
+  <TSA_WD_LogCategory_Turtle>Tortuga</TSA_WD_LogCategory_Turtle>
+  <TSA_WD_LogCategory_Vanguard>Vanguardia</TSA_WD_LogCategory_Vanguard>
+  <TSA_WD_LogCategory_Invasion>Invasión</TSA_WD_LogCategory_Invasion>
+  <TSA_WD_LogCategory_Desperation>Desesperación</TSA_WD_LogCategory_Desperation>
+  <TSA_WD_LogCategory_Conquest>Conquista</TSA_WD_LogCategory_Conquest>
+  <TSA_WD_LogCategory_Revolt>Revuelta</TSA_WD_LogCategory_Revolt>
+  <TSA_WD_LogCategory_Fortify>Fortificar</TSA_WD_LogCategory_Fortify>
+  <TSA_WD_LogCategory_OutpostUpgrade>Mejora de puesto</TSA_WD_LogCategory_OutpostUpgrade>
+  <TSA_WD_LogCategory_MajorIncident>Incidente mayor</TSA_WD_LogCategory_MajorIncident>
+  <TSA_WD_LogCategory_MinorIncident>Incidente menor</TSA_WD_LogCategory_MinorIncident>
+  <TSA_WD_LogCategory_Isolation>Aislamiento</TSA_WD_LogCategory_Isolation>
+  <TSA_WD_LogCategory_Scout>Exploración</TSA_WD_LogCategory_Scout>
+  <TSA_WD_LogCategory_Intel>Intel</TSA_WD_LogCategory_Intel>
+  <TSA_WD_LogCategory_Sabotage>Sabotaje</TSA_WD_LogCategory_Sabotage>
+  <TSA_WD_LogCategory_Disinformation>Desinformación</TSA_WD_LogCategory_Disinformation>
+  <TSA_WD_LogCategory_Diplomacy>Diplomacia</TSA_WD_LogCategory_Diplomacy>
+  <TSA_WD_LogCategory_Pollution>Contaminación</TSA_WD_LogCategory_Pollution>
+  <TSA_WD_LogCategory_BuiltAdvancedBuilding>Edificio avanzado construido</TSA_WD_LogCategory_BuiltAdvancedBuilding>
+  <TSA_WD_LogCategory_BuiltFortification>Fortificación construida (trampa / AT / bloqueo)</TSA_WD_LogCategory_BuiltFortification>
   <TSA_WD_RaiderCaravan>Caravana de atacantes</TSA_WD_RaiderCaravan>
   <TSA_WD_RaiderDropPods>Cápsulas de atacantes</TSA_WD_RaiderDropPods>
   <TSA_WD_RoadBuilderCaravan>Caravana de constructores</TSA_WD_RoadBuilderCaravan>

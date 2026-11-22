@@ -10,7 +10,7 @@ namespace TSA_WorldDomination
     public static class WdColonyRoadLinkQuestHelper
     {
         public const string QuestDefName = "TSA_WD_ColonyRoadLink";
-        public const int FirstOfferAfterDays = 10;
+        public const int FirstOfferAfterDays = 14;
         public const int TimeoutDays = 30;
         public const int CooldownDaysMin = 2;
         public const int CooldownDaysMax = 6;

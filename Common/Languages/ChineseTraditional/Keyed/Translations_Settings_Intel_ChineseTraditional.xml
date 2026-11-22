@@ -2,95 +2,150 @@
 <LanguageData>
 
   <TSA_WD_BtnIntelLos>Intel and Line of Sight</TSA_WD_BtnIntelLos>
-  <TSA_WD_DescIntelLos>Soft fog of war: discovery, MaxLOS rings, scouts, Strategic Expand, and Got Burned caution.</TSA_WD_DescIntelLos>
+  <TSA_WD_DescIntelLos>限制你與各派系在世界地圖上的所知：隱藏地點、偵察，以及不確定的突襲規劃。</TSA_WD_DescIntelLos>
 
-  <TSA_WD_Intel_HeaderFeatureGate>Feature gate</TSA_WD_Intel_HeaderFeatureGate>
-  <TSA_WD_Intel_HeaderFeatureGateTip>Never turns the feature fully off. Any other value starts discovery and scouts on day 0, and fogs raid logic once the stage is reached.</TSA_WD_Intel_HeaderFeatureGateTip>
-  <TSA_WD_Intel_GateSettlementIntelTip>Never = feature off (perfect information, no scouts, no View gizmo). Always / From Mid / From Late: discovery and scouts from day 0; raid assess fog starts when that stage is reached.</TSA_WD_Intel_GateSettlementIntelTip>
+  <TSA_WD_Intel_HeaderFeatureGate>何時生效</TSA_WD_Intel_HeaderFeatureGate>
+  <TSA_WD_Intel_HeaderFeatureGateTip>在上方開啟戰爭迷霧。啟用後，地圖迷霧、發現與偵察立即開始。Activates 只控制突襲何時使用不完整情報。</TSA_WD_Intel_HeaderFeatureGateTip>
+  <TSA_WD_Intel_EnableSettlementIntel>Enable Fog of War mechanic</TSA_WD_Intel_EnableSettlementIntel>
+  <TSA_WD_Intel_EnableSettlementIntelTip>關閉：完整地圖情報。開啟：未發現的地點與旅行者保持隱藏，直到被發現，且 NPC 可派出偵察。下方的 Activates 只控制突襲何時使用不完整情報。中途關閉可能需要重載存檔以清除殘留圖層。</TSA_WD_Intel_EnableSettlementIntelTip>
+  <TSA_WD_Intel_DisableRestartTip>已關閉 Fog of War。若 FoW 殘留請重載存檔。</TSA_WD_Intel_DisableRestartTip>
+  <TSA_WD_Intel_GateSettlementIntelTip>Never 即使開啟戰爭迷霧也會關閉本功能。Always、From Mid 或 From Late：從第 0 天起發現與偵察；突襲情報迷霧在該階段開始。</TSA_WD_Intel_GateSettlementIntelTip>
+  <TSA_WD_Intel_PlayerColoniesAlwaysKnown>玩家殖民地對所有派系始終已知</TSA_WD_Intel_PlayerColoniesAlwaysKnown>
+  <TSA_WD_Intel_PlayerColoniesAlwaysKnownTip>關閉：其他派系必須透過據點、旅行者或偵察的視野發現你的殖民地。開啟：你的殖民地對所有派系始終已知。</TSA_WD_Intel_PlayerColoniesAlwaysKnownTip>
+  <TSA_WD_Intel_NotifyJumpUndiscovered>通知可指向未發現據點</TSA_WD_Intel_NotifyJumpUndiscovered>
+  <TSA_WD_Intel_NotifyJumpUndiscoveredTip>關閉：信件只寫派系與 ETA，不跳轉到未發現的來源。開啟：允許完整標籤與地圖跳轉。</TSA_WD_Intel_NotifyJumpUndiscoveredTip>
+  <TSA_WD_Intel_UncoverOnRaid>被突襲時揭露據點</TSA_WD_Intel_UncoverOnRaid>
+  <TSA_WD_Intel_UncoverOnRaidTip>開啟：向你發動突襲的據點會在來襲信件之前在世界地圖上被發現（並短暫揭開迷霧），以便信件可寫明名稱並提供跳轉到攻擊者。關閉：除非你已知曉，否則攻擊來源保持迷霧。</TSA_WD_Intel_UncoverOnRaidTip>
+  <TSA_WD_Intel_ListUndiscoveredTravelers>在WD列表中顯示未發現旅行者</TSA_WD_Intel_ListUndiscoveredTravelers>
+  <TSA_WD_Intel_ListUndiscoveredTravelersTip>關閉：Active Travelers 等列表會隱藏你尚未發現的敵對旅行者。你自己的旅行者始終顯示。</TSA_WD_Intel_ListUndiscoveredTravelersTip>
+  <TSA_WD_Intel_ThreatKnownOnly>僅根據已知計算威脅</TSA_WD_Intel_ThreatKnownOnly>
+  <TSA_WD_Intel_ThreatKnownOnlyTip>開啟：世界威脅警報與外交威脅合計只統計你已發現的敵對據點。關閉：即使戰爭迷霧開啟，威脅仍按完整地圖計算。</TSA_WD_Intel_ThreatKnownOnlyTip>
+  <TSA_WD_Intel_TradersRequireKnown>Trading Caravans require known target</TSA_WD_Intel_TradersRequireKnown>
+  <TSA_WD_Intel_TradersRequireKnownTip>開啟：WD 貿易商只前往派出方已發現的中立/盟友目的地。關閉：即使戰爭迷霧開啟也保持完美目的地知識。</TSA_WD_Intel_TradersRequireKnownTip>
+  <TSA_WD_Intel_SpottedCaravansRemainVisible>被發現的旅行者保持可見</TSA_WD_Intel_SpottedCaravansRemainVisible>
+  <TSA_WD_Intel_SpottedCaravansRemainVisibleTip>關閉：已發現的旅行者離開視野後再次隱藏。開啟：留在地圖上（變暗）直至銷毀。</TSA_WD_Intel_SpottedCaravansRemainVisibleTip>
+  <TSA_WD_Intel_UnknownSite>未知地點</TSA_WD_Intel_UnknownSite>
+  <TSA_WD_Intel_FoggedName>???</TSA_WD_Intel_FoggedName>
+  <TSA_WD_Intel_SettlementUndiscoveredTip>據點未發現</TSA_WD_Intel_SettlementUndiscoveredTip>
 
-  <TSA_WD_Intel_HeaderTargetRings>Target size rings</TSA_WD_Intel_HeaderTargetRings>
-  <TSA_WD_Intel_HeaderTargetRingsTip>Fraction of an observer's MaxLOS at which each target class is spotted. Big targets use the outer edge; small targets only the inner rings. Shared by settlements, travelers, and scouts.</TSA_WD_Intel_HeaderTargetRingsTip>
-  <TSA_WD_Intel_RingFracT1>T1 target ring (fraction of MaxLOS)</TSA_WD_Intel_RingFracT1>
-  <TSA_WD_Intel_RingFracT1Tip>Smallest sites, weak travelers, AT turrets, and advanced buildings. Spotted only inside this fraction of MaxLOS.</TSA_WD_Intel_RingFracT1Tip>
-  <TSA_WD_Intel_RingFracT2>T2 target ring (fraction of MaxLOS)</TSA_WD_Intel_RingFracT2>
-  <TSA_WD_Intel_RingFracT2Tip>Medium sites and travelers of class T2.</TSA_WD_Intel_RingFracT2Tip>
-  <TSA_WD_Intel_RingFracT3>T3 target ring (fraction of MaxLOS)</TSA_WD_Intel_RingFracT3>
-  <TSA_WD_Intel_RingFracT3Tip>Large sites and travelers of class T3.</TSA_WD_Intel_RingFracT3Tip>
-  <TSA_WD_Intel_RingFracT4>T4 target ring (fraction of MaxLOS)</TSA_WD_Intel_RingFracT4>
-  <TSA_WD_Intel_RingFracT4Tip>Largest sites and travelers of class T4. Usually equal to MaxLOS.</TSA_WD_Intel_RingFracT4Tip>
+  <TSA_WD_Intel_HeaderSightRings>視線與預感範圍</TSA_WD_Intel_HeaderSightRings>
+  <TSA_WD_Intel_HeaderSightRingsTip>每個觀察者兩個距離。視線：清晰地塊、明亮圖示、發現任何目標。預感範圍：灰霧、暗圖示、僅發現中型及以上目標。據點、旅行者、偵察與殖民地共用。</TSA_WD_Intel_HeaderSightRingsTip>
+  <TSA_WD_Intel_LosFrac>視線（占預感範圍 %）</TSA_WD_Intel_LosFrac>
+  <TSA_WD_Intel_LosFracTip>視線占預感範圍的比例。視線內發現一切。視線與預感之間只發現 3 級以上據點，以及出發力量達到 T2 的 WD 商隊（2 級據點需要視線）。</TSA_WD_Intel_LosFracTip>
 
-  <TSA_WD_Intel_HeaderSettlementLos>Settlement line of sight</TSA_WD_Intel_HeaderSettlementLos>
-  <TSA_WD_Intel_HeaderSettlementLosTip>Base sight is the tier attack-range baseline. It grows with settlement age and game stage up to the MaxLOS multiplier, and ignores zeal and attack-range bonuses.</TSA_WD_Intel_HeaderSettlementLosTip>
-  <TSA_WD_Intel_SettlementLosMaxMult>Settlement MaxLOS multiplier (late + max age)</TSA_WD_Intel_SettlementLosMaxMult>
-  <TSA_WD_Intel_SettlementLosMaxMultTip>At Late stage and maximum settlement age, MaxLOS reaches baseline times this value. Half of the growth comes from age, half from Mid/Late stage. Does not use zeal or attack-range bonuses.</TSA_WD_Intel_SettlementLosMaxMultTip>
+  <TSA_WD_Intel_HeaderSettlementLos>據點 / 哨站預感範圍</TSA_WD_Intel_HeaderSettlementLos>
+  <TSA_WD_Intel_HeaderSettlementLosTip>NPC 據點用等級決定預感範圍。你的殖民地與哨站用人數（人越多，預感越遠）。年齡與遊戲階段再放大到下方倍率。專家攻擊距離加成不適用。</TSA_WD_Intel_HeaderSettlementLosTip>
+  <TSA_WD_Intel_SettlementLosMaxMult>預感倍率（晚期 + 最大年齡）</TSA_WD_Intel_SettlementLosMaxMult>
+  <TSA_WD_Intel_SettlementLosMaxMultTip>在 Late 階段且達到最大年齡時，預感達到基線乘以此值。一半來自年齡，一半來自 Mid 或 Late 階段。專家攻擊距離加成不適用。</TSA_WD_Intel_SettlementLosMaxMultTip>
 
-  <TSA_WD_Intel_HeaderTravelerLos>Traveler line of sight</TSA_WD_Intel_HeaderTravelerLos>
-  <TSA_WD_Intel_HeaderTravelerLosTip>Traveler MaxLOS and class come from departure strength (initialStrength). Attrition never changes class.</TSA_WD_Intel_HeaderTravelerLosTip>
-  <TSA_WD_Intel_TravelerMaxLosT1>T1 traveler MaxLOS (tiles)</TSA_WD_Intel_TravelerMaxLosT1>
-  <TSA_WD_Intel_TravelerMaxLosT1Tip>Maximum sight for the weakest traveler class.</TSA_WD_Intel_TravelerMaxLosT1Tip>
-  <TSA_WD_Intel_TravelerMaxLosT2>T2 traveler MaxLOS (tiles)</TSA_WD_Intel_TravelerMaxLosT2>
-  <TSA_WD_Intel_TravelerMaxLosT2Tip>Maximum sight for class T2 travelers.</TSA_WD_Intel_TravelerMaxLosT2Tip>
-  <TSA_WD_Intel_TravelerMaxLosT3>T3 traveler MaxLOS (tiles)</TSA_WD_Intel_TravelerMaxLosT3>
-  <TSA_WD_Intel_TravelerMaxLosT3Tip>Maximum sight for class T3 travelers.</TSA_WD_Intel_TravelerMaxLosT3Tip>
-  <TSA_WD_Intel_TravelerMaxLosT4>T4 traveler MaxLOS (tiles)</TSA_WD_Intel_TravelerMaxLosT4>
-  <TSA_WD_Intel_TravelerMaxLosT4Tip>Maximum sight for the strongest traveler class.</TSA_WD_Intel_TravelerMaxLosT4Tip>
-  <TSA_WD_Intel_TravelerStrengthT2>Class T2 from departure strength</TSA_WD_Intel_TravelerStrengthT2>
-  <TSA_WD_Intel_TravelerStrengthT2Tip>Travelers at or above this departure strength are class T2. Also the AT long-range fire threshold (outer accuracy band).</TSA_WD_Intel_TravelerStrengthT2Tip>
-  <TSA_WD_Intel_TravelerStrengthT3>Class T3 from departure strength</TSA_WD_Intel_TravelerStrengthT3>
-  <TSA_WD_Intel_TravelerStrengthT3Tip>Travelers at or above this departure strength are class T3.</TSA_WD_Intel_TravelerStrengthT3Tip>
-  <TSA_WD_Intel_TravelerStrengthT4>Class T4 from departure strength</TSA_WD_Intel_TravelerStrengthT4>
-  <TSA_WD_Intel_TravelerStrengthT4Tip>Travelers at or above this departure strength are class T4.</TSA_WD_Intel_TravelerStrengthT4Tip>
-  <TSA_WD_Intel_ScoutMaxLos>Scout MaxLOS (tiles)</TSA_WD_Intel_ScoutMaxLos>
-  <TSA_WD_Intel_ScoutMaxLosTip>Fixed MaxLOS for scout missions, independent of scout strength. With default rings, T1 targets are seen at half of this range.</TSA_WD_Intel_ScoutMaxLosTip>
-  <TSA_WD_Intel_PlayerCaravanMaxLos>Player caravan MaxLOS (tiles)</TSA_WD_Intel_PlayerCaravanMaxLos>
-  <TSA_WD_Intel_PlayerCaravanMaxLosTip>How far a real player caravan can spot hostile sites for the player discovery set (FoW prep). The player always has perfect gameplay information.</TSA_WD_Intel_PlayerCaravanMaxLosTip>
+  <TSA_WD_Intel_HeaderTravelerLos>旅行者預感範圍</TSA_WD_Intel_HeaderTravelerLos>
+  <TSA_WD_Intel_HeaderTravelerLosTip>旅行者預感範圍與體型等級來自出發力量。損耗不會改變等級。</TSA_WD_Intel_HeaderTravelerLosTip>
+  <TSA_WD_Intel_TravelerMaxLosT1>T1 旅行者預感（格）</TSA_WD_Intel_TravelerMaxLosT1>
+  <TSA_WD_Intel_TravelerMaxLosT1Tip>最弱旅行者等級的預感範圍。</TSA_WD_Intel_TravelerMaxLosT1Tip>
+  <TSA_WD_Intel_TravelerMaxLosT2>T2 旅行者預感（格）</TSA_WD_Intel_TravelerMaxLosT2>
+  <TSA_WD_Intel_TravelerMaxLosT2Tip>T2 級旅行者的預感範圍。</TSA_WD_Intel_TravelerMaxLosT2Tip>
+  <TSA_WD_Intel_TravelerMaxLosT3>T3 旅行者預感（格）</TSA_WD_Intel_TravelerMaxLosT3>
+  <TSA_WD_Intel_TravelerMaxLosT3Tip>T3 級旅行者的預感範圍。</TSA_WD_Intel_TravelerMaxLosT3Tip>
+  <TSA_WD_Intel_TravelerMaxLosT4>T4 旅行者預感（格）</TSA_WD_Intel_TravelerMaxLosT4>
+  <TSA_WD_Intel_TravelerMaxLosT4Tip>最強旅行者等級的預感範圍。</TSA_WD_Intel_TravelerMaxLosT4Tip>
+  <TSA_WD_Intel_TravelerStrengthT2>出發力量達到 T2</TSA_WD_Intel_TravelerStrengthT2>
+  <TSA_WD_Intel_TravelerStrengthT2Tip>出發力量達到此值的旅行者為 T2。也是 AT 遠程開火閾值（外環精度帶）。</TSA_WD_Intel_TravelerStrengthT2Tip>
+  <TSA_WD_Intel_TravelerStrengthT3>出發力量達到 T3</TSA_WD_Intel_TravelerStrengthT3>
+  <TSA_WD_Intel_TravelerStrengthT3Tip>出發力量達到此值的旅行者為 T3。</TSA_WD_Intel_TravelerStrengthT3Tip>
+  <TSA_WD_Intel_TravelerStrengthT4>出發力量達到 T4</TSA_WD_Intel_TravelerStrengthT4>
+  <TSA_WD_Intel_TravelerStrengthT4Tip>出發力量達到此值的旅行者為 T4。</TSA_WD_Intel_TravelerStrengthT4Tip>
+  <TSA_WD_Intel_ScoutMaxLos>偵察預感（格）</TSA_WD_Intel_ScoutMaxLos>
+  <TSA_WD_Intel_ScoutMaxLosTip>偵察任務與你的商隊揭示地圖情報的距離（預感）。偵察力量不改變此範圍。</TSA_WD_Intel_ScoutMaxLosTip>
+  <TSA_WD_Intel_ScoutSpeedMult>偵察相對步行商隊的速度</TSA_WD_Intel_ScoutSpeedMult>
+  <TSA_WD_Intel_ScoutSpeedMultTip>NPC 與玩家偵察相對普通步行 WD 商隊有多快。1.20 = 快 20%。NPC 馬廄建築仍可再加速。</TSA_WD_Intel_ScoutSpeedMultTip>
+  <TSA_WD_Intel_PlayerCaravanMaxLos>玩家商隊視野（格）</TSA_WD_Intel_PlayerCaravanMaxLos>
+  <TSA_WD_Intel_PlayerCaravanMaxLosTip>未使用。玩家商隊使用偵察預感。</TSA_WD_Intel_PlayerCaravanMaxLosTip>
 
-  <TSA_WD_Intel_HeaderScoutsStrategic>Scouts and Strategic Expand</TSA_WD_Intel_HeaderScoutsStrategic>
-  <TSA_WD_Intel_HeaderScoutsStrategicTip>Scouts launch whenever the gate is configured (early game). Strategic Expand only when raid-logic fog is active.</TSA_WD_Intel_HeaderScoutsStrategicTip>
-  <TSA_WD_Intel_WeightScout>Scout action weight</TSA_WD_Intel_WeightScout>
-  <TSA_WD_Intel_WeightScoutTip>Daily-action weight for launching ring scouts. Same ballpark as Trader by default.</TSA_WD_Intel_WeightScoutTip>
-  <TSA_WD_Intel_ScoutClearWeightMult>Scout clear-area weight mult</TSA_WD_Intel_ScoutClearWeightMult>
-  <TSA_WD_Intel_ScoutClearWeightMultTip>When the settlement's attack ring has no known hostiles, scout weight is multiplied by this.</TSA_WD_Intel_ScoutClearWeightMultTip>
-  <TSA_WD_Intel_ScoutStrengthMin>Scout strength min</TSA_WD_Intel_ScoutStrengthMin>
-  <TSA_WD_Intel_ScoutStrengthMinTip>Minimum departure strength for a scout. Kept at or above the T2 class boundary so scouts stay long-range AT eligible.</TSA_WD_Intel_ScoutStrengthMinTip>
-  <TSA_WD_Intel_ScoutStrengthMax>Scout strength max</TSA_WD_Intel_ScoutStrengthMax>
-  <TSA_WD_Intel_ScoutStrengthMaxTip>Maximum departure strength for a scout.</TSA_WD_Intel_ScoutStrengthMaxTip>
-  <TSA_WD_Intel_ScoutCooldownDays>Scout cooldown (days)</TSA_WD_Intel_ScoutCooldownDays>
-  <TSA_WD_Intel_ScoutCooldownDaysTip>Per-settlement cooldown after launching a scout.</TSA_WD_Intel_ScoutCooldownDaysTip>
-  <TSA_WD_Intel_ScoutCrackFall>Scout crack-fall chance</TSA_WD_Intel_ScoutCrackFall>
-  <TSA_WD_Intel_ScoutCrackFallTip>Chance that an NPC interceptor treats a scout as a crack-faller and lets it through. Player intercepts are unchanged.</TSA_WD_Intel_ScoutCrackFallTip>
-  <TSA_WD_Intel_ScoutBearingAvoid>Scout bearing avoid (degrees)</TSA_WD_Intel_ScoutBearingAvoid>
-  <TSA_WD_Intel_ScoutBearingAvoidTip>Scouts avoid launching toward bearings that already have a known hostile within this cone.</TSA_WD_Intel_ScoutBearingAvoidTip>
-  <TSA_WD_Intel_WeightStrategicExpand>Strategic Expand weight</TSA_WD_Intel_WeightStrategicExpand>
-  <TSA_WD_Intel_WeightStrategicExpandTip>戰略擴張的每日行動權重。優先在安全位置建城：避開附近敵人視野、避開通往最近敵對據點的測地走廊，且不朝玩家方向推進。對附近敵對據點使用完美情報（不依賴戰爭迷霧）。</TSA_WD_Intel_WeightStrategicExpandTip>
-  <TSA_WD_Intel_StrategicExpandSamples>Strategic Expand samples</TSA_WD_Intel_StrategicExpandSamples>
-  <TSA_WD_Intel_StrategicExpandSamplesTip>戰略擴張在選定最安全建城點前採樣的候選地塊數量。</TSA_WD_Intel_StrategicExpandSamplesTip>
+  <TSA_WD_Intel_HeaderScoutsStrategic>偵察</TSA_WD_Intel_HeaderScoutsStrategic>
+  <TSA_WD_Intel_HeaderScoutsStrategicTip>開啟戰爭迷霧後 NPC 會派出偵察。戰略擴張設定在成長與擴張頁。</TSA_WD_Intel_HeaderScoutsStrategicTip>
+  <TSA_WD_Intel_WeightScout>偵察行動權重</TSA_WD_Intel_WeightScout>
+  <TSA_WD_Intel_WeightScoutTip>據點在每日行動擲骰中嘗試派出偵察的頻率。越高相對其他行動越常偵察。</TSA_WD_Intel_WeightScoutTip>
+  <TSA_WD_Intel_ScoutClearWeightMult>無已知敵時偵察權重倍率</TSA_WD_Intel_ScoutClearWeightMult>
+  <TSA_WD_Intel_ScoutClearWeightMultTip>當據點攻擊範圍內沒有已知敵人時，偵察權重乘以此值。</TSA_WD_Intel_ScoutClearWeightMultTip>
+  <TSA_WD_Intel_ScoutStrengthMin>偵察最低力量</TSA_WD_Intel_ScoutStrengthMin>
+  <TSA_WD_Intel_ScoutStrengthMinTip>偵察出發力量下限。保持在 T2 等級邊界以上，以便可被遠程 AT 交戰。</TSA_WD_Intel_ScoutStrengthMinTip>
+  <TSA_WD_Intel_ScoutStrengthMax>偵察最高力量</TSA_WD_Intel_ScoutStrengthMax>
+  <TSA_WD_Intel_ScoutStrengthMaxTip>偵察出發力量上限。</TSA_WD_Intel_ScoutStrengthMaxTip>
+  <TSA_WD_Intel_ScoutCooldownDays>偵察冷卻（天）</TSA_WD_Intel_ScoutCooldownDays>
+  <TSA_WD_Intel_ScoutCooldownDaysTip>派出偵察後每個據點的冷卻時間。</TSA_WD_Intel_ScoutCooldownDaysTip>
+  <TSA_WD_Intel_ScoutCrackFall>偵察溜走機率</TSA_WD_Intel_ScoutCrackFall>
+  <TSA_WD_Intel_ScoutCrackFallTip>NPC 攔截者放過偵察、不進入戰鬥的機率。玩家攔截不變。</TSA_WD_Intel_ScoutCrackFallTip>
+  <TSA_WD_Intel_ScoutBearingAvoid>偵察方位回避（度）</TSA_WD_Intel_ScoutBearingAvoid>
+  <TSA_WD_Intel_ScoutBearingAvoidTip>偵察避免朝已有已知敵人的方位錐內出發。</TSA_WD_Intel_ScoutBearingAvoidTip>
+  <TSA_WD_Intel_WeightStrategicExpand>戰略擴張權重</TSA_WD_Intel_WeightStrategicExpand>
+  <TSA_WD_Intel_WeightStrategicExpandTip>每日行動擲骰中戰略擴張的頻率。建城偏好遠離附近敵人視野、遠離通往最近敵人的路線、且不朝向玩家的安全角落。使用對附近敵人的真實知識。</TSA_WD_Intel_WeightStrategicExpandTip>
+  <TSA_WD_Intel_StrategicExpandSamples>戰略擴張採樣數</TSA_WD_Intel_StrategicExpandSamples>
+  <TSA_WD_Intel_StrategicExpandSamplesTip>戰略擴張在選定最安全角落前採樣多少候選地塊。</TSA_WD_Intel_StrategicExpandSamplesTip>
 
   <TSA_WD_Intel_HeaderGotBurned>Got Burned</TSA_WD_Intel_HeaderGotBurned>
-  <TSA_WD_Intel_HeaderGotBurnedTip>After a raid undercounts defenders, the next assess vs that primary inflates known defender strength (caution only).</TSA_WD_Intel_HeaderGotBurnedTip>
-  <TSA_WD_Intel_BurnedHiddenPct>GotBurned hidden strength inflate</TSA_WD_Intel_BurnedHiddenPct>
-  <TSA_WD_Intel_BurnedHiddenPctTip>After a raid undercounts defenders, the next assess vs that primary inflates known defender strength by this percent (caution only; no free neighbor discovery).</TSA_WD_Intel_BurnedHiddenPctTip>
-  <TSA_WD_Intel_GotBurnedDays>GotBurned duration (days)</TSA_WD_Intel_GotBurnedDays>
-  <TSA_WD_Intel_GotBurnedDaysTip>How long the GotBurned caution stamp lasts on a primary target before it expires.</TSA_WD_Intel_GotBurnedDaysTip>
-  <TSA_WD_Intel_BurnTriggerRatio>GotBurned trigger ratio</TSA_WD_Intel_BurnTriggerRatio>
-  <TSA_WD_Intel_BurnTriggerRatioTip>If true defender strength exceeds the fogged assess by this ratio, stamp GotBurned on the attacker.</TSA_WD_Intel_BurnTriggerRatioTip>
+  <TSA_WD_Intel_HeaderGotBurnedTip>突襲低估守軍後，下一次針對同一目標的規劃會抬高已知守軍力量（僅警告）。</TSA_WD_Intel_HeaderGotBurnedTip>
+  <TSA_WD_Intel_BurnedHiddenPct>GotBurned 隱藏力量抬高</TSA_WD_Intel_BurnedHiddenPct>
+  <TSA_WD_Intel_BurnedHiddenPctTip>突襲低估守軍後，下一次針對該目標的規劃按此百分比抬高已知守軍力量（僅警告；不免費發現鄰居）。</TSA_WD_Intel_BurnedHiddenPctTip>
+  <TSA_WD_Intel_GotBurnedDays>GotBurned 持續（天）</TSA_WD_Intel_GotBurnedDays>
+  <TSA_WD_Intel_GotBurnedDaysTip>目標上 Got Burned 警告持續多久後失效。</TSA_WD_Intel_GotBurnedDaysTip>
+  <TSA_WD_Intel_BurnTriggerRatio>GotBurned 觸發比率</TSA_WD_Intel_BurnTriggerRatio>
+  <TSA_WD_Intel_BurnTriggerRatioTip>若真實守軍力量相對迷霧估計超過此比率，給攻擊方蓋上 Got Burned。</TSA_WD_Intel_BurnTriggerRatioTip>
 
-  <TSA_WD_Gizmo_ShowSightRadius>Show line of sight</TSA_WD_Gizmo_ShowSightRadius>
-  <TSA_WD_Gizmo_ShowSightRadiusDesc>Draw golden MaxLOS fill with target-size discovery bands around this object. Small targets only inside the inner ring; medium farther out; big targets out to the outer edge.\n\nRange: {0}</TSA_WD_Gizmo_ShowSightRadiusDesc>
-  <TSA_WD_Gizmo_ShowSightRadiusDescPlayer>Draw golden MaxLOS fill with target-size discovery bands. The player always sees everything in gameplay; this only drives the intel view.\n\nRange: {0}</TSA_WD_Gizmo_ShowSightRadiusDescPlayer>
-  <TSA_WD_Gizmo_SightRadiusBandsLegend>Color bands (discoverable target size):\nRed = 0–{0}% of MaxLOS. All sizes (small / medium / big).\nOrange = {0}–{1}% of MaxLOS. Medium and big only.\nYellow = {1}–{2}% of MaxLOS. Big targets only (outer MaxLOS).</TSA_WD_Gizmo_SightRadiusBandsLegend>
+  <TSA_WD_Gizmo_ShowSightRadius>顯示視野</TSA_WD_Gizmo_ShowSightRadius>
+  <TSA_WD_Gizmo_ShowSightRadiusDesc>畫在迷霧之上的六邊形填充。\n\n視線：{0} 格\n預感範圍：{1} 格\n\n視線內能看到一切。預感範圍仍可發現 3 級以上據點與力量 {2}+ 的 WD 商隊（2 級據點需要視線）。AT 砲塔與高級建築需要視線。</TSA_WD_Gizmo_ShowSightRadiusDesc>
+  <TSA_WD_Gizmo_ShowSightRadiusDescPlayer>此哨站的六邊形填充（在迷霧之上）。\n\n視線：{0} 格\n預感範圍：{1} 格\n\n視線內能看到一切。預感範圍仍可發現 3 級以上據點與力量 {2}+ 的 WD 商隊（2 級據點需要視線）。未發現地點仍可能隱藏。</TSA_WD_Gizmo_ShowSightRadiusDescPlayer>
+  <TSA_WD_Gizmo_ShowSightRadiusDescPlayerColony>殖民地的六邊形填充（在迷霧之上）。\n\n視線：{0} 格\n預感範圍：{1} 格\n\n視線內能看到一切。預感範圍仍可發現 3 級以上據點與力量 {2}+ 的 WD 商隊（2 級據點需要視線）。</TSA_WD_Gizmo_ShowSightRadiusDescPlayerColony>
+  <TSA_WD_Gizmo_SightRadiusBandsLegend>亮金 = 視線（{0} 格）：清晰地塊、明亮圖示、發現任何目標。\n柔金 = 預感範圍（{1} 格）：灰霧、暗圖示、3 級以上地點與力量 {2}+ 的 WD 商隊。</TSA_WD_Gizmo_SightRadiusBandsLegend>
+  <TSA_WD_Gizmo_SightScale_Pawns>每個小人增加 {0} 視線與 {1} 預感範圍（年齡與 Late 階段成長之前）。</TSA_WD_Gizmo_SightScale_Pawns>
+  <TSA_WD_Gizmo_SightScale_SettlementTier>NPC 據點的預感範圍用其等級基線（視線是 LOS 百分比）。年齡與 Late 階段可繼續放大兩者。</TSA_WD_Gizmo_SightScale_SettlementTier>
 
-  <TSA_WD_Log_Intel_Discovered>INTEL：{0} 發現了 {1}。</TSA_WD_Log_Intel_Discovered>
+  <TSA_WD_Log_Intel_Discovered>INTEL: {0} 發現了 {1}。</TSA_WD_Log_Intel_Discovered>
 
   <TSA_WD_Intel_ViewWorldAs>以視角查看世界：{0}</TSA_WD_Intel_ViewWorldAs>
   <TSA_WD_Intel_ViewAsPlayerShort>玩家</TSA_WD_Intel_ViewAsPlayerShort>
   <TSA_WD_Intel_ViewAsPlayerSelected>{0}（已選）</TSA_WD_Intel_ViewAsPlayerSelected>
   <TSA_WD_Intel_ViewAsFactionSelected>{0}（已選）</TSA_WD_Intel_ViewAsFactionSelected>
-  <TSA_WD_Intel_ViewAsFactionDefeated>{0}（已敗北）</TSA_WD_Intel_ViewAsFactionDefeated>
-  <TSA_WD_Intel_ViewAsGateOff>情報門控為從不（功能關閉）</TSA_WD_Intel_ViewAsGateOff>
-  <TSA_WD_Intel_ViewAsPlayerTip>玩家視角顯示完整世界地圖（全部可見）。正常遊戲。</TSA_WD_Intel_ViewAsPlayerTip>
-  <TSA_WD_Intel_ViewAsTip>僅工作階段內的世界地圖疊加層。隱藏該派系尚未發現的據點與縱隊。將已知但目前不在視線內的目標變暗。不改變玩法迷霧或襲擊計算。選擇玩家可恢復完整地圖。</TSA_WD_Intel_ViewAsTip>
+  <TSA_WD_Intel_ViewAsFactionDefeated>{0}（已敗）</TSA_WD_Intel_ViewAsFactionDefeated>
+  <TSA_WD_Intel_ViewAsGateOff>情報門為 Never（功能關閉）</TSA_WD_Intel_ViewAsGateOff>
+  <TSA_WD_Intel_ViewAsPlayerTip>恢復為你的發現迷霧（開啟戰爭迷霧時的正常玩法）。</TSA_WD_Intel_ViewAsPlayerTip>
+  <TSA_WD_Intel_ViewAsTip>僅除錯。以其他派系的發現查看地圖。開啟戰爭迷霧時預設是你的迷霧。</TSA_WD_Intel_ViewAsTip>
   <TSA_WD_Intel_ShowFogOfWar>顯示戰爭迷霧</TSA_WD_Intel_ShowFogOfWar>
-  <TSA_WD_Intel_ShowFogOfWarTip>開啟時，「以某派系查看世界」會將未見地塊塗黑、將視線外的已探索地塊變灰，並隱藏未發現的據點與地貌名稱。關閉時仍記住所選派系，但地圖完全可見。預設開啟。僅本工作階段有效。</TSA_WD_Intel_ShowFogOfWarTip>
+  <TSA_WD_Intel_ShowFogOfWarTip>開啟：清晰格 = 視線；灰色 = 預感或已探索記憶；黑色 = 未探索。隱藏未發現地點與地貌名。關閉：地圖完全可見（除錯）。僅本工作階段。</TSA_WD_Intel_ShowFogOfWarTip>
+
+  <TSA_WD_Intel_PlayerScout_Gizmo>派出偵察</TSA_WD_Intel_PlayerScout_Gizmo>
+  <TSA_WD_Intel_PlayerScout_GizmoTip>派出旅行者偵察周圍。左鍵點一格，或按住 Shift 左鍵串聯航點。\n\n{0}\n{1}\n最長存活：{2} 天。</TSA_WD_Intel_PlayerScout_GizmoTip>
+  <TSA_WD_Intel_PlayerScout_PrepareTime>準備時間：約 {0} 天（{1} 名人員）。</TSA_WD_Intel_PlayerScout_PrepareTime>
+  <TSA_WD_Intel_PlayerScout_PrepareTimeNeedPawns>準備時間：至少需要一名人員。</TSA_WD_Intel_PlayerScout_PrepareTimeNeedPawns>
+  <TSA_WD_Intel_PlayerScout_PrepareTimeInstant>準備時間：即時。</TSA_WD_Intel_PlayerScout_PrepareTimeInstant>
+  <TSA_WD_Intel_PlayerScout_StrengthCost>戰力消耗：{0} 至 {1}。</TSA_WD_Intel_PlayerScout_StrengthCost>
+  <TSA_WD_Intel_PlayerScout_StrengthCostNone>戰力消耗：無（殖民地）。</TSA_WD_Intel_PlayerScout_StrengthCostNone>
+  <TSA_WD_Intel_PlayerScout_BuildTip>點擊地塊作為第一個偵察目的地。Shift+點擊添加更多航點；再點擊確認集結。</TSA_WD_Intel_PlayerScout_BuildTip>
+  <TSA_WD_Intel_PlayerScout_SelectTiles>點擊地塊選一個目的地，或 Shift+點擊航點後點擊確認集結。</TSA_WD_Intel_PlayerScout_SelectTiles>
+  <TSA_WD_Intel_PlayerScout_TileAdded>已添加偵察航點 {0}。</TSA_WD_Intel_PlayerScout_TileAdded>
+  <TSA_WD_Intel_PlayerScout_OnCooldown>偵察冷卻中。</TSA_WD_Intel_PlayerScout_OnCooldown>
+  <TSA_WD_Intel_PlayerScout_AlreadyActive>此殖民地或哨站同時只能有一支活躍偵察。</TSA_WD_Intel_PlayerScout_AlreadyActive>
+  <TSA_WD_Intel_PlayerScoutMaxLifetimeDays>玩家偵察最長存活（天）</TSA_WD_Intel_PlayerScoutMaxLifetimeDays>
+  <TSA_WD_Intel_PlayerScoutMaxLifetimeDaysTip>玩家偵察商隊在世界地圖上可停留多久後被移除。哨站升級之後可增加天數。</TSA_WD_Intel_PlayerScoutMaxLifetimeDaysTip>
+  <TSA_WD_Intel_PlayerScout_LifetimeLeft>偵察剩餘壽命：{0} 天</TSA_WD_Intel_PlayerScout_LifetimeLeft>
+  <TSA_WD_Intel_PlayerScout_LifetimeExpired>{0} 達到偵察最長壽命並返回。</TSA_WD_Intel_PlayerScout_LifetimeExpired>
+  <TSA_WD_Letter_PlayerScoutDestroyed_Label>偵察隊被毀</TSA_WD_Letter_PlayerScoutDestroyed_Label>
+  <TSA_WD_Letter_PlayerScoutDestroyed_Text>{0} 在世界地圖上被摧毀。</TSA_WD_Letter_PlayerScoutDestroyed_Text>
+  <TSA_WD_Letter_PlayerScoutLifetimeExpired_Label>偵察隊返回</TSA_WD_Letter_PlayerScoutLifetimeExpired_Label>
+  <TSA_WD_Letter_PlayerScoutLifetimeExpired_Text>{0} 達到偵察最長壽命並返回。</TSA_WD_Letter_PlayerScoutLifetimeExpired_Text>
+  <TSA_WD_Intel_PlayerScout_NeedStrength>至少需要 {0} 力量才能派出偵察。</TSA_WD_Intel_PlayerScout_NeedStrength>
+  <TSA_WD_Intel_PlayerScout_NeedPawns>至少需要一名殖民者才能準備偵察。</TSA_WD_Intel_PlayerScout_NeedPawns>
+  <TSA_WD_Intel_PlayerScout_NeedTiles>請至少選擇一個偵察目的地。</TSA_WD_Intel_PlayerScout_NeedTiles>
+  <TSA_WD_Intel_PlayerScout_SkipUnreachable>已跳過不可達偵察地塊 {0}。</TSA_WD_Intel_PlayerScout_SkipUnreachable>
+  <TSA_WD_Intel_PlayerScout_NoReachable>佇列中沒有可達的偵察地塊。</TSA_WD_Intel_PlayerScout_NoReachable>
+  <TSA_WD_Intel_PlayerScout_PathFailed>偵察路徑啟動失敗。</TSA_WD_Intel_PlayerScout_PathFailed>
+  <TSA_WD_Intel_PlayerScout_Launched>偵察已出發（{0} 個航點）。</TSA_WD_Intel_PlayerScout_Launched>
+  <TSA_WD_Intel_PlayerScout_MusterStarted>偵察集結已開始（{0} 個航點）。</TSA_WD_Intel_PlayerScout_MusterStarted>
+  <TSA_WD_Intel_PlayerScout_Status>偵察集結：{0}% 前往 {1}</TSA_WD_Intel_PlayerScout_Status>
+  <TSA_WD_Intel_PlayerScout_Cancel>取消偵察集結</TSA_WD_Intel_PlayerScout_Cancel>
+  <TSA_WD_Intel_PlayerScout_CancelDesc>中止偵察準備。發射前不消耗力量。</TSA_WD_Intel_PlayerScout_CancelDesc>
+  <TSA_WD_Intel_PlayerScout_Cancelled>{0} 的偵察集結已取消。</TSA_WD_Intel_PlayerScout_Cancelled>
+  <TSA_WD_Intel_PlayerScout_CancelTraveler>取消偵察</TSA_WD_Intel_PlayerScout_CancelTraveler>
+  <TSA_WD_Intel_PlayerScout_CancelTravelerDesc>立即解散此偵察商隊。已消耗的力量不退還。</TSA_WD_Intel_PlayerScout_CancelTravelerDesc>
+  <TSA_WD_Intel_PlayerScout_TravelerCancelled>{0} 已取消並解散。</TSA_WD_Intel_PlayerScout_TravelerCancelled>
 
 </LanguageData>

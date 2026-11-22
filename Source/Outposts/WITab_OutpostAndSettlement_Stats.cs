@@ -7,8 +7,9 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Inspect Stats tab for player WD outposts, NPC settlements, and AT turrets.
-    /// Sub-panes: Main Stats / Intel (Intel when settlement-intel gate is configured), same TabDrawer pattern as Logistics Food/Electricity.
+    /// Inspect Stats tab for player WD outposts, NPC settlements, AT turrets, and player map colonies.
+    /// Sub-panes: Main Stats / Intel (Intel when settlement-intel gate is configured).
+    /// Player map colonies: Intel only (no Main Stats).
     /// </summary>
     public class WITab_OutpostAndSettlement_Stats : WITab
     {
@@ -59,29 +60,48 @@ namespace TSA_WorldDomination
             get
             {
                 WorldObject wo = SelObject;
+                if (wo == null) return false;
+                // Player map colony: Intel-only when settlement intel is configured (no CompViralSpread required).
+                if (IsPlayerMapColony(wo))
+                    return WorldComponent_SettlementIntel.IsGateConfigured();
                 if (wo is WorldObject_AT_Turret)
                     return WorldComponent_SettlementIntel.IsGateConfigured();
 
-                if (wo?.GetComponent<CompViralSpread>() == null)
+                if (wo.GetComponent<CompViralSpread>() == null)
                     return false;
                 if (wo is WorldObject_WD_Outpost outpost)
                     return outpost.Faction == Faction.OfPlayer;
-                if (wo is Settlement settlement && settlement.Faction?.IsPlayer == true && settlement.HasMap)
-                    return false;
                 return true;
             }
         }
+
+        private static bool IsPlayerMapColony(WorldObject wo) =>
+            wo is Settlement settlement && settlement.Faction?.IsPlayer == true && settlement.HasMap;
 
         private bool ShowIntelPane(WorldObject wo)
         {
             if (!WorldComponent_SettlementIntel.IsGateConfigured() || wo == null)
                 return false;
-            if (wo is WorldObject_AT_Turret)
+            if (IsPlayerMapColony(wo) || wo is WorldObject_AT_Turret)
                 return true;
             if (wo.GetComponent<CompViralSpread>() == null)
                 return false;
             return wo is Settlement || wo is WorldObject_WD_Outpost;
         }
+
+        protected override void UpdateSize()
+        {
+            base.UpdateSize();
+            // Colony / AT: tab chrome reads "Intel"; outposts/NPC settlements keep Stats.
+            WorldObject wo = SelWorldObject;
+            if (wo != null && (IsPlayerMapColony(wo) || wo is WorldObject_AT_Turret))
+                labelKey = "TSA_WD_SettlementIntel_TabLabel";
+            else
+                labelKey = "TSA_WD_OutpostStats_TabLabel";
+        }
+
+        /// <summary>Colony map settlements only show Intel (no Main Stats combat/production pane).</summary>
+        private static bool IntelOnlyNoMainTabs(WorldObject wo) => IsPlayerMapColony(wo);
 
         private float MainHeaderConsumedHeight =>
             OutpostTabStatsUi.TabHeaderConsumedHeight + SearchBarH + SearchBarGap;
@@ -101,22 +121,26 @@ namespace TSA_WorldDomination
             if (worldObject == null) return;
 
             bool intelOn = ShowIntelPane(worldObject);
+            bool intelOnly = intelOn && IntelOnlyNoMainTabs(worldObject);
             if (!intelOn)
                 statsPane = StatsPane.Main;
+            else if (intelOnly)
+                statsPane = StatsPane.Intel;
             else if (worldObject != paneDefaultedFor)
             {
                 paneDefaultedFor = worldObject;
-                // AT has no CompViralSpread main snapshot; open on Intel. Settlements/outposts stay on Main.
+                // AT has no useful Main snapshot; open on Intel. Settlements/outposts stay on Main.
                 statsPane = worldObject is WorldObject_AT_Turret ? StatsPane.Intel : StatsPane.Main;
             }
 
-            size = worldObject is WorldObject_AT_Turret
+            size = worldObject is WorldObject_AT_Turret || IsPlayerMapColony(worldObject)
                 ? new Vector2(500f, 500f)
                 : new Vector2(820f, 560f);
 
             Rect outer = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
             Rect body = outer;
-            if (intelOn)
+            // Main+Intel tabs only when both panes exist; AT / player colony skip straight to Intel.
+            if (intelOn && !intelOnly)
             {
                 body.yMin += TabDrawer.TabHeight;
                 DrawStatsPaneTabs(body);

@@ -473,14 +473,17 @@ namespace TSA_WorldDomination
                 WorldDomination_UIUtils.DrawFactionIconWithColor(InsetIconDrawRect(iconRect), entry.faction);
                 ResolveThreatDisplayValues(entry, baseline, out float points, out float pct);
                 Color textColor = StorytellerPctColor(pct);
-                string label = FormatThreatSettlementLine(entry.settlement.LabelCap, points, pct);
+                string settlementName = WdPlayerIntel.FoggedSettlementListName(entry.settlement);
+                string label = FormatThreatSettlementLine(settlementName, points, pct);
                 if (showTilesInLabel)
                     label += " (" + "TSA_WD_Dash_ThreatTiles".Translate(Mathf.RoundToInt(entry.tilesToColony)).ToString() + ")";
                 label = label.Colorize(textColor);
                 Text.Font = GameFont.Small;
                         Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(new Rect(cellRect.x + IconSize + 6f, innerY, cellRect.width - IconSize - 10f, LineHeight), label.Truncate(cellRect.width - IconSize - 12f));
+                Rect threatLabelRect = new Rect(cellRect.x + IconSize + 6f, innerY, cellRect.width - IconSize - 10f, LineHeight);
+                Widgets.Label(threatLabelRect, label.Truncate(cellRect.width - IconSize - 12f));
                         Text.Anchor = TextAnchor.UpperLeft;
+                WdPlayerIntel.TipIfFoggedName(threatLabelRect, settlementName);
                 TooltipHandler.TipRegion(cellRect, BuildThreatSettlementTooltip(entry, points, pct));
                 if (Widgets.ButtonInvisible(cellRect))
                     JumpToWorldObject(entry.settlement);
@@ -844,7 +847,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < live.Count; i++)
             {
                 WorldObject_Traveler tr = live[i];
-                if (tr != null && !tr.Destroyed)
+                if (tr != null && !tr.Destroyed && WdPlayerIntel.ShouldListTraveler(tr))
                     allT.Add(tr);
             }
 
@@ -926,7 +929,8 @@ namespace TSA_WorldDomination
 
         private static void JumpToWorldObject(WorldObject wo)
         {
-            if (wo == null) return;
+            if (wo == null || wo.Destroyed) return;
+            if (!WdPlayerIntel.CanJumpOrLookTarget(wo)) return;
             CameraJumper.TryJump(wo);
             Find.WorldSelector.ClearSelection();
             Find.WorldSelector.Select(wo);

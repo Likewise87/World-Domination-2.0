@@ -59,7 +59,7 @@ namespace TSA_WorldDomination
             manager?.AddLog(new SpreadLogEntry(
                 "TSA_WD_OutpostDefense_SkirmishLog".Translate(outpost.LabelCap, traveler.Faction?.Name ?? "Unknown"),
                 traveler,
-                outpost));
+                outpost) { category = SpreadLogCategory.Raid });
 
             Find.LetterStack.ReceiveLetter(
                 "TSA_WD_OutpostDefense_SkirmishLetter_Label".Translate(),

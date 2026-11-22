@@ -114,6 +114,25 @@ Guidelines:
 - `SpaceMapGuard` — secondary def-name/biome heuristics for space-like maps (SOS2 etc.); a fallback,
   not the primary layer test.
 
+## Settlement Intel tile FoW layers
+
+When Settlement Intel tracking is on (`WdFowDraw.IsActive`), surface FoW meshes live under
+`RaidLogic/WD_WorldLayer_FowTileBase.cs`:
+
+| Layer | Role |
+|-------|------|
+| `WD_WorldLayer_FowIncognita` | Opaque black — never explored for the view faction |
+| `WD_WorldLayer_FowShroud` | Semi-transparent — explored (Hunch/memory) but outside current LOS clear disk |
+| `WD_WorldLayer_FowBlackout` | Full cover while meshes rebuild on view switch |
+
+Explored / visible bits: `WdFowTileMemory` on `WorldComponent_SettlementIntel` (scribed per-faction
+explored `BitArray`s). Explore radius = Hunch; clear `visibleBits` = LOS (`Hunch × intelLosFrac`).
+Reveal via daily observers, travelers, scouts, caravans (scout Hunch), drop pods (2× land Hunch).
+Progressive dirty queues — do not rebuild full-planet verts every discovery. `SetDirty` must
+not register layers mid-draw. Non-WO fortification overlays (traps / road blocks / trench edges)
+gate on `WdFowDraw.ShouldDrawTileOverlay` (hide on unexplored). Details: `ARCHITECTURE.md` §
+Settlement intel; icon hide/dim: `WORLD_MAP_ICONS.md`.
+
 ## Mouse-follow tile overlays
 
 Productivity, pollution, movement difficulty, and establishment-blocked overlays draw a local disk

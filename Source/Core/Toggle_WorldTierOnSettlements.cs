@@ -92,6 +92,11 @@ namespace TSA_WorldDomination
         private static bool outpostCoverageFillLayerRegistered;
         private static WD_WorldLayer_OutpostCoverageFill cachedOutpostCoverageFillLayer;
         private static IEnumerator coverageFillProgressiveRegen;
+        /// <summary>
+        /// Progressive regen was cancelled after the mesh was cleared (e.g. left world map mid-build).
+        /// Next Begin must Force dirty even when TrySetTarget sees unchanged params.
+        /// </summary>
+        private static bool coverageFillRegenAbandoned;
 
         public WorldComponent_WDVisualizerToggle(World world) : base(world)
         {
@@ -145,8 +150,6 @@ namespace TSA_WorldDomination
                 simulationOption.tooltip = "TSA_WD_WorldMap_OutpostSimulationTip".Translate();
                 options.Add(simulationOption);
             }
-
-            AddIntelFowViewMenuOptions(options);
 
             AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleTierTexts", ShowSettlementTierTexts,
                 v => ShowSettlementTierTexts = v, tipKey: "TSA_WD_WorldMap_ToggleTierTextsTip", hotkey: "E");
@@ -283,29 +286,8 @@ namespace TSA_WorldDomination
             options.Add(new FloatMenuOption(labelKey.Translate(), () => OpenWdWorldMapMenu()));
         }
 
-        private static void AddIntelFowViewMenuOptions(List<FloatMenuOption> options)
-        {
-            bool gateOn = WorldComponent_SettlementIntel.IsGateConfigured();
-            string currentLabel = WdFowDraw.IsViewingAsPlayer
-                ? "TSA_WD_Intel_ViewAsPlayerShort".Translate().ToString()
-                : (WdFowDraw.ViewFaction?.Name ?? "TSA_WD_Intel_ViewAsPlayerShort".Translate().ToString());
-            string entryLabel = "TSA_WD_Intel_ViewWorldAs".Translate(currentLabel).ToString();
-
-            if (!gateOn)
-            {
-                var disabled = new FloatMenuOption(entryLabel, null);
-                disabled.tooltip = "TSA_WD_Intel_ViewAsGateOff".Translate();
-                options.Add(disabled);
-                return;
-            }
-
-            options.Add(new FloatMenuOption(entryLabel, OpenViewWorldAsFloatMenu)
-            {
-                tooltip = "TSA_WD_Intel_ViewAsTip".Translate()
-            });
-        }
-
-        private static void OpenViewWorldAsFloatMenu()
+        /// <summary>Debug-only: View World as faction + Show FoW session toggles.</summary>
+        public static void OpenViewWorldAsFloatMenu()
         {
             var opts = new List<FloatMenuOption>();
             opts.Add(MakeCheckboxMenuOption(
@@ -774,6 +756,16 @@ namespace TSA_WorldDomination
 
         internal static bool IsOutpostCoverageFillLayerRegisteredPublic() => outpostCoverageFillLayerRegistered;
 
+        /// <summary>True once if a progressive fill regen was abandoned mid-clear; clears the flag.</summary>
+        internal static bool ConsumeCoverageFillForceRebuild()
+        {
+            if (!coverageFillRegenAbandoned) return false;
+            coverageFillRegenAbandoned = false;
+            return true;
+        }
+
+        internal static void ClearCoverageFillForceRebuild() => coverageFillRegenAbandoned = false;
+
         private static void EnsureOutpostCoverageFillLayerRegistered()
         {
             if (outpostCoverageFillLayerRegistered && cachedOutpostCoverageFillLayer != null) return;
@@ -833,14 +825,18 @@ namespace TSA_WorldDomination
 
         private static void StartCoverageFillProgressiveRegen(WD_WorldLayer_OutpostCoverageFill layer)
         {
-            CancelCoverageFillProgressiveRegen();
+            // Replacing an in-flight regen — do not treat as abandoned (new build starts now).
+            CancelCoverageFillProgressiveRegen(markAbandoned: false);
+            coverageFillRegenAbandoned = false;
             coverageFillProgressiveRegen = layer.Regenerate().GetEnumerator();
             // Kick first chunk this frame so small fills appear immediately.
             AdvanceCoverageFillProgressiveRegen();
         }
 
-        private static void CancelCoverageFillProgressiveRegen()
+        private static void CancelCoverageFillProgressiveRegen(bool markAbandoned = true)
         {
+            if (coverageFillProgressiveRegen != null && markAbandoned)
+                coverageFillRegenAbandoned = true;
             if (coverageFillProgressiveRegen is IDisposable disposable)
                 disposable.Dispose();
             coverageFillProgressiveRegen = null;
@@ -855,7 +851,8 @@ namespace TSA_WorldDomination
             if (coverageFillProgressiveRegen == null) return;
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
             {
-                CancelCoverageFillProgressiveRegen();
+                // Mesh may already be cleared by base.Regenerate — force rebuild on next Begin.
+                CancelCoverageFillProgressiveRegen(markAbandoned: true);
                 return;
             }
 
@@ -865,7 +862,8 @@ namespace TSA_WorldDomination
                 {
                     if (!coverageFillProgressiveRegen.MoveNext())
                     {
-                        CancelCoverageFillProgressiveRegen();
+                        coverageFillRegenAbandoned = false;
+                        CancelCoverageFillProgressiveRegen(markAbandoned: false);
                         return;
                     }
 
@@ -878,7 +876,7 @@ namespace TSA_WorldDomination
             catch (System.Exception ex)
             {
                 Log.Warning($"[WorldDomination] Coverage fill progressive regen failed: {ex.Message}");
-                CancelCoverageFillProgressiveRegen();
+                CancelCoverageFillProgressiveRegen(markAbandoned: true);
                 SurfaceLayer surface = Find.WorldGrid?.Surface;
                 if (surface != null)
                     Find.World?.renderer?.SetDirty<WD_WorldLayer_OutpostCoverageFill>(surface);

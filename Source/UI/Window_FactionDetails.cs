@@ -66,6 +66,7 @@ namespace TSA_WorldDomination
             public int Distance;
             public string DistanceDisplay;
             public bool BeingPurchased;
+            public bool Fogged;
             public int SortTier;
         }
 
@@ -169,7 +170,9 @@ namespace TSA_WorldDomination
                 x += colType;
 
                 float nameW = e.BeingPurchased ? colName - BuyIconSize - 6f : colName;
-                Widgets.Label(new Rect(x + 4f, row.y, nameW - 4f, RowHeight), e.NameDisplay.Truncate(nameW - 8f));
+                Rect nameRect = new Rect(x + 4f, row.y, nameW - 4f, RowHeight);
+                Widgets.Label(nameRect, e.NameDisplay.Truncate(nameW - 8f));
+                WdPlayerIntel.TipIfFoggedName(nameRect, e.NameDisplay);
                 if (e.BeingPurchased)
                 {
                     Rect buyIconRect = new Rect(x + nameW + 2f, row.y + (RowHeight - BuyIconSize) / 2f, BuyIconSize, BuyIconSize);
@@ -186,7 +189,10 @@ namespace TSA_WorldDomination
 
                 Rect distRect = new Rect(x, row.y, colDist, RowHeight);
                 Widgets.Label(distRect, e.DistanceDisplay);
-                TooltipHandler.TipRegion(distRect, cachedDistTip);
+                if (e.Fogged)
+                    WdPlayerIntel.TipIfFoggedName(distRect, e.DistanceDisplay);
+                else
+                    TooltipHandler.TipRegion(distRect, cachedDistTip);
                 x += colDist;
 
                 Rect roadRect = new Rect(x + 2f, row.y + 4f, colRoad - 4f, RowHeight - 8f);
@@ -194,7 +200,7 @@ namespace TSA_WorldDomination
                 x += colRoad;
 
                 Rect goBtn = new Rect(x + 4f, row.y + 3f, colView - 16f, RowHeight - 6f);
-                if (Widgets.ButtonText(goBtn, cachedViewBtnLabel))
+                if (Widgets.ButtonText(goBtn, cachedViewBtnLabel) && WdPlayerIntel.CanJumpOrLookTarget(e.Obj))
                     WorldDomination_UIUtils.JumpToWorldObjectOnMap(e.Obj);
             }
 
@@ -253,13 +259,15 @@ namespace TSA_WorldDomination
 
         private void TryAdd(WorldObject obj, CompViralSpread comp, int playerTile, WorldComponent_SpreadManager manager, string typeLower, string nameLower)
         {
-            string name = obj.LabelCap;
+            string name = WdPlayerIntel.FoggedSettlementListName(obj);
             string type = GetSettlementTypeLabel(obj, comp);
             if (typeLower != null && (type == null || !type.ToLowerInvariant().Contains(typeLower)))
                 return;
             if (nameLower != null && (name == null || !name.ToLowerInvariant().Contains(nameLower)))
                 return;
 
+            // Name/distance stay fogged when undiscovered; tier, type, and strength stay visible (World Stats overview).
+            bool known = WdPlayerIntel.PlayerKnows(obj);
             float strength = WorldStatsUtils.GetOutpostStatsStrength(comp);
             int dist = playerTile >= 0 ? WorldActions_Utils.GetDistance(obj.Tile, playerTile, manager) : 999;
             string tierDisplay;
@@ -276,6 +284,7 @@ namespace TSA_WorldDomination
                 sortTier = tierIndex - 1;
             }
 
+            string fog = WdPlayerIntel.FoggedNameLabel;
             cachedList.Add(new FactionDetailEntry
             {
                 Obj = obj,
@@ -286,8 +295,9 @@ namespace TSA_WorldDomination
                 Strength = strength,
                 StrengthDisplay = strength.ToString("F0"),
                 Distance = dist,
-                DistanceDisplay = dist.ToString(),
+                DistanceDisplay = known ? dist.ToString() : fog,
                 BeingPurchased = obj is Settlement settlement && SettlementBuyUtility.HasPendingBuyForSettlement(settlement),
+                Fogged = !known,
                 SortTier = sortTier
             });
         }

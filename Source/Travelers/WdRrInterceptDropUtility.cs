@@ -118,14 +118,24 @@ namespace TSA_WorldDomination
             WorldObject_WD_Outpost originOutpost = origin as WorldObject_WD_Outpost;
             if (originOutpost != null && !originOutpost.Destroyed)
             {
+                var refuseDump = new List<Pawn>();
                 for (int i = 0; i < living.Count; i++)
                 {
                     Pawn p = living[i];
                     if (p == null || p.Destroyed) continue;
+                    // Keep colony prisoners as prisoners (do not SetFaction → colonist then AddPawn).
+                    if (originOutpost.TryHandleArrivingPrisoner(p, null))
+                    {
+                        if (!originOutpost.Prisoners.Contains(p))
+                            refuseDump.Add(p);
+                        continue;
+                    }
                     if (p.Faction != Faction.OfPlayer)
                         p.SetFaction(Faction.OfPlayer);
                     originOutpost.AddPawn(p, null);
                 }
+                if (refuseDump.Count > 0)
+                    DumpPawnsAsCaravan(refuseDump, originOutpost.Tile.tileId);
                 return;
             }
 
@@ -156,7 +166,8 @@ namespace TSA_WorldDomination
                 if (p == null || p.Destroyed || p.Dead) continue;
                 if (p.Spawned) p.DeSpawn();
                 p.holdingOwner?.Remove(p);
-                if (p.Faction != Faction.OfPlayer)
+                // Prisoners stay guest-of-colony; forcing player faction would promote them to colonists.
+                if (!p.IsPrisonerOfColony && p.Faction != Faction.OfPlayer)
                     p.SetFaction(Faction.OfPlayer);
                 living.Add(p);
             }

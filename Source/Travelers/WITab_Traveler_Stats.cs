@@ -173,7 +173,8 @@ namespace TSA_WorldDomination
             var section = new OutpostStatsSection { Title = "TSA_WD_TravelerStats_Section_Route".Translate() };
             Add(section, "TSA_WD_TravelerStats_Row_Mission", traveler.mission.ToString());
             Add(section, "TSA_WD_TravelerStats_Row_Faction", traveler.Faction?.Name ?? "?");
-            Add(section, "TSA_WD_TravelerStats_Row_Origin", traveler.originObject?.LabelCap ?? "?");
+            Add(section, "TSA_WD_TravelerStats_Row_Origin",
+                traveler.originObject != null ? WdPlayerIntel.LabelForLetter(traveler.originObject) : "?");
             string currentDest = FormatEndpointLabel(traveler.targetObject);
             string originalDest = FormatEndpointLabel(traveler.originalTargetObject ?? traveler.targetObject);
             Add(section, "TSA_WD_TravelerStats_Row_CurrentDestination", currentDest);
@@ -278,7 +279,7 @@ namespace TSA_WorldDomination
         private static string FormatEndpointLabel(WorldObject endpoint)
         {
             if (!TravelerEndpointUtility.IsLiveEndpoint(endpoint)) return "?";
-            return endpoint.LabelCap;
+            return WdPlayerIntel.LabelForLetter(endpoint);
         }
 
         private static string ClassifyRaidTarget(WorldObject target)

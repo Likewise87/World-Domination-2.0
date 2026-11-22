@@ -162,6 +162,9 @@ var s = WorldDominationMod.settings;
 
             if (s.expandMaxRadius < s.expandMinRadius) s.expandMaxRadius = s.expandMinRadius;
 
+            s.localTierClusterRadius = (int)SettingsUI.LabeledSlider(l, "TSA_WD_Growth_ClusterRadius".Translate(), (float)s.localTierClusterRadius, 5f, 80f,
+                "TSA_WD_Growth_ClusterRadiusTooltip".Translate(), 1.0f, SliderFormat.Fixed0, WorldDominationSettings.DefLocalTierClusterRadius);
+
             s.localMaxT1 = (int)SettingsUI.LabeledSlider(l, "TSA_WD_Growth_LocalMaxT1".Translate(), (float)s.localMaxT1, 1f, 25f,
                 "TSA_WD_Growth_LocalMaxT1Tooltip".Translate(), 1.0f, SliderFormat.Fixed0, WorldDominationSettings.DefLocalMaxT1);
 

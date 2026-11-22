@@ -363,6 +363,11 @@ namespace TSA_WorldDomination
         public static bool IsValidMortarManualTarget(WorldObject wo, WorldObject_WD_Outpost source, WorldComponent_SpreadManager manager, float? rangeOverride = null)
         {
             if (!IsMortarManualTargetCandidate(wo, source, manager, rangeOverride)) return false;
+            // Player mortars need discovery + current LOS (same rule as NPC mortar turrets).
+            if (WdPlayerIntel.TrackingActive
+                && (!WdPlayerIntel.PlayerKnows(wo)
+                    || !WdPlayerIntel.IsCurrentlyVisibleToFaction(Faction.OfPlayer, wo)))
+                return false;
             switch (wo)
             {
                 case Settlement s:
@@ -417,7 +422,7 @@ namespace TSA_WorldDomination
 
             manager?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_MortarLaunched".Translate(origin.LabelCap, target.LabelCap, damage.ToString("F0")),
-                origin, target));
+                origin, target) { category = SpreadLogCategory.Raid });
         }
 
         public static void FireDefensiveAtTraveler(WorldObject_WD_Outpost origin, WorldObject_Traveler target, float approxTileDist)

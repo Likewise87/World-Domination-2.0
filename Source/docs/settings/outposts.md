@@ -47,8 +47,8 @@ All establishment checks default to **On**.
 | Embassies may gain goodwill with hostile factions | On | Allows embassy cycles to improve goodwill with temporarily hostile factions. Permanent enemies remain excluded. |
 | Silver budget per skill per delivery | 100 | Market-value budget used to derive crop, hunting, and mining baseline quantities. |
 | Clamp outpost skills at level 20 | Off | When on, production math counts no skill above 20. |
-| Occupant skill XP per successful payout | 5,000 XP | XP granted in each relevant skill to each occupant when a delivery actually launches. |
-| Max skill level for outpost XP | 10 | No payout XP is awarded to a relevant skill at or above this level. |
+| Occupant skill XP per day | 300 XP | XP granted in each relevant skill to each occupant per day while the production timer runs. |
+| Max skill level for outpost XP | 12 | No payout XP is awarded to a relevant skill at or above this level. |
 
 ### Academy
 

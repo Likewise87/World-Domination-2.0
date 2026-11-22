@@ -91,6 +91,7 @@ namespace TSA_WorldDomination
             entry.pollutionDamageExpected = expectedLoss > 0.01f;
             entry.pollutionRouteAltered = false;
             entry.pollutionExpectedLoss = expectedLoss;
+            entry.category = SpreadLogCategory.Pollution;
             manager?.AddLog(entry);
         }
 

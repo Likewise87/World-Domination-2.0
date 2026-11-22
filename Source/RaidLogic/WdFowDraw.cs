@@ -6,28 +6,38 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Session-only "View intel as" FoW overlay: hide/dim world icons from a chosen faction's discovery.
-    /// Not ModSettings. Draw helpers read SettlementIntel cache only (no sight math on the draw path).
+    /// Session FoW overlay. Normal play uses player discovery when Settlement Intel is on.
+    /// Debug "View World as" may override <see cref="ViewFaction"/> to an NPC.
     /// </summary>
     public static class WdFowDraw
     {
         public const float DimAlphaMul = 0.40f;
 
+
         /// <summary>
-        /// Null or player = omniscient map (player sees everything).
-        /// Non-player faction = hide/dim from that faction's discovery. Session only.
+        /// Null or player = player FoW (normal play).
+        /// Non-player = debug View World as that faction. Session only.
         /// </summary>
         public static Faction ViewFaction;
 
-        /// <summary>Session toggle (default on). When off, View World as still remembers the faction but draws the full map.</summary>
+        /// <summary>Session toggle (default on). Debug may turn off to see full map while inspecting.</summary>
         public static bool ShowFogOfWar = true;
 
-        /// <summary>True only when viewing as a non-player faction with FoW enabled.</summary>
+        /// <summary>True when Settlement Intel kill+gate is on and FoW draw is enabled.</summary>
         public static bool IsActive =>
             ShowFogOfWar
-            && ViewFaction != null
-            && !ViewFaction.IsPlayer
             && WorldComponent_SettlementIntel.IsGateConfigured();
+
+        /// <summary>Faction whose discovery / explored tiles drive the overlay.</summary>
+        public static Faction EffectiveViewFaction
+        {
+            get
+            {
+                if (ViewFaction != null && !ViewFaction.IsPlayer)
+                    return ViewFaction;
+                return Faction.OfPlayerSilentFail;
+            }
+        }
 
         public static bool IsFowTarget(WorldObject wo)
         {
@@ -39,6 +49,19 @@ namespace TSA_WorldDomination
             if (wo is WorldObject_Traveler t)
                 return !WorldObject_Traveler.IsShellMission(t.mission);
             return false;
+        }
+
+        /// <summary>
+        /// Tile overlays that are not WorldObjects (traps / road blocks / trench edges):
+        /// hide on fully black (unexplored) tiles when FoW is active.
+        /// </summary>
+        public static bool ShouldDrawTileOverlay(int tileId)
+        {
+            if (!IsActive) return true;
+            if (tileId < 0) return false;
+            var intel = WorldComponent_SettlementIntel.Get();
+            if (intel?.TileFow == null) return true;
+            return intel.TileFow.IsTileExploredForView(tileId);
         }
 
         public static void SetShowFogOfWar(bool enabled)
@@ -55,7 +78,7 @@ namespace TSA_WorldDomination
         {
             if (faction != null && !WorldComponent_SettlementIntel.IsGateConfigured())
                 faction = null;
-            // Player selection = omniscient (same as clearing to null).
+            // Player / null = player FoW (not omniscient).
             if (faction != null && faction.IsPlayer)
                 faction = null;
             if (ViewFaction == faction) return;
@@ -66,24 +89,28 @@ namespace TSA_WorldDomination
             Patch_WdWorldObjectNoExpandingIcon.NotifyIconModeChanged();
         }
 
-        /// <summary>True when the menu should mark Player / omniscient as selected.</summary>
+        /// <summary>True when overlay uses player discovery (normal play or debug reset).</summary>
         public static bool IsViewingAsPlayer =>
             ViewFaction == null || ViewFaction.IsPlayer;
 
         public static void ClearIfGateOff()
         {
-            if (ViewFaction != null && !WorldComponent_SettlementIntel.IsGateConfigured())
-                SetViewFaction(null);
+            if (!WorldComponent_SettlementIntel.IsGateConfigured())
+            {
+                if (ViewFaction != null)
+                    SetViewFaction(null);
+                if (!ShowFogOfWar)
+                    SetShowFogOfWar(true);
+            }
         }
 
         /// <summary>Multiply alpha when dimmed. Cache read only.</summary>
         public static Color ApplyIconColor(WorldObject wo, Color c)
         {
+            // Cache read only on draw path.
             if (wo == null || !IsActive) return c;
             var intel = WorldComponent_SettlementIntel.Get();
-            if (intel == null) return c;
-            intel.EnsureFowDrawCacheFresh();
-            if (!intel.IsFowDimmed(wo)) return c;
+            if (intel == null || !intel.IsFowDimmed(wo)) return c;
             c.a *= DimAlphaMul;
             return c;
         }

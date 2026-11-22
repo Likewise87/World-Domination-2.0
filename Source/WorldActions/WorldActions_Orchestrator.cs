@@ -1171,8 +1171,18 @@ namespace TSA_WorldDomination
 
         public void AddLog(SpreadLogEntry entry)
         {
+            if (entry == null) return;
+            if (entry.category == SpreadLogCategory.Other)
+                entry.category = SpreadLogCategoryUtil.Infer(entry);
             ActionLog.Add(entry);
             if (ActionLog.Count > MaxLogEntries) ActionLog.RemoveAt(0);
+        }
+
+        public void AddLog(SpreadLogEntry entry, SpreadLogCategory category)
+        {
+            if (entry == null) return;
+            entry.category = category;
+            AddLog(entry);
         }
 
         /// <summary>Sum of deployable offensive strength from this faction's settlements that can reach player holdings (hostile factions only).</summary>
@@ -1244,6 +1254,11 @@ namespace TSA_WorldDomination
                 if (s.Faction.def.hidden || s.Faction.defeated) continue;
                 if (!WorldActions_Utils.SafeHostileTo(s.Faction, player)) continue;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
+                // FoW: optional threat math only from discovered hostiles (never jump to unknowns).
+                if (WorldComponent_SettlementIntel.IsTracking()
+                    && seth.intelThreatKnownOnly
+                    && !WdPlayerIntel.PlayerKnows(s))
+                    continue;
                 if (!CanReachAnyPlayerTarget(s, tempThreatPlayerColonyTargets, seth)) continue;
 
                 float rawStrength = ComputeRaidStrengthWithAllies(s, seth, lookup, s_allyTooltipSb);
@@ -1428,7 +1443,9 @@ namespace TSA_WorldDomination
             cachedWorldThreatBaseline = worst.baseline;
             cachedWorldThreatPercent = Mathf.RoundToInt(worstRatio * 100f);
             cachedWorldThreatScariest = worst.scariest != null ? new GlobalTargetInfo(worst.scariest) : GlobalTargetInfo.Invalid;
-            cachedWorldThreatScariestName = worst.scariest?.LabelCap;
+            cachedWorldThreatScariestName = worst.scariest != null
+                ? WdPlayerIntel.FoggedSettlementListName(worst.scariest)
+                : null;
             cachedWorldThreatColony = worst.colony;
             cachedWorldThreatBreakdown = BuildWorldThreatBreakdown(worst.baseline, seth);
         }

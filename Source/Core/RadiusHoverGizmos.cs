@@ -198,28 +198,46 @@ namespace TSA_WorldDomination
                 yield return g;
         }
 
+        /// <summary>Yellow Show line of sight for player map colonies (NPC settlements use GetAttackForSettlement).</summary>
+        public static IEnumerable<Gizmo> GetSightForPlayerColony(Settlement settlement)
+        {
+            if (settlement == null || settlement.Destroyed) yield break;
+            if (settlement.Faction?.IsPlayer != true || !settlement.HasMap) yield break;
+            foreach (Gizmo g in GetSightFor(settlement, WD_RadiusOverlayCategory.NpcSettlement))
+                yield return g;
+        }
+
         private static IEnumerable<Gizmo> GetSightFor(WorldObject worldObject, WD_RadiusOverlayCategory category)
         {
             if (!WorldComponent_SettlementIntel.IsGateConfigured()) yield break;
-            float maxLos = WorldComponent_SettlementIntel.GetMaxLos(worldObject);
-            if (maxLos <= 0f) yield break;
+            float hunch = WorldComponent_SettlementIntel.GetHunchRadius(worldObject);
+            if (hunch <= 0f) yield break;
+            float los = WorldComponent_SettlementIntel.GetLosRadius(worldObject);
             bool playerOwned = worldObject.Faction?.IsPlayer == true;
-            string descKey = playerOwned
-                ? "TSA_WD_Gizmo_ShowSightRadiusDescPlayer"
-                : "TSA_WD_Gizmo_ShowSightRadiusDesc";
+            bool colony = WorldComponent_SettlementIntel.IsPlayerColonyObserver(worldObject);
+            string descKey = colony
+                ? "TSA_WD_Gizmo_ShowSightRadiusDescPlayerColony"
+                : playerOwned
+                    ? "TSA_WD_Gizmo_ShowSightRadiusDescPlayer"
+                    : "TSA_WD_Gizmo_ShowSightRadiusDesc";
+            // rangeLabel packs LOS|Hunch so GetCachedDesc can Translate both (see BuildSightRangeLabel).
+            string rangeLabel = BuildSightRangeLabel(los, hunch);
             yield return MakeToggle(
                 category,
                 WD_RadiusOverlayKind.Sight,
                 "TSA_WD_Gizmo_ShowSightRadius",
                 descKey,
-                maxLos.ToString("F0"),
+                rangeLabel,
                 ref cachedSightOn,
                 ref cachedSightOff,
                 "UI/Commands/View",
                 TexCommand.Attack,
-                AppendSightLosBandsLegend(),
+                AppendSightLosBandsLegend(los, hunch, worldObject),
                 WorldOverlayLineMaterials.SightGoldColor);
         }
+
+        private static string BuildSightRangeLabel(float los, float hunch) =>
+            los.ToString("F0") + "\u001f" + hunch.ToString("F0");
 
         public static IEnumerable<Gizmo> GetForAtTurret(WorldObject_AT_Turret turret)
         {
@@ -332,7 +350,19 @@ namespace TSA_WorldDomination
             if (descCache.TryGetValue(key, out string cached) && cached != null)
                 return cached;
 
-            string desc = descKey.Translate(rangeLabel).ToString();
+            string desc;
+            if (kind == WD_RadiusOverlayKind.Sight && rangeLabel != null && rangeLabel.IndexOf('\u001f') >= 0)
+            {
+                string[] parts = rangeLabel.Split('\u001f');
+                string los = parts.Length > 0 ? parts[0] : "0";
+                string hunch = parts.Length > 1 ? parts[1] : "0";
+                string medStr = WorldComponent_SettlementIntel.GetHunchSpotMinTravelerStrength().ToString("F0");
+                desc = descKey.Translate(los, hunch, medStr).ToString();
+            }
+            else
+            {
+                desc = descKey.Translate(rangeLabel).ToString();
+            }
             if (!extraDesc.NullOrEmpty())
                 desc += extraDesc;
             descCache[key] = desc;
@@ -362,10 +392,10 @@ namespace TSA_WorldDomination
                 h = h * 31 + s.atTurretHitChance0To50PctRange.GetHashCode();
                 h = h * 31 + s.atTurretHitChance51To75PctRange.GetHashCode();
                 h = h * 31 + s.atTurretHitChance76To100PctRange.GetHashCode();
-                h = h * 31 + s.intelTargetRingFracT1.GetHashCode();
-                h = h * 31 + s.intelTargetRingFracT2.GetHashCode();
-                h = h * 31 + s.intelTargetRingFracT3.GetHashCode();
-                h = h * 31 + s.intelTargetRingFracT4.GetHashCode();
+                h = h * 31 + s.intelLosFrac.GetHashCode();
+                h = h * 31 + s.intelTravelerStrengthT2.GetHashCode();
+                h = h * 31 + s.tier1AttackRangeBaseline.GetHashCode();
+                h = h * 31 + s.tier4AttackRangeBaseline.GetHashCode();
                 return h;
             }
         }
@@ -428,13 +458,30 @@ namespace TSA_WorldDomination
                 FormatHitPct(band0), FormatHitPct(band1), FormatHitPct(band2));
         }
 
-        private static string AppendSightLosBandsLegend()
+        private static string AppendSightLosBandsLegend(float los, float hunch, WorldObject worldObject)
         {
-            float f1 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T1) * 100f;
-            float f2 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T2) * 100f;
-            float f3 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T3) * 100f;
+            string medStr = WorldComponent_SettlementIntel.GetHunchSpotMinTravelerStrength().ToString("F0");
+            var seth = WorldDominationMod.settings;
+            string scaleTip;
+            if (WorldComponent_SettlementIntel.IsPlayerColonyObserver(worldObject)
+                || worldObject is WorldObject_WD_Outpost)
+            {
+                float hunchPer = WorldComponent_SettlementIntel.GetPlayerSightHunchPerPawn(seth);
+                float losPer = WorldComponent_SettlementIntel.GetPlayerSightLosPerPawn(seth);
+                scaleTip = "TSA_WD_Gizmo_SightScale_Pawns".Translate(
+                    losPer.ToString("F1"),
+                    hunchPer.ToString("F1")).ToString();
+            }
+            else
+            {
+                scaleTip = "TSA_WD_Gizmo_SightScale_SettlementTier".Translate().ToString();
+            }
+
             return "\n\n" + "TSA_WD_Gizmo_SightRadiusBandsLegend".Translate(
-                f1.ToString("F0"), f2.ToString("F0"), f3.ToString("F0"));
+                los.ToString("F0"),
+                hunch.ToString("F0"),
+                medStr)
+                + "\n\n" + scaleTip;
         }
 
         private static string FormatHitPct(float chance01) =>

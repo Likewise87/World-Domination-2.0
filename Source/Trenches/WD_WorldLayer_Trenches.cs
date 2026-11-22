@@ -91,6 +91,9 @@ namespace TSA_WorldDomination
             {
                 var e = edgeList[i];
                 if (e == null) continue;
+                // FoW: hide trench edges that touch a fully black (unexplored) tile.
+                if (!WdFowDraw.ShouldDrawTileOverlay(e.tileA) || !WdFowDraw.ShouldDrawTileOverlay(e.tileB))
+                    continue;
                 int oid = -1;
                 if (trenches.TryGetOwner(e.tileA, out WorldObject owner) && owner != null)
                     oid = owner.ID;

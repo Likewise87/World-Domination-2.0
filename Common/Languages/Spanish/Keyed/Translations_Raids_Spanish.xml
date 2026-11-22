@@ -89,6 +89,12 @@
   <TSA_WD_Letter_IncomingRaid_Label>Incursión entrante: {0}</TSA_WD_Letter_IncomingRaid_Label>
   <TSA_WD_Letter_IncomingRaid_Text>¡Una expedición hostil de {0} ha partido! Viajan por el mapa mundial para asaltar {1}.\n\nTienes tiempo para preparar defensas o interceptarlos en el mapa antes de que lleguen.</TSA_WD_Letter_IncomingRaid_Text>
   <TSA_WD_Letter_IncomingRaid_Colony_Label>Incursión WD en colonia lanzada: {0} ({1})</TSA_WD_Letter_IncomingRaid_Colony_Label>
+  <TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Label>Incursión WD en colonia lanzada: {0}</TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Label>
+  <TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Text>Hay rumores de una fuerza de incursión desde un asentamiento desconocido de la facción {0} lanzada contra la colonia del jugador {1}.\n\nPuntos de incursión esperados al llegar: {2}\nLlegada estimada en {3} días.\n\nTienes tiempo para preparar defensas en {1} o interceptarlos en el mapa mundial.</TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Text>
+  <TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Label>Incursión WD en {0} lanzada ({1})</TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Label>
+  <TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Text>Hay rumores de una fuerza de incursión desde un asentamiento desconocido de la facción {1} lanzada contra tu puesto {0}.\n\nPuntos de incursión esperados al llegar: {2}\nFuerza del puesto: {3}\nProbabilidad de victoria defensiva (auto): {4}\nLlegada estimada en {5} días.\n\nTienes tiempo para preparar defensas o interceptarlos en el mapa mundial.</TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Text>
+  <TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Label>Incursión WD por cápsulas entrante ({0})</TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Label>
+  <TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Text>Hay rumores de cápsulas desde un asentamiento desconocido de la facción {0} hacia tu colonia {1}.\n\nPuntos de incursión esperados al llegar: {2}\nLlegada estimada en {3} días.</TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Text>
   <TSA_WD_Letter_IncomingRaid_Colony_Text>¡Una expedición hostil de {0} se dirige a tu colonia {1} por el mapa mundial!\n\nPuntos de incursión esperados a la llegada: {2}\nLlegada estimada en {3} días.\n\nTienes tiempo para preparar defensas en {1} o interceptarlos en el mapa antes de que lleguen.</TSA_WD_Letter_IncomingRaid_Colony_Text>
   <TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label>Incursión WD en colonia lanzada: {0} ({1})</TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label>
   <TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text>{0} ha enviado una fuerza desde {1} contra tu colonia {2}.\n\nPuntos de incursión esperados a la llegada: {3}\nLlegada estimada en {4} días.\n\nTienes tiempo para preparar defensas en {2} o interceptarlos en el mapa antes de que lleguen.</TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text>
@@ -130,7 +136,9 @@
   <TSA_WD_Target_NotHostile>Objetivo no válido. Solo se pueden seleccionar hostiles.</TSA_WD_Target_NotHostile>
   <TSA_WD_Log_Raid_DefBase>Guarnición en {0}: {1} de fuerza.</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0} ({1}) aportó +{2} de defensa. (Bruto: {3}, Efic: {4}% en {5} casillas).</TSA_WD_Log_Raid_DefContrib>
-  <TSA_WD_Log_Raid_ExpeditionLaunched>INCURSIÓN: {0} envió una incursión contra {1}.</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_Log_Raid_ExpeditionLaunched>RAID: {0} envió una incursión contra {1}.</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_Log_Raid_DroughtLaunched>RAID: {0} envió una incursión forzada contra {1} (periodo tranquilo).</TSA_WD_Log_Raid_DroughtLaunched>
+  <TSA_WD_Log_Raid_DroughtLaunchedBeyondRange>RAID: {0} envió una incursión forzada contra {1} (periodo tranquilo, fuera de alcance).</TSA_WD_Log_Raid_DroughtLaunchedBeyondRange>
   <TSA_WD_RaidExpeditionLaunched>Expedición de incursión lanzada contra {0}.</TSA_WD_RaidExpeditionLaunched>
   <TSA_WD_Log_Raid_FactionDispatch>{0} ha enviado una incursión desde {1} contra {2}.</TSA_WD_Log_Raid_FactionDispatch>
   <TSA_WD_Log_Raid_ColonyDelegated>INCURSIÓN: Colonia elegida como objetivo; delegada a un aliado más cercano.</TSA_WD_Log_Raid_ColonyDelegated>

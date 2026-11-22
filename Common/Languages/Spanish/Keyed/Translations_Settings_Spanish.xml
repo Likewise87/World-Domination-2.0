@@ -151,11 +151,11 @@
   <TSA_WD_Daily_Tier2Tip>Acciones por día añadidas por cada asentamiento T2.</TSA_WD_Daily_Tier2Tip>
   <TSA_WD_Daily_Tier3Tip>Acciones por día añadidas por cada asentamiento T3.</TSA_WD_Daily_Tier3Tip>
   <TSA_WD_Daily_Tier4Tip>Acciones por día añadidas por cada asentamiento T4.</TSA_WD_Daily_Tier4Tip>
-  <TSA_WD_Daily_WeightGrow>Probabilidad de desarrollo</TSA_WD_Daily_WeightGrow>
+  <TSA_WD_Daily_WeightGrow>Ascenso de nivel o expansión</TSA_WD_Daily_WeightGrow>
   <TSA_WD_Daily_WeightGrowTip>Probabilidad de que un asentamiento casi al máximo mejore de nivel o funde otro. Solo se elige si la fuerza es al menos el 95% del máximo del nivel.</TSA_WD_Daily_WeightGrowTip>
   <TSA_WD_Daily_HeaderNearCapActions>Acciones al 95-100% de la fuerza máxima del nivel</TSA_WD_Daily_HeaderNearCapActions>
-  <TSA_WD_Daily_IncludeDevelopInPercent>Incluir Desarrollo en los porcentajes de arriba</TSA_WD_Daily_IncludeDevelopInPercent>
-  <TSA_WD_Daily_IncludeDevelopInPercentTip>Solo el menú de ajustes. Si está activo, Desarrollo cuenta en los porcentajes junto a las acciones habituales. En el juego no cambia: Desarrollo solo compite cuando el asentamiento está cerca del máximo de su nivel.</TSA_WD_Daily_IncludeDevelopInPercentTip>
+  <TSA_WD_Daily_IncludeDevelopInPercent>Incluir Ascenso de nivel o expansión en los porcentajes de arriba</TSA_WD_Daily_IncludeDevelopInPercent>
+  <TSA_WD_Daily_IncludeDevelopInPercentTip>Solo el menú de ajustes. Si está activo, Ascenso de nivel o expansión y Expansión estratégica cuentan en los porcentajes junto a las acciones habituales. En el juego no cambia: esas acciones solo compiten cuando el asentamiento está cerca del máximo de su nivel.</TSA_WD_Daily_IncludeDevelopInPercentTip>
   <TSA_WD_Daily_WeightMajor>Probabilidad de incidente mayor</TSA_WD_Daily_WeightMajor>
   <TSA_WD_Daily_WeightMajorTip>Probabilidad de que un asentamiento sufra un incidente mayor.</TSA_WD_Daily_WeightMajorTip>
   <TSA_WD_Daily_WeightMinor>Probabilidad de incidente menor</TSA_WD_Daily_WeightMinor>
@@ -363,18 +363,20 @@
   <TSA_WD_Growth_PlayerOutpostDefensiveStrength>Fuerza defensiva de puestos del jugador</TSA_WD_Growth_PlayerOutpostDefensiveStrength>
   <TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>Fuerza defensiva local base para puestos del jugador (antes de mejoras).</TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>
   <TSA_WD_Growth_HeaderIncidents>Gravedad de incidentes</TSA_WD_Growth_HeaderIncidents>
+  <TSA_WD_Growth_ClusterRadius>Radio de clúster</TSA_WD_Growth_ClusterRadius>
+  <TSA_WD_Growth_ClusterRadiusTooltip>Radio en casillas para los máximos locales por nivel, el apoyo piramidal de ascenso y bloquear más expansión si hay demasiados T1 cerca.</TSA_WD_Growth_ClusterRadiusTooltip>
   <TSA_WD_Growth_LocalMaxT1>Máx. avanzadillas T1 locales</TSA_WD_Growth_LocalMaxT1>
-  <TSA_WD_Growth_LocalMaxT1Tooltip>Máximo de asentamientos T1 permitidos dentro del radio de expansión máximo antes de bloquear más expansión.</TSA_WD_Growth_LocalMaxT1Tooltip>
+  <TSA_WD_Growth_LocalMaxT1Tooltip>Máximo de asentamientos T1 permitidos dentro del radio de clúster antes de bloquear más expansión.</TSA_WD_Growth_LocalMaxT1Tooltip>
   <TSA_WD_Growth_LocalMaxT2>Máx. aldeas T2 locales</TSA_WD_Growth_LocalMaxT2>
-  <TSA_WD_Growth_LocalMaxT2Tooltip>Máximo de asentamientos T2 permitidos dentro del radio de expansión máximo.</TSA_WD_Growth_LocalMaxT2Tooltip>
+  <TSA_WD_Growth_LocalMaxT2Tooltip>Máximo de asentamientos T2 permitidos dentro del radio de clúster.</TSA_WD_Growth_LocalMaxT2Tooltip>
   <TSA_WD_Growth_LocalMaxT3>Máx. pueblos T3 locales</TSA_WD_Growth_LocalMaxT3>
-  <TSA_WD_Growth_LocalMaxT3Tooltip>Máximo de asentamientos T3 permitidos dentro del radio de expansión máximo.</TSA_WD_Growth_LocalMaxT3Tooltip>
+  <TSA_WD_Growth_LocalMaxT3Tooltip>Máximo de asentamientos T3 permitidos dentro del radio de clúster.</TSA_WD_Growth_LocalMaxT3Tooltip>
   <TSA_WD_Growth_LocalMaxT4>Máx. ciudadelas T4 locales</TSA_WD_Growth_LocalMaxT4>
-  <TSA_WD_Growth_LocalMaxT4Tooltip>Máximo de asentamientos T4 permitidos dentro del radio de expansión máximo.</TSA_WD_Growth_LocalMaxT4Tooltip>
+  <TSA_WD_Growth_LocalMaxT4Tooltip>Máximo de asentamientos T4 permitidos dentro del radio de clúster.</TSA_WD_Growth_LocalMaxT4Tooltip>
   <TSA_WD_Growth_MajorInc>Pérdida de fuerza por incidente mayor</TSA_WD_Growth_MajorInc>
   <TSA_WD_Growth_MajorIncTooltip>Puntos de fuerza perdidos durante una catástrofe mayor.</TSA_WD_Growth_MajorIncTooltip>
   <TSA_WD_Growth_MaxRadius>Radio de expansión máximo</TSA_WD_Growth_MaxRadius>
-  <TSA_WD_Growth_MaxRadiusTooltip>Distancia máxima en casillas para expansión y radio usado para densidad local.</TSA_WD_Growth_MaxRadiusTooltip>
+  <TSA_WD_Growth_MaxRadiusTooltip>Distancia máxima en casillas al fundar un asentamiento nuevo (solo anillo de fundación; la densidad usa el radio de clúster).</TSA_WD_Growth_MaxRadiusTooltip>
   <TSA_WD_Growth_MaxSettlements>Máx. asentamientos en el planeta</TSA_WD_Growth_MaxSettlements>
   <TSA_WD_Growth_MaxSettlementsTooltip>Máximo total de asentamientos permitidos globalmente antes de limitar la expansión. También lo fijan los presets de Rendimiento (200 / 400 / 800).</TSA_WD_Growth_MaxSettlementsTooltip>
   <TSA_WD_Growth_MinRadius>Radio de expansión mínimo</TSA_WD_Growth_MinRadius>
@@ -816,12 +818,12 @@
   <TSA_WD_Garrison_MinScale>Guarnición mínima con ofensiva agotada</TSA_WD_Garrison_MinScale>
   <TSA_WD_Garrison_MinScaleTooltip>La guarnición del mapa escala con la fuerza ofensiva actual del asentamiento respecto a su máximo de nivel. Un asentamiento lleno despliega el 100% del multiplicador configurado; uno agotado, menos. Este es el suelo: incluso vacío despliega al menos esta fracción. El diseño del mapa sigue siendo acorde al nivel.</TSA_WD_Garrison_MinScaleTooltip>
   <TSA_WD_Growth_HeaderSameTierUpgradeReq>Requisitos de mejora del mismo nivel</TSA_WD_Growth_HeaderSameTierUpgradeReq>
-  <TSA_WD_Growth_SameTierUpgradeT1>Vecinos T1 del mismo nivel para subir</TSA_WD_Growth_SameTierUpgradeT1>
-  <TSA_WD_Growth_SameTierUpgradeT1Tooltip>Asentamientos T1 cercanos de la misma facción necesarios antes de que un T1 pueda subir a T2.</TSA_WD_Growth_SameTierUpgradeT1Tooltip>
-  <TSA_WD_Growth_SameTierUpgradeT2>Vecinos T2 del mismo nivel para subir</TSA_WD_Growth_SameTierUpgradeT2>
-  <TSA_WD_Growth_SameTierUpgradeT2Tooltip>Asentamientos T2 cercanos de la misma facción necesarios antes de que un T2 pueda subir a T3.</TSA_WD_Growth_SameTierUpgradeT2Tooltip>
-  <TSA_WD_Growth_SameTierUpgradeT3>Vecinos T3 del mismo nivel para subir</TSA_WD_Growth_SameTierUpgradeT3>
-  <TSA_WD_Growth_SameTierUpgradeT3Tooltip>Asentamientos T3 cercanos de la misma facción necesarios antes de que un T3 pueda subir a T4.</TSA_WD_Growth_SameTierUpgradeT3Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT1>Apoyo T1→T2</TSA_WD_Growth_SameTierUpgradeT1>
+  <TSA_WD_Growth_SameTierUpgradeT1Tooltip>Dentro del radio de clúster, hacen falta tantos otros T1 antes de subir a T2. También limitado por Máx. T2 local.</TSA_WD_Growth_SameTierUpgradeT1Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT2>Apoyo T2→T3</TSA_WD_Growth_SameTierUpgradeT2>
+  <TSA_WD_Growth_SameTierUpgradeT2Tooltip>Dentro del radio de clúster, hacen falta tantos otros T2 más tantos T1 antes de subir a T3. También limitado por Máx. T3 local.</TSA_WD_Growth_SameTierUpgradeT2Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT3>Apoyo T3→T4</TSA_WD_Growth_SameTierUpgradeT3>
+  <TSA_WD_Growth_SameTierUpgradeT3Tooltip>Dentro del radio de clúster, hacen falta tantos otros T3 más tantos T2 y T1 antes de subir a T4. También limitado por Máx. T4 local.</TSA_WD_Growth_SameTierUpgradeT3Tooltip>
   <TSA_WD_HeaderDynamicGarrison>Escala dinámica (por fuerza ofensiva actual)</TSA_WD_HeaderDynamicGarrison>
   <TSA_WD_Raid_CloseAttackerLoss>Derrota cercana del atacante</TSA_WD_Raid_CloseAttackerLoss>
   <TSA_WD_Raid_CloseAttackerVictory>Victoria cercana del atacante</TSA_WD_Raid_CloseAttackerVictory>
@@ -844,6 +846,18 @@
   <TSA_WD_Raid_NormalDefenderLoss>Derrota normal del defensor</TSA_WD_Raid_NormalDefenderLoss>
   <TSA_WD_Raid_NormalDefenderVictory>Victoria normal del defensor</TSA_WD_Raid_NormalDefenderVictory>
   <TSA_WD_Raid_NormalDefenderWin>Victoria normal del defensor</TSA_WD_Raid_NormalDefenderWin>
+  <TSA_WD_Raid_OpenField_Header>Enfrentamientos a campo abierto</TSA_WD_Raid_OpenField_Header>
+  <TSA_WD_Raid_OpenField_Tip>Los combates de viajeros, caravanas y torretas AT cuerpo a cuerpo usan esta curva en lugar de la tabla de asedio. El perdedor queda aniquilado. El ganador conserva un remanente según lo reñido del combate. Las victorias muy reñidas pueden aniquilar a ambos bandos.</TSA_WD_Raid_OpenField_Tip>
+  <TSA_WD_Raid_OpenField_WinPower>Potencia de la curva de victoria</TSA_WD_Raid_OpenField_WinPower>
+  <TSA_WD_Raid_OpenField_WinPowerTip>Más alto hace más seguras las luchas desiguales. A igual fuerza sigue siendo cara o cruz. Más bajo permite más sorpresas del débil.</TSA_WD_Raid_OpenField_WinPowerTip>
+  <TSA_WD_Raid_OpenField_WinnerLossClose>Pérdida del ganador (cercana)</TSA_WD_Raid_OpenField_WinnerLossClose>
+  <TSA_WD_Raid_OpenField_WinnerLossCloseTip>Fuerza que pierde el ganador en una victoria muy reñida. Puede dejar casi nada y destruir al ganador.</TSA_WD_Raid_OpenField_WinnerLossCloseTip>
+  <TSA_WD_Raid_OpenField_WinnerLossNormal>Pérdida del ganador (normal)</TSA_WD_Raid_OpenField_WinnerLossNormal>
+  <TSA_WD_Raid_OpenField_WinnerLossNormalTip>Fuerza que pierde el ganador en una victoria típica.</TSA_WD_Raid_OpenField_WinnerLossNormalTip>
+  <TSA_WD_Raid_OpenField_WinnerLossDecisive>Pérdida del ganador (decisiva)</TSA_WD_Raid_OpenField_WinnerLossDecisive>
+  <TSA_WD_Raid_OpenField_WinnerLossDecisiveTip>Fuerza que pierde el ganador en una victoria aplastante.</TSA_WD_Raid_OpenField_WinnerLossDecisiveTip>
+  <TSA_WD_Raid_OpenField_PreviewHeader>Vista previa (ratio de fuerza del atacante → probabilidad de victoria, remanente esperado del ganador)</TSA_WD_Raid_OpenField_PreviewHeader>
+  <TSA_WD_Raid_OpenField_PreviewRow>{0}x → {1}% victoria, ~{2}% remanente</TSA_WD_Raid_OpenField_PreviewRow>
   <TSA_WD_Raid_Section1_WinChance>Probabilidad de victoria del atacante según la ratio de fuerza relativa</TSA_WD_Raid_Section1_WinChance>
   <TSA_WD_Raid_Section2_Desc>Cuando gana el atacante, ¿cuán decisiva es la victoria?</TSA_WD_Raid_Section2_Desc>
   <TSA_WD_Raid_Section3_Desc>Cuando pierde el atacante, ¿cuán grave es la derrota?</TSA_WD_Raid_Section3_Desc>

@@ -131,6 +131,7 @@ namespace TSA_WorldDomination
                 travelerRows.Clear();
                 foreach (WorldObject_Traveler t in sorted)
                 {
+                    if (!WdPlayerIntel.ShouldListTraveler(t)) continue;
                     float daysSince = (ticksNow - t.spawnTick) / 60000f;
                     float depStr = t.initialStrength > 0 ? t.initialStrength : t.travelerStrength;
                     float arrStr = ComputeArrivalStrengthForSnapshot(t, seth);
@@ -177,10 +178,10 @@ namespace TSA_WorldDomination
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Text.Font = GameFont.Small;
 
-                // Type (with icon) — clickable: jump + close
+                // Type (with icon) — clickable jump only when FoW allows.
                 Rect typeRect = new Rect(rX, row.y, colType, RowHeight);
                 DrawMissionTypeAndLabel(typeRect, t, snap.MissionIcon);
-                if (Widgets.ButtonInvisible(typeRect))
+                if (Widgets.ButtonInvisible(typeRect) && WdPlayerIntel.CanJumpOrLookTarget(t))
                 {
                     pendingJump = t;
                     break;
@@ -224,12 +225,22 @@ namespace TSA_WorldDomination
                 rX += colArrival;
                 Text.Anchor = TextAnchor.MiddleLeft;
 
-                // Jump button — jump + close
+                // Jump button — disabled for undiscovered when FoW tracking is on.
                 Rect jumpRect = new Rect(rX + 4f, row.y + (RowHeight - 28f) / 2f, colJump - 8f, 28f);
-                if (Widgets.ButtonText(jumpRect, cachedJumpLabel))
+                bool canJump = WdPlayerIntel.CanJumpOrLookTarget(t);
+                if (canJump)
                 {
-                    pendingJump = t;
-                    break;
+                    if (Widgets.ButtonText(jumpRect, cachedJumpLabel))
+                    {
+                        pendingJump = t;
+                        break;
+                    }
+                }
+                else
+                {
+                    GUI.color = new Color(1f, 1f, 1f, 0.35f);
+                    Widgets.ButtonText(jumpRect, cachedJumpLabel, drawBackground: true, doMouseoverSound: false, active: false);
+                    GUI.color = Color.white;
                 }
             }
 
@@ -242,6 +253,8 @@ namespace TSA_WorldDomination
 
         private void JumpToTravelerAndClose(WorldObject_Traveler t)
         {
+            if (!WdPlayerIntel.CanJumpOrLookTarget(t))
+                return;
             CameraJumper.TryJump(t);
             Find.WorldSelector.ClearSelection();
             Find.WorldSelector.Select(t);
@@ -289,8 +302,15 @@ namespace TSA_WorldDomination
             }
             Rect iconRect = new Rect(rect.x + 4f, rect.y + (rect.height - IconSize) / 2f, IconSize, IconSize);
             WorldDomination_UIUtils.DrawFactionIconWithColor(iconRect, new GlobalTargetInfo(src));
-            string label = FormatWorldObjectLabelLikeActionLog(src);
-            DrawJumpLabelActiveTravelers(new Rect(iconRect.xMax + 6f, rect.y, rect.width - (IconSize + 10f), rect.height), label, new GlobalTargetInfo(src));
+            bool known = WdPlayerIntel.CanJumpOrLookTarget(src);
+            string label = known
+                ? FormatWorldObjectLabelLikeActionLog(src)
+                : WdPlayerIntel.FoggedSettlementListName(src);
+            DrawJumpLabelActiveTravelers(
+                new Rect(iconRect.xMax + 6f, rect.y, rect.width - (IconSize + 10f), rect.height),
+                label,
+                new GlobalTargetInfo(src),
+                known);
         }
 
         private void DrawExpansionDestFromSnapshot(Rect rect, int destTileId, string label)
@@ -315,11 +335,11 @@ namespace TSA_WorldDomination
             DrawJumpLabelActiveTravelers(new Rect(iconRect.xMax + 6f, rect.y, rect.width - (IconSize + 10f), rect.height), label, gti);
         }
 
-        private void DrawJumpLabelActiveTravelers(Rect rect, string label, GlobalTargetInfo target)
+        private void DrawJumpLabelActiveTravelers(Rect rect, string label, GlobalTargetInfo target, bool allowJump = true)
         {
             TextAnchor anchorBefore = Text.Anchor;
             Text.Anchor = TextAnchor.MiddleLeft;
-            if (target.IsValid)
+            if (target.IsValid && allowJump)
             {
                 Widgets.DrawHighlightIfMouseover(rect);
                 if (Widgets.ButtonInvisible(rect))
@@ -331,6 +351,7 @@ namespace TSA_WorldDomination
                 }
             }
             Widgets.Label(rect, label.Truncate(rect.width));
+            WdPlayerIntel.TipIfFoggedName(rect, label);
             Text.Anchor = anchorBefore;
         }
 
@@ -341,9 +362,12 @@ namespace TSA_WorldDomination
             {
                 Rect iconRect = new Rect(rect.x + 4f, rect.y + (rect.height - IconSize) / 2f, IconSize, IconSize);
                 DrawWorldObjectIcon(iconRect, origin);
-                string label = FormatWorldObjectLabelLikeActionLog(origin);
+                bool known = WdPlayerIntel.CanJumpOrLookTarget(origin);
+                string label = known
+                    ? FormatWorldObjectLabelLikeActionLog(origin)
+                    : WdPlayerIntel.FoggedSettlementListName(origin);
                 Rect labelRect = new Rect(iconRect.xMax + 6f, rect.y, rect.width - (IconSize + 10f), rect.height);
-                DrawJumpLabelActiveTravelers(labelRect, label, new GlobalTargetInfo(origin));
+                DrawJumpLabelActiveTravelers(labelRect, label, new GlobalTargetInfo(origin), known);
                 return;
             }
 
@@ -379,9 +403,12 @@ namespace TSA_WorldDomination
             {
                 Rect iconRect = new Rect(rect.x + 4f, rect.y + (rect.height - IconSize) / 2f, IconSize, IconSize);
                 DrawWorldObjectIcon(iconRect, target);
-                string label = FormatWorldObjectLabelLikeActionLog(target);
+                bool known = WdPlayerIntel.CanJumpOrLookTarget(target);
+                string label = known
+                    ? FormatWorldObjectLabelLikeActionLog(target)
+                    : WdPlayerIntel.FoggedSettlementListName(target);
                 Rect labelRect = new Rect(iconRect.xMax + 6f, rect.y, rect.width - (IconSize + 10f), rect.height);
-                DrawJumpLabelActiveTravelers(labelRect, label, new GlobalTargetInfo(target));
+                DrawJumpLabelActiveTravelers(labelRect, label, new GlobalTargetInfo(target), known);
             }
             else
             {

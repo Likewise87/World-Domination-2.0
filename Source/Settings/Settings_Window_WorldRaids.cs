@@ -11,6 +11,7 @@ namespace TSA_WorldDomination
         private bool simulationExpanded = true;
         private bool rangeExpanded;
         private bool winChanceExpanded = true;
+        private bool openFieldExpanded = true;
         private bool severityAttWinExpanded = true;
         private bool severityAttLossExpanded = true;
         private bool severityDefLossExpanded = true;
@@ -29,7 +30,7 @@ namespace TSA_WorldDomination
 private void SetAllSectionsExpanded(bool expanded)
         {
             simulationExpanded = rangeExpanded = expanded;
-            winChanceExpanded = lossTablesExpanded = expanded;
+            winChanceExpanded = openFieldExpanded = lossTablesExpanded = expanded;
             severityAttWinExpanded = severityAttLossExpanded = severityDefWinExpanded = severityDefLossExpanded = expanded;
         }
 
@@ -140,6 +141,7 @@ var s = WorldDominationMod.settings;
             l.Gap(6f);
 
             DrawSection1WinChance(l, s, ref winChanceExpanded);
+            DrawOpenFieldSection(l, s, ref openFieldExpanded);
 
             if (advanced)
             {
@@ -150,6 +152,44 @@ var s = WorldDominationMod.settings;
             }
 
             DrawSection6LossTables(l, s, ref lossTablesExpanded);
+        }
+
+        private static readonly float[] OpenFieldPreviewRatios = { 1f, 2f, 4f, 6f, 10f };
+
+        private static void DrawOpenFieldSection(Listing_Standard l, WorldDominationSettings s, ref bool expanded)
+        {
+            if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Raid_OpenField_Header".Translate(), ref expanded, SettingsUI.SectionHeaderColor))
+                return;
+
+            l.Label("TSA_WD_Raid_OpenField_Tip".Translate());
+            l.Gap(4f);
+
+            s.openFieldWinPower = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_OpenField_WinPower".Translate(), s.openFieldWinPower, 0.5f, 3f,
+                "TSA_WD_Raid_OpenField_WinPowerTip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefOpenFieldWinPower);
+
+            s.openFieldWinnerLossClose = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_OpenField_WinnerLossClose".Translate(), s.openFieldWinnerLossClose, 0f, 1f,
+                "TSA_WD_Raid_OpenField_WinnerLossCloseTip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefOpenFieldWinnerLossClose);
+            s.openFieldWinnerLossNormal = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_OpenField_WinnerLossNormal".Translate(), s.openFieldWinnerLossNormal, 0f, 1f,
+                "TSA_WD_Raid_OpenField_WinnerLossNormalTip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefOpenFieldWinnerLossNormal);
+            s.openFieldWinnerLossDecisive = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_OpenField_WinnerLossDecisive".Translate(), s.openFieldWinnerLossDecisive, 0f, 1f,
+                "TSA_WD_Raid_OpenField_WinnerLossDecisiveTip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefOpenFieldWinnerLossDecisive);
+
+            l.Gap(4f);
+            GUI.color = Color.gray;
+            l.Label("TSA_WD_Raid_OpenField_PreviewHeader".Translate());
+            for (int i = 0; i < OpenFieldPreviewRatios.Length; i++)
+            {
+                float r = OpenFieldPreviewRatios[i];
+                float winP = OpenFieldClashUtility.GetOpenFieldAttackerWinChance(r, s, null, null);
+                float expLoss = s.GetOpenFieldExpectedWinnerLoss(r);
+                float remnant = 1f - expLoss;
+                l.Label("TSA_WD_Raid_OpenField_PreviewRow".Translate(
+                    r.ToString("F0"),
+                    (winP * 100f).ToString("F0"),
+                    (remnant * 100f).ToString("F0")));
+            }
+            GUI.color = Color.white;
+            l.Gap(4f);
         }
 
         private static void DrawSection1WinChance(Listing_Standard l, WorldDominationSettings s, ref bool expanded)

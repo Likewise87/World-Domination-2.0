@@ -151,11 +151,11 @@
   <TSA_WD_Daily_Tier2Tip>每个 T2 定居点每日增加的行动数。</TSA_WD_Daily_Tier2Tip>
   <TSA_WD_Daily_Tier3Tip>每个 T3 定居点每日增加的行动数。</TSA_WD_Daily_Tier3Tip>
   <TSA_WD_Daily_Tier4Tip>每个 T4 定居点每日增加的行动数。</TSA_WD_Daily_Tier4Tip>
-  <TSA_WD_Daily_WeightGrow>发展概率</TSA_WD_Daily_WeightGrow>
+  <TSA_WD_Daily_WeightGrow>阶层升级或扩张</TSA_WD_Daily_WeightGrow>
   <TSA_WD_Daily_WeightGrowTip>接近上限的定居点升级或扩张的概率。仅当实力至少达到等级上限的 95% 时才会被选中。</TSA_WD_Daily_WeightGrowTip>
   <TSA_WD_Daily_HeaderNearCapActions>等级上限实力 95-100% 时的行动</TSA_WD_Daily_HeaderNearCapActions>
-  <TSA_WD_Daily_IncludeDevelopInPercent>将发展计入上方百分比</TSA_WD_Daily_IncludeDevelopInPercent>
-  <TSA_WD_Daily_IncludeDevelopInPercentTip>仅影响设置菜单。开启后，发展会计入上方常见行动旁的百分比。游戏内掷骰不变：只有接近等级上限时，发展才会参与竞争。</TSA_WD_Daily_IncludeDevelopInPercentTip>
+  <TSA_WD_Daily_IncludeDevelopInPercent>将阶层升级或扩张计入上方百分比</TSA_WD_Daily_IncludeDevelopInPercent>
+  <TSA_WD_Daily_IncludeDevelopInPercentTip>仅影响设置菜单。开启后，阶层升级或扩张与战略扩张会计入上方常见行动旁的百分比。游戏内掷骰不变：只有接近等级上限时，这些行动才会参与竞争。</TSA_WD_Daily_IncludeDevelopInPercentTip>
   <TSA_WD_Daily_WeightMajor>重大事件概率</TSA_WD_Daily_WeightMajor>
   <TSA_WD_Daily_WeightMajorTip>定居点遭遇重大事件的概率。</TSA_WD_Daily_WeightMajorTip>
   <TSA_WD_Daily_WeightMinor>次要事件概率</TSA_WD_Daily_WeightMinor>
@@ -371,18 +371,20 @@
   <TSA_WD_Growth_PlayerOutpostDefensiveStrength>玩家前哨防御强度</TSA_WD_Growth_PlayerOutpostDefensiveStrength>
   <TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>玩家前哨的基础本地防御强度(不含升级)。</TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>
   <TSA_WD_Growth_HeaderIncidents>事件严重度</TSA_WD_Growth_HeaderIncidents>
+  <TSA_WD_Growth_ClusterRadius>集群半径</TSA_WD_Growth_ClusterRadius>
+  <TSA_WD_Growth_ClusterRadiusTooltip>用于本地阶层上限、金字塔升级支援计数，以及附近 T1 过多时禁止继续扩张的地块半径。</TSA_WD_Growth_ClusterRadiusTooltip>
   <TSA_WD_Growth_LocalMaxT1>本地最大 T1 前哨</TSA_WD_Growth_LocalMaxT1>
-  <TSA_WD_Growth_LocalMaxT1Tooltip>在最大扩张半径内允许的 T1 定居点上限,超过则禁止继续扩张。</TSA_WD_Growth_LocalMaxT1Tooltip>
+  <TSA_WD_Growth_LocalMaxT1Tooltip>在集群半径内允许的 T1 定居点上限，超过则禁止继续扩张。</TSA_WD_Growth_LocalMaxT1Tooltip>
   <TSA_WD_Growth_LocalMaxT2>本地最大 T2 村落</TSA_WD_Growth_LocalMaxT2>
-  <TSA_WD_Growth_LocalMaxT2Tooltip>在最大扩张半径内允许的 T2 定居点上限。</TSA_WD_Growth_LocalMaxT2Tooltip>
+  <TSA_WD_Growth_LocalMaxT2Tooltip>在集群半径内允许的 T2 定居点上限。</TSA_WD_Growth_LocalMaxT2Tooltip>
   <TSA_WD_Growth_LocalMaxT3>本地最大 T3 城镇</TSA_WD_Growth_LocalMaxT3>
-  <TSA_WD_Growth_LocalMaxT3Tooltip>在最大扩张半径内允许的 T3 定居点上限。</TSA_WD_Growth_LocalMaxT3Tooltip>
+  <TSA_WD_Growth_LocalMaxT3Tooltip>在集群半径内允许的 T3 定居点上限。</TSA_WD_Growth_LocalMaxT3Tooltip>
   <TSA_WD_Growth_LocalMaxT4>本地最大 T4 要塞</TSA_WD_Growth_LocalMaxT4>
-  <TSA_WD_Growth_LocalMaxT4Tooltip>在最大扩张半径内允许的 T4 定居点上限。</TSA_WD_Growth_LocalMaxT4Tooltip>
+  <TSA_WD_Growth_LocalMaxT4Tooltip>在集群半径内允许的 T4 定居点上限。</TSA_WD_Growth_LocalMaxT4Tooltip>
   <TSA_WD_Growth_MajorInc>重大事件实力损失</TSA_WD_Growth_MajorInc>
   <TSA_WD_Growth_MajorIncTooltip>重大灾难中损失的实力点。</TSA_WD_Growth_MajorIncTooltip>
   <TSA_WD_Growth_MaxRadius>最大扩张半径</TSA_WD_Growth_MaxRadius>
-  <TSA_WD_Growth_MaxRadiusTooltip>扩张允许的最大格距及计算本地密度所用的半径。</TSA_WD_Growth_MaxRadiusTooltip>
+  <TSA_WD_Growth_MaxRadiusTooltip>建立新定居点允许的最大格距（仅建城环；密度使用集群半径）。</TSA_WD_Growth_MaxRadiusTooltip>
   <TSA_WD_Growth_MaxSettlements>星球最大定居点</TSA_WD_Growth_MaxSettlements>
   <TSA_WD_Growth_MaxSettlementsTooltip>全球定居点总数上限,超过则禁止扩张。性能预设也会设置此项（200 / 400 / 800）。</TSA_WD_Growth_MaxSettlementsTooltip>
   <TSA_WD_Growth_MinRadius>最小扩张半径</TSA_WD_Growth_MinRadius>
@@ -811,12 +813,12 @@
   <TSA_WD_Garrison_MinScale>进攻耗尽时的最低驻军比例</TSA_WD_Garrison_MinScale>
   <TSA_WD_Garrison_MinScaleTooltip>地图驻军随被攻击定居点当前进攻实力相对其等级上限缩放。满员定居点派出配置等级乘数的 100%；耗尽者更少。此为下限：即使完全耗尽也至少派出该比例。地图布局仍按等级匹配。</TSA_WD_Garrison_MinScaleTooltip>
   <TSA_WD_Growth_HeaderSameTierUpgradeReq>同级升级要求</TSA_WD_Growth_HeaderSameTierUpgradeReq>
-  <TSA_WD_Growth_SameTierUpgradeT1>升级所需同级 T1 邻居数</TSA_WD_Growth_SameTierUpgradeT1>
-  <TSA_WD_Growth_SameTierUpgradeT1Tooltip>T1 定居点升至 T2 前，附近所需的同派系 T1 定居点数量。</TSA_WD_Growth_SameTierUpgradeT1Tooltip>
-  <TSA_WD_Growth_SameTierUpgradeT2>升级所需同级 T2 邻居数</TSA_WD_Growth_SameTierUpgradeT2>
-  <TSA_WD_Growth_SameTierUpgradeT2Tooltip>T2 定居点升至 T3 前，附近所需的同派系 T2 定居点数量。</TSA_WD_Growth_SameTierUpgradeT2Tooltip>
-  <TSA_WD_Growth_SameTierUpgradeT3>升级所需同级 T3 邻居数</TSA_WD_Growth_SameTierUpgradeT3>
-  <TSA_WD_Growth_SameTierUpgradeT3Tooltip>T3 定居点升至 T4 前，附近所需的同派系 T3 定居点数量。</TSA_WD_Growth_SameTierUpgradeT3Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT1>T1→T2 支援数量</TSA_WD_Growth_SameTierUpgradeT1>
+  <TSA_WD_Growth_SameTierUpgradeT1Tooltip>在集群半径内，升至 T2 前需要这么多其他 T1。也受本地最大 T2 限制。</TSA_WD_Growth_SameTierUpgradeT1Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT2>T2→T3 支援数量</TSA_WD_Growth_SameTierUpgradeT2>
+  <TSA_WD_Growth_SameTierUpgradeT2Tooltip>在集群半径内，升至 T3 前需要这么多其他 T2 以及这么多 T1。也受本地最大 T3 限制。</TSA_WD_Growth_SameTierUpgradeT2Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT3>T3→T4 支援数量</TSA_WD_Growth_SameTierUpgradeT3>
+  <TSA_WD_Growth_SameTierUpgradeT3Tooltip>在集群半径内，升至 T4 前需要这么多其他 T3 以及这么多 T2 与 T1。也受本地最大 T4 限制。</TSA_WD_Growth_SameTierUpgradeT3Tooltip>
   <TSA_WD_HeaderDynamicGarrison>动态缩放（按当前进攻实力）</TSA_WD_HeaderDynamicGarrison>
   <TSA_WD_Raid_CloseAttackerLoss>进攻方惜败</TSA_WD_Raid_CloseAttackerLoss>
   <TSA_WD_Raid_CloseAttackerVictory>进攻方险胜</TSA_WD_Raid_CloseAttackerVictory>
@@ -839,6 +841,18 @@
   <TSA_WD_Raid_NormalDefenderLoss>防守方普通失败</TSA_WD_Raid_NormalDefenderLoss>
   <TSA_WD_Raid_NormalDefenderVictory>防守方普通胜利</TSA_WD_Raid_NormalDefenderVictory>
   <TSA_WD_Raid_NormalDefenderWin>防守方普通胜利</TSA_WD_Raid_NormalDefenderWin>
+  <TSA_WD_Raid_OpenField_Header>野外冲突</TSA_WD_Raid_OpenField_Header>
+  <TSA_WD_Raid_OpenField_Tip>旅行者、商队与反坦克炮近战使用此曲线，而非围城胜率表。败方全灭。胜方按战斗胶着程度保留残存实力。险胜也可能两败俱伤。</TSA_WD_Raid_OpenField_Tip>
+  <TSA_WD_Raid_OpenField_WinPower>胜率曲线幂次</TSA_WD_Raid_OpenField_WinPower>
+  <TSA_WD_Raid_OpenField_WinPowerTip>越高，实力差距越大时胜负越稳。势均力敌仍是五五开。越低越容易爆冷。</TSA_WD_Raid_OpenField_WinPowerTip>
+  <TSA_WD_Raid_OpenField_WinnerLossClose>胜方损失（险胜）</TSA_WD_Raid_OpenField_WinnerLossClose>
+  <TSA_WD_Raid_OpenField_WinnerLossCloseTip>险胜时胜方损失的实力。可能所剩无几甚至同归于尽。</TSA_WD_Raid_OpenField_WinnerLossCloseTip>
+  <TSA_WD_Raid_OpenField_WinnerLossNormal>胜方损失（普通）</TSA_WD_Raid_OpenField_WinnerLossNormal>
+  <TSA_WD_Raid_OpenField_WinnerLossNormalTip>普通胜利时胜方损失的实力。</TSA_WD_Raid_OpenField_WinnerLossNormalTip>
+  <TSA_WD_Raid_OpenField_WinnerLossDecisive>胜方损失（大胜）</TSA_WD_Raid_OpenField_WinnerLossDecisive>
+  <TSA_WD_Raid_OpenField_WinnerLossDecisiveTip>一边倒大胜时胜方损失的实力。</TSA_WD_Raid_OpenField_WinnerLossDecisiveTip>
+  <TSA_WD_Raid_OpenField_PreviewHeader>预览（进攻方实力比 → 胜率，胜方预期残存）</TSA_WD_Raid_OpenField_PreviewHeader>
+  <TSA_WD_Raid_OpenField_PreviewRow>{0}x → {1}% 胜率，约 {2}% 残存</TSA_WD_Raid_OpenField_PreviewRow>
   <TSA_WD_Raid_Section1_WinChance>按相对实力比的进攻方胜率</TSA_WD_Raid_Section1_WinChance>
   <TSA_WD_Raid_Section2_Desc>进攻方获胜时，胜利有多决定性？</TSA_WD_Raid_Section2_Desc>
   <TSA_WD_Raid_Section3_Desc>进攻方失败时，失败有多惨重？</TSA_WD_Raid_Section3_Desc>

@@ -119,10 +119,16 @@ namespace TSA_WorldDomination
             if (!near.HasValue && !far.HasValue) return false;
 
             Settlement jump = near.HasValue ? near.Value.settlement : far.Value.settlement;
-            if (jump != null)
+            if (jump != null && WdPlayerIntel.CanJumpOrLookTarget(jump))
                 return AlertReport.CulpritIs(jump);
             GlobalTargetInfo culprit = m.WorldThreatScariest;
-            return culprit.IsValid ? AlertReport.CulpritIs(culprit) : AlertReport.Active;
+            if (culprit.IsValid)
+            {
+                WorldObject culpritWo = culprit.WorldObject;
+                if (culpritWo != null && WdPlayerIntel.CanJumpOrLookTarget(culpritWo))
+                    return AlertReport.CulpritIs(culprit);
+            }
+            return AlertReport.Active;
         }
 
         /// <summary>

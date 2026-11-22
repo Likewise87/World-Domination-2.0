@@ -117,7 +117,8 @@ namespace TSA_WorldDomination
                 || WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp)
                 || WorldActions_Decontamination.HasActiveDecontaminationProject(comp)
                 || WorldActions_AtTurrets.HasActiveAtTurretProject(comp)
-                || WorldActions_Trenches.HasActiveTrenchProject(comp))
+                || WorldActions_Trenches.HasActiveTrenchProject(comp)
+                || WorldActions_PlayerScout.HasActiveScoutProject(comp))
             {
                 return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.white)
                 {
@@ -162,7 +163,8 @@ namespace TSA_WorldDomination
                 || WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp)
                 || WorldActions_Decontamination.HasActiveDecontaminationProject(comp)
                 || WorldActions_AtTurrets.HasActiveAtTurretProject(comp)
-                || WorldActions_Trenches.HasActiveTrenchProject(comp))
+                || WorldActions_Trenches.HasActiveTrenchProject(comp)
+                || WorldActions_PlayerScout.HasActiveScoutProject(comp))
             {
                 return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.white)
                 {

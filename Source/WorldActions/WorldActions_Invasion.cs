@@ -128,9 +128,7 @@ namespace TSA_WorldDomination
             WDVerbose.Msg(
                 $"ForwardAssault Invasion launched faction={faction.Name} raids={launched} hosts={sources.Count}");
 
-            LookTargets letterLook = lookTargets.Count > 0
-                ? new LookTargets(lookTargets)
-                : LookTargets.Invalid;
+            LookTargets letterLook = WdPlayerIntel.LookTargetsFromKnown(lookTargets) ?? LookTargets.Invalid;
             Find.LetterStack.ReceiveLetter(
                 "TSA_WD_Letter_Invasion_Label".Translate(),
                 "TSA_WD_Letter_Invasion_Text".Translate(

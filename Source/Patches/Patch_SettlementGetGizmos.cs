@@ -29,6 +29,7 @@ namespace TSA_WorldDomination
                 yield return g;
             foreach (Gizmo g in Patch_SettlementAllyRadiusGizmo.GetGizmos(__instance))
                 yield return g;
+            // Scout cancel gizmo is yielded from Action_Outpost_Build.GetColonyGizmos (Build menu stack).
         }
     }
 }

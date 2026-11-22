@@ -68,7 +68,7 @@ namespace TSA_WorldDomination
                     loss.ToString("F0"),
                     oldDef.ToString("F0"),
                     targetComp.defensiveStrength.ToString("F0")),
-                target));
+                target) { category = SpreadLogCategory.MinorIncident });
 
             if (seth.notifyOutpostIncident)
             {
@@ -102,7 +102,7 @@ namespace TSA_WorldDomination
                     loss.ToString("F0"),
                     oldOff.ToString("F0"),
                     oldDef.ToString("F0")),
-                target));
+                target) { category = SpreadLogCategory.MinorIncident });
 
             if (seth != null && seth.notifyOutpostIncident)
             {

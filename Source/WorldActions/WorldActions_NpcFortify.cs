@@ -115,7 +115,7 @@ namespace TSA_WorldDomination
             manager.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_Fortify_DedicatedAtTurret".Translate(actor.LabelCap, tile.ToString()),
                 actor,
-                tile));
+                tile) { category = SpreadLogCategory.BuiltFortification });
 
             float cdDays = Mathf.Max(0f, seth.cooldownFortifyDays);
             comp.fortifyCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(cdDays * 60000f);
@@ -165,7 +165,7 @@ namespace TSA_WorldDomination
                     manager.AddLog(new SpreadLogEntry(
                         "TSA_WD_Log_Fortify".Translate(actor.LabelCap, tile.ToString()),
                         actor,
-                        tile));
+                        tile) { category = SpreadLogCategory.BuiltFortification });
                 }
                 else
                 {
@@ -265,7 +265,7 @@ namespace TSA_WorldDomination
                 ? "TSA_WD_Log_Fortify_SpikeTrapComplete".Translate(origin.LabelCap, tile).ToString()
                 : "TSA_WD_Log_Fortify_RoadBlockComplete".Translate(origin.LabelCap, tile).ToString();
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(
-                new SpreadLogEntry(msg, origin, tile));
+                new SpreadLogEntry(msg, origin, tile) { category = SpreadLogCategory.BuiltFortification });
         }
 
         public static void ExecuteNpcAtTurretArrival(WorldObject_Traveler traveler)
@@ -294,7 +294,7 @@ namespace TSA_WorldDomination
                 new SpreadLogEntry(
                     "TSA_WD_Log_Fortify_AT_TurretComplete".Translate(origin.LabelCap, tile.ToString()),
                     origin,
-                    tile));
+                    tile) { category = SpreadLogCategory.BuiltFortification });
         }
 
         private static bool SpawnNpcAtTurretTraveler(Settlement origin, int destTile, float cost)

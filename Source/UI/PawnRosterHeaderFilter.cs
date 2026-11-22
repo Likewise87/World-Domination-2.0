@@ -412,6 +412,71 @@ namespace TSA_WorldDomination
             });
         }
 
+        /// <summary>Multi-select slate tiles; stays open on pick. Optional footer (Exclude + Clear).</summary>
+        public static void OpenMultiChoiceDropdown(
+            Rect guiAnchor,
+            string title,
+            Func<IReadOnlyList<HeaderFilterChoice>> getChoices,
+            Action<Rect, float> drawFooter,
+            float width = DefaultDropdownW,
+            float footerH = 0f)
+        {
+            if (getChoices == null) return;
+            Open(guiAnchor, width, Pad * 2f + TitleH + 12f + 12f * (TileH + 4f) + footerH, inner =>
+            {
+                IReadOnlyList<HeaderFilterChoice> choices = getChoices();
+                if (choices == null || choices.Count == 0) return;
+                int separators = 0;
+                for (int i = 0; i < choices.Count; i++)
+                {
+                    if (choices[i].SeparatorAfter) separators++;
+                }
+                float listH = choices.Count * (TileH + 4f) + separators * 10f;
+                float maxListH = 12f * (TileH + 4f);
+                bool needScroll = listH > maxListH + 1f;
+                float shownListH = needScroll ? maxListH : listH;
+                float y = DrawDropdownTitle(inner, title);
+                if (needScroll)
+                {
+                    Rect outer = new Rect(inner.x, y, inner.width, shownListH);
+                    Rect view = new Rect(0f, 0f, inner.width - 16f, listH);
+                    Widgets.BeginScrollView(outer, ref dropdownListScroll, view);
+                    DrawChoiceTilesKeepOpen(new Rect(0f, 0f, view.width, listH), choices);
+                    Widgets.EndScrollView();
+                }
+                else
+                {
+                    DrawChoiceTilesKeepOpen(new Rect(inner.x, y, inner.width, listH), choices);
+                }
+                if (drawFooter != null)
+                    drawFooter(inner, y + shownListH + 6f);
+            });
+        }
+
+        private static void DrawChoiceTilesKeepOpen(Rect area, IReadOnlyList<HeaderFilterChoice> choices)
+        {
+            float y = area.y;
+            for (int i = 0; i < choices.Count; i++)
+            {
+                HeaderFilterChoice c = choices[i];
+                Rect tile = new Rect(area.x, y, area.width, TileH);
+                if (DrawSlateChoice(tile, c.Label, c.Selected, c.Tip, c.CountLabel))
+                {
+                    c.OnPick?.Invoke();
+                    SoundDefOf.Click.PlayOneShotOnCamera();
+                }
+                y += TileH + 4f;
+                if (c.SeparatorAfter)
+                {
+                    Color prev = GUI.color;
+                    GUI.color = Color.white;
+                    Widgets.DrawLineHorizontal(area.x, y + 2f, area.width);
+                    GUI.color = prev;
+                    y += 10f;
+                }
+            }
+        }
+
         private static void DrawChoiceTiles(Rect area, IReadOnlyList<HeaderFilterChoice> choices)
         {
             float y = area.y;

@@ -162,13 +162,13 @@ namespace TSA_WorldDomination
                     float max = comp.GetEffectiveOffensiveMaxForTier(comp.tier);
                     if (comp.offensiveStrength < max - CapEpsilon) continue;
 
-                    if (!WorldActions_GrowthExpand.CanPromoteNextTierRegionally(settlement, comp.tier))
+                    if (!WorldActions_GrowthExpand.CanUpgradeTierFully(settlement, comp.tier))
                     {
                         upgradeFailedIds.Add(settlement.ID);
                         failedUpgradeLines.Add(
-                            $"{settlement.LabelCap} upgrade blocked (regional tier cap) at {comp.tier}.");
+                            $"{settlement.LabelCap} upgrade blocked (cluster support or regional tier cap) at {comp.tier}.");
                         WDVerbose.Msg(
-                            $"Investment upgrade regionally blocked for {settlement.LabelCap} at {comp.tier}.");
+                            $"Investment upgrade blocked (pyramid/regional) for {settlement.LabelCap} at {comp.tier}.");
                         candidates.RemoveAt(i);
                         i--;
                         continue;
@@ -191,7 +191,7 @@ namespace TSA_WorldDomination
                     {
                         upgradeFailedIds.Add(settlement.ID);
                         string why = promote == CompViralSpread.InvestmentPromoteResult.RegionallyBlocked
-                            ? "regional tier cap"
+                            ? "cluster support or regional tier cap"
                             : "roll failed";
                         failedUpgradeLines.Add(
                             $"{settlement.LabelCap} upgrade failed at {fromTier} ({why}, upgrade silver {cost:F0}).");
@@ -448,9 +448,8 @@ namespace TSA_WorldDomination
         {
             if (notify == NotifyKind.None || notify == NotifyKind.Loot || notify == NotifyKind.Bribe) return;
 
-            LookTargets look = preferFirst != null && !preferFirst.Destroyed
-                ? new LookTargets(preferFirst)
-                : new LookTargets(new GlobalTargetInfo(originTile));
+            // Do not silent-jump to an undiscovered settlement tile (reveals location).
+            LookTargets look = WdPlayerIntel.LookTargetsOrNull(preferFirst);
 
             if (!result.Applied)
             {

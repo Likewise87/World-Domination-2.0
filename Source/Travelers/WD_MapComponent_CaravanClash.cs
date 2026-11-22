@@ -63,6 +63,8 @@ namespace TSA_WorldDomination
         private float savedIntelAssessedDefTotal = -1f;
         private bool savedIsNimbleScout;
         private int savedScoutExtraWaypointsLeft;
+        private int savedPlayerScoutExpireTick = -1;
+        private List<int> savedScoutWaypointQueue;
         private WorldObject savedOriginalTarget;
         private RaidLaunchTargetKind savedCachedTargetKind = RaidLaunchTargetKind.NPC;
         private bool savedIsTurretDetour;
@@ -261,6 +263,10 @@ namespace TSA_WorldDomination
             this.savedIntelAssessedDefTotal = traveler.intelAssessedDefTotal;
             this.savedIsNimbleScout = traveler.isNimbleScout;
             this.savedScoutExtraWaypointsLeft = traveler.scoutExtraWaypointsLeft;
+            this.savedPlayerScoutExpireTick = traveler.playerScoutExpireTick;
+            this.savedScoutWaypointQueue = traveler.scoutWaypointQueue != null
+                ? new List<int>(traveler.scoutWaypointQueue)
+                : null;
             this.savedOriginalTarget = traveler.originalTargetObject;
             this.savedCachedTargetKind = traveler.cachedTargetKind;
             this.savedIsTurretDetour = traveler.isTurretDetour;
@@ -601,6 +607,10 @@ namespace TSA_WorldDomination
             newTraveler.intelAssessedDefTotal = savedIntelAssessedDefTotal;
             newTraveler.isNimbleScout = savedIsNimbleScout;
             newTraveler.scoutExtraWaypointsLeft = savedScoutExtraWaypointsLeft;
+            newTraveler.playerScoutExpireTick = savedPlayerScoutExpireTick;
+            newTraveler.scoutWaypointQueue = savedScoutWaypointQueue != null && savedScoutWaypointQueue.Count > 0
+                ? new List<int>(savedScoutWaypointQueue)
+                : null;
             if (savedTrenchResolvedOwnerIds != null && savedTrenchResolvedOwnerIds.Count > 0)
             {
                 newTraveler.trenchResolvedOwnerIds ??= new List<int>();
@@ -820,6 +830,10 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref savedIntelAssessedDefTotal, "savedIntelAssessedDefTotal", -1f);
             Scribe_Values.Look(ref savedIsNimbleScout, "savedIsNimbleScout", false);
             Scribe_Values.Look(ref savedScoutExtraWaypointsLeft, "savedScoutExtraWaypointsLeft", 0);
+            Scribe_Values.Look(ref savedPlayerScoutExpireTick, "savedPlayerScoutExpireTick", -1);
+            Scribe_Collections.Look(ref savedScoutWaypointQueue, "savedScoutWaypointQueue", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && savedScoutWaypointQueue == null)
+                savedScoutWaypointQueue = null;
             Scribe_Values.Look(ref leftoversDiscarded, "leftoversDiscarded", false);
             Scribe_Values.Look(ref foughtOnPlayerAtTurret, "foughtOnPlayerAtTurret", false);
             Scribe_Values.Look(ref lootResolved, "lootResolved", false);

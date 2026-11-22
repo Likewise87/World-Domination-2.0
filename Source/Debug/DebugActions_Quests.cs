@@ -151,6 +151,29 @@ namespace TSA_WorldDomination
                     MessageTypeDefOf.RejectInput);
         }
 
+        public static void ScoutWorldMapForceGenerate()
+        {
+            var gc = Current.Game?.GetComponent<GameComponent_WdScoutWorldMapQuest>();
+            if (gc != null)
+            {
+                gc.permanentlyDone = false;
+                gc.trackedQuestId = -1;
+                gc.offerAtTick = 0;
+            }
+
+            if (WdScoutWorldMapQuestHelper.AnyActive())
+            {
+                Messages.Message("WD debug: scout world map quest already active.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (WdScoutWorldMapQuestHelper.GenerateQuest(ignoreSetting: true))
+                Messages.Message("WD debug: scout world map quest generated.", MessageTypeDefOf.TaskCompletion);
+            else
+                Messages.Message(
+                    "WD debug: scout world map quest generate failed (need closest ally/neutral town).",
+                    MessageTypeDefOf.RejectInput);
+        }
+
         public static void RaidBiasClickedToPlayer()
         {
             Faction attacker = FindFactionAtMouseTile();

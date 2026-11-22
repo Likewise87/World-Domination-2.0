@@ -31,10 +31,31 @@ namespace TSA_WorldDomination
     }
 
     /// <summary>
-    /// Open-field traveler/caravan/AT melee clashes: World Raids outcome table as-is, with explicit attacker/defender roles.
+    /// Open-field traveler/caravan/AT melee clashes: own win curve + winner-loss tiers; loser wiped.
     /// </summary>
     public static class OpenFieldClashUtility
     {
+        /// <summary>
+        /// Attacker win chance for open field: p = 1/(1+r^(-k)), soft-clamped, then diplomacy mults.
+        /// At <see cref="WorldDominationSettings.DefOpenFieldCertainWinRatio"/> (and inverse) the outcome is certain (1 or 0).
+        /// </summary>
+        public static float GetOpenFieldAttackerWinChance(
+            float ratio,
+            WorldDominationSettings seth,
+            Faction attackerFaction,
+            Faction defenderFaction)
+        {
+            float r = Mathf.Max(ratio, 0.0001f);
+            float certain = WorldDominationSettings.DefOpenFieldCertainWinRatio;
+            if (r >= certain) return 1f;
+            if (r <= 1f / certain) return 0f;
+
+            float k = seth != null ? Mathf.Clamp(seth.openFieldWinPower, 0.5f, 3f) : WorldDominationSettings.DefOpenFieldWinPower;
+            float p = 1f / (1f + Mathf.Pow(r, -k));
+            p = Mathf.Clamp(p, WorldDominationSettings.OpenFieldWinChanceMin, WorldDominationSettings.OpenFieldWinChanceMax);
+            return RaidCasualtyModel.ApplyDiplomacyWinChanceMults(p, seth, attackerFaction, defenderFaction);
+        }
+
         public static bool IsInterceptorMission(TravelerMission mission) =>
             mission == TravelerMission.RapidResponseIntercept;
 
@@ -191,6 +212,7 @@ namespace TSA_WorldDomination
                 : "TSA_WD_Log_AT_TurretClash_TurretWon".Translate(turretLabel, traveler.LabelCap, result.defAfter.ToString("F0"));
             var entry = new SpreadLogEntry(outcome, traveler, turret);
             FillClashEntry(entry, result, traveler, turret);
+            entry.category = SpreadLogCategory.Raid;
             manager.AddLog(entry);
         }
 
@@ -251,27 +273,41 @@ namespace TSA_WorldDomination
         {
             var seth = WorldDominationMod.settings;
             float ratio = attBefore / Mathf.Max(defBefore, 0.0001f);
-            RaidResolvedOutcome resolved = RaidCasualtyModel.Resolve(ratio, seth, null, attacker?.Faction, defender?.Faction);
+            float winChance = GetOpenFieldAttackerWinChance(ratio, seth, attacker?.Faction, defender?.Faction);
+            bool attackerWon = Rand.Value < winChance;
 
-            float attSurvivors = attBefore * (1f - resolved.attLossPct);
-            float defSurvivors = defBefore * (1f - resolved.defLossPct);
+            float winnerBefore = attackerWon ? attBefore : defBefore;
+            float loserBefore = attackerWon ? defBefore : attBefore;
+            float winnerRatio = winnerBefore / Mathf.Max(loserBefore, 0.0001f);
+            RaidMarginShares shares = RaidSeverityDefaults.AttSeverityOnAttWinAt(winnerRatio);
+            BattleMarginTier winnerSeverity = RaidCasualtyModel.RollMarginTier(shares);
+            float winnerLossPct = seth != null
+                ? seth.GetOpenFieldWinnerLoss(winnerSeverity)
+                : WorldDominationSettings.DefOpenFieldWinnerLossNormal;
+
+            float attLossPct = attackerWon ? winnerLossPct : 1f;
+            float defLossPct = attackerWon ? 1f : winnerLossPct;
+            float attSurvivors = attBefore * (1f - attLossPct);
+            float defSurvivors = defBefore * (1f - defLossPct);
+            BattleMarginTier attSeverity = attackerWon ? winnerSeverity : BattleMarginTier.Decisive;
+            BattleMarginTier defSeverity = attackerWon ? BattleMarginTier.Decisive : winnerSeverity;
 
             return new OpenFieldClashResult
             {
                 ok = true,
-                attackerWon = resolved.attackerWon,
+                attackerWon = attackerWon,
                 attBefore = attBefore,
                 defBefore = defBefore,
-                attAfter = resolved.attackerWon ? attSurvivors : 0f,
-                defAfter = resolved.attackerWon ? 0f : defSurvivors,
+                attAfter = attackerWon ? attSurvivors : 0f,
+                defAfter = attackerWon ? 0f : defSurvivors,
                 attackerSurvivorStrength = attSurvivors,
-                defenderSurvivorStrength = resolved.attackerWon ? 0f : defSurvivors,
+                defenderSurvivorStrength = attackerWon ? 0f : defSurvivors,
                 ratio = ratio,
-                winChance = resolved.winChance,
-                attLossPct = resolved.attLossPct,
-                defLossPct = resolved.defLossPct,
-                attSeverity = resolved.attSeverity,
-                defSeverity = resolved.defCoalitionSeverity,
+                winChance = winChance,
+                attLossPct = attLossPct,
+                defLossPct = defLossPct,
+                attSeverity = attSeverity,
+                defSeverity = defSeverity,
                 attackerLabel = attacker?.LabelCap ?? "?",
                 defenderLabel = defender?.LabelCap ?? "?",
                 attackerObj = attacker,
@@ -414,6 +450,7 @@ namespace TSA_WorldDomination
 
             var entry = new SpreadLogEntry("TSA_WD_Log_TravelerClash".Translate(), attacker, defender);
             FillClashEntry(entry, result, attacker, defender);
+            entry.category = SpreadLogCategory.Raid;
             manager.AddLog(entry);
         }
 
@@ -434,6 +471,7 @@ namespace TSA_WorldDomination
                 traveler,
                 caravan);
             FillClashEntry(entry, result, result.attackerObj, result.defenderObj);
+            entry.category = SpreadLogCategory.Raid;
             manager.AddLog(entry);
         }
 
@@ -457,6 +495,7 @@ namespace TSA_WorldDomination
 
             var entry = new SpreadLogEntry(outcome, traveler, turret);
             FillClashEntry(entry, result, traveler, turret);
+            entry.category = SpreadLogCategory.Raid;
             manager.AddLog(entry);
         }
 
@@ -476,7 +515,8 @@ namespace TSA_WorldDomination
             entry.defLossPct = result.defLossPct;
             entry.attSeverityTier = result.attSeverity;
             entry.defCoalitionSeverityTier = result.defSeverity;
-            entry.marginTier = result.attSeverity;
+            // Winner margin only (role-neutral open-field UI / Action Log suffix).
+            entry.marginTier = result.attackerWon ? result.attSeverity : result.defSeverity;
             entry.labelA = result.attackerLabel;
             entry.labelB = result.defenderLabel;
 

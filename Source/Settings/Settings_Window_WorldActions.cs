@@ -83,6 +83,8 @@ var s = WorldDominationMod.settings;
             bool showDevelopPct = s.includeDevelopWeightInPercentDisplay;
             s.weightGrow = SettingsUI.WeightSlider(l, "TSA_WD_Daily_WeightGrow".Translate(), s.weightGrow, displayPool, 0f, 400f,
                 "TSA_WD_Daily_WeightGrowTip".Translate(), WorldDominationSettings.DefWeightGrow, showPercent: showDevelopPct);
+            s.weightStrategicExpand = SettingsUI.WeightSlider(l, "TSA_WD_Intel_WeightStrategicExpand".Translate(), s.weightStrategicExpand, displayPool, 0f, 400f,
+                "TSA_WD_Intel_WeightStrategicExpandTip".Translate(), WorldDominationSettings.DefWeightStrategicExpand, showPercent: showDevelopPct);
             SettingsUI.DrawCheckbox(l, "TSA_WD_Daily_IncludeDevelopInPercent".Translate(),
                 ref s.includeDevelopWeightInPercentDisplay,
                 "TSA_WD_Daily_IncludeDevelopInPercentTip".Translate(),

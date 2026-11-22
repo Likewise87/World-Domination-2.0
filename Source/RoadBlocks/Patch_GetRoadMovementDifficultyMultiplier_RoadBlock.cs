@@ -52,6 +52,15 @@ namespace TSA_WorldDomination
                 }
             }
 
+            // Scout FindPath: strongly prefer routes that skip hostile spike traps.
+            if (WdScoutTrapAvoidPathContext.Active && __state && toTile.Valid
+                && WorldActions_SpikeTraps.IsHostileTrapTo(toTile.tileId, WdScoutTrapAvoidPathContext.MoverFaction))
+            {
+                float terrainT = WorldPathGrid.CalculatedMovementDifficultyAt(toTile, false);
+                if (terrainT < 0.01f) terrainT = 0.01f;
+                __result += WdScoutTrapAvoidPathContext.HostileTrapFlatPenalty / terrainT;
+            }
+
             // WD FindPath pollution cost (approach A): only while WdPollutionPathContext is active.
             if (!WdPollutionPathContext.Active) return;
             if (!__state || !toTile.Valid) return;

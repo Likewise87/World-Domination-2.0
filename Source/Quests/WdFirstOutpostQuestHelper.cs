@@ -148,6 +148,8 @@ namespace TSA_WorldDomination
                     continue;
                 if (kv.Value == null || kv.Value.Count == 0)
                     continue;
+                if (!WdQuestDiscovery.PlayerSeesAnySettlementOf(f))
+                    continue;
 
                 FactionRelationKind kind = WorldActions_Utils.SafeRelationKindWith(f, player);
                 if (kind == FactionRelationKind.Ally)

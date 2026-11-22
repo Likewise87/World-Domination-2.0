@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_76_Title>Fog of War &amp; more</TSA_WD_Update_2_3_76_Title>
+  <TSA_WD_Update_2_3_76_Body><![CDATA[
+<size=16><b>2.3.76 - Fog of War & more</b></size>\n
+<color=#00FFFFFF>Release date: November 22nd 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New Feature: Full fog of war. The world map starts completely black. Both you and NPC factions need to scout it. You can only interact with and attack what you see. Settlements and outposts have different lines of sight. The "Build" menu is now "Build & Scout" so you can dispatch plain scout caravans (slightly faster, slightly higher LOS, try to avoid traps known at dispatch). Select multiple waypoints. Max lifetime: 2 days.\n
+• Kill switch for the whole feature on the main WD mod settings page if you do not want it. Fine-tune in the "Intel" tab.\n
+• Fog of War significantly changes the balance. Highly recommended to reset all mod settings. With fewer fights until enemies find each other, settlement tier upgrades and similar pacing were slowed.\n
+• Any settlement and caravan has a real line of sight (the truth) plus an extended "hunch" radius. Large caravans and T3+ settlements are already visible in the hunch radius. Visualize ranges via the Line of Sight gizmo on those world objects.\n
+• Knowledge is global: if a faction sees your outpost or caravan, anyone in that faction knows forever. Open the Stats tab of your outpost or colony, then Intel, to see who knows you.\n
+• New quests introduce these mechanics (e.g. scouting). The closest neutral faction reveals itself after 3 in-game days and asks you to start scouting, awarding a mood buff.\n
+• Rebalance of virtual caravan clashes on the open world map. Uses its own curve, not the settlement/outpost attack math.\n
+• New Feature: WD Power Spot. Place several and connect them to power. Select each and choose how much of your WD PowerPlant outpost energy that spot should get (fine-tune grids). Without spots, each grid still gets an equal share (same as before).\n
+• Bugfix: Prisoners sent from Outpost A to Outpost B should no longer be instantly recruited as colonists; they keep their previous resistance.\n
+• Many smaller tweaks and bugfixes.\n
+]]></TSA_WD_Update_2_3_76_Body>
   <TSA_WD_Update_2_3_75_Title>Strategic expansion, road&lt;&gt;trench crossing, new quests</TSA_WD_Update_2_3_75_Title>
   <TSA_WD_Update_2_3_75_Body><![CDATA[
 <size=16><b>2.3.75 - Strategic expansion, road<>trench crossing, new quests</b></size>\n

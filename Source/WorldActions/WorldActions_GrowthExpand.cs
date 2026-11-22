@@ -110,7 +110,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Growth <c>localMaxT*</c> room for promoting <paramref name="fromTier"/> to the next tier
-        /// within <see cref="WorldDominationSettings.expandMaxRadius"/> (same radius as Develop).
+        /// within <see cref="WorldDominationSettings.localTierClusterRadius"/>.
         /// </summary>
         public static bool CanPromoteNextTierRegionally(WorldObject settlement, SettlementTier fromTier)
         {
@@ -118,7 +118,7 @@ namespace TSA_WorldDomination
             var seth = WorldDominationMod.settings;
             if (seth == null) return false;
 
-            CountNearbySameFactionTiers(settlement, seth, out _, out int t2Count, out int t3Count, out int t4Count);
+            CountNearbySameFactionTiers(settlement, seth, out _, out _, out int t2Count, out int t3Count, out int t4Count);
             switch (fromTier)
             {
                 case SettlementTier.T1:
@@ -132,20 +132,55 @@ namespace TSA_WorldDomination
             }
         }
 
+        /// <summary>
+        /// Pyramid support within Cluster radius: need N same-tier peers and N of each lower tier
+        /// (<see cref="WorldDominationSettings.GetSameTierNeighborsRequiredForUpgrade"/>).
+        /// </summary>
+        public static bool MeetsPyramidSupportForUpgrade(WorldObject settlement, SettlementTier fromTier)
+        {
+            if (settlement == null || settlement.Destroyed || fromTier >= SettlementTier.T4) return false;
+            var seth = WorldDominationMod.settings;
+            if (seth == null) return false;
+
+            int need = seth.GetSameTierNeighborsRequiredForUpgrade(fromTier);
+            if (need <= 0) return true;
+
+            CountNearbySameFactionTiers(settlement, seth, out int peers, out int t1Count, out int t2Count, out _, out _);
+            if (peers < need) return false;
+            switch (fromTier)
+            {
+                case SettlementTier.T1:
+                    return true;
+                case SettlementTier.T2:
+                    return t1Count >= need;
+                case SettlementTier.T3:
+                    return t2Count >= need && t1Count >= need;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>Soft tier-up gate for Develop, trader arrival, and Gift/Buy/Bribe investment.</summary>
+        public static bool CanUpgradeTierFully(WorldObject settlement, SettlementTier fromTier) =>
+            MeetsPyramidSupportForUpgrade(settlement, fromTier) && CanPromoteNextTierRegionally(settlement, fromTier);
+
         private static void CountNearbySameFactionTiers(
             WorldObject settlement,
             WorldDominationSettings seth,
             out int sameTierNeighbors,
+            out int t1Count,
             out int t2Count,
             out int t3Count,
             out int t4Count)
         {
             sameTierNeighbors = 0;
+            t1Count = 0;
             t2Count = 0;
             t3Count = 0;
             t4Count = 0;
             if (settlement?.Faction == null || seth == null) return;
 
+            float clusterRadius = Mathf.Max(0f, seth.localTierClusterRadius);
             SettlementTier selfTier = settlement.GetComponent<CompViralSpread>()?.tier ?? SettlementTier.T1;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
 
@@ -155,10 +190,11 @@ namespace TSA_WorldDomination
                 {
                     var n = facSettlements[ni];
                     if (n == settlement || !DailyWorldSnapshot.IsSettlementStillValid(n)) continue;
-                    if (Find.WorldGrid.ApproxDistanceInTiles(settlement.Tile, n.Tile) > seth.expandMaxRadius) continue;
+                    if (Find.WorldGrid.ApproxDistanceInTiles(settlement.Tile, n.Tile) > clusterRadius) continue;
                     var nComp = n.GetComponent<CompViralSpread>();
                     if (nComp == null) continue;
                     if (nComp.tier == selfTier) sameTierNeighbors++;
+                    if (nComp.tier == SettlementTier.T1) t1Count++;
                     if (nComp.tier == SettlementTier.T2) t2Count++;
                     if (nComp.tier == SettlementTier.T3) t3Count++;
                     if (nComp.tier == SettlementTier.T4) t4Count++;
@@ -171,10 +207,11 @@ namespace TSA_WorldDomination
             {
                 var n = allNeighborSettlements[ni];
                 if (n.Faction != settlement.Faction || n == settlement) continue;
-                if (Find.WorldGrid.ApproxDistanceInTiles(settlement.Tile, n.Tile) > seth.expandMaxRadius) continue;
+                if (Find.WorldGrid.ApproxDistanceInTiles(settlement.Tile, n.Tile) > clusterRadius) continue;
                 var nComp = n.GetComponent<CompViralSpread>();
                 if (nComp == null) continue;
                 if (nComp.tier == selfTier) sameTierNeighbors++;
+                if (nComp.tier == SettlementTier.T1) t1Count++;
                 if (nComp.tier == SettlementTier.T2) t2Count++;
                 if (nComp.tier == SettlementTier.T3) t3Count++;
                 if (nComp.tier == SettlementTier.T4) t4Count++;
@@ -188,14 +225,9 @@ namespace TSA_WorldDomination
             WorldDominationSettings seth)
         {
             if (comp.tier == SettlementTier.T4) return false;
+            if (!CanUpgradeTierFully(s, comp.tier)) return false;
 
-            CountNearbySameFactionTiers(s, seth, out int sameTierNeighbors, out _, out _, out _);
-
-            if (sameTierNeighbors < seth.GetSameTierNeighborsRequiredForUpgrade(comp.tier))
-                return false;
-
-            if (!CanPromoteNextTierRegionally(s, comp.tier))
-                return false;
+            CountNearbySameFactionTiers(s, seth, out int sameTierNeighbors, out _, out _, out _, out _);
 
             SettlementTier oldTier = comp.tier;
             SettlementTier nextTier = (oldTier == SettlementTier.T1) ? SettlementTier.T2 :
@@ -291,6 +323,7 @@ namespace TSA_WorldDomination
             traveler.travelerStrength = cost;
             traveler.initialStrength = cost;
             traveler.originObject = parent;
+            traveler.strategicExpand = strategicOnly;
             AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, parent);
 
             Find.WorldObjects.Add(traveler);
@@ -509,7 +542,11 @@ namespace TSA_WorldDomination
             parentComp.strength -= cost;
             parentComp.CheckTierUpdate(false);
 
-            manager.AddLog(new SpreadLogEntry("TSA_WD_Log_ExpeditionLaunched".Translate(parent.LabelCap), parent, chosenTile));
+            manager.AddLog(new SpreadLogEntry(
+                markIsolationPressure
+                    ? "TSA_WD_Log_IsolationExpeditionLaunched".Translate(parent.LabelCap)
+                    : "TSA_WD_Log_ExpeditionLaunched".Translate(parent.LabelCap),
+                parent, chosenTile));
 
             WorldObject_Traveler traveler = (WorldObject_Traveler)WorldObjectMaker.MakeWorldObject(DefDatabase<WorldObjectDef>.GetNamed("TSA_WD_Traveler_Expansion"));
             traveler.Tile = parent.Tile;
@@ -926,7 +963,7 @@ namespace TSA_WorldDomination
         public static bool IsTargetSaturated(int tileId, Faction faction, WorldDominationSettings seth, WorldComponent_SpreadManager manager = null)
         {
             int nearbyT1 = 0;
-            float checkRadius = seth.expandMaxRadius;
+            float checkRadius = Mathf.Max(0f, seth.localTierClusterRadius);
 
             if (manager != null && manager.TryGetFactionSettlements(faction, out var facList) && facList != null)
             {

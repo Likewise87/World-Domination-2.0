@@ -71,7 +71,7 @@
   <TSA_WD_SpikeTrap_TriggeredDestroyed>{0} triggered a spike trap (−{1} strength). The trap was destroyed.</TSA_WD_SpikeTrap_TriggeredDestroyed>
   <TSA_WD_SpikeTrap_TileInspect>{0}: {1} dmg when hostiles pass (HP {2}/{3})</TSA_WD_SpikeTrap_TileInspect>
   <TSA_WD_Log_SpikeTrap_Triggered>Spike trap triggered by {0} (damage {1}).</TSA_WD_Log_SpikeTrap_Triggered>
-  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0} was destroyed by spike traps.</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
+  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0}: {1} was destroyed by spike traps.</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
   <TSA_WD_Log_Pollution_DamagedTraveler>{0} lost {1} strength leaving a polluted tile ({2}% pollution).</TSA_WD_Log_Pollution_DamagedTraveler>
   <TSA_WD_Log_Pollution_DestroyedTraveler>{0} was destroyed by pollution.</TSA_WD_Log_Pollution_DestroyedTraveler>
   <TSA_WD_Log_Pollution_DamagedSite>{0} lost {1} strength from nearby pollution (avg {2}%).</TSA_WD_Log_Pollution_DamagedSite>
@@ -156,7 +156,9 @@
   <TSA_WD_Log_ActionNoWeights>Daily action at {0}: No weighted action available (all action weights are zero).</TSA_WD_Log_ActionNoWeights>
   <TSA_WD_Log_ActionSkip>Action skipped for {0}: No active settlements available.</TSA_WD_Log_ActionSkip>
   <TSA_WD_Log_BtnDetails>Details</TSA_WD_Log_BtnDetails>
-  <TSA_WD_Log_ExpandSuccess>EXPAND: Success. {0} founded new T1 {1}.</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_ExpandSuccess>EXPAND: {0} founded new T1 {1}.</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_ExpandSuccess_Strategic>EXPAND: {0} founded new T1 {1} (strategic).</TSA_WD_Log_ExpandSuccess_Strategic>
+  <TSA_WD_Log_ExpandSuccess_Isolation>ISOLATION: {0} founded new T1 {1} near you.</TSA_WD_Log_ExpandSuccess_Isolation>
   <TSA_WD_Log_MassRelocationCancelled>VANGUARD: {0} aborted; remounting near destination.</TSA_WD_Log_MassRelocationCancelled>
   <TSA_WD_Log_ForwardAssault_Vanguard>VANGUARD: {0} packs into {1} columns toward your front.</TSA_WD_Log_ForwardAssault_Vanguard>
   <TSA_WD_Log_ForwardAssault_Invasion>INVASION: {0} launches {1} coordinated raids on your holdings.</TSA_WD_Log_ForwardAssault_Invasion>
@@ -171,10 +173,11 @@
   <TSA_WD_Log_ForwardAssault_Refound>VANGUARD: {0} remounted as {1}.</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>CONQUEST: {0} founded {1} ({2}) after a successful raid.</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>{0} mission cancelled: Tile occupied or saturated.</TSA_WD_Log_ExpansionCancelled>
-  <TSA_WD_Log_ExpeditionLaunched>EXPANSION ATTEMPT: {0} dispatched settlers to establish a new colony.</TSA_WD_Log_ExpeditionLaunched>
-  <TSA_WD_Log_StrategicExpeditionLaunched>STRATEGIC EXPANSION: {0} dispatched settlers toward a safer frontier.</TSA_WD_Log_StrategicExpeditionLaunched>
+  <TSA_WD_Log_ExpeditionLaunched>EXPAND: {0} dispatched settlers to found a new settlement.</TSA_WD_Log_ExpeditionLaunched>
+  <TSA_WD_Log_StrategicExpeditionLaunched>EXPAND: {0} dispatched settlers toward a safer frontier (strategic).</TSA_WD_Log_StrategicExpeditionLaunched>
+  <TSA_WD_Log_IsolationExpeditionLaunched>ISOLATION: {0} dispatched settlers to found near you.</TSA_WD_Log_IsolationExpeditionLaunched>
   <TSA_WD_Log_ScoutLaunched>SCOUT: {0} dispatched {1} scout caravan(s).</TSA_WD_Log_ScoutLaunched>
-  <TSA_WD_Log_IsolationPressure>ISOLATION PRESSURE: {0} forced to found {1} settlement(s) near you.</TSA_WD_Log_IsolationPressure>
+  <TSA_WD_Log_IsolationPressure>ISOLATION: {0} forced to found {1} settlement(s) near you.</TSA_WD_Log_IsolationPressure>
   <TSA_WD_Log_Expand_SkippedGlobalCap>EXPAND: {0} skipped (world NPC settlement count {1} at cap {2}).</TSA_WD_Log_Expand_SkippedGlobalCap>
   <TSA_WD_Log_Expand_SkippedNoValidTile>EXPAND: {0} skipped (no valid tile in range for a new settlement).</TSA_WD_Log_Expand_SkippedNoValidTile>
   <TSA_WD_Log_Grow>GROW: Strength {0} -&gt; {1}</TSA_WD_Log_Grow>
@@ -195,15 +198,15 @@
   <TSA_WD_Log_Trader_SkippedNoTarget>TRADER: {0} skipped (no valid neutral or allied settlement in range).</TSA_WD_Log_Trader_SkippedNoTarget>
   <TSA_WD_Log_TraderLaunched>TRADER: Caravan launched from {0} to {1}.</TSA_WD_Log_TraderLaunched>
   <TSA_WD_Log_TraderTrade_Header>TRADE: WD trader caravan completed from {0} to {1}.</TSA_WD_Log_TraderTrade_Header>
-  <TSA_WD_Log_TraderTrade_HeaderIntercept>TRADE: {0} seized a trader caravan ({1}); receiver trade reward applied.</TSA_WD_Log_TraderTrade_HeaderIntercept>
-  <TSA_WD_Log_TraderTrade_Line>{0}: {1}</TSA_WD_Log_TraderTrade_Line>
-  <TSA_WD_Log_TraderTrade_RoleSender>Sender ({0})</TSA_WD_Log_TraderTrade_RoleSender>
-  <TSA_WD_Log_TraderTrade_RoleReceiver>Receiver ({0})</TSA_WD_Log_TraderTrade_RoleReceiver>
-  <TSA_WD_Log_TraderTrade_RoleInterceptor>Interceptor ({0})</TSA_WD_Log_TraderTrade_RoleInterceptor>
-  <TSA_WD_Log_TraderTrade_OutcomeStrength>offensive strength increased (no tier upgrade on this trade).</TSA_WD_Log_TraderTrade_OutcomeStrength>
-  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>offensive strength increased and settlement tier upgraded (trade path; ignores same-tier neighbor requirements).</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <TSA_WD_Log_TraderTrade_HeaderIntercept>TRADE: {0} seized a WD trader caravan ({1}); receiver trade reward applied.</TSA_WD_Log_TraderTrade_HeaderIntercept>
+  <TSA_WD_Log_TraderTrade_Line>TRADE: {0}: {1}</TSA_WD_Log_TraderTrade_Line>
+  <TSA_WD_Log_TraderTrade_RoleSender>Sender settlement ({0})</TSA_WD_Log_TraderTrade_RoleSender>
+  <TSA_WD_Log_TraderTrade_RoleReceiver>Receiver settlement ({0})</TSA_WD_Log_TraderTrade_RoleReceiver>
+  <TSA_WD_Log_TraderTrade_RoleInterceptor>Interceptor settlement ({0})</TSA_WD_Log_TraderTrade_RoleInterceptor>
+  <TSA_WD_Log_TraderTrade_OutcomeStrength>gained offensive strength from the trader arrival (no tier upgrade).</TSA_WD_Log_TraderTrade_OutcomeStrength>
+  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>gained offensive strength and upgraded settlement tier from the trader arrival.</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
   <TSA_WD_Log_TraderTrade_OutcomeWithInfra>{0} Also placed {1}.</TSA_WD_Log_TraderTrade_OutcomeWithInfra>
-  <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}: no settlement strength applied (not a WD settlement / excluded).</TSA_WD_Log_TraderTrade_NoStrengthLine>
+  <TSA_WD_Log_TraderTrade_NoStrengthLine>TRADE: {0}: no settlement strength applied (not a WD settlement / excluded).</TSA_WD_Log_TraderTrade_NoStrengthLine>
   <TSA_WD_Log_TraderArrived>TRADER: Caravan arrived from {0} at {1}.</TSA_WD_Log_TraderArrived>
   <TSA_WD_Log_OutpostUpgradeLaunched>OUTPOST UPGRADE: Caravan launched from {0} to {1} for {2} (level {3}).</TSA_WD_Log_OutpostUpgradeLaunched>
   <TSA_WD_Log_OutpostUpgradeBatchLaunched>OUTPOST UPGRADE: Caravan launched from {0} to {1} carrying {2} upgrades ({3}).</TSA_WD_Log_OutpostUpgradeBatchLaunched>
@@ -242,6 +245,37 @@
   <TSA_WD_AT_Turret_PlayerOverran_Text>Your caravan overran {0}.</TSA_WD_AT_Turret_PlayerOverran_Text>
   <TSA_WD_AT_Turret_Miss_Text>{0} missed {1}.</TSA_WD_AT_Turret_Miss_Text>
   <TSA_WD_Log_WindowTitle>Action Log (Last 500)</TSA_WD_Log_WindowTitle>
+  <TSA_WD_Log_TypeFilterTitle>Action type</TSA_WD_Log_TypeFilterTitle>
+  <TSA_WD_Log_TypeFilterTip>Filter Action Log rows by type</TSA_WD_Log_TypeFilterTip>
+  <TSA_WD_Log_TypeFilterExclude>Exclude selected</TSA_WD_Log_TypeFilterExclude>
+  <TSA_WD_Log_TypeFilterClear>Clear type filter</TSA_WD_Log_TypeFilterClear>
+  <TSA_WD_LogCategory_Other>Other</TSA_WD_LogCategory_Other>
+  <TSA_WD_LogCategory_Raid>Raid</TSA_WD_LogCategory_Raid>
+  <TSA_WD_LogCategory_Trader>Trader</TSA_WD_LogCategory_Trader>
+  <TSA_WD_LogCategory_Trade>Trade</TSA_WD_LogCategory_Trade>
+  <TSA_WD_LogCategory_Road>Road</TSA_WD_LogCategory_Road>
+  <TSA_WD_LogCategory_Expand>Expand</TSA_WD_LogCategory_Expand>
+  <TSA_WD_LogCategory_Grow>Grow</TSA_WD_LogCategory_Grow>
+  <TSA_WD_LogCategory_Upgrade>Upgrade</TSA_WD_LogCategory_Upgrade>
+  <TSA_WD_LogCategory_Turtle>Turtle</TSA_WD_LogCategory_Turtle>
+  <TSA_WD_LogCategory_Vanguard>Vanguard</TSA_WD_LogCategory_Vanguard>
+  <TSA_WD_LogCategory_Invasion>Invasion</TSA_WD_LogCategory_Invasion>
+  <TSA_WD_LogCategory_Desperation>Desperation</TSA_WD_LogCategory_Desperation>
+  <TSA_WD_LogCategory_Conquest>Conquest</TSA_WD_LogCategory_Conquest>
+  <TSA_WD_LogCategory_Revolt>Revolt</TSA_WD_LogCategory_Revolt>
+  <TSA_WD_LogCategory_Fortify>Fortify</TSA_WD_LogCategory_Fortify>
+  <TSA_WD_LogCategory_OutpostUpgrade>Outpost upgrade</TSA_WD_LogCategory_OutpostUpgrade>
+  <TSA_WD_LogCategory_MajorIncident>Major incident</TSA_WD_LogCategory_MajorIncident>
+  <TSA_WD_LogCategory_MinorIncident>Minor incident</TSA_WD_LogCategory_MinorIncident>
+  <TSA_WD_LogCategory_Isolation>Isolation</TSA_WD_LogCategory_Isolation>
+  <TSA_WD_LogCategory_Scout>Scout</TSA_WD_LogCategory_Scout>
+  <TSA_WD_LogCategory_Intel>Intel</TSA_WD_LogCategory_Intel>
+  <TSA_WD_LogCategory_Sabotage>Sabotage</TSA_WD_LogCategory_Sabotage>
+  <TSA_WD_LogCategory_Disinformation>Disinformation</TSA_WD_LogCategory_Disinformation>
+  <TSA_WD_LogCategory_Diplomacy>Diplomacy</TSA_WD_LogCategory_Diplomacy>
+  <TSA_WD_LogCategory_Pollution>Pollution</TSA_WD_LogCategory_Pollution>
+  <TSA_WD_LogCategory_BuiltAdvancedBuilding>Built advanced building</TSA_WD_LogCategory_BuiltAdvancedBuilding>
+  <TSA_WD_LogCategory_BuiltFortification>Built fortification (trap / AT / road block)</TSA_WD_LogCategory_BuiltFortification>
   <TSA_WD_RaiderCaravan>Raider Caravan</TSA_WD_RaiderCaravan>
   <TSA_WD_RaiderDropPods>Raider Drop Pods</TSA_WD_RaiderDropPods>
   <TSA_WD_RaiderGravship>Raider Gravship</TSA_WD_RaiderGravship>

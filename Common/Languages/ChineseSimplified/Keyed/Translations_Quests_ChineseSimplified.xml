@@ -10,10 +10,10 @@
   <TSA_WD_Quest_EnableSpyOpsSettlementTip>第 10-16 天只会提供一次：盟友（否则中立）可能请你削弱一座共同敌对城镇。用玩家商队走到相邻地块，使用散布假情报（社交）或破坏（手工）。不必摧毁该镇。关闭后不再发出；进行中的任务仍可结束。</TSA_WD_Quest_EnableSpyOpsSettlementTip>
 
   <TSA_WD_Quest_EnableFortifySettlement>据点加固任务</TSA_WD_Quest_EnableFortifySettlement>
-  <TSA_WD_Quest_EnableFortifySettlementTip>间谍任务结束后（或该任务关闭时），盟友或中立派系可能请你用玩家商队在相邻地块对其城镇使用加固（手工；增加防御力量）。只提供一次。关闭后不再发出；进行中的任务仍可结束。</TSA_WD_Quest_EnableFortifySettlementTip>
+  <TSA_WD_Quest_EnableFortifySettlementTip>间谍任务结束后约 6-12 天（或该任务关闭时约第 16-24 天），盟友或中立派系可能请你用玩家商队在相邻地块对其城镇使用加固（手工；增加防御力量）。只提供一次。关闭后不再发出；进行中的任务仍可结束。</TSA_WD_Quest_EnableFortifySettlementTip>
 
   <TSA_WD_Quest_EnableCommonEnemySettlement>共同敌人据点任务</TSA_WD_Quest_EnableCommonEnemySettlement>
-  <TSA_WD_Quest_EnableCommonEnemySettlementTip>第 20 天起，盟友（否则中立）可能请你摧毁或征服一座对双方都敌对的附近城镇。由你摧毁该镇即算（WD 前哨袭击、亲自作战、破坏、炮击等）。盟友据点下令的袭击以及其他派系清剿都不算。关闭后不再发出新任务；进行中的任务仍可正常结束。</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+  <TSA_WD_Quest_EnableCommonEnemySettlementTip>第 30 天起，盟友（否则中立）可能请你摧毁或征服一座对双方都敌对的附近城镇。由你摧毁该镇即算（WD 前哨袭击、亲自作战、破坏、炮击等）。盟友据点下令的袭击以及其他派系清剿都不算。关闭后不再发出新任务；进行中的任务仍可正常结束。</TSA_WD_Quest_EnableCommonEnemySettlementTip>
 
   <TSA_WD_SpyOps_LetterLabelFailed>任务失败：[resolvedQuestName]</TSA_WD_SpyOps_LetterLabelFailed>
   <TSA_WD_SpyOps_LetterTextHostile>[faction_name] 已转为敌对。间谍行动请求失败。</TSA_WD_SpyOps_LetterTextHostile>
@@ -30,7 +30,17 @@
   <TSA_WD_FortifyQuest_LetterTextTargetGone>{0} 希望你加固 {1}，但该城镇已不存在。请求失败。</TSA_WD_FortifyQuest_LetterTextTargetGone>
 
   <TSA_WD_Quest_EnableColonyRoadLink>殖民地道路连接任务</TSA_WD_Quest_EnableColonyRoadLink>
-  <TSA_WD_Quest_EnableColonyRoadLinkTip>第 10 天起，附近（30 格内）的盟友或中立城镇可能请求在你的殖民地与该镇之间修路。任意道路连通后即永久完成。失败（超时、敌对或城镇消失）后数日可再次发出。关闭后不再发出新任务；进行中的任务仍可正常结束。</TSA_WD_Quest_EnableColonyRoadLinkTip>
+  <TSA_WD_Quest_EnableColonyRoadLinkTip>第 14 天起，附近（30 格内）的盟友或中立城镇可能请求在你的殖民地与该镇之间修路。任意道路连通后即永久完成。失败（超时、敌对或城镇消失）后数日可再次发出。关闭后不再发出新任务；进行中的任务仍可正常结束。</TSA_WD_Quest_EnableColonyRoadLinkTip>
+
+  <TSA_WD_Quest_EnableScoutWorldMap>世界地图侦察任务</TSA_WD_Quest_EnableScoutWorldMap>
+  <TSA_WD_Quest_EnableScoutWorldMapTip>战争迷雾追踪开启后，再过 1-5 天，最近的盟友或中立城镇可能请你从殖民地或前哨派出玩家侦察队。完成给予 +5 心情，持续 5 天。只提供一次（若你已派出过侦察队则跳过）。关闭后不再发出；进行中的任务仍可结束。</TSA_WD_Quest_EnableScoutWorldMapTip>
+
+  <TSA_WD_ScoutWorldMap_LetterLabelFailed>任务失败：[resolvedQuestName]</TSA_WD_ScoutWorldMap_LetterLabelFailed>
+  <TSA_WD_ScoutWorldMap_LetterTextHostile>[faction_name] 已转为敌对。侦察请求失败。</TSA_WD_ScoutWorldMap_LetterTextHostile>
+  <TSA_WD_ScoutWorldMap_LetterLabelExpired>任务过期：[resolvedQuestName]</TSA_WD_ScoutWorldMap_LetterLabelExpired>
+  <TSA_WD_ScoutWorldMap_LetterTextExpired>[faction_name]（[askerSettlement_label]）要求开始侦察世界地图的时限已到。</TSA_WD_ScoutWorldMap_LetterTextExpired>
+  <TSA_WD_ScoutWorldMap_LetterLabelAskerGone>任务失败：{0}</TSA_WD_ScoutWorldMap_LetterLabelAskerGone>
+  <TSA_WD_ScoutWorldMap_LetterTextAskerGone>{0} 希望你在 {1} 附近开始侦察，但该城镇已不存在。请求失败。</TSA_WD_ScoutWorldMap_LetterTextAskerGone>
 
   <TSA_WD_Quest_EnableWorldDominationVictory>世界支配胜利任务</TSA_WD_Quest_EnableWorldDominationVictory>
   <TSA_WD_Quest_EnableWorldDominationVictoryTip>开局 4-6 天后提供长期目标：连续 15 天保持 WD 实力第一。游戏中途开启会立即发放任务；关闭会立即移除进行中的该任务。</TSA_WD_Quest_EnableWorldDominationVictoryTip>

@@ -85,7 +85,7 @@
   <!-- EN: Hostiles that can still reach you but sit in the outer half of their own attack range (farther two of four equal distance bands).\nSorted by attack strength (strongest first). -->
   <TSA_WD_Dash_FarThreatsTip>仍能攻擊到你、但位於自身攻擊範圍外側一半（四個等距區段中較遠的兩段）的敵對勢力。\n依進攻戰力由強到弱排序。</TSA_WD_Dash_FarThreatsTip>
   <!-- EN: No hostiles in Nearby range. -->
-  <TSA_WD_Dash_NoNearbyThreats>附近範圍內沒有敵對勢力。</TSA_WD_Dash_NoNearbyThreats>
+  <TSA_WD_Dash_NoNearbyThreats>附近範圍內沒有已知的敵對勢力。</TSA_WD_Dash_NoNearbyThreats>
   <!-- EN: No hostiles beyond Nearby range. -->
   <TSA_WD_Dash_NoFarThreats>附近範圍外沒有敵對勢力。</TSA_WD_Dash_NoFarThreats>
   <!-- EN: {0} tiles -->
@@ -318,6 +318,10 @@
   <TSA_WD_Notify_RaidPartyDestroyed>信件：突襲隊伍途中被殲滅</TSA_WD_Notify_RaidPartyDestroyed>
   <!-- EN: Receive a letter when a hostile raid headed at you is wiped out on the world map before it reaches you. -->
   <TSA_WD_Notify_RaidPartyDestroyedTooltip>衝著你而來的敵對突襲在世界地圖上被殲滅、尚未抵達時。</TSA_WD_Notify_RaidPartyDestroyedTooltip>
+  <TSA_WD_Notify_PlayerScoutDestroyed>信件：玩家偵察隊被毀</TSA_WD_Notify_PlayerScoutDestroyed>
+  <TSA_WD_Notify_PlayerScoutDestroyedTooltip>你的偵察旅行者在世界地圖上被摧毀時（陷阱、反坦克砲火、遭遇戰等）。</TSA_WD_Notify_PlayerScoutDestroyedTooltip>
+  <TSA_WD_Notify_PlayerScoutLifetimeExpired>信件：偵察最長壽命</TSA_WD_Notify_PlayerScoutLifetimeExpired>
+  <TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>你的偵察旅行者達到最長壽命並解散時。關閉時仍會顯示短訊息。</TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>
   <!-- EN: Notify when your mortar destroys a target -->
   <TSA_WD_Notify_MortarHit>信件：迫擊砲摧毀目標</TSA_WD_Notify_MortarHit>
   <!-- EN: Receive a silent blue letter when your artillery outpost destroys a target. Partial hits only go to the action log. -->

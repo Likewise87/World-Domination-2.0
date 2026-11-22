@@ -62,6 +62,7 @@ namespace TSA_WorldDomination
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
+            bool scoutBusy = WorldActions_PlayerScout.HasActiveScoutProject(comp);
 
             if (blockBusy && !comp.roadBlockIsClearing)
             {
@@ -100,7 +101,7 @@ namespace TSA_WorldDomination
                 };
             }
 
-            if (decontamBusy)
+            if (decontamBusy || scoutBusy)
             {
                 return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.cyan)
                 {
@@ -191,6 +192,7 @@ namespace TSA_WorldDomination
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
+            bool scoutBusy = WorldActions_PlayerScout.HasActiveScoutProject(comp);
 
             if (blockBusy && comp.roadBlockIsClearing)
             {
@@ -226,7 +228,7 @@ namespace TSA_WorldDomination
                 };
             }
 
-            if (decontamBusy)
+            if (decontamBusy || scoutBusy)
             {
                 return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.white)
                 {

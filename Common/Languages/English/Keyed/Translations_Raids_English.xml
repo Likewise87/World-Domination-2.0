@@ -90,6 +90,12 @@
   <TSA_WD_Letter_IncomingRaid_Text>A hostile expedition from {0} has been launched! They are traveling across the world map to raid {1}.\n\nYou have time to prepare your defenses or intercept them on the world map before they arrive.</TSA_WD_Letter_IncomingRaid_Text>
   <TSA_WD_Letter_IncomingRaid_Colony_Label>WD raid on colony launched: {0} ({1})</TSA_WD_Letter_IncomingRaid_Colony_Label>
   <TSA_WD_Letter_IncomingRaid_Colony_Text>A hostile expedition from {0} is heading for your colony {1} across the world map.\n\nExpected raid points on arrival: {2}\nEstimated arrival in {3} days.\n\nYou have time to prepare defenses at {1} or intercept them on the world map before they arrive.</TSA_WD_Letter_IncomingRaid_Colony_Text>
+  <TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Label>WD raid on colony launched: {0}</TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Label>
+  <TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Text>There are rumors of a raid force from an unknown settlement of faction {0} being launched at the player colony {1}.\n\nExpected raid points on arrival: {2}\nEstimated arrival in {3} days.\n\nYou have time to prepare defenses at {1} or intercept them on the world map before they arrive.</TSA_WD_Letter_IncomingRaid_Colony_UnknownOrigin_Text>
+  <TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Label>WD raid on {0} launched ({1})</TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Label>
+  <TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Text>There are rumors of a raid force from an unknown settlement of faction {1} being launched at your outpost {0}.\n\nExpected raid points on arrival: {2}\nOutpost strength: {3}\nDefense win likelihood (auto-resolve): {4}\nEstimated arrival in {5} days.\n\nYou have time to prepare defenses or intercept them on the world map before they arrive.</TSA_WD_Letter_IncomingRaid_Outpost_UnknownOrigin_Text>
+  <TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Label>WD Drop Raid incoming ({0})</TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Label>
+  <TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Text>There are rumors of drop pods from an unknown settlement of faction {0} inbound on your colony {1}.\n\nExpected raid points on arrival: {2}\nEstimated arrival in {3} days.</TSA_WD_Letter_IncomingDropRaid_UnknownOrigin_Text>
   <TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label>WD raid on colony launched: {0} ({1})</TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label>
   <TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text>{0} has dispatched a force from {1} against your colony {2}.\n\nExpected raid points on arrival: {3}\nEstimated arrival in {4} days.\n\nYou have time to prepare defenses at {2} or intercept them on the world map before they arrive.</TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text>
   <TSA_WD_Letter_IncomingDropRaid_Label>WD Drop Raid incoming</TSA_WD_Letter_IncomingDropRaid_Label>
@@ -131,6 +137,8 @@
   <TSA_WD_Log_Raid_DefBase>Garrison at {0}: {1} strength.</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0} ({1}) provided +{2} defense power. (Raw: {3}, Eff: {4}% over {5} tiles).</TSA_WD_Log_Raid_DefContrib>
   <TSA_WD_Log_Raid_ExpeditionLaunched>RAID: {0} dispatched a raid against {1}.</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_Log_Raid_DroughtLaunched>RAID: {0} dispatched a forced raid against {1} (quiet stretch).</TSA_WD_Log_Raid_DroughtLaunched>
+  <TSA_WD_Log_Raid_DroughtLaunchedBeyondRange>RAID: {0} dispatched a forced raid against {1} (quiet stretch, beyond range).</TSA_WD_Log_Raid_DroughtLaunchedBeyondRange>
   <TSA_WD_RaidExpeditionLaunched>Raid expedition launched against {0}.</TSA_WD_RaidExpeditionLaunched>
   <TSA_WD_Log_Raid_FactionDispatch>{0} dispatched a raid from {1} against {2}.</TSA_WD_Log_Raid_FactionDispatch>
   <TSA_WD_Log_Raid_ColonyDelegated>RAID: Colony chosen as target; delegated to a closer ally.</TSA_WD_Log_Raid_ColonyDelegated>

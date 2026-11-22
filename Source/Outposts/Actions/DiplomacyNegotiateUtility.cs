@@ -738,6 +738,7 @@ namespace TSA_WorldDomination
                 deal.targetFaction?.Name ?? "?");
             manager?.AddLog(new SpreadLogEntry(logMsg, deal.targetObject, null)
             {
+                category = SpreadLogCategory.Diplomacy,
                 highlightKind = SpreadLogHighlightKind.Diplomacy
             });
 

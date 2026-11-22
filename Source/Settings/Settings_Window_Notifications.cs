@@ -196,6 +196,14 @@ var s = WorldDominationMod.settings;
                     ref s.notifyRaidPartyDestroyed,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_RaidPartyDestroyedTooltip".Translate(), WorldDominationSettings.DefNotifyRaidPartyDestroyed));
 
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Notify_PlayerScoutDestroyed".Translate(),
+                    ref s.notifyPlayerScoutDestroyed,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_PlayerScoutDestroyedTooltip".Translate(), WorldDominationSettings.DefNotifyPlayerScoutDestroyed));
+
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Notify_PlayerScoutLifetimeExpired".Translate(),
+                    ref s.notifyPlayerScoutLifetimeExpired,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip".Translate(), WorldDominationSettings.DefNotifyPlayerScoutLifetimeExpired));
+
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Difficulty_NotifyOutpostInc".Translate(),
                     ref s.notifyOutpostIncident,
                     SettingsUI.TooltipWithDefault("TSA_WD_Difficulty_NotifyOutpostIncTooltip".Translate(), WorldDominationSettings.DefNotifyOutpostIncident));

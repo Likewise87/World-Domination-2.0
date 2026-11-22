@@ -192,11 +192,11 @@
   <TSA_WD_RapidResponse_CancelIntercept>Cancel intercept</TSA_WD_RapidResponse_CancelIntercept>
   <TSA_WD_RapidResponse_CancelInterceptDesc>Immediately recall this rapid response caravan and refund its strength to the origin outpost.</TSA_WD_RapidResponse_CancelInterceptDesc>
   <TSA_WD_RapidResponse_InterceptCancelled>{0}'s rapid response intercept cancelled ({1} strength refunded).</TSA_WD_RapidResponse_InterceptCancelled>
-  <TSA_WD_Log_RapidResponseLaunched>{0} dispatched a rapid response caravan to intercept {1} ({2} strength).</TSA_WD_Log_RapidResponseLaunched>
-  <TSA_WD_Log_RapidResponseAborted>{0}'s rapid response intercept was aborted because the target was gone or no longer hostile.</TSA_WD_Log_RapidResponseAborted>
-  <TSA_WD_Log_RapidResponseCancelled>{0}'s rapid response intercept was cancelled ({1} strength refunded).</TSA_WD_Log_RapidResponseCancelled>
-  <TSA_WD_Log_RapidResponseResolved>{0}'s rapid response intercepted {1}: {2}.</TSA_WD_Log_RapidResponseResolved>
-  <TSA_WD_Log_RapidResponseDropPodsLaunched>{0} launched {2} pawn(s) by drop pod at {1}.</TSA_WD_Log_RapidResponseDropPodsLaunched>
+  <TSA_WD_Log_RapidResponseLaunched>RAID: {0} dispatched a rapid response traveler to intercept {1} ({2} strength).</TSA_WD_Log_RapidResponseLaunched>
+  <TSA_WD_Log_RapidResponseAborted>RAID: {0}'s rapid response intercept was aborted because the target was gone or no longer hostile.</TSA_WD_Log_RapidResponseAborted>
+  <TSA_WD_Log_RapidResponseCancelled>RAID: {0}'s rapid response intercept was cancelled ({1} strength refunded).</TSA_WD_Log_RapidResponseCancelled>
+  <TSA_WD_Log_RapidResponseResolved>RAID: {0}'s rapid response intercepted {1}: {2}.</TSA_WD_Log_RapidResponseResolved>
+  <TSA_WD_Log_RapidResponseDropPodsLaunched>RAID: {0} launched {2} pawn(s) by drop pod at {1}.</TSA_WD_Log_RapidResponseDropPodsLaunched>
   <TSA_WD_Won>won</TSA_WD_Won>
   <TSA_WD_Lost>lost</TSA_WD_Lost>
   <TSA_WD_Pod_AddToOutpost>Add to {0} (transport pods)</TSA_WD_Pod_AddToOutpost>
@@ -271,8 +271,9 @@
   <TSA_WD_Biome_Tooltip_TradingNearbyPartnerLine>{0} ({1})</TSA_WD_Biome_Tooltip_TradingNearbyPartnerLine>
   <TSA_WD_Biome_Tooltip_TradingNearbyPartnersNone>None in range.</TSA_WD_Biome_Tooltip_TradingNearbyPartnersNone>
   <TSA_WD_Build>Build</TSA_WD_Build>
-  <TSA_WD_BuildDesc>Construct roads, road blocks, or spike traps from this outpost.</TSA_WD_BuildDesc>
-  <TSA_WD_ColonyBuildDesc>Construct roads, road blocks, or spike traps from your colony. Progress uses colony Construction skill. No strength cost.</TSA_WD_ColonyBuildDesc>
+  <TSA_WD_BuildAndScout>Build &amp; Scout</TSA_WD_BuildAndScout>
+  <TSA_WD_BuildDesc>Construct roads, road blocks, or spike traps from this outpost. When Fog of War is on, also launch virtual scout caravans (one active scout per site).</TSA_WD_BuildDesc>
+  <TSA_WD_ColonyBuildDesc>Construct roads, road blocks, or spike traps from your colony, and launch virtual scout caravans when Fog of War is on. Progress uses colony Construction skill. World builds have no strength cost; scouts use intel scout strength. One scout may be active at a time per colony.</TSA_WD_ColonyBuildDesc>
   <TSA_WD_BuildRoad>Build Road</TSA_WD_BuildRoad>
   <TSA_WD_BuildBridge>Build Bridge</TSA_WD_BuildBridge>
   <TSA_WD_BuildBridgeDesc>Build a stone road bridge over water (bank to bank, up to {0} water tiles). Pick both banks, then the outpost prepares like a road job. Each crew paves one water tile. Road blocks and traps can be placed on the bridge; AT Turrets cannot.</TSA_WD_BuildBridgeDesc>
@@ -566,14 +567,17 @@
   <TSA_WD_Log_Road_Progress>{0} built road tile towards {1}. {2} tiles remaining for completion.</TSA_WD_Log_Road_Progress>
   <TSA_WD_Log_TravelerClash>Caravan clash</TSA_WD_Log_TravelerClash>
   <TSA_WD_Log_NpcCaravanClash>{0} caravan fought {1} ({2} vs {3}).</TSA_WD_Log_NpcCaravanClash>
-  <TSA_WD_CaravanClash_Header>Caravan Clash Resolved</TSA_WD_CaravanClash_Header>
-  <TSA_WD_CaravanClash_Intro>Open-field clashes use the same World Raids outcome math as settlement battles (win chance and casualties by strength ratio). Soft defender favor comes from that table and from who is designated defender.</TSA_WD_CaravanClash_Intro>
-  <TSA_WD_CaravanClash_Attacker>Attacker: {0}</TSA_WD_CaravanClash_Attacker>
-  <TSA_WD_CaravanClash_Defender>Defender: {0}</TSA_WD_CaravanClash_Defender>
-  <TSA_WD_CaravanClash_Ratio>Strength ratio (attacker / defender): {0}</TSA_WD_CaravanClash_Ratio>
-  <TSA_WD_CaravanClash_AttackerWon>Attacker won</TSA_WD_CaravanClash_AttackerWon>
-  <TSA_WD_CaravanClash_DefenderWon>Defender won</TSA_WD_CaravanClash_DefenderWon>
-  <TSA_WD_CaravanClash_ResultingStrengths>Resulting strengths:</TSA_WD_CaravanClash_ResultingStrengths>
+  <TSA_WD_CaravanClash_Header>Open-field clash resolved</TSA_WD_CaravanClash_Header>
+  <TSA_WD_CaravanClash_Intro>Open-field fights use their own win curve (not the siege table). The loser is wiped. The winner keeps a remnant based on how close the fight was.</TSA_WD_CaravanClash_Intro>
+  <TSA_WD_CaravanClash_Ratio>Strength ratio: {0}</TSA_WD_CaravanClash_Ratio>
+  <TSA_WD_CaravanClash_Winner>{0} won</TSA_WD_CaravanClash_Winner>
+  <TSA_WD_CaravanClash_WinnerLoss>Winner lost {0}% strength ({1} of {2}, remnant {3}).</TSA_WD_CaravanClash_WinnerLoss>
+  <TSA_WD_CaravanClash_LoserWiped>{0} wiped out.</TSA_WD_CaravanClash_LoserWiped>
+  <TSA_WD_CaravanClash_ResultingStrengths>After the fight:</TSA_WD_CaravanClash_ResultingStrengths>
+  <TSA_WD_OpenField_WinClose>Close Win</TSA_WD_OpenField_WinClose>
+  <TSA_WD_OpenField_WinNormal>Normal Win</TSA_WD_OpenField_WinNormal>
+  <TSA_WD_OpenField_WinDecisive>Decisive Win</TSA_WD_OpenField_WinDecisive>
+  <TSA_WD_OpenField_LogSuffix>{0} (-{1}%)</TSA_WD_OpenField_LogSuffix>
   <TSA_WD_Message_RerollSuccess>Settlement tiers rerolled: {0} settlements updated.</TSA_WD_Message_RerollSuccess>
   <TSA_WD_MiningBaseline_Header>Mining baseline multipliers</TSA_WD_MiningBaseline_Header>
   <TSA_WD_MiningBaseline_Ores>Ores</TSA_WD_MiningBaseline_Ores>
@@ -589,6 +593,17 @@
   <TSA_WD_OutpostDelivery_Letter>Delivery from {0}:</TSA_WD_OutpostDelivery_Letter>
   <TSA_WD_OutpostDelivery_LetterLabel>Goods received from {0}</TSA_WD_OutpostDelivery_LetterLabel>
   <TSA_WD_DeliverySpot_AlreadyExists>Only one WD Outpost Delivery Spot is allowed per map.</TSA_WD_DeliverySpot_AlreadyExists>
+  <TSA_WD_RemotePowerSpot_NeedColonyHome>Place this on your colony home map only.</TSA_WD_RemotePowerSpot_NeedColonyHome>
+  <TSA_WD_RemotePowerSpot_GizmoShare>Remote power share</TSA_WD_RemotePowerSpot_GizmoShare>
+  <TSA_WD_RemotePowerSpot_GizmoShareDesc>Set this spot's relative share of Keep remote power from power plant outposts. Shares normalize among connected spots so the full Keep always goes to them.</TSA_WD_RemotePowerSpot_GizmoShareDesc>
+  <TSA_WD_RemotePowerSpot_ShareTitle>Remote power share</TSA_WD_RemotePowerSpot_ShareTitle>
+  <TSA_WD_RemotePowerSpot_ShareBody>Define the weight for how much of all the power produced by WD powerplant outposts this spot should get.</TSA_WD_RemotePowerSpot_ShareBody>
+  <TSA_WD_RemotePowerSpot_ShareSlider>Weight: {0}</TSA_WD_RemotePowerSpot_ShareSlider>
+  <TSA_WD_RemotePowerSpot_ShareEffective>Effective Share: {0} %</TSA_WD_RemotePowerSpot_ShareEffective>
+  <TSA_WD_RemotePowerSpot_ShareEffectiveWatts>Effective Power: {0}</TSA_WD_RemotePowerSpot_ShareEffectiveWatts>
+  <TSA_WD_RemotePowerSpot_InspectShare>Remote share weight {0} (effective {1}%)</TSA_WD_RemotePowerSpot_InspectShare>
+  <TSA_WD_RemotePowerSpot_InspectIneligible>Remote share weight {0} (not connected; equal-net fallback if no spots are eligible)</TSA_WD_RemotePowerSpot_InspectIneligible>
+  <TSA_WD_RemotePowerSpot_InspectWatts>Delivering {0}</TSA_WD_RemotePowerSpot_InspectWatts>
   <TSA_WD_OutpostManager>Outpost Overview</TSA_WD_OutpostManager>
   <TSA_WD_OutpostManager_Title>Outpost Overview Page</TSA_WD_OutpostManager_Title>
   <TSA_WD_Outpost_BuildCostMult>Outpost build cost multiplier</TSA_WD_Outpost_BuildCostMult>
@@ -737,8 +752,8 @@
   <TSA_WD_Outpost_SilverValuePerSkillTooltip>Fixed per delivery—not stretched or shrunk when your outpost cycle is 10 vs 100 days. Hunting: each delivery can include meat, leather/fur, and wool (when the animal yields them); per product, baseline units/skill = (budget ÷ total silver per kill) × that product's count per kill. Crops/mining: baseline ≈ budget ÷ item market value. Then: baseline × tile efficiency × skill (× output slider).</TSA_WD_Outpost_SilverValuePerSkillTooltip>
   <TSA_WD_Outpost_ClampSkillsAtLevel20>Clamp outpost skills at level 20</TSA_WD_Outpost_ClampSkillsAtLevel20>
   <TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>When enabled, outpost math treats pawn skills above 20 as 20. Leave disabled for Endless Growth-style mods so higher skill levels can fully contribute.</TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycle>Occupant skill XP per production cycle</TSA_WD_Outpost_OccupantSkillXpPerCycle>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>Total experience granted to each relevant outpost skill (farming, hunting, etc.) for every colonist over one full production cycle. Spread as a daily fraction while the production timer is running. Set to 0 to disable. Idle, paused, or blocked days grant nothing.</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycle>Occupant skill XP per day</TSA_WD_Outpost_OccupantSkillXpPerCycle>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>Experience granted to each relevant outpost skill (farming, hunting, etc.) for every colonist each day while the production timer is running. Set to 0 to disable. Idle, paused, or blocked days grant nothing.</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>Max skill level for outpost XP</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>Pawns do not gain outpost payout XP in a skill once it is at this level or higher.</TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>
   <TSA_WD_Outpost_RecruitSocialXpPerResistance>Social XP pool per resistance reduced</TSA_WD_Outpost_RecruitSocialXpPerResistance>
@@ -1343,7 +1358,7 @@
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>Sends fast counter-caravans against hostile travelers. Enemy caravans walking over this outpost will always trigger an immediate attack. Can drop colonists on targets after Transport Pods research. Does not produce goods</TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_DrugLab>Produces drugs (smokeleaf, psychite, go-juice, wake-up). Scales with Intellectual skill. Requires Drug Production research</TSA_WD_OutpostTooltip_TSA_WD_Outpost_DrugLab>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Research>Progresses your active research project. Scales with Intellectual skill. Efficiency can be boosted via Upgrades</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Research>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>Sends remote power to your colony. No local wiring or fuel needed. Does not produce goods</TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>Sends remote power to your colony. No local wiring or fuel needed. Place WD remote power spots on the colony map to choose which grids receive Keep power. Does not produce goods</TSA_WD_OutpostTooltip_TSA_WD_Outpost_PowerPlant>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Warehouse>Stores items with no spoilage. Other outposts can route deliveries here. Ship stock manually to colonies or other warehouses</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Warehouse>
   <TSA_WD_Research_NoActiveProject>No active research project selected.</TSA_WD_Research_NoActiveProject>
   <TSA_WD_Research_NoResearchers>No researchers with Intellectual skill at this outpost.</TSA_WD_Research_NoResearchers>
@@ -1804,6 +1819,7 @@
   <TSA_WD_OutpostUpgradeImpact_AllyPullRadius>Ally Pull Radius</TSA_WD_OutpostUpgradeImpact_AllyPullRadius>
   <TSA_WD_OutpostUpgradeImpact_FoodStorageMax>Food Storage</TSA_WD_OutpostUpgradeImpact_FoodStorageMax>
   <TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>Food Production</TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>
+  <TSA_WD_OutpostUpgradeImpact_PlayerScoutLifetime>Scout Lifetime</TSA_WD_OutpostUpgradeImpact_PlayerScoutLifetime>
   <TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>Recruiting Speed</TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>
   <TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>Unwavering Recruit</TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>
   <TSA_WD_OutpostUpgradeImpact_EcologyBaselineFloor>Ecology Baseline</TSA_WD_OutpostUpgradeImpact_EcologyBaselineFloor>
@@ -1875,6 +1891,7 @@
   <TSA_WD_OutpostUpgrades_BenefitRapidResponseOffense>+{0}pp Rapid Response offense</TSA_WD_OutpostUpgrades_BenefitRapidResponseOffense>
   <TSA_WD_OutpostUpgrades_BenefitFoodStorageMax>+{0} max virtual food storage</TSA_WD_OutpostUpgrades_BenefitFoodStorageMax>
   <TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>+{0} daily food production</TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>
+  <TSA_WD_OutpostUpgrades_BenefitPlayerScoutLifetime>+{0} scout lifetime days</TSA_WD_OutpostUpgrades_BenefitPlayerScoutLifetime>
   <TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>+{0}% prisoner recruit speed</TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>
   <TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>Unwavering prisoners can be recruited</TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>
   <TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>Min. Animal Abundance &amp; Fertility = 100 %</TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>
@@ -1948,9 +1965,9 @@
   <TSA_WD_SettlementIntel_Refresh>Refresh</TSA_WD_SettlementIntel_Refresh>
   <TSA_WD_SettlementIntel_RefreshTooltip>Rebuild this tab's intel display now.</TSA_WD_SettlementIntel_RefreshTooltip>
   <TSA_WD_SettlementIntel_Row_Tracking>Discovery and scouts active?</TSA_WD_SettlementIntel_Row_Tracking>
-  <TSA_WD_SettlementIntel_Row_TrackingTip>Whether discovery, scouts, and the View gizmo run. Starts when the gate is configured (not Never). Current setting: "{0}".</TSA_WD_SettlementIntel_Row_TrackingTip>
+  <TSA_WD_SettlementIntel_Row_TrackingTip>Whether discovery, scouts, and the sight gizmo run. Starts when Fog of War is on and Activates is not Never. Current setting: "{0}".</TSA_WD_SettlementIntel_Row_TrackingTip>
   <TSA_WD_SettlementIntel_Row_Active>Intel used for Raid Logic?</TSA_WD_SettlementIntel_Row_Active>
-  <TSA_WD_SettlementIntel_Row_ActiveTip>Whether knowledge is used for fogged raid assess. Requires the configured stage to be reached. Current setting: "{0}".</TSA_WD_SettlementIntel_Row_ActiveTip>
+  <TSA_WD_SettlementIntel_Row_ActiveTip>Whether imperfect knowledge is used for raid planning. Requires the Activates stage to be reached. Current setting: "{0}".</TSA_WD_SettlementIntel_Row_ActiveTip>
   <TSA_WD_ATIntel_TabLabel>Intel</TSA_WD_ATIntel_TabLabel>
   <TSA_WD_ATIntel_Headline>Intel: {0}</TSA_WD_ATIntel_Headline>
   <TSA_WD_SettlementIntel_Yes>Yes</TSA_WD_SettlementIntel_Yes>
@@ -1958,44 +1975,39 @@
   <TSA_WD_SettlementIntel_DefeatedSuffix>[defeated]</TSA_WD_SettlementIntel_DefeatedSuffix>
   <TSA_WD_SettlementIntel_Section_KnownTo>Known to</TSA_WD_SettlementIntel_Section_KnownTo>
   <TSA_WD_SettlementIntel_Row_AlwaysKnown>Always known (player colony)</TSA_WD_SettlementIntel_Row_AlwaysKnown>
-  <TSA_WD_SettlementIntel_Row_AlwaysKnownTip>Player colonies with a map are always known to every faction. Soft intel cannot hide them.</TSA_WD_SettlementIntel_Row_AlwaysKnownTip>
-  <TSA_WD_SettlementIntel_Row_StickyOutpost>Sticky outpost</TSA_WD_SettlementIntel_Row_StickyOutpost>
-  <TSA_WD_SettlementIntel_StickyNote>Once discovered, stays known</TSA_WD_SettlementIntel_StickyNote>
-  <TSA_WD_SettlementIntel_Row_StickyOutpostTip>After a faction discovers this outpost, it stays known even if local defense later drops into a weaker sight band.</TSA_WD_SettlementIntel_Row_StickyOutpostTip>
-  <TSA_WD_SettlementIntel_KnownFactionYesTip>{0} knows this site (can consider it for NPC raids and related systems while intel is active).</TSA_WD_SettlementIntel_KnownFactionYesTip>
+  <TSA_WD_SettlementIntel_Row_AlwaysKnownTip>The Player colony always known option is on, so every faction knows this colony.</TSA_WD_SettlementIntel_Row_AlwaysKnownTip>
+  <TSA_WD_SettlementIntel_KnownFactionYesTip>{0} knows this site and can consider it for raids while raid intel fog is active.</TSA_WD_SettlementIntel_KnownFactionYesTip>
   <TSA_WD_SettlementIntel_KnownFactionNoTip>{0} does not know this site yet. Discovery comes from line of sight, scouts, or combat.</TSA_WD_SettlementIntel_KnownFactionNoTip>
   <TSA_WD_SettlementIntel_KnownFactionOwnerTip>{0} owns this site, so it always knows it.</TSA_WD_SettlementIntel_KnownFactionOwnerTip>
-  <TSA_WD_SettlementIntel_KnownFactionAlwaysTip>{0} knows this site because player colonies are always known.</TSA_WD_SettlementIntel_KnownFactionAlwaysTip>
+  <TSA_WD_SettlementIntel_KnownFactionAlwaysTip>{0} knows this site because the player colony is always known.</TSA_WD_SettlementIntel_KnownFactionAlwaysTip>
   <TSA_WD_SettlementIntel_Row_None>None</TSA_WD_SettlementIntel_Row_None>
   <TSA_WD_SettlementIntel_Row_NoneTip>Nothing to list here.</TSA_WD_SettlementIntel_Row_NoneTip>
   <TSA_WD_SettlementIntel_Section_GotBurned>Got Burned</TSA_WD_SettlementIntel_Section_GotBurned>
   <TSA_WD_SettlementIntel_Row_DaysLeft>{0} days left</TSA_WD_SettlementIntel_Row_DaysLeft>
-  <TSA_WD_SettlementIntel_GotBurnedNoneTip>No faction currently has a Got Burned caution stamp against this site. That stamp appears after a raid undercounted defenders.</TSA_WD_SettlementIntel_GotBurnedNoneTip>
-  <TSA_WD_SettlementIntel_GotBurnedRowTip>{0} got burned attacking this site. For {1} more day(s), their next assess vs this primary inflates known defender strength (caution only; no free neighbor discovery).</TSA_WD_SettlementIntel_GotBurnedRowTip>
+  <TSA_WD_SettlementIntel_GotBurnedNoneTip>No faction currently has a Got Burned caution against this site. That appears after a raid undercounted defenders.</TSA_WD_SettlementIntel_GotBurnedNoneTip>
+  <TSA_WD_SettlementIntel_GotBurnedRowTip>{0} got burned attacking this site. For {1} more day(s), their next plan against this target inflates known defender strength (caution only; no free neighbor discovery).</TSA_WD_SettlementIntel_GotBurnedRowTip>
   <TSA_WD_SettlementIntel_Section_Los>Line of sight</TSA_WD_SettlementIntel_Section_Los>
   <TSA_WD_SettlementIntel_Row_BaselineR>Tier baseline</TSA_WD_SettlementIntel_Row_BaselineR>
-  <TSA_WD_SettlementIntel_Row_BaselineRTip>This settlement's tier attack-range baseline. MaxLOS grows from this with age and game stage (no zeal, no attack-range bonuses).</TSA_WD_SettlementIntel_Row_BaselineRTip>
-  <TSA_WD_SettlementIntel_Row_MaxLos>MaxLOS</TSA_WD_SettlementIntel_Row_MaxLos>
-  <TSA_WD_SettlementIntel_Row_MaxLosTip>Current maximum line of sight. Big targets can be seen out to this edge; small targets only inside the inner rings.</TSA_WD_SettlementIntel_Row_MaxLosTip>
-  <TSA_WD_SettlementIntel_Row_BandT1>T1 sight ring</TSA_WD_SettlementIntel_Row_BandT1>
-  <TSA_WD_SettlementIntel_Row_BandT1Tip>Max discover distance to a T1-class target from here: MaxLOS × {0}. Also covers AT turrets and advanced buildings.</TSA_WD_SettlementIntel_Row_BandT1Tip>
-  <TSA_WD_SettlementIntel_Row_BandT2>T2 sight ring</TSA_WD_SettlementIntel_Row_BandT2>
-  <TSA_WD_SettlementIntel_Row_BandT2Tip>Max discover distance to a T2-class target from here: MaxLOS × {0}.</TSA_WD_SettlementIntel_Row_BandT2Tip>
-  <TSA_WD_SettlementIntel_Row_BandT3>T3 sight ring</TSA_WD_SettlementIntel_Row_BandT3>
-  <TSA_WD_SettlementIntel_Row_BandT3Tip>Max discover distance to a T3-class target from here: MaxLOS × {0}.</TSA_WD_SettlementIntel_Row_BandT3Tip>
-  <TSA_WD_SettlementIntel_Row_BandT4>T4 sight ring</TSA_WD_SettlementIntel_Row_BandT4>
-  <TSA_WD_SettlementIntel_Row_BandT4Tip>Max discover distance to a T4-class target from here: MaxLOS × {0}. Largest targets are visible farthest.</TSA_WD_SettlementIntel_Row_BandT4Tip>
+  <TSA_WD_SettlementIntel_Row_BaselineRTip>This settlement's tier attack-range baseline. Sight grows from this with age and game stage. Expert attack-range bonuses do not apply.</TSA_WD_SettlementIntel_Row_BaselineRTip>
+  <TSA_WD_SettlementIntel_Row_Los>Line of sight (tiles)</TSA_WD_SettlementIntel_Row_Los>
+  <TSA_WD_SettlementIntel_Row_LosTip>You see everything within this distance: clear tiles, bright icons, any settlement, WD caravan, AT turret, or advanced building.</TSA_WD_SettlementIntel_Row_LosTip>
+  <TSA_WD_SettlementIntel_Row_Hunch>Hunch range (tiles)</TSA_WD_SettlementIntel_Row_Hunch>
+  <TSA_WD_SettlementIntel_Row_HunchTip>Beyond Line of sight, Tier 3+ settlements and outposts and WD caravans with {0}+ strength are still spotted out to this range (Tier 2 sites need Line of sight). Greys explored tiles and shows dim icons. AT turrets and advanced buildings need Line of sight.</TSA_WD_SettlementIntel_Row_HunchTip>
+  <TSA_WD_SettlementIntel_Row_SightPawns>Pawns (sight)</TSA_WD_SettlementIntel_Row_SightPawns>
+  <TSA_WD_SettlementIntel_Row_SightPawnsTip>Each pawn adds {0} Line of sight and {1} Hunch range (before age and Late-stage growth).</TSA_WD_SettlementIntel_Row_SightPawnsTip>
+  <TSA_WD_SettlementIntel_Row_PerPawnLos>Per pawn Line of sight</TSA_WD_SettlementIntel_Row_PerPawnLos>
+  <TSA_WD_SettlementIntel_Row_PerPawnHunch>Per pawn Hunch range</TSA_WD_SettlementIntel_Row_PerPawnHunch>
   <TSA_WD_SettlementIntel_Section_SitesInSight>Settlements/Outposts in sight</TSA_WD_SettlementIntel_Section_SitesInSight>
-  <TSA_WD_SettlementIntel_SitesInSightNoneTip>No foreign settlements or outposts currently fall inside this settlement's tier-scaled sight bands.</TSA_WD_SettlementIntel_SitesInSightNoneTip>
+  <TSA_WD_SettlementIntel_SitesInSightNoneTip>No foreign settlements or outposts currently fall inside this settlement's sight rings.</TSA_WD_SettlementIntel_SitesInSightNoneTip>
   <TSA_WD_SettlementIntel_SiteValue>{0}, {1} tiles</TSA_WD_SettlementIntel_SiteValue>
   <TSA_WD_SettlementIntel_KindSettlement>Settlement</TSA_WD_SettlementIntel_KindSettlement>
   <TSA_WD_SettlementIntel_KindOutpost>Outpost</TSA_WD_SettlementIntel_KindOutpost>
   <TSA_WD_SettlementIntel_UnknownFaction>Unknown</TSA_WD_SettlementIntel_UnknownFaction>
-  <TSA_WD_SettlementIntel_SiteInSightTip>{0}: {1} ({2}). Distance {3} tiles (sight limit for its class: {4}, band {5}). Known to this site's faction: {6}.</TSA_WD_SettlementIntel_SiteInSightTip>
+  <TSA_WD_SettlementIntel_SiteInSightTip>{0}: {1} ({2}). {3} tiles away; can spot this size out to {4} tiles. Known to this site's faction: {5}.</TSA_WD_SettlementIntel_SiteInSightTip>
   <TSA_WD_SettlementIntel_Section_TravelersInSight>Travelers in sight</TSA_WD_SettlementIntel_Section_TravelersInSight>
-  <TSA_WD_SettlementIntel_TravelersInSightNoneTip>No foreign WD travelers or player caravans are currently within this settlement's MaxLOS target rings.</TSA_WD_SettlementIntel_TravelersInSightNoneTip>
-  <TSA_WD_SettlementIntel_TravelerInSightTip>WD traveler {0} ({1}). Distance {2} tiles (spot range R = {3}). Already known to this settlement's faction: {4}.</TSA_WD_SettlementIntel_TravelerInSightTip>
-  <TSA_WD_SettlementIntel_CaravanInSightTip>Player caravan {0} ({1}). Distance {2} tiles (within settlement sight range R = {3}). Player caravans use vanilla visibility for targeting; this row is LOS context only.</TSA_WD_SettlementIntel_CaravanInSightTip>
+  <TSA_WD_SettlementIntel_TravelersInSightNoneTip>No foreign WD travelers or player caravans are currently within this settlement's sight rings.</TSA_WD_SettlementIntel_TravelersInSightNoneTip>
+  <TSA_WD_SettlementIntel_TravelerInSightTip>WD traveler {0} ({1}). {2} tiles away (spot range {3} tiles). Already known to this settlement's faction: {4}.</TSA_WD_SettlementIntel_TravelerInSightTip>
+  <TSA_WD_SettlementIntel_CaravanInSightTip>Player caravan {0} ({1}). {2} tiles away (within sight range {3} tiles). This row is sight context only.</TSA_WD_SettlementIntel_CaravanInSightTip>
 
   <!-- Outpost Stats tab -->
   <TSA_WD_OutpostStats_TabLabel>Stats</TSA_WD_OutpostStats_TabLabel>

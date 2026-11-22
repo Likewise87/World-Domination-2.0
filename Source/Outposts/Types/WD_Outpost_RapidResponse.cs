@@ -58,7 +58,8 @@ namespace TSA_WorldDomination
                     float refund = traveler.travelerStrength;
                     TravelerEndpointUtility.AbortTraveler(
                         traveler,
-                        "TSA_WD_Log_RapidResponseCancelled".Translate(originLabel, refund.ToString("F0")));
+                        "TSA_WD_Log_RapidResponseCancelled".Translate(originLabel, refund.ToString("F0")),
+                        category: SpreadLogCategory.Raid);
                     Messages.Message(
                         "TSA_WD_RapidResponse_InterceptCancelled".Translate(originLabel, refund.ToString("F0")),
                         MessageTypeDefOf.NeutralEvent);
@@ -277,7 +278,8 @@ namespace TSA_WorldDomination
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_RapidResponseLaunched".Translate(origin.LabelCap, target.LabelCap, strength.ToString("F0")),
                 origin,
-                target));
+                target)
+            { category = SpreadLogCategory.Raid });
             return true;
         }
 
