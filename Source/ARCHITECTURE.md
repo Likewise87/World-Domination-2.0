@@ -187,7 +187,7 @@ SSoT types: `RaidCasualtyModel`, `RaidContribEntry` (`RaidLogic/Raid_MathSnapsho
 
 ### Settlement intel (soft FoW)
 
-Settings page: **Intel and Line of Sight** (`Settings_Window_IntelLos.cs`). Master kill switch `enableSettlementIntel` (Def **off**) + stage gate `gateSettlementIntel` (Def **Never**).
+Settings page: **Intel and Line of Sight** (`Settings_Window_IntelLos.cs`). Master kill switch `enableSettlementIntel` (Def **on**) + stage gate `gateSettlementIntel` (Def **Always**).
 
 | Gate helper | Meaning |
 |-------------|---------|

@@ -113,7 +113,8 @@ namespace TSA_WorldDomination
             bool prevEnable = s.enableSettlementIntel;
             SettingsUI.DrawCheckbox(l, "TSA_WD_Intel_EnableSettlementIntel".Translate(),
                 ref s.enableSettlementIntel,
-                "TSA_WD_Intel_EnableSettlementIntelTip".Translate());
+                "TSA_WD_Intel_EnableSettlementIntelTip".Translate(),
+                defaultValue: WorldDominationSettings.DefEnableSettlementIntel);
             if (prevEnable && !s.enableSettlementIntel && Current.ProgramState == ProgramState.Playing)
                 Messages.Message("TSA_WD_Intel_DisableRestartTip".Translate(), MessageTypeDefOf.CautionInput, false);
 

@@ -495,8 +495,8 @@ namespace TSA_WorldDomination
         public const WdThreatStageGate DefGateThreatIsolationPressure = WdThreatStageGate.Always;
         public const WdThreatStageGate DefGateThreatAttritionRest = WdThreatStageGate.FromMid;
         public const WdThreatStageGate DefGateSettlementIntel = WdThreatStageGate.Always;
-        /// <summary>Master kill switch for Settlement Intel / player FoW. Default off = zero cost, omniscient play.</summary>
-        public const bool DefEnableSettlementIntel = false;
+        /// <summary>Master kill switch for Settlement Intel / player FoW. Default on.</summary>
+        public const bool DefEnableSettlementIntel = true;
         public const bool DefIntelPlayerColoniesAlwaysKnown = false;
         public const bool DefIntelNotifyJumpUndiscovered = false;
         /// <summary>When on, Discover + FoW disk the attacker settlement at player-bound raid launch.</summary>
