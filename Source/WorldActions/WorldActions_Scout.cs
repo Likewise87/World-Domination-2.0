@@ -452,6 +452,7 @@ namespace TSA_WorldDomination
             float scoutMax = WorldDominationMod.settings?.intelScoutMaxLos
                 ?? WorldDominationSettings.DefIntelScoutMaxLos;
 
+            WorldGrid grid = Find.WorldGrid;
             List<Settlement> settlements = Find.WorldObjects.Settlements;
             for (int i = 0; i < settlements.Count; i++)
             {
@@ -459,6 +460,10 @@ namespace TSA_WorldDomination
                 if (s == null || s.Destroyed) continue;
                 if (intel.IsDiscovered(faction, s)) continue;
                 float r = WorldComponent_SettlementIntel.GetScoutSpotRadius(s);
+                float approx = grid != null
+                    ? grid.ApproxDistanceInTiles(tile, s.Tile.tileId)
+                    : float.MaxValue;
+                if (approx > r + 1f) continue;
                 float d = WorldActions_Utils.GetDistance(tile, s.Tile.tileId, manager);
                 if (d <= 1f || d <= r)
                     intel.Discover(faction, s, observer);
@@ -471,6 +476,10 @@ namespace TSA_WorldDomination
                 if (o == null || o.Destroyed) continue;
                 if (intel.IsDiscovered(faction, o)) continue;
                 float r = WorldComponent_SettlementIntel.GetScoutSpotRadius(o);
+                float approx = grid != null
+                    ? grid.ApproxDistanceInTiles(tile, o.Tile.tileId)
+                    : float.MaxValue;
+                if (approx > r + 1f) continue;
                 float d = WorldActions_Utils.GetDistance(tile, o.Tile.tileId, manager);
                 if (d <= 1f || d <= r)
                     intel.Discover(faction, o, observer);
@@ -484,6 +493,10 @@ namespace TSA_WorldDomination
                 WorldObject_AT_Turret at = ats[i];
                 if (at == null || at.Destroyed) continue;
                 if (intel.IsDiscovered(faction, at)) continue;
+                float approx = grid != null
+                    ? grid.ApproxDistanceInTiles(tile, at.Tile.tileId)
+                    : float.MaxValue;
+                if (approx > scoutLos + 1f) continue;
                 float d = WorldActions_Utils.GetDistance(tile, at.Tile.tileId, manager);
                 if (d <= 1f || d <= scoutLos)
                     intel.Discover(faction, at, observer);
@@ -498,6 +511,10 @@ namespace TSA_WorldDomination
                     var b = buildings[i];
                     if (b == null || b.Destroyed) continue;
                     if (intel.IsDiscovered(faction, b)) continue;
+                    float approx = grid != null
+                        ? grid.ApproxDistanceInTiles(tile, b.Tile.tileId)
+                        : float.MaxValue;
+                    if (approx > scoutLos + 1f) continue;
                     float d = WorldActions_Utils.GetDistance(tile, b.Tile.tileId, manager);
                     if (d <= 1f || d <= scoutLos)
                         intel.Discover(faction, b, observer);

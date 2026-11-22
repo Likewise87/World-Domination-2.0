@@ -16,6 +16,12 @@
   <TSA_WD_Intel_NotifyJumpUndiscoveredTip>Desactivado: las cartas solo nombran facción y ETA y no saltan a orígenes no descubiertos. Activado: se permiten etiquetas completas y saltos al mapa.</TSA_WD_Intel_NotifyJumpUndiscoveredTip>
   <TSA_WD_Intel_UncoverOnRaid>Descubrir asentamientos cuando te atacan</TSA_WD_Intel_UncoverOnRaid>
   <TSA_WD_Intel_UncoverOnRaidTip>Activado: un asentamiento que lanza una incursión contra ti se descubre en el mapa mundial (con una breve revelacion de niebla) antes de la carta de incursión entrante, para que la carta pueda nombrarlo y ofrecer Saltar al atacante. Desactivado: los origenes atacantes siguen ocultos salvo que ya los conozcas.</TSA_WD_Intel_UncoverOnRaidTip>
+  <TSA_WD_Intel_PrisonerSpillEnabled>Los prisioneros pueden revelar un asentamiento al reclutar</TSA_WD_Intel_PrisonerSpillEnabled>
+  <TSA_WD_Intel_PrisonerSpillEnabledTip>Activado: al convertir un prisionero en la colonia o en un puesto del jugador puede descubrirse de forma permanente el asentamiento desconocido mas cercano de su antigua faccion (mismo disco de niebla corto que la mision de exploracion). Solo tira si existe tal asentamiento.</TSA_WD_Intel_PrisonerSpillEnabledTip>
+  <TSA_WD_Intel_PrisonerSpillChance>Probabilidad de revelar asentamiento</TSA_WD_Intel_PrisonerSpillChance>
+  <TSA_WD_Intel_PrisonerSpillChanceTip>Probabilidad de revelar ese asentamiento desconocido mas cercano cuando un prisionero se vuelve colono.</TSA_WD_Intel_PrisonerSpillChanceTip>
+  <TSA_WD_Letter_PrisonerIntelSpill_Label>Intel del recluta</TSA_WD_Letter_PrisonerIntelSpill_Label>
+  <TSA_WD_Letter_PrisonerIntelSpill_Text>{0} hablo tras unirse. Has descubierto {1} ({2}).</TSA_WD_Letter_PrisonerIntelSpill_Text>
   <TSA_WD_Intel_ListUndiscoveredTravelers>Listar viajeros no descubiertos en pestañas WD</TSA_WD_Intel_ListUndiscoveredTravelers>
   <TSA_WD_Intel_ListUndiscoveredTravelersTip>Desactivado: Active Travelers y listas similares ocultan viajeros hostiles que aún no has descubierto. Tus propios viajeros siempre se muestran.</TSA_WD_Intel_ListUndiscoveredTravelersTip>
   <TSA_WD_Intel_ThreatKnownOnly>Calcular amenaza solo con conocidos</TSA_WD_Intel_ThreatKnownOnly>
@@ -98,6 +104,7 @@
   <TSA_WD_Gizmo_SightRadiusBandsLegend>Dorado brillante = línea de visión ({0} casillas): casillas claras, iconos brillantes, descubrir cualquier cosa.\nDorado suave = alcance Hunch ({1} casillas): velo gris, iconos tenues, sitios nivel 3+ y caravanas WD con fuerza {2}+.</TSA_WD_Gizmo_SightRadiusBandsLegend>
   <TSA_WD_Gizmo_SightScale_Pawns>Cada peón añade {0} de línea de visión y {1} de alcance Hunch (antes del crecimiento por edad y Late).</TSA_WD_Gizmo_SightScale_Pawns>
   <TSA_WD_Gizmo_SightScale_SettlementTier>El alcance Hunch de un asentamiento PNJ usa su base de nivel (la línea de visión es el % LOS de eso). Edad y Late pueden crecer ambos.</TSA_WD_Gizmo_SightScale_SettlementTier>
+  <TSA_WD_Gizmo_SightScale_ScoutMobile>Usa el Hunch fijo de explorador (el doble en vuelo, igual que las cápsulas WD). No escala con peones ni nivel de asentamiento.</TSA_WD_Gizmo_SightScale_ScoutMobile>
 
   <TSA_WD_Log_Intel_Discovered>INTEL: {0} descubrió {1}.</TSA_WD_Log_Intel_Discovered>
 

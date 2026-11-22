@@ -153,6 +153,8 @@
   <TSA_WD_Notify_PlayerScoutDestroyedTooltip>Cuando tu viajero explorador es destruido en el mapa mundial (trampas, torretas AT, enfrentamientos y similares).</TSA_WD_Notify_PlayerScoutDestroyedTooltip>
   <TSA_WD_Notify_PlayerScoutLifetimeExpired>Carta: vida maxima del explorador</TSA_WD_Notify_PlayerScoutLifetimeExpired>
   <TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>Cuando tu viajero explorador se disuelve al alcanzar su vida maxima. Desactivado: sigues recibiendo un mensaje corto.</TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>
+  <TSA_WD_Notify_PrisonerIntelSpill>Carta: prisionero revela un asentamiento</TSA_WD_Notify_PrisonerIntelSpill>
+  <TSA_WD_Notify_PrisonerIntelSpillTooltip>Cuando un prisionero reclutado revela un asentamiento desconocido (niebla de guerra). La carta salta a ese asentamiento.</TSA_WD_Notify_PrisonerIntelSpillTooltip>
   <TSA_WD_Notify_MortarHit>Carta: mortero destruye un objetivo</TSA_WD_Notify_MortarHit>
   <TSA_WD_Notify_MortarHitTooltip>Carta azul silenciosa cuando tu puesto de artillería destruye un objetivo. Los impactos parciales solo van al registro de acciones.</TSA_WD_Notify_MortarHitTooltip>
   <TSA_WD_Notify_MortarMiss>Carta: mortero falla</TSA_WD_Notify_MortarMiss>

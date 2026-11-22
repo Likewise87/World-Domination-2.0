@@ -608,17 +608,25 @@ namespace TSA_WorldDomination
                     ? cachedRelevantDefs[0].LabelCap + " " + hdrXpSuffix
                     : hdrRelevantXp;
 
-                if (Outpost_OccupantProgression.TryGetProductionSkillXpPerPawnPerDay(outpost, out float xpPerDay))
+                if (Outpost_OccupantProgression.TryGetPawnsTabRelevantSkillXpPerDay(outpost, out float xpPerDay, out bool researchEventXp))
                 {
                     int maxLv = WorldDominationMod.settings?.GetEffectiveOutpostSkillLevel(
                         WorldDominationMod.settings.outpostOccupantSkillXpMaxLevel)
                         ?? WorldDominationSettings.DefOutpostOccupantSkillXpMaxLevel;
-                    string tip = "TSA_WD_PawnCol_RelevantSkillXpPerDayTip".Translate(
+                    string tipKey = researchEventXp
+                        ? "TSA_WD_PawnCol_RelevantSkillXpPerDayTip_Research"
+                        : "TSA_WD_PawnCol_RelevantSkillXpPerDayTip";
+                    string tip = tipKey.Translate(
                         Mathf.RoundToInt(xpPerDay).ToString(),
                         skillName,
                         maxLv.ToString());
                     if (!tip.Contains("TSA_WD_"))
                         cachedRelevantSkillTooltip = tip;
+                    else if (researchEventXp)
+                        cachedRelevantSkillTooltip =
+                            Mathf.RoundToInt(xpPerDay) + " XP/day in " + skillName
+                            + " for each colonist while this outpost is researching (passions apply; stops at level "
+                            + maxLv + ").";
                     else
                         cachedRelevantSkillTooltip =
                             Mathf.RoundToInt(xpPerDay) + " XP/day in " + skillName

@@ -16,6 +16,12 @@
   <TSA_WD_Intel_NotifyJumpUndiscoveredTip>When off, letters name faction and ETA only and do not jump to undiscovered origins on the map. When on, full labels and map jumps are allowed.</TSA_WD_Intel_NotifyJumpUndiscoveredTip>
   <TSA_WD_Intel_UncoverOnRaid>Uncover settlements when they raid you</TSA_WD_Intel_UncoverOnRaid>
   <TSA_WD_Intel_UncoverOnRaidTip>When on, a settlement that launches a raid at you is discovered on the world map (with a short fog reveal) before the incoming raid letter, so the letter can name it and offer Jump Attacker. When off, raider origins stay fogged unless you already know them.</TSA_WD_Intel_UncoverOnRaidTip>
+  <TSA_WD_Intel_PrisonerSpillEnabled>Prisoners may reveal a settlement on recruit</TSA_WD_Intel_PrisonerSpillEnabled>
+  <TSA_WD_Intel_PrisonerSpillEnabledTip>When on, converting a prisoner at the colony or a player outpost may permanently discover the closest unknown settlement of their former faction (same short fog disk as the scout quest). Only rolls when such a settlement exists.</TSA_WD_Intel_PrisonerSpillEnabledTip>
+  <TSA_WD_Intel_PrisonerSpillChance>Prisoner settlement reveal chance</TSA_WD_Intel_PrisonerSpillChance>
+  <TSA_WD_Intel_PrisonerSpillChanceTip>Chance to reveal that closest unknown settlement when a prisoner becomes a colonist.</TSA_WD_Intel_PrisonerSpillChanceTip>
+  <TSA_WD_Letter_PrisonerIntelSpill_Label>Intel from recruit</TSA_WD_Letter_PrisonerIntelSpill_Label>
+  <TSA_WD_Letter_PrisonerIntelSpill_Text>{0} talked after joining. You have discovered {1} ({2}).</TSA_WD_Letter_PrisonerIntelSpill_Text>
   <TSA_WD_Intel_ListUndiscoveredTravelers>List undiscovered travelers in WD tabs</TSA_WD_Intel_ListUndiscoveredTravelers>
   <TSA_WD_Intel_ListUndiscoveredTravelersTip>When off, Active Travelers and similar lists hide hostile travelers you have not discovered. Your own travelers always show.</TSA_WD_Intel_ListUndiscoveredTravelersTip>
   <TSA_WD_Intel_ThreatKnownOnly>Calculate threat based on known only</TSA_WD_Intel_ThreatKnownOnly>
@@ -98,6 +104,7 @@
   <TSA_WD_Gizmo_SightRadiusBandsLegend>Bright gold = Line of sight ({0} tiles): clear tiles, bright icons, discover anything.\nSofter gold = Hunch range ({1} tiles): grey shroud, dim icons, Tier 3+ sites and WD caravans with {2}+ strength.</TSA_WD_Gizmo_SightRadiusBandsLegend>
   <TSA_WD_Gizmo_SightScale_Pawns>Each pawn adds {0} Line of sight and {1} Hunch range (before age and Late-stage growth).</TSA_WD_Gizmo_SightScale_Pawns>
   <TSA_WD_Gizmo_SightScale_SettlementTier>NPC settlement Hunch range uses its tier baseline (Line of sight is the LOS percent of that). Age and Late stage can grow both further.</TSA_WD_Gizmo_SightScale_SettlementTier>
+  <TSA_WD_Gizmo_SightScale_ScoutMobile>Uses fixed scout Hunch (twice that while airborne, same as WD drop pods). Not scaled by pawn count or settlement tier.</TSA_WD_Gizmo_SightScale_ScoutMobile>
 
   <TSA_WD_Log_Intel_Discovered>INTEL: {0} discovered {1}.</TSA_WD_Log_Intel_Discovered>
 

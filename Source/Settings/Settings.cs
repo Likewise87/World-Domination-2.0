@@ -501,6 +501,10 @@ namespace TSA_WorldDomination
         public const bool DefIntelNotifyJumpUndiscovered = false;
         /// <summary>When on, Discover + FoW disk the attacker settlement at player-bound raid launch.</summary>
         public const bool DefIntelUncoverOnRaid = false;
+        /// <summary>When on, recruiting a prisoner may reveal the closest unknown settlement of their former faction.</summary>
+        public const bool DefIntelPrisonerSpillEnabled = true;
+        /// <summary>Chance to spill FoW on recruit when a candidate exists (Def 20%).</summary>
+        public const float DefIntelPrisonerSpillChance = 0.20f;
         public const bool DefIntelListUndiscoveredTravelers = false;
         /// <summary>When FoW tracking is on, threat math / alert only use discovered hostiles.</summary>
         public const bool DefIntelThreatKnownOnly = true;
@@ -1252,6 +1256,7 @@ namespace TSA_WorldDomination
         public const bool DefNotifyPlayerScoutDestroyed = true;
         /// <summary>Letter when a player scout dissolves after max lifetime. Off by default (Message still shows).</summary>
         public const bool DefNotifyPlayerScoutLifetimeExpired = false;
+        public const bool DefNotifyPrisonerIntelSpill = true;
         /// <summary>Silent blue letter when YOUR mortar outpost destroys a target. On by default. Misses use <see cref="DefNotifyMortarMiss"/>.</summary>
         public const bool DefNotifyMortarHit = true;
         /// <summary>Silent blue letter when YOUR mortar misses. Off by default.</summary>
@@ -1677,6 +1682,10 @@ namespace TSA_WorldDomination
         public bool intelNotifyJumpUndiscovered = DefIntelNotifyJumpUndiscovered;
         /// <summary>When true, Discover + FoW-reveal the attacker settlement when it raids the player.</summary>
         public bool intelUncoverOnRaid = DefIntelUncoverOnRaid;
+        /// <summary>When true, prisoner→colonist convert may reveal closest unknown same-faction settlement.</summary>
+        public bool intelPrisonerSpillEnabled = DefIntelPrisonerSpillEnabled;
+        /// <summary>Chance (0–1) to spill when a candidate exists.</summary>
+        public float intelPrisonerSpillChance = DefIntelPrisonerSpillChance;
         /// <summary>When true, Active Travelers lists undiscovered hostiles.</summary>
         public bool intelListUndiscoveredTravelers = DefIntelListUndiscoveredTravelers;
         /// <summary>When tracking + true, world threat / alert only use discovered hostiles.</summary>
@@ -1685,11 +1694,12 @@ namespace TSA_WorldDomination
         public bool intelTradersRequireKnownTarget = DefIntelTradersRequireKnownTarget;
         /// <summary>When on, spotted travelers remain FoW-visible after leaving sight (dim). Off = hide out of sight.</summary>
         public bool intelSpottedCaravansRemainVisible = DefIntelSpottedCaravansRemainVisible;
+        /// <summary>Legacy size-ring fracs (scribed for save compat; unused for sight — use intelLosFrac). Not drawn in settings UI.</summary>
         public float intelTargetRingFracT1 = DefIntelTargetRingFracT1;
         public float intelTargetRingFracT2 = DefIntelTargetRingFracT2;
         public float intelTargetRingFracT3 = DefIntelTargetRingFracT3;
         public float intelTargetRingFracT4 = DefIntelTargetRingFracT4;
-        /// <summary>LOS / Hunch split. Legacy size-ring fracs stay scribed unused.</summary>
+        /// <summary>LOS / Hunch split (live). Legacy size-ring fracs stay scribed unused.</summary>
         public float intelLosFrac = DefIntelLosFrac;
         /// <summary>One-shot: seed intelLosFrac from intelTargetRingFracT1 on first load after two-ring sight.</summary>
         public bool intelSightTwoRingMigrated = false;
@@ -1706,6 +1716,7 @@ namespace TSA_WorldDomination
         public float intelScoutSpeedMult = DefIntelScoutSpeedMult;
         /// <summary>Player scout max lifetime in days (base; outpost upgrades may add).</summary>
         public float intelPlayerScoutMaxLifetimeDays = DefIntelPlayerScoutMaxLifetimeDays;
+        /// <summary>Legacy (scribed unused). Player caravans use intelScoutMaxLos for FoW Hunch. Not drawn in settings UI.</summary>
         public float intelPlayerCaravanMaxLos = DefIntelPlayerCaravanMaxLos;
         public float settlementIntelBurnedHiddenStrengthPct = DefSettlementIntelBurnedHiddenStrengthPct;
         public float settlementIntelGotBurnedDays = DefSettlementIntelGotBurnedDays;
@@ -2361,6 +2372,7 @@ namespace TSA_WorldDomination
         public bool notifyRaidPartyDestroyed = DefNotifyRaidPartyDestroyed;
         public bool notifyPlayerScoutDestroyed = DefNotifyPlayerScoutDestroyed;
         public bool notifyPlayerScoutLifetimeExpired = DefNotifyPlayerScoutLifetimeExpired;
+        public bool notifyPrisonerIntelSpill = DefNotifyPrisonerIntelSpill;
         public bool notifyMortarHit = DefNotifyMortarHit;
         public bool notifyMortarMiss = DefNotifyMortarMiss;
         public bool notifyAntiAirHit = DefNotifyAntiAirHit;
@@ -3074,6 +3086,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref intelPlayerColoniesAlwaysKnown, "intelPlayerColoniesAlwaysKnown", DefIntelPlayerColoniesAlwaysKnown);
             Scribe_Values.Look(ref intelNotifyJumpUndiscovered, "intelNotifyJumpUndiscovered", DefIntelNotifyJumpUndiscovered);
             Scribe_Values.Look(ref intelUncoverOnRaid, "intelUncoverOnRaid", DefIntelUncoverOnRaid);
+            Scribe_Values.Look(ref intelPrisonerSpillEnabled, "intelPrisonerSpillEnabled", DefIntelPrisonerSpillEnabled);
+            Scribe_Values.Look(ref intelPrisonerSpillChance, "intelPrisonerSpillChance", DefIntelPrisonerSpillChance);
             Scribe_Values.Look(ref intelListUndiscoveredTravelers, "intelListUndiscoveredTravelers", DefIntelListUndiscoveredTravelers);
             Scribe_Values.Look(ref intelThreatKnownOnly, "intelThreatKnownOnly", DefIntelThreatKnownOnly);
             Scribe_Values.Look(ref intelTargetRingFracT1, "intelTargetRingFracT1", DefIntelTargetRingFracT1);
@@ -3669,6 +3683,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref notifyRaidPartyDestroyed, "notifyRaidPartyDestroyed", DefNotifyRaidPartyDestroyed);
             Scribe_Values.Look(ref notifyPlayerScoutDestroyed, "notifyPlayerScoutDestroyed", DefNotifyPlayerScoutDestroyed);
             Scribe_Values.Look(ref notifyPlayerScoutLifetimeExpired, "notifyPlayerScoutLifetimeExpired", DefNotifyPlayerScoutLifetimeExpired);
+            Scribe_Values.Look(ref notifyPrisonerIntelSpill, "notifyPrisonerIntelSpill", DefNotifyPrisonerIntelSpill);
             Scribe_Values.Look(ref notifyMortarHit, "notifyMortarHit", DefNotifyMortarHit);
             Scribe_Values.Look(ref notifyMortarMiss, "notifyMortarMiss", DefNotifyMortarMiss);
             Scribe_Values.Look(ref notifyAntiAirHit, "notifyAntiAirHit", DefNotifyAntiAirHit);
@@ -5225,6 +5240,8 @@ namespace TSA_WorldDomination
             intelPlayerColoniesAlwaysKnown = DefIntelPlayerColoniesAlwaysKnown;
             intelNotifyJumpUndiscovered = DefIntelNotifyJumpUndiscovered;
             intelUncoverOnRaid = DefIntelUncoverOnRaid;
+            intelPrisonerSpillEnabled = DefIntelPrisonerSpillEnabled;
+            intelPrisonerSpillChance = DefIntelPrisonerSpillChance;
             intelListUndiscoveredTravelers = DefIntelListUndiscoveredTravelers;
             intelThreatKnownOnly = DefIntelThreatKnownOnly;
             intelTradersRequireKnownTarget = DefIntelTradersRequireKnownTarget;
@@ -6078,6 +6095,7 @@ namespace TSA_WorldDomination
             notifyRaidPartyDestroyed = DefNotifyRaidPartyDestroyed;
             notifyPlayerScoutDestroyed = DefNotifyPlayerScoutDestroyed;
             notifyPlayerScoutLifetimeExpired = DefNotifyPlayerScoutLifetimeExpired;
+            notifyPrisonerIntelSpill = DefNotifyPrisonerIntelSpill;
             notifyMortarHit = DefNotifyMortarHit;
             notifyMortarMiss = DefNotifyMortarMiss;
             notifyAntiAirHit = DefNotifyAntiAirHit;

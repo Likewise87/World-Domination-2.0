@@ -713,6 +713,7 @@
   <TSA_WD_PawnCol_RelevantXpHeader>Hab. XP</TSA_WD_PawnCol_RelevantXpHeader>
   <TSA_WD_PawnCol_RelevantXpTooltip>Progreso hacia el siguiente nivel (XP actual / XP necesaria). Habilidades relevantes: {0}.</TSA_WD_PawnCol_RelevantXpTooltip>
   <TSA_WD_PawnCol_RelevantSkillXpPerDayTip>{0} XP/día en {1} por cada colono mientras corre la producción (aplican pasiones y factor de aprendizaje; se detiene en el nivel {2}). Los días inactivos, en pausa o bloqueados no otorgan nada.</TSA_WD_PawnCol_RelevantSkillXpPerDayTip>
+  <TSA_WD_PawnCol_RelevantSkillXpPerDayTip_Research>{0} XP/día en {1} por cada colono mientras este puesto investiga (aplican pasiones y factor de aprendizaje; se detiene en el nivel {2}). Los días sin proyecto activo o investigadores no otorgan nada.</TSA_WD_PawnCol_RelevantSkillXpPerDayTip_Research>
   <TSA_WD_PawnDetails_Remove>Quitar de la avanzadilla</TSA_WD_PawnDetails_Remove>
   <TSA_WD_PawnDetails_Skills>Habilidades</TSA_WD_PawnDetails_Skills>
   <TSA_WD_PawnRow_Remove>Quitar</TSA_WD_PawnRow_Remove>
@@ -1706,7 +1707,7 @@
   <TSA_WD_OutpostUpgrades_PendingCount>{0} mejoras en tránsito</TSA_WD_OutpostUpgrades_PendingCount>
   <TSA_WD_OutpostUpgrades_BatchTitle>{0}: Construir mejoras seleccionadas</TSA_WD_OutpostUpgrades_BatchTitle>
   <TSA_WD_OutpostUpgrades_BatchConfirm>Confirmar</TSA_WD_OutpostUpgrades_BatchConfirm>
-  <TSA_WD_OutpostUpgrades_BatchListHeader>Mejoras</TSA_WD_OutpostUpgrades_BatchListHeader>
+  <TSA_WD_OutpostUpgrades_BatchListHeader>Desglose</TSA_WD_OutpostUpgrades_BatchListHeader>
   <TSA_WD_OutpostUpgrades_BatchCostHeader>Coste</TSA_WD_OutpostUpgrades_BatchCostHeader>
   <TSA_WD_OutpostUpgrades_BatchTotalHeader>Coste total</TSA_WD_OutpostUpgrades_BatchTotalHeader>
   <TSA_WD_OutpostUpgrades_BatchPodHeader>Cápsulas de transporte</TSA_WD_OutpostUpgrades_BatchPodHeader>

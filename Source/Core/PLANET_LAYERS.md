@@ -128,10 +128,12 @@ When Settlement Intel tracking is on (`WdFowDraw.IsActive`), surface FoW meshes 
 Explored / visible bits: `WdFowTileMemory` on `WorldComponent_SettlementIntel` (scribed per-faction
 explored `BitArray`s). Explore radius = Hunch; clear `visibleBits` = LOS (`Hunch × intelLosFrac`).
 Reveal via daily observers, travelers, scouts, caravans (scout Hunch), drop pods (2× land Hunch).
-Progressive dirty queues — do not rebuild full-planet verts every discovery. `SetDirty` must
-not register layers mid-draw. Non-WO fortification overlays (traps / road blocks / trench edges)
-gate on `WdFowDraw.ShouldDrawTileOverlay` (hide on unexplored). Details: `ARCHITECTURE.md` §
-Settlement intel; icon hide/dim: `WORLD_MAP_ICONS.md`.
+Progressive dirty queues — do not rebuild full-planet verts every discovery. Full visible-disk
+rebuild + O(tiles) reconcile only on observer-structure dirty / view switch / force — not on icon
+`InvalidateFowDrawCache`, Discover `Version`, or the ~90t icon timer. `SetDirty` must not register
+layers mid-draw. Non-WO fortification overlays (traps / road blocks / trench edges) gate on
+`WdFowDraw.ShouldDrawTileOverlay` (hide on unexplored). Details: `ARCHITECTURE.md` § Settlement
+intel; icon hide/dim: `WORLD_MAP_ICONS.md`.
 
 ## Mouse-follow tile overlays
 

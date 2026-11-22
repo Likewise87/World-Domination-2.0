@@ -713,6 +713,7 @@
   <TSA_WD_PawnCol_RelevantXpHeader>技能经验</TSA_WD_PawnCol_RelevantXpHeader>
   <TSA_WD_PawnCol_RelevantXpTooltip>距离下一级的进度（当前经验/升级所需）。相关技能：{0}。</TSA_WD_PawnCol_RelevantXpTooltip>
   <TSA_WD_PawnCol_RelevantSkillXpPerDayTip>生产运行时，每名殖民者每天在{1}获得{0}经验（热情与学习因子生效；达到技能等级{2}后停止）。空闲、暂停或受阻的日子不发放。</TSA_WD_PawnCol_RelevantSkillXpPerDayTip>
+  <TSA_WD_PawnCol_RelevantSkillXpPerDayTip_Research>此前哨进行研究时，每名殖民者每天在{1}获得{0}经验（热情与学习因子生效；达到技能等级{2}后停止）。无进行中项目或无研究员的日子不发放。</TSA_WD_PawnCol_RelevantSkillXpPerDayTip_Research>
   <TSA_WD_PawnDetails_Remove>从前哨站移出</TSA_WD_PawnDetails_Remove>
   <TSA_WD_PawnDetails_Skills>技能</TSA_WD_PawnDetails_Skills>
   <TSA_WD_PawnRow_Remove>移出</TSA_WD_PawnRow_Remove>
@@ -1706,7 +1707,7 @@
   <TSA_WD_OutpostUpgrades_PendingCount>{0} 项升级运送中</TSA_WD_OutpostUpgrades_PendingCount>
   <TSA_WD_OutpostUpgrades_BatchTitle>{0}：建造所选升级</TSA_WD_OutpostUpgrades_BatchTitle>
   <TSA_WD_OutpostUpgrades_BatchConfirm>确认</TSA_WD_OutpostUpgrades_BatchConfirm>
-  <TSA_WD_OutpostUpgrades_BatchListHeader>升级</TSA_WD_OutpostUpgrades_BatchListHeader>
+  <TSA_WD_OutpostUpgrades_BatchListHeader>明细</TSA_WD_OutpostUpgrades_BatchListHeader>
   <TSA_WD_OutpostUpgrades_BatchCostHeader>费用</TSA_WD_OutpostUpgrades_BatchCostHeader>
   <TSA_WD_OutpostUpgrades_BatchTotalHeader>总费用</TSA_WD_OutpostUpgrades_BatchTotalHeader>
   <TSA_WD_OutpostUpgrades_BatchPodHeader>运输舱</TSA_WD_OutpostUpgrades_BatchPodHeader>

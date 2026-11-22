@@ -916,6 +916,7 @@ namespace TSA_WorldDomination
             }
 
             Find.WorldObjects.Add(newS);
+            WorldComponent_SettlementIntel.Get()?.NotifySiteAppearedAfterInit(newS);
             Find.World?.GetComponent<Text_WorldTierOnSettlements>()?.NotifyTierLabelCacheDirty();
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();

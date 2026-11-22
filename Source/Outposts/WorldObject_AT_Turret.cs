@@ -99,12 +99,16 @@ namespace TSA_WorldDomination
             base.SpawnSetup();
             if (!liveTurrets.Contains(this))
                 liveTurrets.Add(this);
+            WorldComponent_SettlementIntel.Get()?.NotifySiteAppeared(this);
         }
 
         public override void Destroy()
         {
             if (!Destroyed)
+            {
                 liveTurrets.RemoveAll(t => t == this);
+                WorldComponent_SettlementIntel.Get()?.NotifySiteDestroyed(this);
+            }
             base.Destroy();
         }
 

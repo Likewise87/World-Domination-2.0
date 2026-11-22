@@ -237,6 +237,7 @@ namespace TSA_WorldDomination
                 comp.SetState(tier);
                 comp.CheckTierUpdate();
             }
+            WorldComponent_SettlementIntel.Get()?.NotifySiteAppearedAfterInit(settlement);
             Find.World?.GetComponent<Text_WorldTierOnSettlements>()?.NotifyTierLabelCacheDirty();
 
             int goodwillGain = WorldDominationMod.settings?.GetConquestAllyGiftGoodwill(tier) ?? WorldDominationSettings.DefConquestAllyGiftGoodwillT1;

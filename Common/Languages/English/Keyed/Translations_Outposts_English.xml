@@ -809,6 +809,7 @@
   <TSA_WD_PawnCol_RelevantXpHeader>Skills XP</TSA_WD_PawnCol_RelevantXpHeader>
   <TSA_WD_PawnCol_RelevantXpTooltip>Progress toward the next level (current XP / XP required). Relevant skills: {0}.</TSA_WD_PawnCol_RelevantXpTooltip>
   <TSA_WD_PawnCol_RelevantSkillXpPerDayTip>{0} XP/day in {1} for each colonist while production runs (passions and learning factor apply; stops at skill level {2}). Idle, paused, or blocked days grant nothing.</TSA_WD_PawnCol_RelevantSkillXpPerDayTip>
+  <TSA_WD_PawnCol_RelevantSkillXpPerDayTip_Research>{0} XP/day in {1} for each colonist while this outpost is researching (passions and learning factor apply; stops at skill level {2}). Days without an active project or researchers grant nothing.</TSA_WD_PawnCol_RelevantSkillXpPerDayTip_Research>
   <TSA_WD_PawnDetails_Remove>Remove from outpost</TSA_WD_PawnDetails_Remove>
   <TSA_WD_PawnDetails_Skills>Skills</TSA_WD_PawnDetails_Skills>
   <TSA_WD_PawnRow_Remove>Remove</TSA_WD_PawnRow_Remove>
@@ -1844,7 +1845,7 @@
   <TSA_WD_OutpostUpgrades_PendingCount>{0} upgrades in transit</TSA_WD_OutpostUpgrades_PendingCount>
   <TSA_WD_OutpostUpgrades_BatchTitle>{0}: Build selected upgrades</TSA_WD_OutpostUpgrades_BatchTitle>
   <TSA_WD_OutpostUpgrades_BatchConfirm>Confirm</TSA_WD_OutpostUpgrades_BatchConfirm>
-  <TSA_WD_OutpostUpgrades_BatchListHeader>Upgrades</TSA_WD_OutpostUpgrades_BatchListHeader>
+  <TSA_WD_OutpostUpgrades_BatchListHeader>Breakdown</TSA_WD_OutpostUpgrades_BatchListHeader>
   <TSA_WD_OutpostUpgrades_BatchCostHeader>Cost</TSA_WD_OutpostUpgrades_BatchCostHeader>
   <TSA_WD_OutpostUpgrades_BatchTotalHeader>Total cost</TSA_WD_OutpostUpgrades_BatchTotalHeader>
   <TSA_WD_OutpostUpgrades_BatchPodHeader>Transport pods</TSA_WD_OutpostUpgrades_BatchPodHeader>

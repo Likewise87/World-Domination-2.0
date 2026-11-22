@@ -1577,6 +1577,7 @@
   <!-- EN: Skills XP -->
   <TSA_WD_PawnCol_RelevantXpHeader>技能經驗</TSA_WD_PawnCol_RelevantXpHeader>
   <TSA_WD_PawnCol_RelevantSkillXpPerDayTip>生產運行時，每名殖民者每天在{1}獲得{0}經驗（熱情與學習因子生效；達到技能等級{2}後停止）。閒置、暫停或受阻的日子不發放。</TSA_WD_PawnCol_RelevantSkillXpPerDayTip>
+  <TSA_WD_PawnCol_RelevantSkillXpPerDayTip_Research>此哨站進行研究時，每名殖民者每天在{1}獲得{0}經驗（熱情與學習因子生效；達到技能等級{2}後停止）。無進行中專案或無研究員的日子不發放。</TSA_WD_PawnCol_RelevantSkillXpPerDayTip_Research>
   <!-- EN: Progress toward the next level (current XP / XP required). Relevant skills: {0}. -->
   <TSA_WD_PawnCol_RelevantXpTooltip>距離下一級的進度（目前經驗 / 所需經驗）。相關技能：{0}。</TSA_WD_PawnCol_RelevantXpTooltip>
   <!-- EN: Remove from outpost -->
@@ -3457,7 +3458,7 @@
   <!-- EN: Confirm -->
   <TSA_WD_OutpostUpgrades_BatchConfirm>確認</TSA_WD_OutpostUpgrades_BatchConfirm>
   <!-- EN: Upgrades -->
-  <TSA_WD_OutpostUpgrades_BatchListHeader>升級</TSA_WD_OutpostUpgrades_BatchListHeader>
+  <TSA_WD_OutpostUpgrades_BatchListHeader>明細</TSA_WD_OutpostUpgrades_BatchListHeader>
   <!-- EN: Cost -->
   <TSA_WD_OutpostUpgrades_BatchCostHeader>費用</TSA_WD_OutpostUpgrades_BatchCostHeader>
   <!-- EN: Total cost -->

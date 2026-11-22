@@ -6,7 +6,8 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Optional: hide MutatorWorldIcons tiles outside current View World as LOS.
+    /// Optional: hide MutatorWorldIcons tiles that are still unexplored (black FoW).
+    /// Grey shroud (explored, out of LOS) still shows mutator icons.
     /// Reflection-only — no compile reference to MutatorWorldIcons.dll.
     /// </summary>
     [StaticConstructorOnStartup]
@@ -58,7 +59,7 @@ namespace TSA_WorldDomination
                 || ModLister.GetActiveModWithIdentifier(PackageId, false) != null;
         }
 
-        /// <summary>Harmony Prefix: skip mutator icons when FoW is on and the tile is not currently visible.</summary>
+        /// <summary>Harmony Prefix: skip mutator icons on unexplored (black) tiles when FoW is on.</summary>
         public static bool PrefixDrawTileMaterials(int tileId)
         {
             if (!WdFowDraw.IsActive)
@@ -66,7 +67,8 @@ namespace TSA_WorldDomination
             var intel = WorldComponent_SettlementIntel.Get();
             if (intel == null)
                 return true;
-            return intel.IsTileCurrentlyVisibleForFow(tileId);
+            // Explored-bit only — no EnsureVisibleCacheFresh (draw-safe).
+            return intel.TileFow.IsTileExploredForView(tileId);
         }
     }
 }

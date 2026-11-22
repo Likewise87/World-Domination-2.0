@@ -167,6 +167,8 @@
   <TSA_WD_Notify_PlayerScoutDestroyedTooltip>When your scout traveler is destroyed on the world map (traps, AT fire, clashes, and similar).</TSA_WD_Notify_PlayerScoutDestroyedTooltip>
   <TSA_WD_Notify_PlayerScoutLifetimeExpired>Letter: player scout max lifetime</TSA_WD_Notify_PlayerScoutLifetimeExpired>
   <TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>When your scout traveler dissolves after reaching its max lifetime. When off, you still get a short message.</TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>
+  <TSA_WD_Notify_PrisonerIntelSpill>Letter: prisoner reveals a settlement</TSA_WD_Notify_PrisonerIntelSpill>
+  <TSA_WD_Notify_PrisonerIntelSpillTooltip>When a recruited prisoner reveals an unknown settlement (Fog of War). The letter jumps to that settlement.</TSA_WD_Notify_PrisonerIntelSpillTooltip>
   <TSA_WD_Notify_MortarHit>Letter: mortar destroys a target</TSA_WD_Notify_MortarHit>
   <TSA_WD_Notify_MortarHitTooltip>Silent blue letter when your artillery outpost destroys a target. Partial hits go to the action log only.</TSA_WD_Notify_MortarHitTooltip>
   <TSA_WD_Notify_MortarMiss>Letter: mortar misses</TSA_WD_Notify_MortarMiss>

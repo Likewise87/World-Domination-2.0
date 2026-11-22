@@ -66,6 +66,24 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// Pawns-tab header tip amount: production daily XP, or research Intellectual event XP
+        /// (<see cref="EventXpResearchPerDay"/>) while the outpost can research.
+        /// </summary>
+        public static bool TryGetPawnsTabRelevantSkillXpPerDay(WorldObject_WD_Outpost outpost, out float xpPerDay, out bool researchEventXp)
+        {
+            researchEventXp = false;
+            if (TryGetProductionSkillXpPerPawnPerDay(outpost, out xpPerDay))
+                return true;
+
+            xpPerDay = 0f;
+            if (outpost == null || !outpost.IsResearchOutpost) return false;
+            if (EventXpResearchPerDay <= 0f) return false;
+            xpPerDay = EventXpResearchPerDay;
+            researchEventXp = true;
+            return true;
+        }
+
+        /// <summary>
         /// Once-per-day production skill XP while the production timer is running.
         /// Amount = settings XP/day (<c>outpostOccupantSkillXpPerProductionCycle</c>, Def 300).
         /// Skips Academy / warehouse / research / power plant, idle or requirement-paused timers, and scavenging (no relevant skills).

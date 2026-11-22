@@ -136,6 +136,7 @@ namespace TSA_WorldDomination
                 WorldActions_RoadBlocks.ClearIfPresent(tile);
                 WorldActions_SpikeTraps.ClearIfPresent(tile);
                 Find.WorldObjects.Add(newS);
+                WorldComponent_SettlementIntel.Get()?.NotifySiteAppearedAfterInit(newS);
 
                 float afterOff = nc != null ? nc.offensiveStrength : oldOff;
                 string logText = "TSA_WD_Log_Revolt_Entry".Translate(

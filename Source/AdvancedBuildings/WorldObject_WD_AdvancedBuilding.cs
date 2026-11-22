@@ -95,6 +95,7 @@ namespace TSA_WorldDomination
         {
             base.SpawnSetup();
             WorldComponent_AdvancedBuildings.Get()?.Register(this);
+            WorldComponent_SettlementIntel.Get()?.NotifySiteAppeared(this);
         }
 
         public override void PostAdd()
@@ -111,8 +112,12 @@ namespace TSA_WorldDomination
 
         public override void Destroy()
         {
-            if (!Destroyed && !suppressDestroyedLetter)
-                AdvancedBuildingCombatUtility.LogBuildingDestroyed(this, null);
+            if (!Destroyed)
+            {
+                if (!suppressDestroyedLetter)
+                    AdvancedBuildingCombatUtility.LogBuildingDestroyed(this, null);
+                WorldComponent_SettlementIntel.Get()?.NotifySiteDestroyed(this);
+            }
             WorldComponent_AdvancedBuildings.Get()?.Unregister(this);
             base.Destroy();
         }

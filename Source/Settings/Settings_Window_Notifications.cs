@@ -204,6 +204,10 @@ var s = WorldDominationMod.settings;
                     ref s.notifyPlayerScoutLifetimeExpired,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip".Translate(), WorldDominationSettings.DefNotifyPlayerScoutLifetimeExpired));
 
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Notify_PrisonerIntelSpill".Translate(),
+                    ref s.notifyPrisonerIntelSpill,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_PrisonerIntelSpillTooltip".Translate(), WorldDominationSettings.DefNotifyPrisonerIntelSpill));
+
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Difficulty_NotifyOutpostInc".Translate(),
                     ref s.notifyOutpostIncident,
                     SettingsUI.TooltipWithDefault("TSA_WD_Difficulty_NotifyOutpostIncTooltip".Translate(), WorldDominationSettings.DefNotifyOutpostIncident));

@@ -322,6 +322,8 @@
   <TSA_WD_Notify_PlayerScoutDestroyedTooltip>你的偵察旅行者在世界地圖上被摧毀時（陷阱、反坦克砲火、遭遇戰等）。</TSA_WD_Notify_PlayerScoutDestroyedTooltip>
   <TSA_WD_Notify_PlayerScoutLifetimeExpired>信件：偵察最長壽命</TSA_WD_Notify_PlayerScoutLifetimeExpired>
   <TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>你的偵察旅行者達到最長壽命並解散時。關閉時仍會顯示短訊息。</TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>
+  <TSA_WD_Notify_PrisonerIntelSpill>信件：囚犯揭露據點</TSA_WD_Notify_PrisonerIntelSpill>
+  <TSA_WD_Notify_PrisonerIntelSpillTooltip>招募的囚犯揭露未知據點時（戰爭迷霧）。信件可跳轉到該據點。</TSA_WD_Notify_PrisonerIntelSpillTooltip>
   <!-- EN: Notify when your mortar destroys a target -->
   <TSA_WD_Notify_MortarHit>信件：迫擊砲摧毀目標</TSA_WD_Notify_MortarHit>
   <!-- EN: Receive a silent blue letter when your artillery outpost destroys a target. Partial hits only go to the action log. -->

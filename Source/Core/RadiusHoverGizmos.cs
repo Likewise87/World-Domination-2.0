@@ -198,6 +198,15 @@ namespace TSA_WorldDomination
                 yield return g;
         }
 
+        /// <summary>Sight for landed caravans (vanilla + VF) and in-flight pods / aerials. Shares <see cref="WD_RadiusOverlayCategory.WdTraveler"/> prefs.</summary>
+        public static IEnumerable<Gizmo> GetSightForMobile(WorldObject worldObject)
+        {
+            if (worldObject == null || worldObject.Destroyed) yield break;
+            if (!WorldComponent_SettlementIntel.IsGateConfigured()) yield break;
+            foreach (Gizmo g in GetSightFor(worldObject, WD_RadiusOverlayCategory.WdTraveler))
+                yield return g;
+        }
+
         /// <summary>Yellow Show line of sight for player map colonies (NPC settlements use GetAttackForSettlement).</summary>
         public static IEnumerable<Gizmo> GetSightForPlayerColony(Settlement settlement)
         {
@@ -471,6 +480,12 @@ namespace TSA_WorldDomination
                 scaleTip = "TSA_WD_Gizmo_SightScale_Pawns".Translate(
                     losPer.ToString("F1"),
                     hunchPer.ToString("F1")).ToString();
+            }
+            else if (worldObject is Caravan
+                || WorldComponent_SettlementIntel.IsAirborneFowObserver(worldObject)
+                || worldObject is WorldObject_Traveler)
+            {
+                scaleTip = "TSA_WD_Gizmo_SightScale_ScoutMobile".Translate().ToString();
             }
             else
             {

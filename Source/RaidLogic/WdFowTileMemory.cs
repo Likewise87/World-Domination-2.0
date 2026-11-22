@@ -39,6 +39,7 @@ namespace TSA_WorldDomination
         private readonly Queue<PlanetTile> openTiles = new Queue<PlanetTile>();
         private readonly Dictionary<int, int> distancesByTileId = new Dictionary<int, int>(256);
         private readonly List<PlanetTile> neighborTiles = new List<PlanetTile>(8);
+        private readonly List<WorldObject> visibleObserverScratch = new List<WorldObject>(64);
 
         /// <summary>False during POV switch blackout; true when FoW meshes are ready to show.</summary>
         public bool LayersReady { get; private set; } = true;
@@ -308,16 +309,17 @@ namespace TSA_WorldDomination
             int tick = Find.TickManager?.TicksGame ?? 0;
             int viewId = view.loadID;
             // Discovery Version no longer forces full-planet rebuild; observer moves bump visibleStructureEpoch.
-            bool intervalDue = tick - visibleCacheTick < 0
-                || tick - visibleCacheTick >= WorldComponent_SettlementIntel.FowCacheIntervalTicksPublic;
+            // Skip O(tiles) reconcile when structure epoch is unchanged (do not rebuild on the 90t timer alone).
             if (!force
                 && !visibleForceFullReconcile
-                && !intervalDue
                 && visibleCacheEpoch == visibleStructureEpoch
                 && visibleFactionId == viewId
                 && visibleBits != null
                 && visibleBits.Length == tilesCount)
+            {
+                visibleCacheTick = tick;
                 return;
+            }
 
             if (previousVisibleBits == null || previousVisibleBits.Length != tilesCount)
                 previousVisibleBits = new BitArray(tilesCount);
@@ -360,13 +362,12 @@ namespace TSA_WorldDomination
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             if (intel == null) return;
 
-            var observers = new List<WorldObject>(64);
-            intel.CollectFowObserversPublic(view, manager, observers);
+            intel.CollectFowObserversPublic(view, manager, visibleObserverScratch);
             BitArray explored = GetExplored(view.loadID);
 
-            for (int i = 0; i < observers.Count; i++)
+            for (int i = 0; i < visibleObserverScratch.Count; i++)
             {
-                WorldObject obs = observers[i];
+                WorldObject obs = visibleObserverScratch[i];
                 if (obs == null || obs.Destroyed) continue;
                 float hunch = WorldComponent_SettlementIntel.GetHunchRadius(obs);
                 if (hunch <= 0f) continue;
@@ -437,6 +438,7 @@ namespace TSA_WorldDomination
 
                     if (explored != null && approx <= exploreRadius)
                     {
+                        // Only note features on newly explored tiles (skip re-note every disk paint).
                         if (!explored[id])
                         {
                             explored[id] = true;
@@ -447,10 +449,6 @@ namespace TSA_WorldDomination
                                 QueueShroud(id);
                                 trenchOverlayDirty = true;
                             }
-                        }
-                        else
-                        {
-                            NoteFeatureOnExploredTile(factionLoadId, id);
                         }
                     }
                 }

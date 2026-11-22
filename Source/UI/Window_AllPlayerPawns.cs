@@ -330,7 +330,7 @@ namespace TSA_WorldDomination
             Widgets.BeginScrollView(scrollOuter, ref scrollPos, viewRect);
 
             for (int i = 0; i < cachedList.Count; i++)
-                DrawRow(0f, i * EffectiveRowHeight(), totalWidth, cachedList[i], i % 2 == 0);
+                DrawRow(0f, i * EffectiveRowHeight(), totalWidth, cachedList[i]);
 
             Widgets.EndScrollView();
             Text.Anchor = TextAnchor.UpperLeft;
@@ -887,7 +887,30 @@ namespace TSA_WorldDomination
             SoundDefOf.Click.PlayOneShotOnCamera();
         }
 
-        private void DrawRow(float x, float y, float width, PlayerPawnRosterEntry entry, bool zebra)
+        /// <summary>Soft alternating-site palette so same colony/outpost/caravan rows share a background.</summary>
+        private static readonly Color[] LocationStackRowColors =
+        {
+            new Color(0.14f, 0.22f, 0.30f, 0.42f),
+            new Color(0.26f, 0.18f, 0.12f, 0.42f),
+            new Color(0.14f, 0.26f, 0.16f, 0.42f),
+            new Color(0.26f, 0.14f, 0.22f, 0.42f),
+            new Color(0.12f, 0.22f, 0.26f, 0.42f),
+            new Color(0.24f, 0.24f, 0.12f, 0.42f),
+            new Color(0.20f, 0.14f, 0.28f, 0.42f),
+            new Color(0.16f, 0.20f, 0.14f, 0.42f),
+        };
+
+        private static Color LocationStackRowBg(PlayerPawnRosterEntry entry)
+        {
+            string key = entry?.locationGroupKey;
+            if (key.NullOrEmpty())
+                key = entry?.locationLabel ?? "";
+            int hash = key.GetHashCode();
+            if (hash == int.MinValue) hash = 0;
+            return LocationStackRowColors[Mathf.Abs(hash) % LocationStackRowColors.Length];
+        }
+
+        private void DrawRow(float x, float y, float width, PlayerPawnRosterEntry entry)
         {
             float rowH = EffectiveRowHeight();
             float visibleY = scrollPos.y - rowH;
@@ -896,7 +919,7 @@ namespace TSA_WorldDomination
                 return;
 
             Rect row = new Rect(x, y, width, rowH);
-            if (zebra) Widgets.DrawHighlight(row);
+            Widgets.DrawBoxSolid(row, LocationStackRowBg(entry));
             if (Mouse.IsOver(row)) Widgets.DrawLightHighlight(row);
 
             if (entry.isSlave)

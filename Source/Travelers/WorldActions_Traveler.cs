@@ -2331,6 +2331,7 @@ namespace TSA_WorldDomination
                 if (traveler.isolationPressureExpand)
                     CompViralSpread.ApplyNpcSettlementFoundingShields(newS);
             }
+            WorldComponent_SettlementIntel.Get()?.NotifySiteAppearedAfterInit(newS);
 
             // Always log success when a settlement was placed (comp setup is independent of visibility).
             if (spreadMgr != null)

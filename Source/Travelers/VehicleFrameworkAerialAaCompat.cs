@@ -68,6 +68,7 @@ namespace TSA_WorldDomination
                 var harmony = new Harmony("TSA.WorldDomination.VehicleFrameworkAerialAa");
                 MethodInfo orderFly = AccessTools.Method(aerialType, "OrderFlyToTiles");
                 MethodInfo spawnSetup = AccessTools.Method(aerialType, "SpawnSetup");
+                MethodInfo getGizmos = AccessTools.Method(aerialType, "GetGizmos");
                 if (orderFly != null)
                 {
                     harmony.Patch(orderFly,
@@ -77,6 +78,11 @@ namespace TSA_WorldDomination
                 {
                     harmony.Patch(spawnSetup,
                         postfix: new HarmonyMethod(typeof(VehicleFrameworkAerialAaCompat), nameof(SpawnSetup_Postfix)));
+                }
+                if (getGizmos != null)
+                {
+                    harmony.Patch(getGizmos,
+                        postfix: new HarmonyMethod(typeof(VehicleFrameworkAerialAaCompat), nameof(GetGizmos_Postfix)));
                 }
 
                 active = true;
@@ -142,6 +148,22 @@ namespace TSA_WorldDomination
         {
             if (__instance == null || __instance.Destroyed) return;
             WorldComponent_InterceptionScheduler.Current?.ArmExternalAirborneAaNow(__instance);
+        }
+
+        /// <summary>Sight FoW gizmo while a VF aerial is selected in flight.</summary>
+        public static IEnumerable<Gizmo> GetGizmos_Postfix(IEnumerable<Gizmo> __result, WorldObject __instance)
+        {
+            if (__result != null)
+            {
+                foreach (Gizmo g in __result)
+                    yield return g;
+            }
+
+            if (__instance == null || __instance.Destroyed) yield break;
+            if (!IsAerialVehicleInFlight(__instance)) yield break;
+
+            foreach (Gizmo g in RadiusHoverGizmos.GetSightForMobile(__instance))
+                yield return g;
         }
 
         /// <summary>Final destination tile id, or -1.</summary>

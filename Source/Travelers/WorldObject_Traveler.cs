@@ -717,6 +717,7 @@ namespace TSA_WorldDomination
             if (destroyedByFaction?.IsPlayer == true)
                 NpcRaidKillGoodwillUtility.TryRewardPlayerForKillingTraveler(this, playerAttributed: true);
             WorldActions_PlayerScout.NotifyPlayerScoutDestroyedIfNeeded(this);
+            WorldComponent_SettlementIntel.Get()?.NotifyTravelerFullyDestroyed(this);
 
             base.Destroy();
         }

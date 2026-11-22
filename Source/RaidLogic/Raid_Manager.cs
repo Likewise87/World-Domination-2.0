@@ -112,7 +112,7 @@ namespace TSA_WorldDomination
             if (WorldComponent_SettlementIntel.IsActive(manager))
             {
                 var intel = WorldComponent_SettlementIntel.Get();
-                // Knows already returns true for player colonies (IsAlwaysKnown).
+                // Knows is false until discovered unless intelPlayerColoniesAlwaysKnown / same-faction / !IsActive.
                 if (intel != null && !intel.Knows(attacker.Faction, target))
                 {
                     WDVerbose.Msg($"Raid assess {step}/{total} attacker={attacker.LabelCap} target={tgtLabel} → skip (unknown to attacker faction)");

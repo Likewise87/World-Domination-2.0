@@ -280,11 +280,13 @@ namespace TSA_WorldDomination
                     }
                 }
 
+                Faction formerFaction = pawn.Faction;
                 if (pawn.guest != null)
                     pawn.guest.SetGuestStatus(null);
                 if (pawn.Faction != Faction.OfPlayer)
                     pawn.SetFaction(Faction.OfPlayer);
                 OutpostPawnIdeologyUtil.ApplyPlayerPrimaryIdeoIfActive(pawn);
+                WdPrisonerIntelSpill.TrySpillOnRecruit(pawn, formerFaction, Tile);
 
                 if (destColony != null)
                 {

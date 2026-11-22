@@ -39,6 +39,8 @@ namespace TSA_WorldDomination
         private readonly HashSet<int> fowHiddenIds = new HashSet<int>();
         private readonly HashSet<int> fowDimIds = new HashSet<int>();
         private readonly List<WorldObject> fowObserverScratch = new List<WorldObject>();
+        /// <summary>Separate from <see cref="fowObserverScratch"/> so sight queries cannot clear the draw rebuild list mid-loop.</summary>
+        private readonly List<WorldObject> fowDrawObserverScratch = new List<WorldObject>();
         private int fowCacheVersion = -1;
         private int fowCacheTick = -999;
         private int fowCacheViewFactionId = int.MinValue;
@@ -65,6 +67,11 @@ namespace TSA_WorldDomination
         private List<int> scribeScoutTickFlat;
         private bool fowDrawPrimed;
         private readonly Dictionary<int, int> caravanLastTileById = new Dictionary<int, int>();
+        /// <summary>External airborne (vanilla pods / VF aerial) last painted tile; runtime only.</summary>
+        private readonly Dictionary<int, int> airborneLastTileById = new Dictionary<int, int>();
+        /// <summary>Last forced mid-flight FoW paint tick for external airborne (120t interval).</summary>
+        private readonly Dictionary<int, int> airborneLastForcePaintTickById = new Dictionary<int, int>();
+        private const int AirborneFowForcePaintIntervalTicks = 120;
 
         public WorldComponent_SettlementIntel(World world) : base(world) { }
 
@@ -146,7 +153,7 @@ namespace TSA_WorldDomination
                 EnsureFowDrawCacheFresh();
                 TileFow.EnsureVisibleCacheFresh();
                 if (Find.TickManager.TicksGame % 60 == 0)
-                    TickPlayerCaravanFowReveal();
+                    TickMobileCaravanAndAirborneFowReveal();
             }
             else
             {
@@ -586,12 +593,15 @@ namespace TSA_WorldDomination
 
         // --- Faction FoW view (View intel as) ---
 
+        /// <summary>
+        /// Dirties icon hide/dim only. Does <b>not</b> force a full-planet visible-disk rebuild —
+        /// use <see cref="WdFowTileMemory.MarkVisibleStructureDirty"/> / view switch for that.
+        /// </summary>
         public void InvalidateFowDrawCache()
         {
             fowCacheVersion = -1;
             fowCacheTick = -999;
             fowCacheViewFactionId = int.MinValue;
-            TileFow.InvalidateVisibleCache();
         }
 
         /// <summary>O(1) tile LOS query for MutatorWorldIcons / draw gates.</summary>
@@ -681,8 +691,8 @@ namespace TSA_WorldDomination
             if (view == null) return;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            var observers = new List<WorldObject>(64);
-            CollectFowObservers(view, manager, observers);
+            CollectFowObservers(view, manager, fowDrawObserverScratch);
+            List<WorldObject> observers = fowDrawObserverScratch;
 
             var worldObjects = Find.WorldObjects;
             if (worldObjects?.Settlements != null)
@@ -775,6 +785,17 @@ namespace TSA_WorldDomination
                 if (t == null || t.Destroyed || t.Faction != view) continue;
                 if (WorldObject_Traveler.IsShellMission(t.mission)) continue;
                 observers.Add(t);
+            }
+
+            // Vanilla pods / Odyssey shuttle flight / VF AerialVehicleInFlight (AA registry).
+            IReadOnlyCollection<WorldObject> airborne =
+                WorldComponent_InterceptionScheduler.Current?.ExternalAirborneTargets;
+            if (airborne == null || airborne.Count == 0) return;
+            foreach (WorldObject wo in airborne)
+            {
+                if (wo == null || wo.Destroyed || wo.Faction != view) continue;
+                if (!IsAirborneFowObserver(wo)) continue;
+                observers.Add(wo);
             }
         }
 
@@ -1083,6 +1104,17 @@ namespace TSA_WorldDomination
             return baseline * GetLosGrowthFactor(comp, seth, manager);
         }
 
+        /// <summary>
+        /// In-flight FoW observers: vanilla <see cref="TravellingTransporters"/> (pods / Odyssey shuttle)
+        /// and Vehicle Framework <c>AerialVehicleInFlight</c>. Parked caravans are not airborne.
+        /// </summary>
+        public static bool IsAirborneFowObserver(WorldObject wo)
+        {
+            if (wo == null || wo.Destroyed) return false;
+            if (wo is TravellingTransporters) return true;
+            return VehicleFrameworkAerialAaCompat.IsAerialVehicleInFlight(wo);
+        }
+
         public static float GetMaxLos(WorldObject observer)
         {
             var seth = WorldDominationMod.settings;
@@ -1104,10 +1136,14 @@ namespace TSA_WorldDomination
                     return land * 2f;
                 return land;
             }
+            float scoutMax = seth?.intelScoutMaxLos ?? WorldDominationSettings.DefIntelScoutMaxLos;
+            // Vanilla pods / Odyssey shuttle / VF aerial in flight: drop-pod-style 2× scout Hunch.
+            if (IsAirborneFowObserver(observer))
+                return scoutMax * 2f;
             if (observer is Caravan)
             {
-                // Unified with scout LOS (vanilla caravan = scout radius).
-                return seth?.intelScoutMaxLos ?? WorldDominationSettings.DefIntelScoutMaxLos;
+                // Landed caravans (vanilla, land VF, parked aerial/shuttle) = scout radius.
+                return scoutMax;
             }
             return 0f;
         }
@@ -1339,6 +1375,9 @@ namespace TSA_WorldDomination
                 }
             }
 
+            // Player map colony is not in SettlementsByFaction — still a Discover target when alwaysKnown is off.
+            TrySpotPlayerColonyFromObserver(observer, f, maxLos, manager);
+
             if (snap?.PlayerOutposts != null)
             {
                 for (int i = 0; i < snap.PlayerOutposts.Count; i++)
@@ -1374,16 +1413,46 @@ namespace TSA_WorldDomination
             }
         }
 
+        /// <summary>
+        /// Singular player HasMap colony as a Discover target (excluded from SettlementsByFaction).
+        /// No-op when always-known, same faction, or already discovered.
+        /// </summary>
+        private void TrySpotPlayerColonyFromObserver(
+            WorldObject observer,
+            Faction f,
+            float maxLos,
+            WorldComponent_SpreadManager manager)
+        {
+            if (observer == null || f == null || maxLos <= 0f) return;
+            Settlement colony = InfluenceUtils.GetPlayerColony();
+            if (colony == null || colony.Destroyed || !colony.HasMap) return;
+            if (colony.Faction == null || colony.Faction == f) return;
+            if (IsAlwaysKnown(colony) || IsDiscovered(f, colony)) return;
+            if (ReferenceEquals(observer, colony)) return;
+
+            float approx = Find.WorldGrid.ApproxDistanceInTiles(observer.Tile.tileId, colony.Tile.tileId);
+            if (approx > maxLos + 1f) return;
+            float d = WorldActions_Utils.GetDistance(observer.Tile, colony.Tile, manager);
+            if (d > maxLos && d > 1f) return;
+            if (d <= 1f || d <= GetSightRange(observer, colony))
+                Discover(f, colony, observer);
+        }
+
         private void SpotFieldStructuresFromObserver(WorldObject observer, Faction f, float maxLos, WorldComponent_SpreadManager manager)
         {
             // AT / advanced are small targets: Line of sight only (not Hunch).
             float los = maxLos * GetLosFrac();
+            WorldGrid grid = Find.WorldGrid;
             IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
             for (int i = 0; i < ats.Count; i++)
             {
                 WorldObject_AT_Turret at = ats[i];
                 if (at == null || at.Destroyed || at.Faction == f) continue;
                 if (IsDiscovered(f, at)) continue;
+                float approx = grid != null
+                    ? grid.ApproxDistanceInTiles(observer.Tile.tileId, at.Tile.tileId)
+                    : float.MaxValue;
+                if (approx > los + 1f) continue;
                 float d = WorldActions_Utils.GetDistance(observer.Tile, at.Tile, manager);
                 if (d <= 1f || d <= los)
                     Discover(f, at, observer);
@@ -1397,6 +1466,10 @@ namespace TSA_WorldDomination
                 var b = buildings[i];
                 if (b == null || b.Destroyed || b.Faction == f) continue;
                 if (IsDiscovered(f, b)) continue;
+                float approx = grid != null
+                    ? grid.ApproxDistanceInTiles(observer.Tile.tileId, b.Tile.tileId)
+                    : float.MaxValue;
+                if (approx > los + 1f) continue;
                 float d = WorldActions_Utils.GetDistance(observer.Tile, b.Tile, manager);
                 if (d <= 1f || d <= los)
                     Discover(f, b, observer);
@@ -1426,7 +1499,20 @@ namespace TSA_WorldDomination
             float maxLos = GetMaxLos(traveler);
             if (maxLos <= 0f) return;
             TileFow.RevealTilesInRadius(traveler.Faction, traveler.Tile, maxLos);
-            TileFow.MarkVisibleStructureDirty();
+            // Visible disks are view-faction only — skip dirty when this mover is not the FoW view.
+            if (ShouldDirtyVisibleStructureForMover(traveler.Faction))
+                TileFow.MarkVisibleStructureDirty();
+        }
+
+        /// <summary>
+        /// True when a mobile observer's tile paint can change the current FoW view's clear/visible disks.
+        /// Hide/dim cache is still invalidated separately (travelers are FoW targets for any view).
+        /// </summary>
+        private static bool ShouldDirtyVisibleStructureForMover(Faction moverFaction)
+        {
+            if (moverFaction == null || !WdFowDraw.IsActive) return false;
+            Faction view = WdFowDraw.EffectiveViewFaction;
+            return view != null && view == moverFaction;
         }
 
         /// <summary>Merged tile-exit pass: settlements/outposts spot traveler; traveler spots sites; travelers spot each other.</summary>
@@ -1647,7 +1733,7 @@ namespace TSA_WorldDomination
                 }
             }
 
-            TickPlayerCaravanFowReveal();
+            TickMobileCaravanAndAirborneFowReveal();
             // Age/stage can grow MaxLOS overnight — refresh the visible disk, don't wait for the 90-tick interval alone.
             TileFow.MarkVisibleStructureDirty();
         }
@@ -1681,12 +1767,35 @@ namespace TSA_WorldDomination
         /// <summary>
         /// New settlement (or equivalent site) appeared: run its LOS outward and let nearby observers discover it.
         /// Skips worldgen/load until tile FoW has been seeded.
+        /// Forces FoW hide/dim rebuild so icons update while paused / same frame.
         /// </summary>
         public void NotifySiteAppeared(WorldObject site)
         {
             if (!IsTracking() || site == null || site.Destroyed || !tileFowSeeded) return;
             NotifyStationaryObserverLosChanged(site);
             TryDiscoverSiteFromExistingObservers(site);
+            ForceRebuildFowDrawCacheNow();
+        }
+
+        /// <summary>
+        /// Call after WD <see cref="CompViralSpread.SetState"/> on founding paths (SpawnSetup may have run first).
+        /// Idempotent Discover; refreshes FoW icons immediately.
+        /// </summary>
+        public void NotifySiteAppearedAfterInit(WorldObject site)
+        {
+            if (!IsTracking() || site == null || site.Destroyed || !tileFowSeeded) return;
+            TryDiscoverSiteFromExistingObservers(site);
+            ForceRebuildFowDrawCacheNow();
+        }
+
+        /// <summary>Gameplay-path FoW icon rebuild (safe while paused; not for draw/GUI).</summary>
+        public void ForceRebuildFowDrawCacheNow()
+        {
+            if (!WdFowDraw.IsActive) return;
+            fowCacheVersion = -1;
+            fowCacheTick = -999;
+            fowCacheViewFactionId = int.MinValue;
+            EnsureFowDrawCacheFresh();
         }
 
         private void TryDiscoverSiteFromExistingObservers(WorldObject site)
@@ -1694,6 +1803,7 @@ namespace TSA_WorldDomination
             if (site?.Faction == null || !site.Tile.Valid) return;
             WorldGrid grid = Find.WorldGrid;
             if (grid == null) return;
+            var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
 
             List<Settlement> settlements = Find.WorldObjects?.Settlements;
             if (settlements != null)
@@ -1705,26 +1815,63 @@ namespace TSA_WorldDomination
                     if (s.Faction == null || s.Faction == site.Faction) continue;
                     bool playerColony = s.Faction.IsPlayer && s.HasMap;
                     if (!playerColony && s.GetComponent<CompViralSpread>() == null) continue;
-                    float range = GetSightRange(s, site);
-                    if (range <= 0f) continue;
-                    float d = grid.ApproxDistanceInTiles(s.Tile, site.Tile);
-                    if (d <= 1f || d <= range)
-                        Discover(s.Faction, site, s);
+                    TryDiscoverSiteFromObserver(s, s.Faction, site, manager);
                 }
             }
 
-            List<WorldObject> all = Find.WorldObjects?.AllWorldObjects;
-            if (all == null) return;
-            for (int i = 0; i < all.Count; i++)
+            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+            for (int i = 0; i < outposts.Count; i++)
             {
-                if (all[i] is not WorldObject_WD_Outpost o || o.Destroyed) continue;
+                WorldObject_WD_Outpost o = outposts[i];
+                if (o == null || o.Destroyed) continue;
                 if (o.Faction == null || o.Faction == site.Faction) continue;
-                float range = GetSightRange(o, site);
-                if (range <= 0f) continue;
-                float d = grid.ApproxDistanceInTiles(o.Tile, site.Tile);
-                if (d <= 1f || d <= range)
-                    Discover(o.Faction, site, o);
+                TryDiscoverSiteFromObserver(o, o.Faction, site, manager);
             }
+
+            // Player caravans (scout-style Hunch) as appear observers.
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player != null && player != site.Faction)
+            {
+                List<Caravan> caravans = Find.WorldObjects?.Caravans;
+                if (caravans != null)
+                {
+                    for (int i = 0; i < caravans.Count; i++)
+                    {
+                        Caravan c = caravans[i];
+                        if (c == null || c.Destroyed || c.Faction != player) continue;
+                        TryDiscoverSiteFromObserver(c, player, site, manager);
+                    }
+                }
+            }
+
+            IReadOnlyList<WorldObject_Traveler> travelers = WorldObject_Traveler.LiveTravelers;
+            for (int i = 0; i < travelers.Count; i++)
+            {
+                WorldObject_Traveler t = travelers[i];
+                if (t == null || t.Destroyed || t.Faction == null || t.Faction == site.Faction) continue;
+                if (WorldObject_Traveler.IsShellMission(t.mission)) continue;
+                TryDiscoverSiteFromObserver(t, t.Faction, site, manager);
+            }
+        }
+
+        /// <summary>Same distance rules as <see cref="SpotSitesFromObserver"/> (approx +1 prefilter, then GetDistance).</summary>
+        private void TryDiscoverSiteFromObserver(
+            WorldObject observer,
+            Faction observerFaction,
+            WorldObject site,
+            WorldComponent_SpreadManager manager)
+        {
+            if (observer == null || observer.Destroyed || site == null || observerFaction == null) return;
+            if (IsDiscovered(observerFaction, site)) return;
+
+            float maxLos = GetMaxLos(observer);
+            if (maxLos <= 0f) return;
+            float approx = Find.WorldGrid.ApproxDistanceInTiles(observer.Tile.tileId, site.Tile.tileId);
+            if (approx > maxLos + 1f) return;
+            float d = WorldActions_Utils.GetDistance(observer.Tile, site.Tile, manager);
+            if (d > maxLos && d > 1f) return;
+            if (d <= 1f || d <= GetSightRange(observer, site))
+                Discover(observerFaction, site, observer);
         }
 
         /// <summary>Paint tiles + discover sites from a mobile observer (caravan / traveler).</summary>
@@ -1734,26 +1881,60 @@ namespace TSA_WorldDomination
             float maxLos = GetMaxLos(observer);
             if (maxLos <= 0f) return;
             TileFow.RevealTilesInRadius(faction, observer.Tile, maxLos);
-            TileFow.MarkVisibleStructureDirty();
+            if (ShouldDirtyVisibleStructureForMover(faction))
+                TileFow.MarkVisibleStructureDirty();
             WorldActions_Scout.DiscoverSitesInScoutBubble(faction, observer.Tile.tileId, observer);
         }
 
-        private void TickPlayerCaravanFowReveal()
+        /// <summary>
+        /// Player caravans (incl. land VF <c>VehicleCaravan</c> via <see cref="Caravan.Tile"/>) on tile change;
+        /// external airborne for all factions on tile change or every <see cref="AirborneFowForcePaintIntervalTicks"/>.
+        /// </summary>
+        private void TickMobileCaravanAndAirborneFowReveal()
         {
             if (!IsTracking()) return;
+
             Faction player = Faction.OfPlayerSilentFail;
-            if (player == null) return;
-            List<Caravan> caravans = Find.WorldObjects?.Caravans;
-            if (caravans == null) return;
-            for (int i = 0; i < caravans.Count; i++)
+            if (player != null)
             {
-                Caravan c = caravans[i];
-                if (c == null || c.Destroyed || c.Faction != player) continue;
-                int tileId = c.Tile.tileId;
-                if (caravanLastTileById.TryGetValue(c.ID, out int prev) && prev == tileId)
+                List<Caravan> caravans = Find.WorldObjects?.Caravans;
+                if (caravans != null)
+                {
+                    for (int i = 0; i < caravans.Count; i++)
+                    {
+                        Caravan c = caravans[i];
+                        if (c == null || c.Destroyed || c.Faction != player) continue;
+                        int tileId = c.Tile.tileId;
+                        if (caravanLastTileById.TryGetValue(c.ID, out int prev) && prev == tileId)
+                            continue;
+                        caravanLastTileById[c.ID] = tileId;
+                        NotifyMobileObserverMoved(player, c);
+                    }
+                }
+            }
+
+            IReadOnlyCollection<WorldObject> airborne =
+                WorldComponent_InterceptionScheduler.Current?.ExternalAirborneTargets;
+            if (airborne == null || airborne.Count == 0) return;
+
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            foreach (WorldObject wo in airborne)
+            {
+                if (wo == null || wo.Destroyed || wo.Faction == null) continue;
+                if (!IsAirborneFowObserver(wo)) continue;
+                if (!wo.Tile.Valid) continue;
+
+                int id = wo.ID;
+                int tileId = wo.Tile.tileId;
+                bool tileChanged = !airborneLastTileById.TryGetValue(id, out int prevTile) || prevTile != tileId;
+                bool forcePaint = !airborneLastForcePaintTickById.TryGetValue(id, out int lastForce)
+                    || tick - lastForce >= AirborneFowForcePaintIntervalTicks;
+                if (!tileChanged && !forcePaint)
                     continue;
-                caravanLastTileById[c.ID] = tileId;
-                NotifyMobileObserverMoved(player, c);
+
+                airborneLastTileById[id] = tileId;
+                airborneLastForcePaintTickById[id] = tick;
+                NotifyMobileObserverMoved(wo.Faction, wo);
             }
         }
 

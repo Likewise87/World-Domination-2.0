@@ -720,6 +720,7 @@ namespace TSA_WorldDomination
                 else
                     comp.defensiveStrength = comp.GetBaseDefensiveStrength();
             }
+            WorldComponent_SettlementIntel.Get()?.NotifySiteAppearedAfterInit(newS);
 
             return newS;
         }

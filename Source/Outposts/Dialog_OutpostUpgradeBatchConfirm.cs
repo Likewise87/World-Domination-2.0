@@ -106,9 +106,32 @@ namespace TSA_WorldDomination
                 TooltipHandler.TipRegion(confirmRect, batch.reason);
         }
 
+        private int AcceptedUpgradeCount
+        {
+            get
+            {
+                if (batch?.accepted == null) return 0;
+                int n = 0;
+                for (int i = 0; i < batch.accepted.Count; i++)
+                {
+                    if (batch.accepted[i] != null) n++;
+                }
+                return n;
+            }
+        }
+
+        /// <summary>Total box only when 2+ upgrades (single-line total would duplicate the breakdown).</summary>
+        private bool ShowTotalCostSummary => AcceptedUpgradeCount > 1;
+
         private float MeasureContentHeight(float width)
         {
             float y = 0f;
+            if (ShowTotalCostSummary)
+            {
+                y += SectionHeaderH + 4f;
+                y += MeasureTotalBlockHeight();
+                y += SectionGap;
+            }
             y += SectionHeaderH + 4f;
             if (batch?.accepted != null)
             {
@@ -122,13 +145,10 @@ namespace TSA_WorldDomination
             }
             if (HasPodCost)
             {
-                if (batch?.accepted != null && batch.accepted.Count > 0)
+                if (AcceptedUpgradeCount > 0)
                     y += SeparatorH;
                 y += MeasurePodTransportBlockHeight();
             }
-            y += SectionGap;
-            y += SectionHeaderH + 4f;
-            y += MeasureTotalBlockHeight();
             return y + 4f;
         }
 
@@ -236,6 +256,18 @@ namespace TSA_WorldDomination
         private void DrawScrollContent(float width)
         {
             float y = 0f;
+
+            if (ShowTotalCostSummary)
+            {
+                y = DrawSectionHeader(0f, y, width, "TSA_WD_OutpostUpgrades_BatchTotalHeader".Translate());
+                float totalH = MeasureTotalBlockHeight();
+                Rect totalRect = new Rect(0f, y, width, totalH);
+                Widgets.DrawBoxSolid(totalRect, TotalBoxBg);
+                Widgets.DrawBox(totalRect);
+                DrawTotalBlockContents(totalRect);
+                y += totalH + SectionGap;
+            }
+
             y = DrawSectionHeader(0f, y, width, "TSA_WD_OutpostUpgrades_BatchListHeader".Translate());
 
             if (batch?.accepted != null)
@@ -257,15 +289,7 @@ namespace TSA_WorldDomination
 
             if (HasPodCost)
             {
-                bool hadUpgrades = false;
-                if (batch?.accepted != null)
-                {
-                    for (int i = 0; i < batch.accepted.Count; i++)
-                    {
-                        if (batch.accepted[i] != null) { hadUpgrades = true; break; }
-                    }
-                }
-                if (hadUpgrades)
+                if (AcceptedUpgradeCount > 0)
                 {
                     GUI.color = SeparatorColor;
                     Widgets.DrawLineHorizontal(0f, y + SeparatorH * 0.5f, width);
@@ -274,15 +298,6 @@ namespace TSA_WorldDomination
                 }
                 y = DrawPodTransportBlock(0f, y, width, PodComponentCount);
             }
-
-            y += SectionGap;
-            y = DrawSectionHeader(0f, y, width, "TSA_WD_OutpostUpgrades_BatchTotalHeader".Translate());
-
-            float totalH = MeasureTotalBlockHeight();
-            Rect totalRect = new Rect(0f, y, width, totalH);
-            Widgets.DrawBoxSolid(totalRect, TotalBoxBg);
-            Widgets.DrawBox(totalRect);
-            DrawTotalBlockContents(totalRect);
         }
 
         private static float DrawSectionHeader(float x, float y, float width, string label)
@@ -407,18 +422,19 @@ namespace TSA_WorldDomination
             if (CountCostLines(costs) == 0)
             {
                 Text.Font = GameFont.Tiny;
-                GUI.color = CostTextColor;
+                GUI.color = Color.white;
                 Widgets.Label(new Rect(x, y, w, CostLineH), "TSA_WD_OutpostUpgrades_NoCost".Translate());
                 GUI.color = Color.white;
                 Text.Font = GameFont.Small;
                 return;
             }
-            DrawCostLines(x, y, w, costs);
+            DrawCostLines(x, y, w, costs, Color.white);
         }
 
-        private static float DrawCostLines(float x, float y, float width, List<OutpostUpgradeCostEntry> costs)
+        private static float DrawCostLines(float x, float y, float width, List<OutpostUpgradeCostEntry> costs, Color? labelColor = null)
         {
             if (costs == null) return y;
+            Color textColor = labelColor ?? CostTextColor;
             Text.Font = GameFont.Tiny;
             for (int i = 0; i < costs.Count; i++)
             {
@@ -431,7 +447,7 @@ namespace TSA_WorldDomination
                 if (iconDef != null)
                     Widgets.ThingIcon(iconRect, iconDef);
 
-                GUI.color = CostTextColor;
+                GUI.color = textColor;
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(
                     new Rect(x + CostIconSize + 6f, y, width - CostIconSize - 6f, CostLineH),

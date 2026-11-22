@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Reflection;
+using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -489,6 +491,10 @@ namespace TSA_WorldDomination
         /// <summary>True for any traveler / vanilla pods Anti-Air may engage (includes warehouse drop-pod deliveries).</summary>
         public static bool IsAirborneAaTarget(WorldObject target)
         {
+            if (target == null || target.Destroyed) return false;
+            // Royalty / quest TransportShip shuttles must not be flak targets (quest fails on Destroyed).
+            if (IsQuestLinkedAirborne(target)) return false;
+
             if (target is WorldObject_Traveler t)
             {
                 // AT shells reuse MortarStrike mission but must never be flak targets.
@@ -498,6 +504,71 @@ namespace TSA_WorldDomination
             }
             if (target is TravellingTransporters) return true;
             return VehicleFrameworkAerialAaCompat.IsAerialVehicleInFlight(target);
+        }
+
+        /// <summary>
+        /// Quest-linked airborne (Royalty shuttle / TransportShip with questTags on the ship or shipThing).
+        /// Player Odyssey / permit shuttles without questTags stay valid AA targets.
+        /// </summary>
+        public static bool IsQuestLinkedAirborne(WorldObject target)
+        {
+            if (target == null || target.Destroyed) return false;
+            if (HasQuestTags(target.questTags)) return true;
+
+            if (target is not TravellingTransporters pods) return false;
+
+            // Primary: TransportShip flights expose the ship via arrivalAction.
+            if (pods.arrivalAction is TransportersArrivalAction_TransportShip shipArrive)
+            {
+                if (IsQuestTaggedTransportShip(shipArrive.transportShip))
+                    return true;
+            }
+
+            // Fallback: private Shuttle thing + TransportShipManager / CompShuttle.shipParent.
+            Thing shuttle = TryGetTravellingShuttle(pods);
+            if (shuttle != null && HasQuestTags(shuttle.questTags))
+                return true;
+
+            CompShuttle shuttleComp = shuttle?.TryGetComp<CompShuttle>();
+            if (IsQuestTaggedTransportShip(shuttleComp?.shipParent))
+                return true;
+
+            TransportShipManager manager = Find.TransportShipManager;
+            if (manager?.AllTransportShips == null || shuttle == null)
+                return false;
+
+            List<TransportShip> ships = manager.AllTransportShips;
+            for (int i = 0; i < ships.Count; i++)
+            {
+                TransportShip ship = ships[i];
+                if (ship == null || ship.shipThing != shuttle) continue;
+                if (IsQuestTaggedTransportShip(ship))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static bool IsQuestTaggedTransportShip(TransportShip ship)
+        {
+            if (ship == null) return false;
+            return HasQuestTags(ship.questTags) || HasQuestTags(ship.shipThing?.questTags);
+        }
+
+        private static bool HasQuestTags(List<string> tags)
+            => tags != null && tags.Count > 0;
+
+        /// <summary>
+        /// <c>TravellingTransporters.Shuttle</c> getter is private; AccessTools for quest AA exclusion only.
+        /// </summary>
+        private static readonly MethodInfo TravellingShuttleGetter =
+            AccessTools.PropertyGetter(typeof(TravellingTransporters), "Shuttle");
+
+        private static Thing TryGetTravellingShuttle(TravellingTransporters pods)
+        {
+            if (pods == null || TravellingShuttleGetter == null) return null;
+            try { return TravellingShuttleGetter.Invoke(pods, null) as Thing; }
+            catch { return null; }
         }
 
         /// <summary>
@@ -951,6 +1022,7 @@ namespace TSA_WorldDomination
         {
             kind = AntiAirTargetKind.RaidDropPod;
             if (origin == null || target == null || target.Destroyed) return false;
+            if (IsQuestLinkedAirborne(target)) return false;
             Faction of = origin.Faction;
             Faction tf = target.Faction;
             if (of == null || tf == null) return false;

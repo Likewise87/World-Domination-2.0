@@ -142,6 +142,17 @@ namespace TSA_WorldDomination
             SettingsUI.DrawCheckbox(l, "TSA_WD_Intel_UncoverOnRaid".Translate(),
                 ref s.intelUncoverOnRaid,
                 "TSA_WD_Intel_UncoverOnRaidTip".Translate());
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Intel_PrisonerSpillEnabled".Translate(),
+                ref s.intelPrisonerSpillEnabled,
+                "TSA_WD_Intel_PrisonerSpillEnabledTip".Translate(),
+                defaultValue: WorldDominationSettings.DefIntelPrisonerSpillEnabled);
+            if (s.intelPrisonerSpillEnabled)
+            {
+                s.intelPrisonerSpillChance = SettingsUI.LabeledSlider(l, "TSA_WD_Intel_PrisonerSpillChance".Translate(),
+                    s.intelPrisonerSpillChance, 0f, 1f,
+                    "TSA_WD_Intel_PrisonerSpillChanceTip".Translate(), 0.01f, SliderFormat.Percent,
+                    WorldDominationSettings.DefIntelPrisonerSpillChance);
+            }
             SettingsUI.DrawCheckbox(l, "TSA_WD_Intel_ListUndiscoveredTravelers".Translate(),
                 ref s.intelListUndiscoveredTravelers,
                 "TSA_WD_Intel_ListUndiscoveredTravelersTip".Translate());

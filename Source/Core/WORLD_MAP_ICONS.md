@@ -35,11 +35,11 @@ Session overlay (`WdFowDraw`). Requires kill switch `enableSettlementIntel` + st
 | Shells / vanilla caravans / roads | Not FoW **icon** targets (always visible). Vanilla caravans still **paint explored tiles** at scout Hunch |
 | Tile never seen | `WD_WorldLayer_FowIncognita` opaque black hexes (`WdFowTileMemory` explored bits) |
 | Tile explored, out of LOS | `WD_WorldLayer_FowShroud` semi-transparent black (~0.5a) — Hunch explore or remembered explore outside clear LOS |
-| Tile current LOS | Clear (verts collapsed); MutatorWorldIcons allowed |
+| Tile current LOS | Clear (verts collapsed) |
 | Traps / road blocks / trenches | Not WorldObjects. Hide when tile (or trench edge endpoint) is unexplored via `WdFowDraw.ShouldDrawTileOverlay` |
-| MutatorWorldIcons | Optional Compat Prefix on `DrawTileMaterials`: skip unless FoW inactive or `IsTileCurrentlyVisibleForFow` |
+| MutatorWorldIcons | Optional Compat Prefix on `DrawTileMaterials`: skip unless FoW inactive or tile explored (`IsTileExploredForView`); grey shroud still shows icons |
 
-Call `NotifyIconModeChanged` when the view faction changes. Icon cache rebuild: `EnsureFowDrawCacheFresh` on **world tick only**. Tile mesh: dirty queues + progressive `Regenerate`; `NotifyTileFowViewChanged` on view switch (also dirties trench mesh). `SetDirty` must not `EnsureRegistered` mid-draw.
+Call `NotifyIconModeChanged` when the view faction changes. Icon cache rebuild: `EnsureFowDrawCacheFresh` on **world tick only** (`InvalidateFowDrawCache` / Discover `Version` / ~90t). Tile visible disks: `MarkVisibleStructureDirty` or view switch only — do not force planet reconcile from icon invalidate. Tile mesh: dirty queues + progressive `Regenerate`; `NotifyTileFowViewChanged` on view switch (also dirties trench mesh). `SetDirty` must not `EnsureRegistered` mid-draw.
 
 ## WD outpost world-map icons (`Material` vs expanding)
 

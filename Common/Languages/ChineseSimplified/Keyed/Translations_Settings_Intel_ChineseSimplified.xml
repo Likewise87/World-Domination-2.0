@@ -16,6 +16,12 @@
   <TSA_WD_Intel_NotifyJumpUndiscoveredTip>关闭：信件只写派系与 ETA，不跳转到未发现的来源。开启：允许完整标签与地图跳转。</TSA_WD_Intel_NotifyJumpUndiscoveredTip>
   <TSA_WD_Intel_UncoverOnRaid>被突袭时揭露据点</TSA_WD_Intel_UncoverOnRaid>
   <TSA_WD_Intel_UncoverOnRaidTip>开启：向你发动突袭的据点会在来袭信件之前在世界地图上被发现（并短暂揭开迷雾），以便信件可写明名称并提供跳转到攻击者。关闭：除非你已知晓，否则攻击来源保持迷雾。</TSA_WD_Intel_UncoverOnRaidTip>
+  <TSA_WD_Intel_PrisonerSpillEnabled>招募囚犯时可能揭露据点</TSA_WD_Intel_PrisonerSpillEnabled>
+  <TSA_WD_Intel_PrisonerSpillEnabledTip>开启：在殖民地或玩家前哨将囚犯转为殖民者时，可能永久发现其原派系最近的未知据点（与侦察任务相同的短距迷雾圆盘）。仅在存在此类据点时掷骰。</TSA_WD_Intel_PrisonerSpillEnabledTip>
+  <TSA_WD_Intel_PrisonerSpillChance>囚犯揭露据点几率</TSA_WD_Intel_PrisonerSpillChance>
+  <TSA_WD_Intel_PrisonerSpillChanceTip>囚犯成为殖民者时，揭露该最近未知据点的几率。</TSA_WD_Intel_PrisonerSpillChanceTip>
+  <TSA_WD_Letter_PrisonerIntelSpill_Label>招募情报</TSA_WD_Letter_PrisonerIntelSpill_Label>
+  <TSA_WD_Letter_PrisonerIntelSpill_Text>{0} 加入后透露了情报。你已发现 {1}（{2}）。</TSA_WD_Letter_PrisonerIntelSpill_Text>
   <TSA_WD_Intel_ListUndiscoveredTravelers>在WD列表中显示未发现旅行者</TSA_WD_Intel_ListUndiscoveredTravelers>
   <TSA_WD_Intel_ListUndiscoveredTravelersTip>关闭：Active Travelers 等列表会隐藏你尚未发现的敌对旅行者。你自己的旅行者始终显示。</TSA_WD_Intel_ListUndiscoveredTravelersTip>
   <TSA_WD_Intel_ThreatKnownOnly>仅根据已知计算威胁</TSA_WD_Intel_ThreatKnownOnly>
@@ -98,6 +104,7 @@
   <TSA_WD_Gizmo_SightRadiusBandsLegend>亮金 = 视线（{0} 格）：清晰地块、明亮图标、发现任何目标。\n柔金 = 预感范围（{1} 格）：灰雾、暗图标、3 级以上地点与力量 {2}+ 的 WD 商队。</TSA_WD_Gizmo_SightRadiusBandsLegend>
   <TSA_WD_Gizmo_SightScale_Pawns>每个小人增加 {0} 视线与 {1} 预感范围（年龄与 Late 阶段成长之前）。</TSA_WD_Gizmo_SightScale_Pawns>
   <TSA_WD_Gizmo_SightScale_SettlementTier>NPC 据点的预感范围用其等级基线（视线是 LOS 百分比）。年龄与 Late 阶段可继续放大两者。</TSA_WD_Gizmo_SightScale_SettlementTier>
+  <TSA_WD_Gizmo_SightScale_ScoutMobile>使用固定侦察预感（空中时为两倍，与 WD 空投舱相同）。不随殖民者数量或据点等级缩放。</TSA_WD_Gizmo_SightScale_ScoutMobile>
 
   <TSA_WD_Log_Intel_Discovered>INTEL: {0} 发现了 {1}。</TSA_WD_Log_Intel_Discovered>
 

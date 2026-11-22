@@ -153,6 +153,8 @@
   <TSA_WD_Notify_PlayerScoutDestroyedTooltip>你的侦察旅行者在世界地图上被摧毁时（陷阱、反坦克炮火、遭遇战等）。</TSA_WD_Notify_PlayerScoutDestroyedTooltip>
   <TSA_WD_Notify_PlayerScoutLifetimeExpired>信件：侦察最长寿命</TSA_WD_Notify_PlayerScoutLifetimeExpired>
   <TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>你的侦察旅行者达到最长寿命并解散时。关闭时仍会显示短消息。</TSA_WD_Notify_PlayerScoutLifetimeExpiredTooltip>
+  <TSA_WD_Notify_PrisonerIntelSpill>信件：囚犯揭露据点</TSA_WD_Notify_PrisonerIntelSpill>
+  <TSA_WD_Notify_PrisonerIntelSpillTooltip>招募的囚犯揭露未知据点时（战争迷雾）。信件可跳转到该据点。</TSA_WD_Notify_PrisonerIntelSpillTooltip>
   <TSA_WD_Notify_MortarHit>信件：迫击炮摧毁目标</TSA_WD_Notify_MortarHit>
   <TSA_WD_Notify_MortarHitTooltip>你的火炮前哨摧毁目标时的无声蓝色信件。未摧毁的命中只记入行动日志。</TSA_WD_Notify_MortarHitTooltip>
   <TSA_WD_Notify_MortarMiss>信件：迫击炮脱靶</TSA_WD_Notify_MortarMiss>

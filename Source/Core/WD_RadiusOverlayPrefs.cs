@@ -296,6 +296,14 @@ namespace TSA_WorldDomination
                 return true;
             }
 
+            // Landed caravans + in-flight pods / VF aerials share traveler Sight prefs.
+            if (worldObject is Caravan
+                || WorldComponent_SettlementIntel.IsAirborneFowObserver(worldObject))
+            {
+                category = WD_RadiusOverlayCategory.WdTraveler;
+                return true;
+            }
+
             return false;
         }
 

@@ -1265,6 +1265,8 @@ namespace TSA_WorldDomination
             }
             OutpostPowerGrid.NotifyOutpostPowerTopologyChanged();
             bool wasWarehouse = Outpost_Production_Utils.IsWarehouseOutpost(def);
+            if (!typeChangeShellRemoval)
+                WorldComponent_SettlementIntel.Get()?.NotifySiteDestroyed(this);
             base.Destroy();
             if (wasWarehouse)
                 OutpostWarehouseAuraUtility.InvalidateCache();
@@ -3262,6 +3264,7 @@ namespace TSA_WorldDomination
         /// <summary>PostAdd bootstrap (also called once after Path B MOVE when suppressBootstrapHooks is cleared).</summary>
         public void RunTypeChangeBootstrapHooks()
         {
+            WorldComponent_SettlementIntel.Get()?.NotifySiteAppeared(this);
             if (IsRapidResponseOutpost && Faction == Faction.OfPlayer)
                 WD_Outpost_RapidResponse.ApplyEstablishmentDefaults(this);
             if (ShouldRegisterAsInterceptor())

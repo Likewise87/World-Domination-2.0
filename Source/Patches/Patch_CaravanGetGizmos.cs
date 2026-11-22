@@ -42,6 +42,8 @@ namespace TSA_WorldDomination
                 yield return g;
             foreach (Gizmo g in Patch_CaravanChaseCancelGizmo.GetGizmos(__instance))
                 yield return g;
+            foreach (Gizmo g in RadiusHoverGizmos.GetSightForMobile(__instance))
+                yield return g;
         }
 
         /// <summary>NPC surface settlements on neighboring tiles that have CompViralSpread (hostiles included).</summary>
