@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_PlayerWatchTower.label>Watch Tower</TSA_WD_PlayerWatchTower.label>
+  <TSA_WD_PlayerWatchTower.description>A wooden lookout that extends Fog of War sight around this tile.</TSA_WD_PlayerWatchTower.description>
+</LanguageData>

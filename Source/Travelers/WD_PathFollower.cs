@@ -87,9 +87,10 @@ namespace TSA_WorldDomination
             WdPollutionPathContext.Scope pollutionScope = usePollutionCost
                 ? WdPollutionPathContext.Activate(pollutionWeightMultiplier)
                 : null;
-            WdScoutTrapAvoidPathContext.Scope scoutTrapScope = WdScoutTrapAvoidPathContext.ShouldAvoidFor(traveler)
-                ? WdScoutTrapAvoidPathContext.Activate(traveler.Faction)
-                : null;
+            WdScoutTrapAvoidPathContext.Scope scoutTrapScope =
+                WdScoutTrapAvoidPathContext.TryActivateForTraveler(traveler);
+            WdHostileSiteAvoidPathContext.Scope siteAvoidScope =
+                WdHostileSiteAvoidPathContext.TryActivateForTraveler(traveler.Faction, destTile.tileId);
 
             bool hasVanillaPath = false;
             int tpm = TravelUtils.ResolveTicksPerMove(traveler.ticksPerMove);
@@ -232,9 +233,10 @@ namespace TSA_WorldDomination
             {
                 pollutionScope?.Dispose();
                 scoutTrapScope?.Dispose();
+                siteAvoidScope?.Dispose();
             }
 
-            // Sum travel ticks with context off so hop timing stays pollution/trap-blind (damage is the real cost).
+            // Sum travel ticks with context off so hop timing stays pollution/trap/site-avoid-blind.
             bool hasPath = (curPath != null && curPath.Found) || (fallbackPathNodes != null && fallbackPathNodes.Count > 1);
             WD_DevPerformanceSpikeLog.Msg(
                 $"Traveler.WD_PathFollower.StartPath traveler=\"{traveler.Label}\" fromTile={traveler.Tile} toTile={destTile.tileId} vanillaFound={hasVanillaPath} fallbackNodeCount={fallbackPathNodes?.Count ?? 0} hasPath={hasPath}");
@@ -293,9 +295,10 @@ namespace TSA_WorldDomination
             WorldPath newPath = null;
             if (pathStart != dest)
             {
-                WdScoutTrapAvoidPathContext.Scope scoutTrapScope = WdScoutTrapAvoidPathContext.ShouldAvoidFor(traveler)
-                    ? WdScoutTrapAvoidPathContext.Activate(traveler.Faction)
-                    : null;
+                WdScoutTrapAvoidPathContext.Scope scoutTrapScope =
+                    WdScoutTrapAvoidPathContext.TryActivateForTraveler(traveler);
+                WdHostileSiteAvoidPathContext.Scope siteAvoidScope =
+                    WdHostileSiteAvoidPathContext.TryActivateForTraveler(traveler.Faction, dest.tileId);
                 try
                 {
                     newPath = pathStart.Layer.Pather.FindPath(pathStart, dest, null);
@@ -303,6 +306,7 @@ namespace TSA_WorldDomination
                 finally
                 {
                     scoutTrapScope?.Dispose();
+                    siteAvoidScope?.Dispose();
                 }
                 if (newPath == null || !newPath.Found)
                 {
@@ -389,6 +393,7 @@ namespace TSA_WorldDomination
                     AtTurretRetaliationUtility.TryClashOnSharedTile(traveler, traveler.Tile);
                     if (traveler.Destroyed) return;
                     AdvancedBuildingCombatUtility.TryResolveWalkOver(traveler, traveler.Tile);
+                    WorldActions_WatchTowers.TryResolveWalkOver(traveler, traveler.Tile);
                     if (traveler.Destroyed) return;
                     // Mortar / RR outposts on this tile act as choke-point fortresses vs hostile ground raids,
                     // Vanguard / Invasion rally columns, and Turtle migrants. Player colony tile does the same

@@ -600,6 +600,15 @@ namespace TSA_WorldDomination
         public bool atTurretBuilderInField;
         public int lastAtTurretProgressTick = -1;
 
+        // --- Player Watch Tower project (multi-tile queue; same mutex family) ---
+        public List<int> watchTowerPlannedTiles = new List<int>();
+        public int watchTowerWorkIndex;
+        public int watchTowerCachedWorkTile = -1;
+        public float watchTowerProgress;
+        public string watchTowerTargetName = string.Empty;
+        public bool watchTowerBuilderInField;
+        public int lastWatchTowerProgressTick = -1;
+
         // --- Decontamination project (mutex with road / road-block / spike-trap) ---
         public List<int> decontamPlannedTiles = new List<int>();
         public List<int> decontamClickedNodes = new List<int>();
@@ -713,6 +722,11 @@ namespace TSA_WorldDomination
             atTurretBuilderInField = false;
         }
 
+        public void NotifyWatchTowerCrewReturned()
+        {
+            watchTowerBuilderInField = false;
+        }
+
         /// <summary>Called when a decontamination crew from this outpost is destroyed (arrived or cancelled).</summary>
         public void NotifyDecontaminationCrewReturned()
         {
@@ -791,6 +805,20 @@ namespace TSA_WorldDomination
                 if (atTurretProgress >= 1f && !WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, cost))
                 {
                     projectLabel = AtTurretUtility.LabelKey(selectedAtTurretTier).Translate().ToString();
+                    return true;
+                }
+            }
+
+            if (WorldActions_WatchTowers.HasActiveWatchTowerProject(this) && !watchTowerBuilderInField)
+            {
+                float cost = ColonyWorldBuildUtility.IsPlayerColonyBuildActor(parent)
+                    ? 0f
+                    : WorldActions_WatchTowers.GetExpeditionStrengthCost();
+                if (watchTowerProgress >= 1f
+                    && cost > 0f
+                    && !WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, cost))
+                {
+                    projectLabel = "TSA_WD_BuildPlayerWatchTower".Translate().ToString();
                     return true;
                 }
             }
@@ -880,6 +908,14 @@ namespace TSA_WorldDomination
                 return true;
             }
 
+            if (WorldActions_WatchTowers.HasActiveWatchTowerProject(this) && !watchTowerBuilderInField
+                && watchTowerProgress >= 1f
+                && !ColonyWorldBuildRequirements.HasMaterialCostsForWatchTower())
+            {
+                projectLabel = "TSA_WD_BuildPlayerWatchTower".Translate().ToString();
+                return true;
+            }
+
             if (WorldActions_Trenches.HasActiveTrenchProject(this) && !trenchBuilderInField
                 && !trenchIsClearing
                 && trenchProgress >= 1f
@@ -946,6 +982,8 @@ namespace TSA_WorldDomination
                     WorldActions_SpikeTraps.ClearSpikeTrapProject(this);
                 if (WorldActions_AtTurrets.HasActiveAtTurretProject(this))
                     WorldActions_AtTurrets.ClearAtTurretProject(this);
+                if (WorldActions_WatchTowers.HasActiveWatchTowerProject(this))
+                    WorldActions_WatchTowers.ClearWatchTowerProject(this);
                 if (WorldActions_Decontamination.HasActiveDecontaminationProject(this))
                     WorldActions_Decontamination.ClearDecontaminationProject(this);
                 if (WorldActions_BuildBridge.HasActiveBridgeProject(this))
@@ -1047,6 +1085,11 @@ namespace TSA_WorldDomination
             dest.atTurretProgress = atTurretProgress;
             dest.atTurretBuilderInField = atTurretBuilderInField;
 
+            dest.watchTowerPlannedTiles = CloneIntList(watchTowerPlannedTiles);
+            dest.watchTowerWorkIndex = watchTowerWorkIndex;
+            dest.watchTowerProgress = watchTowerProgress;
+            dest.watchTowerBuilderInField = watchTowerBuilderInField;
+
             dest.decontamPlannedTiles = CloneIntList(decontamPlannedTiles);
             dest.decontamClickedNodes = CloneIntList(decontamClickedNodes);
             dest.decontamCachedPathTiles = CloneIntList(decontamCachedPathTiles);
@@ -1085,6 +1128,9 @@ namespace TSA_WorldDomination
             atTurretPlannedTiles = null;
             atTurretProgress = 0f;
             atTurretBuilderInField = false;
+            watchTowerPlannedTiles = null;
+            watchTowerProgress = 0f;
+            watchTowerBuilderInField = false;
             decontamPlannedTiles = null;
             decontamClickedNodes = null;
             decontamCachedPathTiles = null;
@@ -1718,6 +1764,42 @@ namespace TSA_WorldDomination
                     }
                     if (atTurretProgress > 1f)
                         atTurretProgress = 1f;
+                }
+            }
+
+            if (WorldActions_WatchTowers.HasActiveWatchTowerProject(this) && (IsOutpost || colonyWorldBuild))
+            {
+                int nowTickWt = Find.TickManager.TicksGame;
+                if (lastWatchTowerProgressTick < 0)
+                    lastWatchTowerProgressTick = nowTickWt;
+                else if (nowTickWt - lastWatchTowerProgressTick >= RoadProgressUpdateIntervalTicks)
+                {
+                    int dtWt = nowTickWt - lastWatchTowerProgressTick;
+                    dtWt = Mathf.Min(dtWt, MaxRoadProgressCatchUpTicks);
+                    lastWatchTowerProgressTick = nowTickWt;
+                    float workSpeedWt = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
+                    float requiredWt = WorldActions_WatchTowers.GetProgressRequiredTicks();
+                    WorldActions_Roads.ApplyWorldBuildProgress(ref watchTowerProgress, workSpeedWt, requiredWt, dtWt);
+                    while (watchTowerProgress >= 1f && !watchTowerBuilderInField)
+                    {
+                        float costWt = ColonyWorldBuildUtility.IsPlayerColonyBuildActor(parent)
+                            ? 0f
+                            : WorldActions_WatchTowers.GetExpeditionStrengthCost();
+                        if (costWt > 0f && !WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, costWt))
+                            break;
+                        if (ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                            && !ColonyWorldBuildRequirements.HasMaterialCostsForWatchTower())
+                            break;
+                        if (WorldActions_WatchTowers.LaunchCrewFromOutpost(parent))
+                        {
+                            watchTowerProgress -= 1f;
+                            watchTowerBuilderInField = true;
+                        }
+                        else
+                            break;
+                    }
+                    if (watchTowerProgress > 1f)
+                        watchTowerProgress = 1f;
                 }
             }
 
@@ -2595,6 +2677,18 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref atTurretBuilderInField, "atTurretBuilderInField", false);
             Scribe_Values.Look(ref lastAtTurretProgressTick, "lastAtTurretProgressTick", -1);
 
+            Scribe_Collections.Look(ref watchTowerPlannedTiles, "watchTowerPlannedTiles", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && watchTowerPlannedTiles == null)
+                watchTowerPlannedTiles = new List<int>();
+            Scribe_Values.Look(ref watchTowerWorkIndex, "watchTowerWorkIndex", 0);
+            Scribe_Values.Look(ref watchTowerCachedWorkTile, "watchTowerCachedWorkTile", -1);
+            Scribe_Values.Look(ref watchTowerProgress, "watchTowerProgress", 0f);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && watchTowerProgress > 1f)
+                watchTowerProgress = 1f;
+            Scribe_Values.Look(ref watchTowerTargetName, "watchTowerTargetName", string.Empty);
+            Scribe_Values.Look(ref watchTowerBuilderInField, "watchTowerBuilderInField", false);
+            Scribe_Values.Look(ref lastWatchTowerProgressTick, "lastWatchTowerProgressTick", -1);
+
             Scribe_Collections.Look(ref decontamPlannedTiles, "decontamPlannedTiles", LookMode.Value);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && decontamPlannedTiles == null)
                 decontamPlannedTiles = new List<int>();
@@ -2652,6 +2746,11 @@ namespace TSA_WorldDomination
                 && atTurretBuilderInField
                 && !WorldActions_AtTurrets.HasActiveAtTurretCrewFrom(parent))
                 atTurretBuilderInField = false;
+            if (Scribe.mode == LoadSaveMode.PostLoadInit
+                && WorldActions_WatchTowers.HasActiveWatchTowerProject(this)
+                && watchTowerBuilderInField
+                && !WorldActions_WatchTowers.HasActiveCrewFrom(parent))
+                watchTowerBuilderInField = false;
             if (Scribe.mode == LoadSaveMode.PostLoadInit
                 && WorldActions_Decontamination.HasActiveDecontaminationProject(this)
                 && decontamBuilderInField
@@ -2978,6 +3077,21 @@ namespace TSA_WorldDomination
                 string dest = scoutTargetName.NullOrEmpty() ? "…" : scoutTargetName;
                 string pct = (Mathf.Min(1f, scoutProgress) * 100f).ToString("F0");
                 sb.Append("TSA_WD_Intel_PlayerScout_Status".Translate(pct, dest));
+            }
+            else if (WorldActions_WatchTowers.HasActiveWatchTowerProject(this))
+            {
+                sb.AppendLine();
+                string dest = watchTowerTargetName.NullOrEmpty() ? "---" : watchTowerTargetName;
+                string insufficient = GetInsufficientConstructionMessage();
+                if (insufficient != null)
+                {
+                    sb.Append(insufficient.Colorize(Color.red));
+                }
+                else
+                {
+                    string pct = (Mathf.Min(1f, watchTowerProgress) * 100f).ToString("F0");
+                    sb.Append("TSA_WD_Inspect_PlayerWatchTowerStatus".Translate(pct, dest));
+                }
             }
             else if (WorldActions_AtTurrets.HasActiveAtTurretProject(this))
             {

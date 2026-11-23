@@ -81,6 +81,9 @@
     <labelKey>TSA_WD_AdvBuild_WatchTower</labelKey>
     <category>Economic</category>
     <effect>AttackRangePct</effect>
+    <!-- Same max radius as player Watch Tower (WorldActions_WatchTowers.BuildRadiusTiles). Placement prefers far rings. -->
+    <preferredMaxRadius>8</preferredMaxRadius>
+    <maxRadius>8</maxRadius>
     <tierWeights><li>0.15</li><li>0.15</li><li>1.0</li><li>1.0</li></tierWeights>
     <iconTexPath>WorldObjects/AdvancedBuildings/AdvWO_Watchtower</iconTexPath>
     <worldObjectDef>TSA_WD_AdvWO_WatchTower</worldObjectDef>

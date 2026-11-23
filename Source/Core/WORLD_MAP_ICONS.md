@@ -28,13 +28,14 @@ Session overlay (`WdFowDraw`). Requires kill switch `enableSettlementIntel` + st
 |------|----------|
 | Active | `WdFowDraw.IsActive` = Show FoW + gate configured (player FoW by default; NPC only when debug view set) |
 | Hide (WorldObjects) | `SuppressWorldIcon` when `IsFowHidden` (raw `IsDiscovered` / `IsTravelerDiscovered`, never raid `Knows`). Own-faction always viewable |
-| FoW targets | Settlement, WD outpost, AT turret, advanced building, non-shell WD traveler |
+| FoW targets | Settlement, WD outpost, AT turret, player Watch Tower, advanced building, non-shell WD traveler |
+| FoW observers (field) | AT (fire range); NPC Adv Watch Tower + player Watch Tower (10). Other adv buildings are targets only. |
 | Force ExpandingIcon | While FoW active, FoW targets use ForceFixedIcon + Material skip so dim does not fight a full-bright mesh |
-| Dim | `WdFowDraw.ApplyIconColor` multiplies ExpandingIcon alpha (~0.40) for known sites outside LOS (Hunch band or memory) and travelers in Hunch / remain-visible; bright only in LOS. Harmony on `WorldObject.get_ExpandingIconColor` plus `WorldObject_WD_AdvancedBuilding` override. Draw path: cache read only — no `EnsureFowDrawCacheFresh` |
+| Dim | `WdFowDraw.ApplyIconColor` multiplies ExpandingIcon alpha (~0.40) for known sites outside LOS (Awareness band or memory) and travelers in Awareness / remain-visible; bright only in LOS. Harmony on `WorldObject.get_ExpandingIconColor` plus `WorldObject_WD_AdvancedBuilding` override. Draw path: cache read only — no `EnsureFowDrawCacheFresh` |
 | Ghosts | Relation/player underlays, settlement tier labels, outpost world-map labels skip hidden WOs |
-| Shells / vanilla caravans / roads | Not FoW **icon** targets (always visible). Vanilla caravans still **paint explored tiles** at scout Hunch |
+| Shells / vanilla caravans / roads | Not FoW **icon** targets (always visible). Vanilla caravans still **paint explored tiles** at scout Awareness |
 | Tile never seen | `WD_WorldLayer_FowIncognita` opaque black hexes (`WdFowTileMemory` explored bits) |
-| Tile explored, out of LOS | `WD_WorldLayer_FowShroud` semi-transparent black (~0.5a) — Hunch explore or remembered explore outside clear LOS |
+| Tile explored, out of LOS | `WD_WorldLayer_FowShroud` semi-transparent black (~0.5a) — Awareness explore or remembered explore outside clear LOS |
 | Tile current LOS | Clear (verts collapsed) |
 | Traps / road blocks / trenches | Not WorldObjects. Hide when tile (or trench edge endpoint) is unexplored via `WdFowDraw.ShouldDrawTileOverlay` |
 | MutatorWorldIcons | Optional Compat Prefix on `DrawTileMaterials`: skip unless FoW inactive or tile explored (`IsTileExploredForView`); grey shroud still shows icons |

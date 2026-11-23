@@ -85,6 +85,7 @@
   <TSA_WD_Traveler_NpcFortify>设防施工队</TSA_WD_Traveler_NpcFortify>
   <TSA_WD_Traveler_NpcAtTurret>反坦克炮施工队</TSA_WD_Traveler_NpcAtTurret>
   <TSA_WD_Traveler_AtTurret>反坦克炮施工队</TSA_WD_Traveler_AtTurret>
+  <TSA_WD_Traveler_WatchTower>瞭望塔施工队</TSA_WD_Traveler_WatchTower>
   <TSA_WD_Traveler_Outpost_Decontamination>净化小队</TSA_WD_Traveler_Outpost_Decontamination>
   <TSA_WD_Inspect_DecontaminationBuild>净化</TSA_WD_Inspect_DecontaminationBuild>
   <TSA_WD_Inspect_DecontaminationStatus>{0}：{1}% 至 {2}</TSA_WD_Inspect_DecontaminationStatus>

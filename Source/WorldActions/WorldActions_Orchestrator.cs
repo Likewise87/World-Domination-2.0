@@ -669,6 +669,7 @@ namespace TSA_WorldDomination
             // (after world objects are spawned) so stale entries from a prior game cannot linger.
             WorldObject_Traveler.RebuildLiveRegistry();
             WorldObject_AT_Turret.RebuildLiveRegistry();
+            WorldObject_WD_PlayerWatchTower.RebuildLiveRegistry();
             WorldConstructionProjectRegistry.Rebuild();
             WdPlayerOutpostCache.Invalidate();
 
@@ -683,6 +684,7 @@ namespace TSA_WorldDomination
                 // Remnant Destroy strips list entries; rebuild so ActiveCount/LiveTravelers match the healed world.
                 WorldObject_Traveler.RebuildLiveRegistry();
                 WorldObject_AT_Turret.RebuildLiveRegistry();
+                WorldObject_WD_PlayerWatchTower.RebuildLiveRegistry();
                 WorldConstructionProjectRegistry.Rebuild();
                 PurgeLegacyWorldThreatManager();
             }

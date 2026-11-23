@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -48,10 +49,14 @@ namespace TSA_WorldDomination
             // Stricter than tier labels (0.25); still scales up on small worlds.
             if (WD_WorldMapZoomUtil.IsZoomedTooFarOut(0.08f)) return;
 
+            float bottomStripHeight = 80f;
+
+            // Raid CD / raidable also draws on the singular player colony (same WD label mode).
+            if (mode == WD_OutpostWorldMapLabelMode.RaidCooldown)
+                TryDrawPlayerColonyRaidCooldownLabel(bottomStripHeight);
+
             var nodes = GetLogisticsNodes();
             if (nodes == null) return;
-
-            float bottomStripHeight = 80f;
 
             for (int i = 0; i < nodes.Count; i++)
             {
@@ -88,6 +93,25 @@ namespace TSA_WorldDomination
                     }
                 }
             }
+        }
+
+        private static void TryDrawPlayerColonyRaidCooldownLabel(float bottomStripHeight)
+        {
+            Settlement colony = InfluenceUtils.GetPlayerColony();
+            if (colony == null || colony.Destroyed) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(colony)) return;
+            if (WdFowDraw.IsActive)
+            {
+                var intel = WorldComponent_SettlementIntel.Get();
+                if (intel != null && intel.IsFowHidden(colony)) return;
+            }
+            if (!WorldObjectSelectionUtility.VisibleToCameraNow(colony)) return;
+
+            CompViralSpread spread = colony.GetComponent<CompViralSpread>();
+            if (spread == null) return;
+
+            Vector2 screenPos = WorldObjectSelectionUtility.ScreenPos(colony);
+            DrawRaidCooldownLabel(spread, screenPos, -45f, bottomStripHeight);
         }
 
         private IReadOnlyList<(WorldObject Obj, CompOutpostLogistics Logi)> GetLogisticsNodes()

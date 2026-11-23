@@ -263,9 +263,7 @@ namespace TSA_WorldDomination
                 if (!IsEligibleAtTurretTravelerTarget(gun, t, iFaction, out _)) continue;
                 int tTileId = t.Tile.tileId;
                 if (tTileId < 0) continue;
-                float dist = manager != null
-                    ? (float)WorldActions_Utils.GetDistance(iTile.tileId, tTileId, manager)
-                    : Find.WorldGrid.ApproxDistanceInTiles(iTile.tileId, tTileId);
+                float dist = WorldActions_Utils.GetDistanceUncached(iTile.tileId, tTileId);
                 if (dist > range) continue;
                 if (!AtTurretUtility.CanEngageAtDistance(gun, t, dist)) continue;
                 if (dist < bestTravelerDist)
@@ -294,9 +292,7 @@ namespace TSA_WorldDomination
                     continue;
                 int oTileId = other.Tile.tileId;
                 if (oTileId < 0) continue;
-                float dist = manager != null
-                    ? (float)WorldActions_Utils.GetDistance(iTile.tileId, oTileId, manager)
-                    : Find.WorldGrid.ApproxDistanceInTiles(iTile.tileId, oTileId);
+                float dist = WorldActions_Utils.GetDistanceUncached(iTile.tileId, oTileId);
                 if (dist > range) continue;
                 if (!AtTurretUtility.CanEngageAtDistance(gun, other, dist)) continue;
                 if (dist < bestAtDist)
@@ -451,9 +447,7 @@ namespace TSA_WorldDomination
                         if (logSkips)
                         {
                             float cur = target.Tile.tileId >= 0
-                                ? (manager != null
-                                    ? WorldActions_Utils.GetDistance(aaTurret.Tile.tileId, target.Tile.tileId, manager)
-                                    : Find.WorldGrid.ApproxDistanceInTiles(aaTurret.Tile.tileId, target.Tile.tileId))
+                                ? (WorldActions_Utils.GetDistanceUncached(aaTurret.Tile.tileId, target.Tile.tileId))
                                 : -1f;
                             int destId = -1;
                             float progDist = -1f;
@@ -491,9 +485,7 @@ namespace TSA_WorldDomination
                                 }
                             }
                             float destDist = destId >= 0
-                                ? (manager != null
-                                    ? WorldActions_Utils.GetDistance(aaTurret.Tile.tileId, destId, manager)
-                                    : Find.WorldGrid.ApproxDistanceInTiles(aaTurret.Tile.tileId, destId))
+                                ? (WorldActions_Utils.GetDistanceUncached(aaTurret.Tile.tileId, destId))
                                 : -1f;
                             WDVerbose.Msg($"AA wake skip {aaTurret.LabelCap} vs {LabelOf(target)}: out of AA range ({aaRange:F0}); tileDist={cur:F1} (launch tile) progDist={progDist:F1} destDist={destDist:F1} destTile={destId} ballistic={ballistic} inbound={inbound} canTargetPlayer={ip.InterceptorCanTargetPlayer}");
                         }
@@ -1182,9 +1174,7 @@ namespace TSA_WorldDomination
 
             int tTileId = t.Tile.tileId;
             if (tTileId < 0) return;
-            float dist = manager != null
-                ? (float)WorldActions_Utils.GetDistance(iTile.tileId, tTileId, manager)
-                : Find.WorldGrid.ApproxDistanceInTiles(iTile.tileId, tTileId);
+            float dist = WorldActions_Utils.GetDistanceUncached(iTile.tileId, tTileId);
             if (dist > range) return;
 
             if (self is WorldObject_AT_Turret atGun
@@ -1293,9 +1283,7 @@ namespace TSA_WorldDomination
                         int cTileId = c.Tile.tileId;
                         if (cTileId < 0) continue;
 
-                        float dist = manager != null
-                            ? (float)WorldActions_Utils.GetDistance(iTile.tileId, cTileId, manager)
-                            : Find.WorldGrid.ApproxDistanceInTiles(iTile.tileId, cTileId);
+                        float dist = WorldActions_Utils.GetDistanceUncached(iTile.tileId, cTileId);
                         if (dist > range)
                         {
                             skipUntilByPair[pairKey] = now + GenDate.TicksPerHour;

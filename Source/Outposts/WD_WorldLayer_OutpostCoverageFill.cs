@@ -56,9 +56,9 @@ namespace TSA_WorldDomination
         private const float AlphaAttackBand2 = 0.24f;
         private const float AlphaAttackBand3 = 0.22f;
         private const float AlphaGold = 0.22f;
-        // Sight LOS/Hunch: denser so readable over opaque FoW black (two gold tones only).
+        // Sight LOS/Awareness: denser so readable over opaque FoW black (two gold tones only).
         private const float AlphaSightLos = 0.58f;
-        private const float AlphaSightHunch = 0.38f;
+        private const float AlphaSightAwareness = 0.38f;
 
         private static Material? purpleFillMaterial;
         private static Material? greenFillMaterial;
@@ -77,7 +77,7 @@ namespace TSA_WorldDomination
         private static Material? attackBand2FillMaterial;
         private static Material? attackBand3FillMaterial;
         private static Material? sightLosFillMaterial;
-        private static Material? sightHunchFillMaterial;
+        private static Material? sightAwarenessFillMaterial;
 
         private static bool hasTarget;
         private static PlanetTile centerTile = PlanetTile.Invalid;
@@ -141,7 +141,7 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Sight two-band colors: bright gold LOS (0) / softer amber Hunch (else).
+        /// Sight two-band colors: bright gold LOS (0) / softer amber Awareness (else).
         /// Not Attack reds — those read as muddy noise over FoW.
         /// </summary>
         public static Color GetSightLosBandFillColor(int bandIndex)
@@ -149,7 +149,7 @@ namespace TSA_WorldDomination
             Color g = WorldOverlayLineMaterials.SightGoldColor;
             if (bandIndex <= 0)
                 return new Color(1f, 0.95f, 0.40f, AlphaSightLos);
-            return new Color(g.r, g.g, g.b, AlphaSightHunch);
+            return new Color(g.r, g.g, g.b, AlphaSightAwareness);
         }
 
         public static int GetSightLosBandIndex(float dist, float maxLos)
@@ -524,7 +524,7 @@ namespace TSA_WorldDomination
         {
             if (bandIndex <= 0)
                 return sightLosFillMaterial ??= MakeSightFillMat(GetSightLosBandFillColor(0));
-            return sightHunchFillMaterial ??= MakeSightFillMat(GetSightLosBandFillColor(3));
+            return sightAwarenessFillMaterial ??= MakeSightFillMat(GetSightLosBandFillColor(3));
         }
 
         private static Material MakeFillMat(Color color)

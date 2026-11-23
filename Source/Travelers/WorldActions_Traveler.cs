@@ -126,6 +126,9 @@ namespace TSA_WorldDomination
                 case TravelerMission.AtTurret:
                     return traveler.originObject != null && !traveler.originObject.Destroyed;
 
+                case TravelerMission.WatchTower:
+                    return traveler.originObject != null && !traveler.originObject.Destroyed;
+
                 case TravelerMission.NpcAtTurret:
                     if (traveler.originObject == null || traveler.originObject.Destroyed) return false;
                     if (traveler.IsAdvancedBuilder)
@@ -302,6 +305,14 @@ namespace TSA_WorldDomination
                     break;
                 case TravelerMission.AtTurret:
                     WorldActions_AtTurrets.ExecuteAtTurretArrival(traveler);
+                    if (traveler != null && !traveler.Destroyed)
+                    {
+                        ColonyWorldBuildRequirements.TryRefundUnappliedConstructionMaterials(traveler);
+                        traveler.Destroy();
+                    }
+                    break;
+                case TravelerMission.WatchTower:
+                    WorldActions_WatchTowers.ExecuteArrival(traveler);
                     if (traveler != null && !traveler.Destroyed)
                     {
                         ColonyWorldBuildRequirements.TryRefundUnappliedConstructionMaterials(traveler);
@@ -2425,7 +2436,7 @@ namespace TSA_WorldDomination
 
                 if (manager != null)
                 {
-                    int remaining = WorldActions_Utils.GetDistance(traveler.Tile, traveler.pather.destTile.tileId, manager);
+                    int remaining = WorldActions_Utils.GetDistanceUncached(traveler.Tile, traveler.pather.destTile.tileId);
 
                     int workTile = traveler.pather.destTile.tileId;
                     manager.AddLog(new SpreadLogEntry(

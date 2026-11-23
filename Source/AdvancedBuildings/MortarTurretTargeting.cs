@@ -15,10 +15,9 @@ namespace TSA_WorldDomination
         /// <summary>Extra tiles beyond mortar range in which an inbound raid makes the turret hold its shell.</summary>
         public const float ReserveShellExtraTiles = 3f;
 
-        private static float Dist(WorldObject a, WorldObject b, WorldComponent_SpreadManager manager) =>
-            manager != null
-                ? WorldActions_Utils.GetDistance(a.Tile, b.Tile, manager)
-                : Find.WorldGrid.ApproxDistanceInTiles(a.Tile, b.Tile);
+        // Targets include travelers and caravans: uncached, so moving tiles never fill the saved distanceCache.
+        private static float Dist(WorldObject a, WorldObject b) =>
+            WorldActions_Utils.GetDistanceUncached(a.Tile, b.Tile);
 
         public static WorldObject FindIdleTarget(WorldObject_WD_MortarTurret turret, bool canTargetPlayer, out float bestDist)
         {
@@ -43,10 +42,11 @@ namespace TSA_WorldDomination
                 if (!WorldActions_Utils.SafeHostileTo(wo.Faction, iFaction)) return false;
                 if (wo.Faction.IsPlayer && (!canTargetPlayer || !playerHostile)) return false;
                 if (sched != null && sched.IsInboundMortarTarget(wo.ID)) return false;
-                // Mortars need discovery and current LOS (AA still fires blind).
-                if (intelActive && !WdPlayerIntel.IsCurrentlyVisibleToFaction(iFaction, wo)) return false;
-                d = Dist(turret, wo, manager);
-                return d <= range;
+                // Range first (one distance), sight second: most candidates are out of range.
+                d = Dist(turret, wo);
+                if (d > range) return false;
+                // Mortars need discovery and current sight (AA still fires blind).
+                return !intelActive || WdPlayerIntel.IsCurrentlyVisibleToFaction(iFaction, wo);
             }
 
             // 1. Hostile advanced buildings (economic and artillery), past their shell grace.
@@ -180,7 +180,7 @@ namespace TSA_WorldDomination
                     inbound = dest == ownerTile || dest == turretTile;
                 }
                 if (!inbound) continue;
-                if (Dist(turret, t, manager) <= watch) return true;
+                if (Dist(turret, t) <= watch) return true;
             }
             return false;
         }

@@ -1167,6 +1167,23 @@
   <TSA_WD_Caravans_WalkingTicksPerMove>步行旅行者每地塊tick數</TSA_WD_Caravans_WalkingTicksPerMove>
   <!-- EN: World ticks per tile for land WD travelers. Lower = faster. Also used for raid and trader prep attrition estimates. Applies to newly launched travelers; already moving ones keep their launch speed. -->
   <TSA_WD_Caravans_WalkingTicksPerMoveTip>陸上WD旅行者每移動一個地塊所需的世界tick數。越低越快。也用於突襲與商人準備的耗損估算。套用於新出發的旅行者；已在移動中的旅行者維持出發時的速度。</TSA_WD_Caravans_WalkingTicksPerMoveTip>
+  <TSA_WD_Caravans_HeaderPathfinding>尋路調整</TSA_WD_Caravans_HeaderPathfinding>
+  <TSA_WD_Caravans_PlayerPawnCaravanPathfinding>套用到真實玩家旅隊</TSA_WD_Caravans_PlayerPawnCaravanPathfinding>
+  <TSA_WD_Caravans_PlayerPawnCaravanPathfindingTip>世界地圖上帶真實小人的原版玩家旅隊。開啟後，其尋路會依下方數值傾向繞過敵對尖刺陷阱與已知敵對定居點。不改變行走速度。關閉則使用未改動的 RimWorld 旅隊尋路。</TSA_WD_Caravans_PlayerPawnCaravanPathfindingTip>
+  <TSA_WD_Caravans_PlayerWdPathfinding>套用到玩家 WD 旅隊</TSA_WD_Caravans_PlayerWdPathfinding>
+  <TSA_WD_Caravans_PlayerWdPathfindingTip>玩家的 World Domination 旅行者（世界地圖上的力量池：偵察、運輸、施工隊等）。開啟後使用下方的陷阱與敵對定居點尋路偏向。與真實小人旅隊不是同一類。</TSA_WD_Caravans_PlayerWdPathfindingTip>
+  <TSA_WD_Caravans_NpcWdPathfinding>套用到 NPC WD 旅隊</TSA_WD_Caravans_NpcWdPathfinding>
+  <TSA_WD_Caravans_NpcWdPathfindingTip>NPC 的 World Domination 旅行者（襲擊部隊、商人、施工隊等力量池）。開啟後使用下方的陷阱與敵對定居點尋路偏向，並會避開已知的玩家前哨。目的地從不會被避開，因此路障導流仍有效。</TSA_WD_Caravans_NpcWdPathfindingTip>
+  <TSA_WD_Caravans_ScoutTrapPathAvoidPenalty>偵察陷阱尋路難度</TSA_WD_Caravans_ScoutTrapPathAvoidPenalty>
+  <TSA_WD_Caravans_ScoutTrapPathAvoidPenaltyTip>在對應 WD 開關開啟時，偵察類 WD 旅行者（NPC 偵察與靈活玩家偵察）在敵對尖刺陷阱地塊上的額外尋路代價。僅影響尋路。偵察跳躍目的地仍不會落在敵對陷阱上。</TSA_WD_Caravans_ScoutTrapPathAvoidPenaltyTip>
+  <TSA_WD_Caravans_CaravanTrapPathAvoidPenalty>非偵察陷阱尋路難度</TSA_WD_Caravans_CaravanTrapPathAvoidPenalty>
+  <TSA_WD_Caravans_CaravanTrapPathAvoidPenaltyTip>在對應開關開啟時，非偵察 WD 旅行者與真實玩家旅隊在敵對尖刺陷阱地塊上的額外尋路代價。僅影響尋路。設為 0 則尋路時忽略陷阱。</TSA_WD_Caravans_CaravanTrapPathAvoidPenaltyTip>
+  <TSA_WD_Caravans_HostileSiteAvoidRadius>敵對地點避開半徑</TSA_WD_Caravans_HostileSiteAvoidRadius>
+  <TSA_WD_Caravans_HostileSiteAvoidRadiusTip>每個已知敵對地點周圍獲得尋路難度加成的地塊數。0 僅為地點本身。數值越大軟隔離圈越大；若你用路障在前哨附近導流襲擊者，請保持較小。</TSA_WD_Caravans_HostileSiteAvoidRadiusTip>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyInner>最內層尋路難度</TSA_WD_Caravans_HostileSiteAvoidPenaltyInner>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyInnerTip>僅用於尋路、加在敵對地點地塊上的平坦難度。始終不低於最外層數值。若依賴路障導流，請與路障移動懲罰比較。</TSA_WD_Caravans_HostileSiteAvoidPenaltyInnerTip>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyOuter>最外層尋路難度</TSA_WD_Caravans_HostileSiteAvoidPenaltyOuter>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyOuterTip>避開半徑外圈的平坦難度。中間環從最內層線性過渡到此值。僅影響尋路。</TSA_WD_Caravans_HostileSiteAvoidPenaltyOuterTip>
   <!-- EN: Travel speeds (walking travelers, drop pods, Interception Caravans) are under Caravans and Trade → Travel and Attrition. -->
   <TSA_WD_Artillery_TravelSpeedsInCaravansTip>移動速度（步行旅行者、運輸艙、攔截旅隊）位於「旅隊與交易 → 移動與耗損」。</TSA_WD_Artillery_TravelSpeedsInCaravansTip>
   <!-- EN: Water travel -->
@@ -1386,7 +1403,7 @@
   <!-- EN: Raid cooldown -->
   <TSA_WD_OutpostWorldMapLabel_RaidCooldown>突襲冷卻</TSA_WD_OutpostWorldMapLabel_RaidCooldown>
   <!-- EN: Shows whether an outpost can be raided or how long its cooldown lasts. -->
-  <TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>顯示哨站是否可被突襲，或其冷卻還剩多久。</TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>
+  <TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>顯示玩家殖民地或哨站是否可被突襲，或其冷卻還剩多久。</TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>
   <!-- EN: Raidable -->
   <TSA_WD_WorldMap_Raidable>可被突襲</TSA_WD_WorldMap_Raidable>
   <!-- EN: {0} Days -->

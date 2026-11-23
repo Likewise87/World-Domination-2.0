@@ -1014,9 +1014,7 @@ namespace TSA_WorldDomination
             float bandMax = AntiAirFireUtils.GetAntiAirConfiguredMaxRangeForOrigin(aaOrigin);
             int podTile = rapidPod.Tile.tileId;
             int originTile = aaOrigin?.Tile.tileId ?? podTile;
-            int distTiles = manager != null
-                ? WorldActions_Utils.GetDistance(originTile, podTile, manager)
-                : Mathf.RoundToInt(Find.WorldGrid.ApproxDistanceInTiles(originTile, podTile));
+            int distTiles = WorldActions_Utils.GetDistanceUncached(originTile, podTile);
             float hitChance = AntiAirFireUtils.BandBaseAntiAirHitChance(distTiles, bandMax, seth, useNpc);
 
             var killed = new List<Pawn>();

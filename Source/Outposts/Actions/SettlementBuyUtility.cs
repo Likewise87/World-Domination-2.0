@@ -618,31 +618,9 @@ namespace TSA_WorldDomination
             HashSet<WorldObject_WD_Outpost> warehousesThatContributed)
         {
             _ = warehousesThatContributed;
-            if (Find.WorldGrid == null)
-                return colonyMap?.Parent;
-
-            WorldObject nearestWh = FindNearestWarehouse(settlementTile, warehouses);
-            WorldObject colony = colonyMap?.Parent;
-            if (nearestWh == null) return colony;
-            if (colony == null) return nearestWh;
-
-            float dWh = Find.WorldGrid.ApproxDistanceInTiles(settlementTile, nearestWh.Tile);
-            float dCol = Find.WorldGrid.ApproxDistanceInTiles(settlementTile, colony.Tile);
-            return dWh <= dCol ? nearestWh : colony;
-        }
-
-        private static WorldObject_WD_Outpost FindNearestWarehouse(int tile, List<WorldObject_WD_Outpost> warehouses)
-        {
-            if (warehouses == null || warehouses.Count == 0 || Find.WorldGrid == null) return null;
-            WorldObject_WD_Outpost nearest = null;
-            float bestDist = float.MaxValue;
-            for (int i = 0; i < warehouses.Count; i++)
-            {
-                if (warehouses[i] == null) continue;
-                float d = Find.WorldGrid.ApproxDistanceInTiles(tile, warehouses[i].Tile);
-                if (d < bestDist) { bestDist = d; nearest = warehouses[i]; }
-            }
-            return nearest;
+            // Real warehouses only (payment list may include every armory outpost).
+            return ColonyWorldBuildMaterials.ResolveWarehouseOrColonyOrigin(
+                settlementTile, colonyMap, warehouses);
         }
 
         public static void RefundItems(WorldObject origin, List<ThingDefCountClass> items)

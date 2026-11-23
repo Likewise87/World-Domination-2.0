@@ -118,6 +118,7 @@ namespace TSA_WorldDomination
             if (def.tileFertilityBonus > 0f) n++;
             if (def.tileMiningBonus > 0f) n++;
             if (def.tileAnimalAbundanceBonus > 0f) n++;
+            if (def.losBonusTiles > 0f) n++;
             if (def.tileFishAbundanceBonus > 0f) n++;
             if (def.mortarShellDamageBonus > 0f) n++;
             if (def.mortarHitChanceBonus > 0f) n++;
@@ -175,6 +176,8 @@ namespace TSA_WorldDomination
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitTileMining", (def.tileMiningBonus * 100f).ToString("F0")));
             if (def.tileAnimalAbundanceBonus > 0f)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitTileAnimals", (def.tileAnimalAbundanceBonus * 100f).ToString("F0")));
+            if (def.losBonusTiles > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitLosBonus", def.losBonusTiles.ToString("F0")));
             if (def.tileFishAbundanceBonus > 0f)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitTileFish", (def.tileFishAbundanceBonus * 100f).ToString("F0")));
             if (def.mortarShellDamageBonus > 0f)
@@ -785,6 +788,11 @@ namespace TSA_WorldDomination
                     Key("TSA_WD_OutpostUpgrades_BenefitTileAnimals", (def.tileAnimalAbundanceBonus * 100f).ToString("F0")),
                     benefitColor,
                     ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.TileAnimals));
+            if (def.losBonusTiles > 0f)
+                y = DrawBenefitLine(x, y, w,
+                    Key("TSA_WD_OutpostUpgrades_BenefitLosBonus", def.losBonusTiles.ToString("F0")),
+                    benefitColor,
+                    null);
             if (def.tileFishAbundanceBonus > 0f)
                 y = DrawBenefitLine(x, y, w,
                     Key("TSA_WD_OutpostUpgrades_BenefitTileFish", (def.tileFishAbundanceBonus * 100f).ToString("F0")),

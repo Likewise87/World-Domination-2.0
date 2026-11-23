@@ -15,7 +15,7 @@ namespace TSA_WorldDomination
         private const int DeliveryOverlayRenderQueue = 3630;
         /// <summary>Above orange construction corridors so selected-crew white routes stay readable.</summary>
         private const int TravelerPathRenderQueue = 3640;
-        /// <summary>Sight LOS/Hunch rings above FoW hexes (incognita 3590 / blackout 3595).</summary>
+        /// <summary>Sight LOS/Awareness rings above FoW hexes (incognita 3590 / blackout 3595).</summary>
         private const int SightRingRenderQueue = 3650;
         /// <summary>Settlement ↔ owned AT / advanced-building selection ownership chords.</summary>
         private const int AffiliationOwnershipRenderQueue = 3625;
@@ -64,15 +64,15 @@ namespace TSA_WorldDomination
             "UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, ColorLibrary.Orange, RenderQueue);
         public static readonly Material RadiusYellow = MaterialPool.MatFrom(
             "UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, Color.yellow, RenderQueue);
-        /// <summary>Intel Hunch / Sight outer ring and gizmo tint.</summary>
+        /// <summary>Intel Awareness / Sight outer ring and gizmo tint.</summary>
         public static readonly Color SightGoldColor = new Color(1f, 0.82f, 0.20f, 1f);
         public static readonly Material RadiusGold = MaterialPool.MatFrom(
             "UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, SightGoldColor, RenderQueue);
         /// <summary>Clear LOS ring (inner). ZTest Always so it reads over black FoW tiles.</summary>
         public static readonly Material SightLosRing = MakeAlwaysOnTopLineMat(
             new Color(1f, 0.95f, 0.35f, 1f), SightRingRenderQueue);
-        /// <summary>Hunch ring (outer). ZTest Always so it reads over black FoW tiles.</summary>
-        public static readonly Material SightHunchRing = MakeAlwaysOnTopLineMat(SightGoldColor, SightRingRenderQueue);
+        /// <summary>Awareness ring (outer). ZTest Always so it reads over black FoW tiles.</summary>
+        public static readonly Material SightAwarenessRing = MakeAlwaysOnTopLineMat(SightGoldColor, SightRingRenderQueue);
         public static readonly Material RadiusCyan = MaterialPool.MatFrom("UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, Color.cyan, RenderQueue);
         /// <summary>Tunnel Network ally-radius outer hop ring (deeper blue than <see cref="RadiusCyan"/>).</summary>
         public static readonly Material RadiusCyanDeep = MaterialPool.MatFrom(

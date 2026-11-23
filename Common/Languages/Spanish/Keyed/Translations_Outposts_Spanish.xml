@@ -324,7 +324,7 @@
   <TSA_WD_ClearRoadBlocks>Quitar bloqueos de carretera</TSA_WD_ClearRoadBlocks>
   <TSA_WD_ClearRoadBlocksDesc>Quita bloqueos de carretera existentes.</TSA_WD_ClearRoadBlocksDesc>
   <TSA_WD_RemoveFortifications>Quitar fortificaciones</TSA_WD_RemoveFortifications>
-  <TSA_WD_RemoveFortificationsDesc>Envía una cuadrilla a quitar bloqueos, trampas o AT Turrets a lo largo de un camino. Pulsa cualquier casilla transitable; se trabajan las que tengan fortificación.</TSA_WD_RemoveFortificationsDesc>
+  <TSA_WD_RemoveFortificationsDesc>Envía una cuadrilla a quitar bloqueos, trampas, AT Turrets o torres de vigilancia a lo largo de un camino. Pulsa cualquier casilla transitable; se trabajan las que tengan fortificación.</TSA_WD_RemoveFortificationsDesc>
   <TSA_WD_RemoveRoads>Quitar carreteras</TSA_WD_RemoveRoads>
   <TSA_WD_RemoveRoadsDesc>Envía una cuadrilla a quitar carreteras existentes a lo largo de un camino. Cada tramo tarda lo mismo que construir una carretera de tierra, sea cual sea el tipo.\n\nMayús+clic para colocar puntos intermedios; clic sin Mayús para fijar el destino final.</TSA_WD_RemoveRoadsDesc>
   <TSA_WD_RemoveRoadsStatus>Quitando carreteras hacia &quot;{0}&quot;\nProgreso: {1}%</TSA_WD_RemoveRoadsStatus>
@@ -1740,6 +1740,7 @@
   <TSA_WD_OutpostUpgrades_BenefitTileFertility>+{0}% Fertilidad</TSA_WD_OutpostUpgrades_BenefitTileFertility>
   <TSA_WD_OutpostUpgrades_BenefitTileMining>+{0}% Eficiencia minera</TSA_WD_OutpostUpgrades_BenefitTileMining>
   <TSA_WD_OutpostUpgrades_BenefitTileAnimals>+{0}% Abundancia animal</TSA_WD_OutpostUpgrades_BenefitTileAnimals>
+  <TSA_WD_OutpostUpgrades_BenefitLosBonus>+{0} visión de niebla de guerra</TSA_WD_OutpostUpgrades_BenefitLosBonus>
   <TSA_WD_OutpostUpgrades_BenefitTileFish>+{0}% Caladeros</TSA_WD_OutpostUpgrades_BenefitTileFish>
   <TSA_WD_OutpostUpgrades_BenefitMortarDamage>+{0} fuerza del proyectil de mortero</TSA_WD_OutpostUpgrades_BenefitMortarDamage>
   <TSA_WD_OutpostUpgrades_BenefitMortarHit>+{0}% probabilidad de acierto del mortero</TSA_WD_OutpostUpgrades_BenefitMortarHit>
@@ -2246,6 +2247,21 @@
   <TSA_WD_BuildSpikeTrapsDesc>Construye trampas de pinchos en casillas. Los viajeros terrestres hostiles pierden fuerza al salir; la trampa se destruye. Amigos y neutrales no se ven afectados. Un viajero solo puede activar un número limitado de trampas.</TSA_WD_BuildSpikeTrapsDesc>
   <TSA_WD_BuildAT_Turret>Construir torreta</TSA_WD_BuildAT_Turret>
   <TSA_WD_BuildAT_TurretDesc>Construye AT Turrets en casillas del mundo. Disparan a caravanas hostiles terrestres que pasen. Configura a cuales apuntar.</TSA_WD_BuildAT_TurretDesc>
+  <TSA_WD_BuildPlayerWatchTower>Construir torre de vigía</TSA_WD_BuildPlayerWatchTower>
+  <TSA_WD_CancelPlayerWatchTower>Cancelar torre de vigía</TSA_WD_CancelPlayerWatchTower>
+  <TSA_WD_CancelPlayerWatchTowerDesc>Aborta el proyecto de torre de vigía y destruye cualquier cuadrilla en ruta. Sin reembolso de fuerza.</TSA_WD_CancelPlayerWatchTowerDesc>
+  <TSA_WD_PlayerWatchTowerCancelled>Proyecto de torre de vigía en {0} cancelado.</TSA_WD_PlayerWatchTowerCancelled>
+  <TSA_WD_PlayerWatchTowerTooltip>Explora el área alrededor en un radio de {0} casillas. Cuesta {1} de fuerza. Unos {2} días por torre (habilidad de Construcción).</TSA_WD_PlayerWatchTowerTooltip>
+  <TSA_WD_PlayerWatchTowerTooltip_NoStrength>Explora el área alrededor en un radio de {0} casillas. Unos {1} días por torre (habilidad de Construcción). Las colonias no gastan fuerza.</TSA_WD_PlayerWatchTowerTooltip_NoStrength>
+  <TSA_WD_PlayerWatchTower_TargetPrompt>Haz clic en una casilla al alcance para colocar una torre de vigía. Mayús+clic para encolar varias.</TSA_WD_PlayerWatchTower_TargetPrompt>
+  <TSA_WD_PlayerWatchTower_InvalidTile>No se puede construir una torre de vigía en esa casilla.</TSA_WD_PlayerWatchTower_InvalidTile>
+  <TSA_WD_PlayerWatchTower_TargetSet>Proyecto de torre de vigía fijado ({0} casillas).</TSA_WD_PlayerWatchTower_TargetSet>
+  <TSA_WD_Inspect_PlayerWatchTowerStatus>Torre de vigía: {0}% → {1}</TSA_WD_Inspect_PlayerWatchTowerStatus>
+  <TSA_WD_Log_PlayerWatchTowerBuilt>{0} terminó una torre de vigía en la casilla {1}.</TSA_WD_Log_PlayerWatchTowerBuilt>
+  <TSA_WD_PlayerWatchTower_Inspect_Los>Visión: {0} / {1} casillas (LOS / percepción)</TSA_WD_PlayerWatchTower_Inspect_Los>
+  <TSA_WD_PlayerWatchTower_Inspect_BuiltBy>Construida desde {0}</TSA_WD_PlayerWatchTower_Inspect_BuiltBy>
+  <TSA_WD_PlayerWatchTower_Log_DestroyedBy>{0} destruida por {1}.</TSA_WD_PlayerWatchTower_Log_DestroyedBy>
+  <TSA_WD_PlayerWatchTower_Log_Destroyed>{0} destruida.</TSA_WD_PlayerWatchTower_Log_Destroyed>
   <TSA_WD_CancelAT_Turret>Cancelar AT Turret</TSA_WD_CancelAT_Turret>
   <TSA_WD_CancelAT_TurretDesc>Aborta el proyecto de AT Turret y destruye cualquier cuadrilla en ruta. Sin reembolso de fuerza.</TSA_WD_CancelAT_TurretDesc>
   <TSA_WD_AT_TurretCancelled>Proyecto de AT Turret en {0} cancelado.</TSA_WD_AT_TurretCancelled>

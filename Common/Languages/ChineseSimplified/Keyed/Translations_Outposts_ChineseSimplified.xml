@@ -324,7 +324,7 @@
   <TSA_WD_ClearRoadBlocks>移除路障</TSA_WD_ClearRoadBlocks>
   <TSA_WD_ClearRoadBlocksDesc>移除现有路障。</TSA_WD_ClearRoadBlocksDesc>
   <TSA_WD_RemoveFortifications>移除设防</TSA_WD_RemoveFortifications>
-  <TSA_WD_RemoveFortificationsDesc>派出施工队沿路径移除路障、刺钉陷阱或 AT 炮塔。可点击任意可通行地块；实际作业只会落在已有设防的地块上。</TSA_WD_RemoveFortificationsDesc>
+  <TSA_WD_RemoveFortificationsDesc>派出施工队沿路径移除路障、刺钉陷阱、AT 炮塔或瞭望塔。可点击任意可通行地块；实际作业只会落在已有设防的地块上。</TSA_WD_RemoveFortificationsDesc>
   <TSA_WD_RemoveRoads>移除道路</TSA_WD_RemoveRoads>
   <TSA_WD_RemoveRoadsDesc>派出施工队沿路径移除现有道路。每段耗时与修建土路相同，与道路类型无关。\n\n按住Shift点击放置路径点；不按Shift点击以设定最终目的地。</TSA_WD_RemoveRoadsDesc>
   <TSA_WD_RemoveRoadsStatus>正在向"{0}"移除道路\n进度:{1}%</TSA_WD_RemoveRoadsStatus>
@@ -1740,6 +1740,7 @@
   <TSA_WD_OutpostUpgrades_BenefitTileFertility>+{0}% 肥力</TSA_WD_OutpostUpgrades_BenefitTileFertility>
   <TSA_WD_OutpostUpgrades_BenefitTileMining>+{0}% 采矿效率</TSA_WD_OutpostUpgrades_BenefitTileMining>
   <TSA_WD_OutpostUpgrades_BenefitTileAnimals>+{0}% 动物丰度</TSA_WD_OutpostUpgrades_BenefitTileAnimals>
+  <TSA_WD_OutpostUpgrades_BenefitLosBonus>+{0} 战争迷雾视野</TSA_WD_OutpostUpgrades_BenefitLosBonus>
   <TSA_WD_OutpostUpgrades_BenefitTileFish>+{0}% 鱼类储量</TSA_WD_OutpostUpgrades_BenefitTileFish>
   <TSA_WD_OutpostUpgrades_BenefitMortarDamage>+{0} 迫击炮炮弹强度</TSA_WD_OutpostUpgrades_BenefitMortarDamage>
   <TSA_WD_OutpostUpgrades_BenefitMortarHit>+{0}% 迫击炮命中率</TSA_WD_OutpostUpgrades_BenefitMortarHit>
@@ -2246,6 +2247,21 @@
   <TSA_WD_BuildSpikeTrapsDesc>在世界格上修建刺钉陷阱。敌对地面旅行者离开陷阱格时会损失实力；陷阱会被摧毁。友好与中立旅行者不受影响。单个旅行者只能触发有限次数。</TSA_WD_BuildSpikeTrapsDesc>
   <TSA_WD_BuildAT_Turret>修建炮塔</TSA_WD_BuildAT_Turret>
   <TSA_WD_BuildAT_TurretDesc>在世界地块上建造 AT 炮塔。它们会射击经过的敌对地面商队。可配置要攻击的目标。</TSA_WD_BuildAT_TurretDesc>
+  <TSA_WD_BuildPlayerWatchTower>建造瞭望塔</TSA_WD_BuildPlayerWatchTower>
+  <TSA_WD_CancelPlayerWatchTower>取消瞭望塔</TSA_WD_CancelPlayerWatchTower>
+  <TSA_WD_CancelPlayerWatchTowerDesc>中止瞭望塔工程并摧毁已派出的施工队。不退还力量。</TSA_WD_CancelPlayerWatchTowerDesc>
+  <TSA_WD_PlayerWatchTowerCancelled>{0} 的瞭望塔工程已取消。</TSA_WD_PlayerWatchTowerCancelled>
+  <TSA_WD_PlayerWatchTowerTooltip>侦察周围 {0} 格半径。消耗 {1} 力量。每座约 {2} 天（建造技能）。</TSA_WD_PlayerWatchTowerTooltip>
+  <TSA_WD_PlayerWatchTowerTooltip_NoStrength>侦察周围 {0} 格半径。每座约 {1} 天（建造技能）。殖民地建造不消耗力量。</TSA_WD_PlayerWatchTowerTooltip_NoStrength>
+  <TSA_WD_PlayerWatchTower_TargetPrompt>点击范围内的地块放置瞭望塔。按住 Shift 可连续排队。</TSA_WD_PlayerWatchTower_TargetPrompt>
+  <TSA_WD_PlayerWatchTower_InvalidTile>无法在该地块建造瞭望塔。</TSA_WD_PlayerWatchTower_InvalidTile>
+  <TSA_WD_PlayerWatchTower_TargetSet>已设定瞭望塔工程（{0} 个地块）。</TSA_WD_PlayerWatchTower_TargetSet>
+  <TSA_WD_Inspect_PlayerWatchTowerStatus>瞭望塔：{0}% → {1}</TSA_WD_Inspect_PlayerWatchTowerStatus>
+  <TSA_WD_Log_PlayerWatchTowerBuilt>{0} 在地块 {1} 建成瞭望塔。</TSA_WD_Log_PlayerWatchTowerBuilt>
+  <TSA_WD_PlayerWatchTower_Inspect_Los>视野：{0} / {1} 格（视线 / 感知）</TSA_WD_PlayerWatchTower_Inspect_Los>
+  <TSA_WD_PlayerWatchTower_Inspect_BuiltBy>建造自 {0}</TSA_WD_PlayerWatchTower_Inspect_BuiltBy>
+  <TSA_WD_PlayerWatchTower_Log_DestroyedBy>{0} 被 {1} 摧毁。</TSA_WD_PlayerWatchTower_Log_DestroyedBy>
+  <TSA_WD_PlayerWatchTower_Log_Destroyed>{0} 已摧毁。</TSA_WD_PlayerWatchTower_Log_Destroyed>
   <TSA_WD_CancelAT_Turret>取消 AT 炮塔</TSA_WD_CancelAT_Turret>
   <TSA_WD_CancelAT_TurretDesc>中止 AT 炮塔工程并摧毁已出发的车队。不退还实力。</TSA_WD_CancelAT_TurretDesc>
   <TSA_WD_AT_TurretCancelled>{0} 的 AT 炮塔工程已取消。</TSA_WD_AT_TurretCancelled>

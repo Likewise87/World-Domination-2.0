@@ -170,34 +170,34 @@ namespace TSA_WorldDomination
                 FullWidth = true
             };
 
-            float hunch = WorldComponent_SettlementIntel.GetHunchRadius(observer);
+            float awareness = WorldComponent_SettlementIntel.GetAwarenessRadius(observer);
             float los = WorldComponent_SettlementIntel.GetLosRadius(observer);
-            string medStr = WorldComponent_SettlementIntel.GetHunchSpotMinTravelerStrength().ToString("F0");
+            string medStr = WorldComponent_SettlementIntel.GetAwarenessSpotMinTravelerStrength().ToString("F0");
             var seth = WorldDominationMod.settings;
 
             if (WorldComponent_SettlementIntel.IsPlayerColonyObserver(observer))
             {
                 int pawns = WorldComponent_SettlementIntel.GetPlayerColonySightPawnCount(observer);
                 float losPer = WorldComponent_SettlementIntel.GetPlayerSightLosPerPawn(seth);
-                float hunchPer = WorldComponent_SettlementIntel.GetPlayerSightHunchPerPawn(seth);
+                float awarenessPer = WorldComponent_SettlementIntel.GetPlayerSightAwarenessPerPawn(seth);
                 AddRow(section,
                     "TSA_WD_SettlementIntel_Row_SightPawns".Translate().ToString(),
                     pawns.ToString(),
                     "TSA_WD_SettlementIntel_Row_SightPawnsTip".Translate(
                         losPer.ToString("F1"),
-                        hunchPer.ToString("F1")).ToString());
+                        awarenessPer.ToString("F1")).ToString());
                 AddRow(section,
                     "TSA_WD_SettlementIntel_Row_PerPawnLos".Translate().ToString(),
                     losPer.ToString("F1"),
                     "TSA_WD_SettlementIntel_Row_SightPawnsTip".Translate(
                         losPer.ToString("F1"),
-                        hunchPer.ToString("F1")).ToString());
+                        awarenessPer.ToString("F1")).ToString());
                 AddRow(section,
-                    "TSA_WD_SettlementIntel_Row_PerPawnHunch".Translate().ToString(),
-                    hunchPer.ToString("F1"),
+                    "TSA_WD_SettlementIntel_Row_PerPawnAwareness".Translate().ToString(),
+                    awarenessPer.ToString("F1"),
                     "TSA_WD_SettlementIntel_Row_SightPawnsTip".Translate(
                         losPer.ToString("F1"),
-                        hunchPer.ToString("F1")).ToString());
+                        awarenessPer.ToString("F1")).ToString());
             }
             else
             {
@@ -213,9 +213,9 @@ namespace TSA_WorldDomination
                 los.ToString("F1"),
                 "TSA_WD_SettlementIntel_Row_LosTip".Translate().ToString());
             AddRow(section,
-                "TSA_WD_SettlementIntel_Row_Hunch".Translate().ToString(),
-                hunch.ToString("F1"),
-                "TSA_WD_SettlementIntel_Row_HunchTip".Translate(medStr).ToString());
+                "TSA_WD_SettlementIntel_Row_Awareness".Translate().ToString(),
+                awareness.ToString("F1"),
+                "TSA_WD_SettlementIntel_Row_AwarenessTip".Translate(medStr).ToString());
             return section;
         }
 
@@ -328,7 +328,7 @@ namespace TSA_WorldDomination
                 WorldObject_Traveler t = live[i];
                 if (t == null || t.Destroyed) continue;
                 if (t.Faction != null && t.Faction == owner) continue;
-                float d = WorldActions_Utils.GetDistance(observer.Tile, t.Tile, manager);
+                float d = WorldActions_Utils.GetDistanceUncached(observer.Tile, t.Tile);
                 float sight = WorldComponent_SettlementIntel.GetSightRange(observer, t);
                 if (d > 1f && d > sight) continue;
                 if (d > maxLos && d > 1f) continue;
@@ -366,7 +366,7 @@ namespace TSA_WorldDomination
                     if (c.Faction != null && c.Faction == owner) continue;
                     // Only player caravans (real pawns); NPC mobiles are WD travelers.
                     if (c.Faction?.IsPlayer != true) continue;
-                    float d = WorldActions_Utils.GetDistance(observer.Tile, c.Tile, manager);
+                    float d = WorldActions_Utils.GetDistanceUncached(observer.Tile, c.Tile);
                     float caravanSight = maxLos;
                     if (d > 1f && d > caravanSight) continue;
 

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_77_Title>Rendimiento de niebla de guerra, atalaya y corrección</TSA_WD_Update_2_3_77_Title>
+  <TSA_WD_Update_2_3_77_Body><![CDATA[
+<size=16><b>2.3.77 - Rendimiento de niebla de guerra, atalaya y corrección</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 23 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Más trabajo en la lógica de niebla de guerra debería reducir mucho el lag con la función activa.\n
+• Nueva función: ahora puedes construir una Atalaya que da línea de visión. Las mejoras de Atalaya de las avanzadas de caza también dan bonos de línea de visión (es probable rehacerlas más adelante para que algunas mejoras de avanzada sean objetos físicos en el mapa mundial).\n
+• Corrección: al permitir que todas las avanzadas guarden cualquier objeto, pasaron a ser puntos de partida válidos para caravanas de mejora de avanzada, soborno y compra de asentamiento. Esas caravanas vuelven a salir del almacén más cercano o de la colonia, como se pretendía.\n
+• Corrección: los vehículos de Vehicle Framework no se beneficiaban de las Glitter Roads de WD. Ahora sí.\n
+• Nueva función: las caravanas de WD intentan evitar trampas y no cruzar asentamientos/avanzadas hostiles en un radio pequeño. Se logra subiendo la dificultad de movimiento percibida de las casillas con trampas y asentamientos para que el pathfinding las rodee en general. Usa bloqueos de carretera (incluso en varias capas) para endurecer las casillas alrededor y que aún puedan cruzar trampas o pasar por tu avanzada de respuesta rápida y activar una defensa.\n
+• Texto: "Hunch" pasa a llamarse alcance de percepción. La línea de visión es el anillo interior claro: casillas claras, iconos brillantes y detectas todo. El alcance de percepción es el anillo exterior: casillas grises e iconos tenues; solo asentamientos T3+ y caravanas WD más fuertes se detectan ahí (los sitios T2 siguen necesitando línea de visión).\n
+]]></TSA_WD_Update_2_3_77_Body>
   <TSA_WD_Update_2_3_76_Title>Niebla de guerra y más</TSA_WD_Update_2_3_76_Title>
   <TSA_WD_Update_2_3_76_Body><![CDATA[
 <size=16><b>2.3.76 - Niebla de guerra y más</b></size>\n
@@ -10,7 +23,7 @@
 • Nueva función: niebla de guerra completa. El mapa mundial empieza totalmente negro. Tanto tú como las facciones PNJ deben explorarlo. Solo puedes interactuar y atacar lo que ves. Asentamientos y avanzadas tienen distinta línea de visión. El menú "Build" pasa a "Build & Scout" para enviar caravanas de exploración (un poco más rápidas, algo más de LOS, intentan evitar trampas conocidas al despacharlas). Varios waypoints. Vida máxima: 2 días.\n
 • Interruptor general en la página principal de ajustes de WD si no te gusta. Ajusta detalles en la pestaña "Intel".\n
 • La niebla de guerra cambia mucho el equilibrio. Se recomienda reiniciar todos los ajustes del mod. Al haber menos combates hasta que los enemigos se encuentren, se ralentizaron mejoras de nivel de asentamiento y el ritmo similar.\n
-• Todo asentamiento y caravana tiene línea de visión real (la verdad) y un radio de "hunch" ampliado. Las caravanas grandes y los asentamientos T3+ ya se ven en el hunch. Visualiza los rangos con el gizmo Line of Sight en el mapa mundial.\n
+• Todo asentamiento y caravana tiene línea de visión real más un alcance de percepción ampliado. Las caravanas grandes y los asentamientos T3+ ya se ven en el alcance de percepción. Visualiza los rangos con el gizmo Line of Sight en el mapa mundial.\n
 • El conocimiento es global: si una facción ve tu avanzada o caravana, cualquiera de esa facción lo sabe para siempre. En la pestaña Stats de tu avanzada o colonia, luego Intel, ves quién te conoce.\n
 • Nuevas misiones presentan estas mecánicas (p. ej. exploración). La facción neutral más cercana se revela tras 3 días de juego y te pide empezar a explorar, con buff de humor.\n
 • Reequilibrio de choques virtuales de caravanas en el mapa abierto. Usa su propia curva, no la matemática de ataques a asentamientos/avanzadas.\n

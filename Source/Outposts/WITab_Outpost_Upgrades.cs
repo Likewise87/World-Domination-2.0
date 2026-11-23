@@ -1052,39 +1052,17 @@ namespace TSA_WorldDomination
             return ColonyWorldBuildMaterials.GetContributingWarehouses();
         }
 
-        /// <summary>Origin for the symbolic upgrade caravan: nearest warehouse or colony, whichever is closer to the upgrading outpost.</summary>
+        /// <summary>Origin for the symbolic upgrade caravan: nearest real warehouse or colony (payment may still come from any armory).</summary>
         private static WorldObject ResolveUpgradeOrigin(
             WorldObject_WD_Outpost outpost,
             Map colonyMap,
             List<WorldObject_WD_Outpost> warehouses)
         {
-            if (outpost == null || Find.WorldGrid == null)
+            if (outpost == null)
                 return colonyMap?.Parent;
-
-            WorldObject nearestWh = FindNearestWarehouse(outpost.Tile, warehouses);
-            WorldObject colony = colonyMap?.Parent;
-            if (nearestWh == null) return colony;
-            if (colony == null) return nearestWh;
-
-            float dWh = Find.WorldGrid.ApproxDistanceInTiles(outpost.Tile, nearestWh.Tile);
-            float dCol = Find.WorldGrid.ApproxDistanceInTiles(outpost.Tile, colony.Tile);
-            return dWh <= dCol ? nearestWh : colony;
-        }
-
-        private static WorldObject_WD_Outpost FindNearestWarehouse(int outpostTile, List<WorldObject_WD_Outpost> warehouses)
-        {
-            if (warehouses == null || warehouses.Count == 0 || Find.WorldGrid == null) return null;
-            WorldObject_WD_Outpost nearest = null;
-            float bestDist = float.MaxValue;
-            for (int i = 0; i < warehouses.Count; i++)
-            {
-                if (warehouses[i] == null) continue;
-                // Do not ship from the outpost that is itself being upgraded.
-                if (warehouses[i].Tile == outpostTile) continue;
-                float d = Find.WorldGrid.ApproxDistanceInTiles(outpostTile, warehouses[i].Tile);
-                if (d < bestDist) { bestDist = d; nearest = warehouses[i]; }
-            }
-            return nearest;
+            // Exclude the upgrading site itself; only IsWarehouseOutpost sites compete with the colony.
+            return ColonyWorldBuildMaterials.ResolveWarehouseOrColonyOrigin(
+                outpost.Tile.tileId, colonyMap, warehouses, excludeTile: outpost.Tile.tileId);
         }
 
         public struct PurchaseCheck

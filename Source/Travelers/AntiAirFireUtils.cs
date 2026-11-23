@@ -161,9 +161,7 @@ namespace TSA_WorldDomination
                     || BallisticArcComesWithinRange(aaTile, originTile, destTile, aaRange);
                 if (!threatens) continue;
 
-                float dist = manager != null
-                    ? WorldActions_Utils.GetDistance(originTile, aaTile, manager)
-                    : Find.WorldGrid.ApproxDistanceInTiles(originTile, aaTile);
+                float dist = WorldActions_Utils.GetDistanceUncached(originTile, aaTile);
                 scored.Add((turret, dist));
             }
 
@@ -1012,9 +1010,7 @@ namespace TSA_WorldDomination
         private static bool TileWithin(WorldComponent_SpreadManager manager, int fromTile, int toTile, float range)
         {
             if (fromTile < 0 || toTile < 0) return false;
-            float dist = manager != null
-                ? WorldActions_Utils.GetDistance(fromTile, toTile, manager)
-                : Find.WorldGrid.ApproxDistanceInTiles(fromTile, toTile);
+            float dist = WorldActions_Utils.GetDistanceUncached(fromTile, toTile);
             return dist <= range;
         }
 

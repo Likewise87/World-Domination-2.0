@@ -43,6 +43,8 @@ namespace TSA_WorldDomination
                 yield return g;
             foreach (var g in Action_Outpost_AtTurrets.GetGizmos(outpost))
                 yield return g;
+            foreach (var g in Action_Outpost_WatchTower.GetGizmos(outpost))
+                yield return g;
             foreach (var g in Action_Outpost_Decontamination.GetGizmos(outpost))
                 yield return g;
             foreach (var g in WorldActions_PlayerScout.GetGizmos(outpost))
@@ -75,6 +77,8 @@ namespace TSA_WorldDomination
             foreach (var g in Action_Outpost_SpikeTraps.GetGizmos(colony))
                 yield return g;
             foreach (var g in Action_Outpost_AtTurrets.GetGizmos(colony))
+                yield return g;
+            foreach (var g in Action_Outpost_WatchTower.GetGizmos(colony))
                 yield return g;
             foreach (var g in WorldActions_PlayerScout.GetGizmos(colony))
                 yield return g;
@@ -155,6 +159,18 @@ namespace TSA_WorldDomination
                 var buildTurrets = Action_Outpost_AtTurrets.MakeBuildAtTurretMenuOption(outpost, comp);
                 buildTurrets.orderInPriority = 280;
                 list.Add(buildTurrets);
+            }
+
+            // Player Watch Tower (FoW LOS post). Only when Settlement Intel / FoW is enabled.
+            if (WorldComponent_SettlementIntel.IsGateConfigured()
+                && WorldActions_WatchTowers.WatchTowerDef != null)
+            {
+                var buildWatch = Action_Outpost_WatchTower.MakeBuildMenuOption(outpost, comp);
+                if (buildWatch != null)
+                {
+                    buildWatch.orderInPriority = 275;
+                    list.Add(buildWatch);
+                }
             }
 
             if (blocks || traps)

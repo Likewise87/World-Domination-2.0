@@ -216,11 +216,11 @@ namespace TSA_WorldDomination
                 yield return g;
         }
 
-        private static IEnumerable<Gizmo> GetSightFor(WorldObject worldObject, WD_RadiusOverlayCategory category)
+        public static IEnumerable<Gizmo> GetSightFor(WorldObject worldObject, WD_RadiusOverlayCategory category)
         {
             if (!WorldComponent_SettlementIntel.IsGateConfigured()) yield break;
-            float hunch = WorldComponent_SettlementIntel.GetHunchRadius(worldObject);
-            if (hunch <= 0f) yield break;
+            float awareness = WorldComponent_SettlementIntel.GetAwarenessRadius(worldObject);
+            if (awareness <= 0f) yield break;
             float los = WorldComponent_SettlementIntel.GetLosRadius(worldObject);
             bool playerOwned = worldObject.Faction?.IsPlayer == true;
             bool colony = WorldComponent_SettlementIntel.IsPlayerColonyObserver(worldObject);
@@ -229,8 +229,8 @@ namespace TSA_WorldDomination
                 : playerOwned
                     ? "TSA_WD_Gizmo_ShowSightRadiusDescPlayer"
                     : "TSA_WD_Gizmo_ShowSightRadiusDesc";
-            // rangeLabel packs LOS|Hunch so GetCachedDesc can Translate both (see BuildSightRangeLabel).
-            string rangeLabel = BuildSightRangeLabel(los, hunch);
+            // rangeLabel packs LOS|Awareness so GetCachedDesc can Translate both (see BuildSightRangeLabel).
+            string rangeLabel = BuildSightRangeLabel(los, awareness);
             yield return MakeToggle(
                 category,
                 WD_RadiusOverlayKind.Sight,
@@ -241,12 +241,12 @@ namespace TSA_WorldDomination
                 ref cachedSightOff,
                 "UI/Commands/View",
                 TexCommand.Attack,
-                AppendSightLosBandsLegend(los, hunch, worldObject),
+                AppendSightLosBandsLegend(los, awareness, worldObject),
                 WorldOverlayLineMaterials.SightGoldColor);
         }
 
-        private static string BuildSightRangeLabel(float los, float hunch) =>
-            los.ToString("F0") + "\u001f" + hunch.ToString("F0");
+        private static string BuildSightRangeLabel(float los, float awareness) =>
+            los.ToString("F0") + "\u001f" + awareness.ToString("F0");
 
         public static IEnumerable<Gizmo> GetForAtTurret(WorldObject_AT_Turret turret)
         {
@@ -364,9 +364,9 @@ namespace TSA_WorldDomination
             {
                 string[] parts = rangeLabel.Split('\u001f');
                 string los = parts.Length > 0 ? parts[0] : "0";
-                string hunch = parts.Length > 1 ? parts[1] : "0";
-                string medStr = WorldComponent_SettlementIntel.GetHunchSpotMinTravelerStrength().ToString("F0");
-                desc = descKey.Translate(los, hunch, medStr).ToString();
+                string awareness = parts.Length > 1 ? parts[1] : "0";
+                string medStr = WorldComponent_SettlementIntel.GetAwarenessSpotMinTravelerStrength().ToString("F0");
+                desc = descKey.Translate(los, awareness, medStr).ToString();
             }
             else
             {
@@ -467,19 +467,19 @@ namespace TSA_WorldDomination
                 FormatHitPct(band0), FormatHitPct(band1), FormatHitPct(band2));
         }
 
-        private static string AppendSightLosBandsLegend(float los, float hunch, WorldObject worldObject)
+        private static string AppendSightLosBandsLegend(float los, float awareness, WorldObject worldObject)
         {
-            string medStr = WorldComponent_SettlementIntel.GetHunchSpotMinTravelerStrength().ToString("F0");
+            string medStr = WorldComponent_SettlementIntel.GetAwarenessSpotMinTravelerStrength().ToString("F0");
             var seth = WorldDominationMod.settings;
             string scaleTip;
             if (WorldComponent_SettlementIntel.IsPlayerColonyObserver(worldObject)
                 || worldObject is WorldObject_WD_Outpost)
             {
-                float hunchPer = WorldComponent_SettlementIntel.GetPlayerSightHunchPerPawn(seth);
+                float awarenessPer = WorldComponent_SettlementIntel.GetPlayerSightAwarenessPerPawn(seth);
                 float losPer = WorldComponent_SettlementIntel.GetPlayerSightLosPerPawn(seth);
                 scaleTip = "TSA_WD_Gizmo_SightScale_Pawns".Translate(
                     losPer.ToString("F1"),
-                    hunchPer.ToString("F1")).ToString();
+                    awarenessPer.ToString("F1")).ToString();
             }
             else if (worldObject is Caravan
                 || WorldComponent_SettlementIntel.IsAirborneFowObserver(worldObject)
@@ -494,7 +494,7 @@ namespace TSA_WorldDomination
 
             return "\n\n" + "TSA_WD_Gizmo_SightRadiusBandsLegend".Translate(
                 los.ToString("F0"),
-                hunch.ToString("F0"),
+                awareness.ToString("F0"),
                 medStr)
                 + "\n\n" + scaleTip;
         }

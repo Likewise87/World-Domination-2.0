@@ -35,12 +35,62 @@ namespace TSA_WorldDomination
         private readonly Dictionary<int, float> cachedSettlementMaxLos = new Dictionary<int, float>();
         private int cachedMaxLosDay = -1;
 
+        // Player colony / outpost ID -> MaxLOS (pawn-count driven, so short TTL instead of the day cache).
+        private readonly Dictionary<int, float> liveSightRadiusCache = new Dictionary<int, float>();
+        private int liveSightRadiusCacheTick = -99999;
+        private const int LiveSightRadiusCacheTtlTicks = 250;
+
+        private WorldComponent_SpreadManager spreadManagerCached;
+        /// <summary>Same-world SpreadManager, resolved once (component list scan is too slow for per-hop paths).</summary>
+        private WorldComponent_SpreadManager Manager =>
+            spreadManagerCached ??= world?.GetComponent<WorldComponent_SpreadManager>();
+
+        private static WorldComponent_SettlementIntel cachedInstance;
+
         // FoW view draw cache (hide/dim). Rebuilt on Version / view faction / short tick interval.
         private readonly HashSet<int> fowHiddenIds = new HashSet<int>();
         private readonly HashSet<int> fowDimIds = new HashSet<int>();
+        /// <summary>Observers for non-view sight queries; memoized per (faction, tick, frame).</summary>
         private readonly List<WorldObject> fowObserverScratch = new List<WorldObject>();
-        /// <summary>Separate from <see cref="fowObserverScratch"/> so sight queries cannot clear the draw rebuild list mid-loop.</summary>
-        private readonly List<WorldObject> fowDrawObserverScratch = new List<WorldObject>();
+        private int sightObserverMemoFactionId = int.MinValue;
+        private int sightObserverMemoTick = -1;
+        private int sightObserverMemoFrame = -1;
+        /// <summary>Faction loadIDs that already know the traveler being processed by the hop pass.</summary>
+        private readonly HashSet<int> travelerKnowerScratch = new HashSet<int>();
+
+        // Hop-pass angular cull: per settlement (same order as the world list at build time) its unit
+        // direction and cos(sight angle). One dot product rejects a far settlement before any lookup.
+        private readonly List<Settlement> hopCullSites = new List<Settlement>(256);
+        private readonly List<Vector3> hopCullDirs = new List<Vector3>(256);
+        private readonly List<float> hopCullMinDot = new List<float>(256);
+        private bool hopCullDirty = true;
+        private int hopCullTilesCount = -1;
+        /// <summary>Arc (radians) per tile of ApproxDistanceInTiles; 0 = calibration failed, cull off.</summary>
+        private float hopCullRadPerTile;
+        private const float HopCullNever = -2f;
+        private const float HopCullAlways = 2f;
+
+        // Daily LOS pass, drained a few observers per tick (each observer is independent and idempotent).
+        private readonly List<WorldObject> dailyLosQueue = new List<WorldObject>(512);
+        private int dailyLosCursor;
+        private DailyWorldSnapshot dailyLosSnap;
+        private const int DailyLosObserversPerTick = 16;
+
+        // Verbose-only timing, reported once per day when the daily LOS pass finishes.
+        private long perfHopTicks;
+        private int perfHopCalls;
+        private long perfHopSitesSeen;
+        private long perfHopSitesCulled;
+        private long perfIconTicks;
+        private int perfIconRebuilds;
+        private long perfDailyTicks;
+        private int perfDailySlices;
+
+        /// <summary>
+        /// Bumped only by knowledge changes of the current FoW view faction (plus load / bootstrap):
+        /// another faction's discovery cannot change what the view's icons show.
+        /// </summary>
+        private int iconVersion;
         private int fowCacheVersion = -1;
         private int fowCacheTick = -999;
         private int fowCacheViewFactionId = int.MinValue;
@@ -75,15 +125,67 @@ namespace TSA_WorldDomination
 
         public WorldComponent_SettlementIntel(World world) : base(world) { }
 
-        public static WorldComponent_SettlementIntel Get() =>
-            Find.World?.GetComponent<WorldComponent_SettlementIntel>();
+        public static WorldComponent_SettlementIntel Get()
+        {
+            World w = Find.World;
+            if (w == null) return null;
+            WorldComponent_SettlementIntel c = cachedInstance;
+            if (c != null && c.world == w) return c;
+            c = w.GetComponent<WorldComponent_SettlementIntel>();
+            cachedInstance = c;
+            return c;
+        }
+
+        private static bool PerfLogging =>
+            WorldDominationMod.settings != null && WorldDominationMod.settings.verboseLogging;
+
+        private static double PerfMs(long stopwatchTicks) =>
+            stopwatchTicks * 1000.0 / System.Diagnostics.Stopwatch.Frequency;
+
+        /// <summary>
+        /// One distance per pair for intel / FoW paths: the same rounded tile distance
+        /// <see cref="WorldActions_Utils.GetDistance(int, int, WorldComponent_SpreadManager)"/> returns, without
+        /// writing the saved distanceCache (mobile tiles would evict the stable settlement pairs).
+        /// </summary>
+        internal static int TileDistance(WorldGrid grid, int tileA, int tileB)
+        {
+            if (tileA == tileB) return 0;
+            return Mathf.RoundToInt(grid.ApproxDistanceInTiles(tileA, tileB));
+        }
+
+        /// <summary>Discover radius from an observer Awareness: full Awareness for Awareness-spottable targets, else LOS.</summary>
+        private static float SightRangeFor(float observerAwareness, float losFrac, bool targetAwarenessSpottable)
+        {
+            if (observerAwareness <= 0f) return 0f;
+            return targetAwarenessSpottable ? observerAwareness : observerAwareness * losFrac;
+        }
+
+        private HashSet<int> GetOrCreateKnownSiteSet(Faction faction)
+        {
+            if (!knownSites.TryGetValue(faction.loadID, out var set) || set == null)
+            {
+                set = new HashSet<int>();
+                knownSites[faction.loadID] = set;
+            }
+            return set;
+        }
+
+        private HashSet<int> GetOrCreateKnownTravelerSet(Faction faction)
+        {
+            if (!knownTravelers.TryGetValue(faction.loadID, out var set) || set == null)
+            {
+                set = new HashSet<int>();
+                knownTravelers[faction.loadID] = set;
+            }
+            return set;
+        }
 
         /// <summary>Raid-logic fog active (kill switch on + stage gate passed).</summary>
         public static bool IsActive(WorldComponent_SpreadManager manager = null)
         {
             if (!IsGateConfigured()) return false;
             var seth = WorldDominationMod.settings;
-            manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            manager ??= Get()?.Manager;
             return WdEscalation.PassesGate(seth.gateSettlementIntel, manager);
         }
 
@@ -114,6 +216,7 @@ namespace TSA_WorldDomination
             if (fromLoad)
                 PruneDestroyed();
             Version++;
+            iconVersion++;
         }
 
         public override void WorldComponentTick()
@@ -122,7 +225,7 @@ namespace TSA_WorldDomination
             WdFowDraw.ClearIfGateOff();
             if (!IsTracking()) return;
 
-            var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
+            var manager = Manager;
             var stage = WdEscalation.GetCachedStage(manager);
             if (!bootstrappedThisSession || stage != lastSeenStage)
             {
@@ -140,6 +243,8 @@ namespace TSA_WorldDomination
             if (Find.TickManager.TicksGame % 60000 == 250)
                 PruneDestroyed();
 
+            ProcessDailyLosQueue(DailyLosObserversPerTick);
+
             if (WdFowDraw.IsActive)
             {
                 if (!fowDrawPrimed)
@@ -150,8 +255,14 @@ namespace TSA_WorldDomination
                     WD_WorldLayer_FowBlackout.EnsureRegistered();
                     NotifyTileFowViewChanged();
                 }
+                // Periodic observer diff (cheap: only moved / resized / vanished observers re-flood).
+                // Catches own units that left the world or changed pawn count without a notify.
+                if (Find.TickManager.TicksGame % FowCacheIntervalTicks == 0)
+                    TileFow.MarkVisibleStructureDirty();
+                // Sight disks first: the icon hide/dim rebuild reads their tile bits.
+                if (TileFow.EnsureVisibleCacheFresh())
+                    InvalidateFowDrawCache();
                 EnsureFowDrawCacheFresh();
-                TileFow.EnsureVisibleCacheFresh();
                 if (Find.TickManager.TicksGame % 60 == 0)
                     TickMobileCaravanAndAirborneFowReveal();
             }
@@ -318,6 +429,7 @@ namespace TSA_WorldDomination
                 if (target is WorldObject_WD_Outpost)
                     stickyOutpostIds.Add(target.ID);
                 Version++;
+                BumpIconVersionIfView(faction);
                 LogDiscovery(faction, target, observer);
             }
         }
@@ -334,8 +446,16 @@ namespace TSA_WorldDomination
             if (set.Add(traveler.intelTrackId))
             {
                 Version++;
+                BumpIconVersionIfView(faction);
                 LogDiscovery(faction, traveler, observer);
             }
+        }
+
+        /// <summary>Icon hide/dim only depends on what the FoW view faction knows.</summary>
+        private void BumpIconVersionIfView(Faction faction)
+        {
+            if (faction == WdFowDraw.EffectiveViewFaction)
+                iconVersion++;
         }
 
         private void LogDiscovery(Faction faction, WorldObject target, WorldObject observer)
@@ -354,7 +474,7 @@ namespace TSA_WorldDomination
             // Player Action Log only for player discoveries — NPC mutual Discover must not dump foreign names.
             if (faction.IsPlayer)
             {
-                var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+                var manager = Manager;
                 if (manager != null)
                 {
                     SpreadLogEntry entry = actor != null
@@ -378,6 +498,7 @@ namespace TSA_WorldDomination
                 kv.Value?.Remove(id);
             stickyOutpostIds.Remove(id);
             Version++;
+            iconVersion++;
         }
 
         public void Forget(Faction faction, WorldObject target)
@@ -388,6 +509,7 @@ namespace TSA_WorldDomination
             if (target is WorldObject_WD_Outpost && !AnyFactionKnowsSite(target.ID))
                 stickyOutpostIds.Remove(target.ID);
             Version++;
+            BumpIconVersionIfView(faction);
         }
 
         private bool AnyFactionKnowsSite(int siteId)
@@ -413,6 +535,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < remove.Count; i++)
                 gotBurnedUntilTick.Remove(remove[i]);
             Version++;
+            iconVersion++;
         }
 
         /// <summary>Stamp a scout destination/arrival tile for faction-shared revisit memory.</summary>
@@ -582,13 +705,29 @@ namespace TSA_WorldDomination
             return false;
         }
 
-        /// <summary>Public for mortar / combat gates: target in current LOS of any observer of <paramref name="faction"/>.</summary>
+        /// <summary>
+        /// Public for mortar / combat gates: target inside the current Awareness disk of any observer of <paramref name="faction"/>.
+        /// FoW view faction: O(1) tile-bit read. Other factions: observer loop with the same ApproxDistance test,
+        /// observers collected once per (faction, tick).
+        /// </summary>
         public bool IsInCurrentSightOfFaction(Faction faction, WorldObject target)
         {
             if (faction == null || target == null || target.Destroyed) return false;
-            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            CollectFowObservers(faction, manager, fowObserverScratch);
-            return IsInCurrentSightOfAnyObserver(target, fowObserverScratch, manager);
+            if (TileFow.TryGetViewAwareness(faction, target.Tile.tileId, out bool inAwareness))
+                return inAwareness;
+
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            int frame = Time.frameCount;
+            if (sightObserverMemoFactionId != faction.loadID
+                || sightObserverMemoTick != tick
+                || sightObserverMemoFrame != frame)
+            {
+                CollectFowObservers(faction, Manager, fowObserverScratch);
+                sightObserverMemoFactionId = faction.loadID;
+                sightObserverMemoTick = tick;
+                sightObserverMemoFrame = frame;
+            }
+            return IsInCurrentSightOfAnyObserver(target, fowObserverScratch);
         }
 
         // --- Faction FoW view (View intel as) ---
@@ -672,58 +811,71 @@ namespace TSA_WorldDomination
             Faction view = WdFowDraw.EffectiveViewFaction;
             int tick = Find.TickManager?.TicksGame ?? 0;
             int viewId = view?.loadID ?? int.MinValue;
-            if (fowCacheVersion == Version
+            if (fowCacheVersion == iconVersion
                 && fowCacheViewFactionId == viewId
                 && tick - fowCacheTick >= 0
                 && tick - fowCacheTick < FowCacheIntervalTicks)
                 return;
 
-            fowCacheVersion = Version;
+            fowCacheVersion = iconVersion;
             fowCacheTick = tick;
             fowCacheViewFactionId = viewId;
             RebuildFowDrawCache(view);
         }
 
+        /// <summary>
+        /// Icon hide/dim for the view faction. O(targets): each target reads the view's tile sight bits
+        /// (kept fresh by <see cref="WdFowTileMemory.EnsureVisibleCacheFresh"/>); no per-target observer loops.
+        /// </summary>
         private void RebuildFowDrawCache(Faction view)
         {
             fowHiddenIds.Clear();
             fowDimIds.Clear();
             if (view == null) return;
 
-            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            CollectFowObservers(view, manager, fowDrawObserverScratch);
-            List<WorldObject> observers = fowDrawObserverScratch;
+            bool perf = PerfLogging;
+            long perfStart = perf ? System.Diagnostics.Stopwatch.GetTimestamp() : 0L;
 
             var worldObjects = Find.WorldObjects;
             if (worldObjects?.Settlements != null)
             {
                 List<Settlement> settlements = worldObjects.Settlements;
                 for (int i = 0; i < settlements.Count; i++)
-                    ClassifyFowTarget(view, settlements[i], observers, manager);
+                    ClassifyFowTarget(view, settlements[i]);
             }
 
             IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
             for (int i = 0; i < outposts.Count; i++)
-                ClassifyFowTarget(view, outposts[i], observers, manager);
+                ClassifyFowTarget(view, outposts[i]);
 
             IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
             if (ats != null)
             {
                 for (int i = 0; i < ats.Count; i++)
-                    ClassifyFowTarget(view, ats[i], observers, manager);
+                    ClassifyFowTarget(view, ats[i]);
             }
+
+            IReadOnlyList<WorldObject_WD_PlayerWatchTower> towers = WorldObject_WD_PlayerWatchTower.LiveTowers;
+            for (int i = 0; i < towers.Count; i++)
+                ClassifyFowTarget(view, towers[i]);
 
             var adv = WorldComponent_AdvancedBuildings.Get();
             IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = adv?.All;
             if (buildings != null)
             {
                 for (int i = 0; i < buildings.Count; i++)
-                    ClassifyFowTarget(view, buildings[i], observers, manager);
+                    ClassifyFowTarget(view, buildings[i]);
             }
 
             IReadOnlyList<WorldObject_Traveler> travelers = WorldObject_Traveler.LiveTravelers;
             for (int i = 0; i < travelers.Count; i++)
-                ClassifyFowTarget(view, travelers[i], observers, manager);
+                ClassifyFowTarget(view, travelers[i]);
+
+            if (perf)
+            {
+                perfIconTicks += System.Diagnostics.Stopwatch.GetTimestamp() - perfStart;
+                perfIconRebuilds++;
+            }
         }
 
         private static void CollectFowObservers(Faction view, WorldComponent_SpreadManager manager, List<WorldObject> observers)
@@ -743,20 +895,12 @@ namespace TSA_WorldDomination
                 }
             }
 
-            // Player colonies are not in SettlementsByFaction (IsWdParticipant excludes player).
+            // The player colony (singular) is not in SettlementsByFaction (IsWdParticipant excludes player).
             if (view.IsPlayer)
             {
-                List<Settlement> settlements = Find.WorldObjects?.Settlements;
-                if (settlements != null)
-                {
-                    for (int i = 0; i < settlements.Count; i++)
-                    {
-                        Settlement s = settlements[i];
-                        if (s == null || s.Destroyed || s.Faction != view || !s.HasMap) continue;
-                        if (!observers.Contains(s))
-                            observers.Add(s);
-                    }
-                }
+                Settlement colony = InfluenceUtils.GetPlayerColony();
+                if (colony != null && !colony.Destroyed && colony.HasMap && colony.Faction == view)
+                    observers.Add(colony);
 
                 IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
                 for (int i = 0; i < outposts.Count; i++)
@@ -787,6 +931,36 @@ namespace TSA_WorldDomination
                 observers.Add(t);
             }
 
+            // AT turrets (fire-range observers) + Watch Towers (fixed 10). Other adv buildings are targets only.
+            IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
+            for (int i = 0; i < ats.Count; i++)
+            {
+                WorldObject_AT_Turret at = ats[i];
+                if (at == null || at.Destroyed || at.Faction != view) continue;
+                observers.Add(at);
+            }
+
+            IReadOnlyList<WorldObject_WD_PlayerWatchTower> playerTowers = WorldObject_WD_PlayerWatchTower.LiveTowers;
+            for (int i = 0; i < playerTowers.Count; i++)
+            {
+                WorldObject_WD_PlayerWatchTower wt = playerTowers[i];
+                if (wt == null || wt.Destroyed || wt.Faction != view) continue;
+                observers.Add(wt);
+            }
+
+            var advReg = WorldComponent_AdvancedBuildings.Get();
+            if (advReg != null)
+            {
+                IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = advReg.All;
+                for (int i = 0; i < buildings.Count; i++)
+                {
+                    WorldObject_WD_AdvancedBuilding b = buildings[i];
+                    if (b == null || b.Destroyed || b.Faction != view) continue;
+                    if (!IsWatchTowerObserver(b)) continue;
+                    observers.Add(b);
+                }
+            }
+
             // Vanilla pods / Odyssey shuttle flight / VF AerialVehicleInFlight (AA registry).
             IReadOnlyCollection<WorldObject> airborne =
                 WorldComponent_InterceptionScheduler.Current?.ExternalAirborneTargets;
@@ -799,16 +973,14 @@ namespace TSA_WorldDomination
             }
         }
 
-        private void ClassifyFowTarget(
-            Faction view,
-            WorldObject wo,
-            List<WorldObject> observers,
-            WorldComponent_SpreadManager manager)
+        private void ClassifyFowTarget(Faction view, WorldObject wo)
         {
             if (wo == null || wo.Destroyed || !WdFowDraw.IsFowTarget(wo)) return;
 
-            // Travelers: bright in LOS; dim in Hunch; optional remain-visible → dim outside Hunch.
-            // Reuses observers already collected for this rebuild (avoids CanViewForFow re-collect).
+            // Bright / dim come from the same tile bits the fog is drawn from (LOS = clear, Awareness = shroud).
+            int tileId = wo.Tile.tileId;
+
+            // Travelers: bright in LOS; dim in Awareness; optional remain-visible → dim outside Awareness.
             if (wo is WorldObject_Traveler traveler)
             {
                 if (wo.Faction == view)
@@ -818,9 +990,9 @@ namespace TSA_WorldDomination
                     fowHiddenIds.Add(wo.ID);
                     return;
                 }
-                if (IsInCurrentLosOfAnyObserver(wo, observers, manager))
+                if (TileFow.IsTileVisibleBit(tileId))
                     return;
-                if (IsInCurrentSightOfAnyObserver(wo, observers, manager))
+                if (TileFow.IsTileInAwareness(tileId))
                 {
                     fowDimIds.Add(wo.ID);
                     return;
@@ -843,46 +1015,30 @@ namespace TSA_WorldDomination
             if (wo.Faction == view || IsAlwaysKnown(wo))
                 return;
 
-            // Known sites: bright in LOS; dim in Hunch or as memory outside Hunch.
-            if (!IsInCurrentLosOfAnyObserver(wo, observers, manager))
+            // Known sites: bright in LOS; dim in Awareness or as memory outside Awareness.
+            if (!TileFow.IsTileVisibleBit(tileId))
                 fowDimIds.Add(wo.ID);
         }
 
-        private static bool IsInCurrentSightOfAnyObserver(
-            WorldObject target,
-            List<WorldObject> observers,
-            WorldComponent_SpreadManager manager)
+        /// <summary>
+        /// Observer-loop sight for factions without tile bits (non-view factions, FoW draw off).
+        /// Same membership test as the view's Awareness disk (ApproxDistance ≤ Awareness), so both paths agree.
+        /// </summary>
+        private static bool IsInCurrentSightOfAnyObserver(WorldObject target, List<WorldObject> observers)
         {
             if (target == null || observers == null || observers.Count == 0) return false;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return false;
             int targetTile = target.Tile.tileId;
             for (int i = 0; i < observers.Count; i++)
             {
                 WorldObject obs = observers[i];
                 if (obs == null || obs.Destroyed) continue;
-                float d = WorldActions_Utils.GetDistance(obs.Tile.tileId, targetTile, manager);
-                if (d <= 1f) return true;
-                float range = GetHunchRadius(obs);
-                if (range > 0f && d <= range) return true;
-            }
-            return false;
-        }
-
-        /// <summary>True when any observer has clear line of sight (inner ring) to the target.</summary>
-        private static bool IsInCurrentLosOfAnyObserver(
-            WorldObject target,
-            List<WorldObject> observers,
-            WorldComponent_SpreadManager manager)
-        {
-            if (target == null || observers == null || observers.Count == 0) return false;
-            int targetTile = target.Tile.tileId;
-            for (int i = 0; i < observers.Count; i++)
-            {
-                WorldObject obs = observers[i];
-                if (obs == null || obs.Destroyed) continue;
-                float d = WorldActions_Utils.GetDistance(obs.Tile.tileId, targetTile, manager);
-                if (d <= 1f) return true;
-                float range = GetLosRadius(obs);
-                if (range > 0f && d <= range) return true;
+                float range = GetAwarenessRadius(obs);
+                if (range <= 0f) continue;
+                int obsTile = obs.Tile.tileId;
+                if (obsTile == targetTile) return true;
+                if (grid.ApproxDistanceInTiles(obsTile, targetTile) <= range) return true;
             }
             return false;
         }
@@ -911,7 +1067,9 @@ namespace TSA_WorldDomination
         {
             if (target is WorldObject_Traveler t)
                 return GetSpotClass(t);
-            if (target is WorldObject_AT_Turret || target is WorldObject_WD_AdvancedBuilding)
+            if (target is WorldObject_AT_Turret
+                || target is WorldObject_WD_AdvancedBuilding
+                || target is WorldObject_WD_PlayerWatchTower)
                 return SettlementTier.T1;
             if (target is Settlement s)
             {
@@ -947,7 +1105,7 @@ namespace TSA_WorldDomination
             };
         }
 
-        /// <summary>Clear LOS as a fraction of Hunch (Def 0.60 = former T1 ring).</summary>
+        /// <summary>Clear LOS as a fraction of Awareness (Def 0.60 = former T1 ring).</summary>
         public static float GetLosFrac()
         {
             var seth = WorldDominationMod.settings;
@@ -961,8 +1119,10 @@ namespace TSA_WorldDomination
             float maxMult = Mathf.Max(1f, seth.intelSettlementLosMaxMult);
             float daysToMax = Mathf.Max(1f, seth.attackRangeDaysToMax);
             int founding = comp != null ? comp.EnsureAttackRangeFoundingTick() : Find.TickManager.TicksGame;
-            float ageDays = Mathf.Max(0f, (Find.TickManager.TicksGame - founding) / 60000f);
-            float ageProgress = Mathf.Clamp01(ageDays / daysToMax);
+            // Step growth once per in-game day (whole days from ticks, 60000 ticks/day): the Awareness radius is
+            // then constant within a day, so the Sight disc only changes at day boundaries instead of every tick.
+            int ageDaysWhole = Mathf.Max(0, (Find.TickManager.TicksGame - founding) / 60000);
+            float ageProgress = Mathf.Clamp01(ageDaysWhole / daysToMax);
 
             float stageProgress = 0f;
             if (seth.enableLateGameScaling)
@@ -1006,6 +1166,29 @@ namespace TSA_WorldDomination
             if (day == cachedMaxLosDay) return;
             cachedMaxLosDay = day;
             cachedSettlementMaxLos.Clear();
+            hopCullDirty = true;
+        }
+
+        /// <summary>
+        /// MaxLOS for the player colony / a player outpost. Pawn count drives it, so it is cached for
+        /// <see cref="LiveSightRadiusCacheTtlTicks"/> only (and dropped by <see cref="NotifyStationaryObserverLosChanged"/>).
+        /// </summary>
+        private float GetLiveCachedMaxLos(WorldObject observer)
+        {
+            if (observer == null) return 0f;
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            if (tick < liveSightRadiusCacheTick || tick - liveSightRadiusCacheTick >= LiveSightRadiusCacheTtlTicks)
+            {
+                liveSightRadiusCache.Clear();
+                liveSightRadiusCacheTick = tick;
+            }
+            if (liveSightRadiusCache.TryGetValue(observer.ID, out float cached))
+                return cached;
+            float computed = observer is WorldObject_WD_Outpost outpost
+                ? ComputeOutpostMaxLos(outpost)
+                : ComputeSettlementMaxLos(observer as Settlement);
+            liveSightRadiusCache[observer.ID] = computed;
+            return computed;
         }
 
         /// <summary>Pawn-count bands for player colony / outpost MaxLOS (no strength proxy).</summary>
@@ -1038,10 +1221,10 @@ namespace TSA_WorldDomination
             SightTierFromPawnCount(GetPlayerOutpostSightPawnCount(outpost));
 
         /// <summary>
-        /// Hunch tiles added per free colonist / outpost occupant (linear).
+        /// Awareness tiles added per free colonist / outpost occupant (linear).
         /// Scaled so 0 pawns ≈ T1 baseline and <see cref="PlayerSightPawnsForT4"/> pawns ≈ T4 baseline.
         /// </summary>
-        public static float GetPlayerSightHunchPerPawn(WorldDominationSettings seth)
+        public static float GetPlayerSightAwarenessPerPawn(WorldDominationSettings seth)
         {
             float t1 = seth?.GetAttackRangeBaseline(SettlementTier.T1)
                 ?? WorldDominationSettings.DefTier1AttackRangeBaseline;
@@ -1051,21 +1234,21 @@ namespace TSA_WorldDomination
         }
 
         public static float GetPlayerSightLosPerPawn(WorldDominationSettings seth) =>
-            GetPlayerSightHunchPerPawn(seth) * GetLosFrac();
+            GetPlayerSightAwarenessPerPawn(seth) * GetLosFrac();
 
-        /// <summary>Minimum departure strength for a WD traveler to count as medium (Hunch-spottable).</summary>
-        public static float GetHunchSpotMinTravelerStrength()
+        /// <summary>Minimum departure strength for a WD traveler to count as medium (Awareness-spottable).</summary>
+        public static float GetAwarenessSpotMinTravelerStrength()
         {
             var seth = WorldDominationMod.settings;
             return seth?.intelTravelerStrengthT2 ?? WorldDominationSettings.DefIntelTravelerStrengthT2;
         }
 
         /// <summary>
-        /// True when the target is spottable in the Hunch band outside LOS:
+        /// True when the target is spottable in the Awareness band outside LOS:
         /// Tier 3+ settlements/outposts, or WD travelers at T2+ departure strength.
         /// T2 sites and AT/advanced need Line of sight.
         /// </summary>
-        public static bool CanSpotAtHunchRange(WorldObject target)
+        public static bool CanSpotAtAwarenessRange(WorldObject target)
         {
             if (target == null) return false;
             SettlementTier tier = GetSightTier(target);
@@ -1085,11 +1268,11 @@ namespace TSA_WorldDomination
             if (IsPlayerColonyObserver(observer))
             {
                 float t1 = seth.GetAttackRangeBaseline(SettlementTier.T1);
-                baseline = t1 + GetPlayerColonySightPawnCount(observer) * GetPlayerSightHunchPerPawn(seth);
+                baseline = t1 + GetPlayerColonySightPawnCount(observer) * GetPlayerSightAwarenessPerPawn(seth);
             }
             else
                 baseline = GetViewBaselineRange(observer);
-            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            var manager = Get()?.Manager;
             return baseline * GetLosGrowthFactor(comp, seth, manager);
         }
 
@@ -1099,10 +1282,31 @@ namespace TSA_WorldDomination
             if (outpost == null || seth == null) return 0f;
             var comp = outpost.GetComponent<CompViralSpread>();
             float t1 = seth.GetAttackRangeBaseline(SettlementTier.T1);
-            float baseline = t1 + GetPlayerOutpostSightPawnCount(outpost) * GetPlayerSightHunchPerPawn(seth);
-            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            return baseline * GetLosGrowthFactor(comp, seth, manager);
+            float baseline = t1 + GetPlayerOutpostSightPawnCount(outpost) * GetPlayerSightAwarenessPerPawn(seth);
+            var manager = Get()?.Manager;
+            float grown = baseline * GetLosGrowthFactor(comp, seth, manager);
+            // Flat hunting Watch Tower upgrade LOS (after growth).
+            return grown + outpost.GetBuiltUpgradeLosBonusTiles();
         }
+
+        /// <summary>NPC Adv Watch Tower or dedicated player Watch Tower field observer.</summary>
+        public static bool IsWatchTowerObserver(WorldObject wo)
+        {
+            if (wo is WorldObject_WD_PlayerWatchTower) return true;
+            if (wo is WorldObject_WD_AdvancedBuilding ab)
+                return ab.BuildingDef != null && ab.BuildingDef.effect == AdvancedBuildingEffect.AttackRangePct;
+            return false;
+        }
+
+        /// <summary>Desired clear LoS at default <see cref="WorldDominationSettings.DefIntelLosFrac"/> (0.60).</summary>
+        public const float WatchTowerObserverDesiredLos = 8f;
+
+        /// <summary>
+        /// Watch Tower Awareness. Sized so default LoS = DesiredLos (8 / 0.60 ≈ 13.33).
+        /// Live LoS = Awareness × intelLosFrac like every other observer.
+        /// </summary>
+        public static float WatchTowerObserverMaxLos =>
+            WatchTowerObserverDesiredLos / WorldDominationSettings.DefIntelLosFrac;
 
         /// <summary>
         /// In-flight FoW observers: vanilla <see cref="TravellingTransporters"/> (pods / Odyssey shuttle)
@@ -1121,14 +1325,21 @@ namespace TSA_WorldDomination
             if (observer == null) return 0f;
             if (observer is Settlement settlement)
             {
-                // Live pawn count for colony LOS (do not day-cache like NPC settlement tier LOS).
-                if (IsPlayerColonyObserver(settlement))
-                    return ComputeSettlementMaxLos(settlement);
                 var intel = Get();
+                // Pawn-count colony LOS: short TTL cache (do not day-cache like NPC settlement tier LOS).
+                if (IsPlayerColonyObserver(settlement))
+                    return intel != null ? intel.GetLiveCachedMaxLos(settlement) : ComputeSettlementMaxLos(settlement);
                 return intel != null ? intel.GetCachedSettlementMaxLos(settlement) : ComputeSettlementMaxLos(settlement);
             }
             if (observer is WorldObject_WD_Outpost outpost)
-                return ComputeOutpostMaxLos(outpost);
+            {
+                var intel = Get();
+                return intel != null ? intel.GetLiveCachedMaxLos(outpost) : ComputeOutpostMaxLos(outpost);
+            }
+            if (observer is WorldObject_AT_Turret at)
+                return at.EffectiveRangeTiles;
+            if (IsWatchTowerObserver(observer))
+                return WatchTowerObserverMaxLos;
             if (observer is WorldObject_Traveler traveler)
             {
                 float land = GetLandMobileMaxLos(seth, traveler);
@@ -1137,7 +1348,7 @@ namespace TSA_WorldDomination
                 return land;
             }
             float scoutMax = seth?.intelScoutMaxLos ?? WorldDominationSettings.DefIntelScoutMaxLos;
-            // Vanilla pods / Odyssey shuttle / VF aerial in flight: drop-pod-style 2× scout Hunch.
+            // Vanilla pods / Odyssey shuttle / VF aerial in flight: drop-pod-style 2× scout Awareness.
             if (IsAirborneFowObserver(observer))
                 return scoutMax * 2f;
             if (observer is Caravan)
@@ -1162,30 +1373,30 @@ namespace TSA_WorldDomination
             };
         }
 
-        /// <summary>Player map colony observers (HasMap). Same LOS/Hunch rings as other observers.</summary>
+        /// <summary>Player map colony observers (HasMap). Same LOS/Awareness rings as other observers.</summary>
         public static bool IsPlayerColonyObserver(WorldObject observer) =>
             observer is Settlement s && s.Faction?.IsPlayer == true && s.HasMap;
 
-        /// <summary>Hunch radius (= former MaxLOS). Outer band: grey shroud, dim icons, medium+ discovery.</summary>
-        public static float GetHunchRadius(WorldObject observer) => GetMaxLos(observer);
+        /// <summary>Awareness radius (= former MaxLOS). Outer band: grey shroud, dim icons, medium+ discovery.</summary>
+        public static float GetAwarenessRadius(WorldObject observer) => GetMaxLos(observer);
 
-        /// <summary>Line of sight radius (= Hunch × intelLosFrac). Clear tiles, bright icons, discover anything.</summary>
+        /// <summary>Line of sight radius (= Awareness × intelLosFrac). Clear tiles, bright icons, discover anything.</summary>
         public static float GetLosRadius(WorldObject observer)
         {
-            float hunch = GetHunchRadius(observer);
-            if (hunch <= 0f) return 0f;
-            return hunch * GetLosFrac();
+            float awareness = GetAwarenessRadius(observer);
+            if (awareness <= 0f) return 0f;
+            return awareness * GetLosFrac();
         }
 
         /// <summary>
-        /// Discover distance: LOS for T1–T2 sites / AT / advanced; Hunch for T3+ sites and T2+ travelers.
+        /// Discover distance: LOS for T1–T2 sites / AT / advanced; Awareness for T3+ sites and T2+ travelers.
         /// </summary>
         public static float GetSightRange(WorldObject observer, WorldObject target)
         {
-            float hunch = GetHunchRadius(observer);
-            if (hunch <= 0f) return 0f;
-            if (CanSpotAtHunchRange(target))
-                return hunch;
+            float awareness = GetAwarenessRadius(observer);
+            if (awareness <= 0f) return 0f;
+            if (CanSpotAtAwarenessRange(target))
+                return awareness;
             return GetLosRadius(observer);
         }
 
@@ -1193,12 +1404,12 @@ namespace TSA_WorldDomination
         public static float GetSightRangeTo(Settlement observer, WorldObject target) =>
             GetSightRange(observer, target);
 
-        /// <summary>Scout spot radius from a live target (T3+ sites / T2+ travelers = full Hunch).</summary>
+        /// <summary>Scout spot radius from a live target (T3+ sites / T2+ travelers = full Awareness).</summary>
         public static float GetScoutSpotRadius(WorldObject target)
         {
             var seth = WorldDominationMod.settings;
             float scoutMax = seth?.intelScoutMaxLos ?? WorldDominationSettings.DefIntelScoutMaxLos;
-            if (CanSpotAtHunchRange(target))
+            if (CanSpotAtAwarenessRange(target))
                 return scoutMax;
             return scoutMax * GetLosFrac();
         }
@@ -1215,7 +1426,7 @@ namespace TSA_WorldDomination
 
         public void BootstrapAllFactions()
         {
-            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            var manager = Get()?.Manager;
             if (manager == null) return;
             var snap = manager.CurrentDailySnapshot ?? DailyWorldSnapshot.Build();
             if (snap?.SettlementsByFaction == null) return;
@@ -1259,6 +1470,7 @@ namespace TSA_WorldDomination
                 suppressDiscoveryLogging = false;
             }
             Version++;
+            iconVersion++;
         }
 
         /// <summary>
@@ -1332,9 +1544,19 @@ namespace TSA_WorldDomination
         {
             if (observer?.Faction == null || observer.Destroyed) return;
             Faction f = observer.Faction;
-            snap ??= Find.World.GetComponent<WorldComponent_SpreadManager>()?.CurrentDailySnapshot;
-            float maxLos = GetCachedSettlementMaxLos(observer);
-            cachedSettlementMaxLos[observer.ID] = maxLos;
+            snap ??= Manager?.CurrentDailySnapshot;
+            float maxLos;
+            if (IsPlayerColonyObserver(observer))
+            {
+                // Pawn-count colony LOS: compute fresh here and refresh the short TTL cache.
+                maxLos = ComputeSettlementMaxLos(observer);
+                liveSightRadiusCache[observer.ID] = maxLos;
+            }
+            else
+            {
+                maxLos = GetCachedSettlementMaxLos(observer);
+                cachedSettlementMaxLos[observer.ID] = maxLos;
+            }
             SpotSitesFromObserver(observer, f, maxLos, snap);
             TileFow.RevealTilesInRadius(f, observer.Tile, maxLos);
         }
@@ -1342,16 +1564,37 @@ namespace TSA_WorldDomination
         public void RunLosFromOutpost(WorldObject_WD_Outpost observer, DailyWorldSnapshot snap = null)
         {
             if (observer?.Faction == null || observer.Destroyed) return;
-            snap ??= Find.World.GetComponent<WorldComponent_SpreadManager>()?.CurrentDailySnapshot;
+            snap ??= Manager?.CurrentDailySnapshot;
             float maxLos = ComputeOutpostMaxLos(observer);
+            liveSightRadiusCache[observer.ID] = maxLos;
             SpotSitesFromObserver(observer, observer.Faction, maxLos, snap);
             TileFow.RevealTilesInRadius(observer.Faction, observer.Tile, maxLos);
         }
 
+        /// <summary>AT / Watch Tower field observers: spot + explore Awareness disk.</summary>
+        public void RunLosFromFieldObserver(WorldObject observer, DailyWorldSnapshot snap = null)
+        {
+            if (observer?.Faction == null || observer.Destroyed) return;
+            float maxLos = GetMaxLos(observer);
+            if (maxLos <= 0f) return;
+            snap ??= Manager?.CurrentDailySnapshot;
+            SpotSitesFromObserver(observer, observer.Faction, maxLos, snap);
+            TileFow.RevealTilesInRadius(observer.Faction, observer.Tile, maxLos);
+        }
+
+        /// <summary>
+        /// Stationary observer spotting. Known-first: every loop tests the faction's known set before any
+        /// distance / component / radius work, then uses one rounded ApproxDistance per pair.
+        /// <paramref name="maxLos"/> is the observer's Awareness; LOS = Awareness × intelLosFrac.
+        /// </summary>
         private void SpotSitesFromObserver(WorldObject observer, Faction f, float maxLos, DailyWorldSnapshot snap)
         {
-            if (maxLos <= 0f) return;
-            var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
+            if (maxLos <= 0f || f == null || observer == null) return;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return;
+            int obsTile = observer.Tile.tileId;
+            float los = GetLosRadius(observer);
+            HashSet<int> knownSiteIds = GetOrCreateKnownSiteSet(f);
 
             if (snap?.SettlementsByFaction != null)
             {
@@ -1363,20 +1606,19 @@ namespace TSA_WorldDomination
                     for (int i = 0; i < list.Count; i++)
                     {
                         Settlement other = list[i];
-                        if (other == null || other.Destroyed) continue;
-                        if (IsDiscovered(f, other)) continue;
-                        float approx = Find.WorldGrid.ApproxDistanceInTiles(observer.Tile.tileId, other.Tile.tileId);
-                        if (approx > maxLos + 1f) continue;
-                        float d = WorldActions_Utils.GetDistance(observer.Tile, other.Tile, manager);
-                        if (d > maxLos && d > 1f) continue;
-                        if (d <= 1f || d <= GetSightRange(observer, other))
+                        if (other == null || other.Destroyed || other.Faction == f) continue;
+                        if (knownSiteIds.Contains(other.ID)) continue;
+                        int d = TileDistance(grid, obsTile, other.Tile.tileId);
+                        if (d > 1 && d > maxLos) continue;
+                        // Inside Awareness here: LOS spots anything, the Awareness band only Tier 3+ sites.
+                        if (d <= 1 || d <= los || CanSpotAtAwarenessRange(other))
                             Discover(f, other, observer);
                     }
                 }
             }
 
             // Player map colony is not in SettlementsByFaction — still a Discover target when alwaysKnown is off.
-            TrySpotPlayerColonyFromObserver(observer, f, maxLos, manager);
+            TrySpotPlayerColonyFromObserver(observer, f, maxLos, los, grid, knownSiteIds);
 
             if (snap?.PlayerOutposts != null)
             {
@@ -1384,31 +1626,28 @@ namespace TSA_WorldDomination
                 {
                     var o = snap.PlayerOutposts[i];
                     if (o == null || o.Destroyed || o.Faction == f) continue;
-                    if (IsDiscovered(f, o)) continue;
-                    float approx = Find.WorldGrid.ApproxDistanceInTiles(observer.Tile.tileId, o.Tile.tileId);
-                    if (approx > maxLos + 1f) continue;
-                    float d = WorldActions_Utils.GetDistance(observer.Tile, o.Tile, manager);
-                    if (d > maxLos && d > 1f) continue;
-                    if (d <= 1f || d <= GetSightRange(observer, o))
+                    if (knownSiteIds.Contains(o.ID)) continue;
+                    int d = TileDistance(grid, obsTile, o.Tile.tileId);
+                    if (d > 1 && d > maxLos) continue;
+                    if (d <= 1 || d <= los || CanSpotAtAwarenessRange(o))
                         Discover(f, o, observer);
                 }
             }
 
-            SpotFieldStructuresFromObserver(observer, f, maxLos, manager);
+            SpotFieldStructuresFromObserver(observer, f, los, grid, knownSiteIds);
 
             // Travelers: discover into knownTravelers when in ring (map show still requires current sight).
+            HashSet<int> knownTravelerIds = GetOrCreateKnownTravelerSet(f);
             IReadOnlyList<WorldObject_Traveler> travelers = WorldObject_Traveler.LiveTravelers;
             for (int i = 0; i < travelers.Count; i++)
             {
                 WorldObject_Traveler t = travelers[i];
                 if (t == null || t.Destroyed || t.Faction == f) continue;
                 if (WorldObject_Traveler.IsShellMission(t.mission)) continue;
-                if (IsTravelerDiscovered(f, t)) continue;
-                float approx = Find.WorldGrid.ApproxDistanceInTiles(observer.Tile.tileId, t.Tile.tileId);
-                if (approx > maxLos + 1f) continue;
-                float d = WorldActions_Utils.GetDistance(observer.Tile, t.Tile, manager);
-                if (d > maxLos && d > 1f) continue;
-                if (d <= 1f || d <= GetSightRange(observer, t))
+                if (t.intelTrackId > 0 && knownTravelerIds.Contains(t.intelTrackId)) continue;
+                int d = TileDistance(grid, obsTile, t.Tile.tileId);
+                if (d > 1 && d > maxLos) continue;
+                if (d <= 1 || d <= los || CanSpotAtAwarenessRange(t))
                     DiscoverTraveler(f, t, observer);
             }
         }
@@ -1421,41 +1660,51 @@ namespace TSA_WorldDomination
             WorldObject observer,
             Faction f,
             float maxLos,
-            WorldComponent_SpreadManager manager)
+            float los,
+            WorldGrid grid,
+            HashSet<int> knownSiteIds)
         {
-            if (observer == null || f == null || maxLos <= 0f) return;
             Settlement colony = InfluenceUtils.GetPlayerColony();
             if (colony == null || colony.Destroyed || !colony.HasMap) return;
             if (colony.Faction == null || colony.Faction == f) return;
-            if (IsAlwaysKnown(colony) || IsDiscovered(f, colony)) return;
+            if (IsAlwaysKnown(colony) || knownSiteIds.Contains(colony.ID)) return;
             if (ReferenceEquals(observer, colony)) return;
 
-            float approx = Find.WorldGrid.ApproxDistanceInTiles(observer.Tile.tileId, colony.Tile.tileId);
-            if (approx > maxLos + 1f) return;
-            float d = WorldActions_Utils.GetDistance(observer.Tile, colony.Tile, manager);
-            if (d > maxLos && d > 1f) return;
-            if (d <= 1f || d <= GetSightRange(observer, colony))
+            int d = TileDistance(grid, observer.Tile.tileId, colony.Tile.tileId);
+            if (d > 1 && d > maxLos) return;
+            if (d <= 1 || d <= los || CanSpotAtAwarenessRange(colony))
                 Discover(f, colony, observer);
         }
 
-        private void SpotFieldStructuresFromObserver(WorldObject observer, Faction f, float maxLos, WorldComponent_SpreadManager manager)
+        /// <summary>AT / Watch Tower / advanced are small targets: Line of sight only (not Awareness).</summary>
+        private void SpotFieldStructuresFromObserver(
+            WorldObject observer,
+            Faction f,
+            float los,
+            WorldGrid grid,
+            HashSet<int> knownSiteIds)
         {
-            // AT / advanced are small targets: Line of sight only (not Hunch).
-            float los = maxLos * GetLosFrac();
-            WorldGrid grid = Find.WorldGrid;
+            int obsTile = observer.Tile.tileId;
             IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
             for (int i = 0; i < ats.Count; i++)
             {
                 WorldObject_AT_Turret at = ats[i];
                 if (at == null || at.Destroyed || at.Faction == f) continue;
-                if (IsDiscovered(f, at)) continue;
-                float approx = grid != null
-                    ? grid.ApproxDistanceInTiles(observer.Tile.tileId, at.Tile.tileId)
-                    : float.MaxValue;
-                if (approx > los + 1f) continue;
-                float d = WorldActions_Utils.GetDistance(observer.Tile, at.Tile, manager);
-                if (d <= 1f || d <= los)
+                if (knownSiteIds.Contains(at.ID)) continue;
+                int d = TileDistance(grid, obsTile, at.Tile.tileId);
+                if (d <= 1 || d <= los)
                     Discover(f, at, observer);
+            }
+
+            IReadOnlyList<WorldObject_WD_PlayerWatchTower> playerTowers = WorldObject_WD_PlayerWatchTower.LiveTowers;
+            for (int i = 0; i < playerTowers.Count; i++)
+            {
+                WorldObject_WD_PlayerWatchTower wt = playerTowers[i];
+                if (wt == null || wt.Destroyed || wt.Faction == f) continue;
+                if (knownSiteIds.Contains(wt.ID)) continue;
+                int d = TileDistance(grid, obsTile, wt.Tile.tileId);
+                if (d <= 1 || d <= los)
+                    Discover(f, wt, observer);
             }
 
             var registry = WorldComponent_AdvancedBuildings.Get();
@@ -1465,31 +1714,27 @@ namespace TSA_WorldDomination
             {
                 var b = buildings[i];
                 if (b == null || b.Destroyed || b.Faction == f) continue;
-                if (IsDiscovered(f, b)) continue;
-                float approx = grid != null
-                    ? grid.ApproxDistanceInTiles(observer.Tile.tileId, b.Tile.tileId)
-                    : float.MaxValue;
-                if (approx > los + 1f) continue;
-                float d = WorldActions_Utils.GetDistance(observer.Tile, b.Tile, manager);
-                if (d <= 1f || d <= los)
+                if (knownSiteIds.Contains(b.ID)) continue;
+                int d = TileDistance(grid, obsTile, b.Tile.tileId);
+                if (d <= 1 || d <= los)
                     Discover(f, b, observer);
             }
         }
 
+        /// <summary>
+        /// Session seed of explored tiles. Player only: NPC factions keep no tile history
+        /// (their site / traveler knowledge lives in <see cref="knownSites"/> / <see cref="knownTravelers"/>).
+        /// Also prunes NPC explored entries carried by older saves.
+        /// </summary>
         private void SeedAllFactionTileExploration()
         {
             if (!IsTracking()) return;
-            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player == null) return;
+            TileFow.DropNonPlayerExplored();
             var observers = new List<WorldObject>(64);
-            List<Faction> factions = Find.FactionManager?.AllFactionsListForReading;
-            if (factions == null) return;
-            for (int i = 0; i < factions.Count; i++)
-            {
-                Faction f = factions[i];
-                if (f == null || f.defeated || f.Hidden == true) continue;
-                CollectFowObservers(f, manager, observers);
-                TileFow.SeedFactionFromObservers(f, observers);
-            }
+            CollectFowObservers(player, Manager, observers);
+            TileFow.SeedFactionFromObservers(player, observers);
         }
 
         /// <summary>Reveal terrain tiles around a traveler for its faction (tile FoW memory).</summary>
@@ -1519,139 +1764,370 @@ namespace TSA_WorldDomination
         public void TrySpotTravelerFromSettlementsAndCaravans(WorldObject_Traveler traveler)
         {
             if (traveler == null || traveler.Destroyed || !IsTracking()) return;
+            bool perf = PerfLogging;
+            long perfStart = perf ? System.Diagnostics.Stopwatch.GetTimestamp() : 0L;
+            SpotTravelerOnHop(traveler);
+            if (perf)
+            {
+                perfHopTicks += System.Diagnostics.Stopwatch.GetTimestamp() - perfStart;
+                perfHopCalls++;
+            }
+        }
+
+        /// <summary>cos of the angle that safely covers <paramref name="awareness"/> tiles (rounding + adjacency + 5% slack).</summary>
+        private float HopCullMinDot(float awareness)
+        {
+            float angle = (Mathf.Max(awareness, 1f) + 1f) * 1.05f * hopCullRadPerTile;
+            return angle >= Mathf.PI ? HopCullNever : Mathf.Cos(angle);
+        }
+
+        /// <summary>
+        /// Rebuild the per-settlement direction / sight-angle arrays when the settlement list or a sight radius
+        /// changed (dirty flag, count change, new tile count). O(settlements), a few times per day.
+        /// </summary>
+        private void EnsureHopCullCache(WorldGrid grid, List<Settlement> settlements)
+        {
+            int tiles = grid.TilesCount;
+            if (!hopCullDirty && hopCullTilesCount == tiles && hopCullSites.Count == settlements.Count)
+                return;
+
+            if (hopCullTilesCount != tiles)
+            {
+                hopCullTilesCount = tiles;
+                hopCullRadPerTile = CalibrateRadiansPerTile(grid, tiles);
+            }
+            hopCullDirty = false;
+            hopCullSites.Clear();
+            hopCullDirs.Clear();
+            hopCullMinDot.Clear();
+
+            for (int i = 0; i < settlements.Count; i++)
+            {
+                Settlement s = settlements[i];
+                Vector3 dir = Vector3.zero;
+                float minDot = HopCullNever;
+                if (s != null && !s.Destroyed && hopCullRadPerTile > 0f && s.Faction?.IsPlayer != true)
+                {
+                    int tileId = s.Tile.tileId;
+                    if (s.GetComponent<CompViralSpread>() == null)
+                    {
+                        // Not a WD observer or target for the hop pass.
+                        minDot = HopCullAlways;
+                    }
+                    else if (tileId >= 0 && tileId < tiles)
+                    {
+                        dir = grid.GetTileCenter(tileId).normalized;
+                        minDot = HopCullMinDot(GetCachedSettlementMaxLos(s));
+                    }
+                }
+                hopCullSites.Add(s);
+                hopCullDirs.Add(dir);
+                hopCullMinDot.Add(minDot);
+            }
+        }
+
+        /// <summary>
+        /// Measure the arc per tile of <c>ApproxDistanceInTiles</c> from sample tile pairs instead of assuming
+        /// the grid's formula. Returns the largest ratio (conservative: never culls a pair in range), or 0 when
+        /// the samples disagree (distance not proportional to arc), which switches the cull off.
+        /// </summary>
+        private static float CalibrateRadiansPerTile(WorldGrid grid, int tiles)
+        {
+            const int Samples = 16;
+            float minRatio = float.MaxValue;
+            float maxRatio = 0f;
+            int used = 0;
+            try
+            {
+                if (tiles >= 1024)
+                {
+                    for (int i = 0; i < Samples; i++)
+                    {
+                        int a = (int)((long)tiles * i / Samples);
+                        int b = (int)(((long)a + tiles / 5 + (long)i * 977) % tiles);
+                        if (a == b) continue;
+                        Vector3 da = grid.GetTileCenter(a).normalized;
+                        Vector3 db = grid.GetTileCenter(b).normalized;
+                        float angle = Mathf.Acos(Mathf.Clamp(Vector3.Dot(da, db), -1f, 1f));
+                        // Skip near-zero and near-antipodal arcs (acos is ill-conditioned there).
+                        if (angle < 0.05f || angle > 3f) continue;
+                        float tilesApart = grid.ApproxDistanceInTiles(a, b);
+                        if (tilesApart <= 0f) continue;
+                        float ratio = angle / tilesApart;
+                        if (ratio < minRatio) minRatio = ratio;
+                        if (ratio > maxRatio) maxRatio = ratio;
+                        used++;
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                WD_DevPerformanceSpikeLog.Msg($"FoW hop cull off: calibration threw {e.GetType().Name}");
+                return 0f;
+            }
+
+            bool ok = used >= 4 && maxRatio <= minRatio * 1.02f;
+            WD_DevPerformanceSpikeLog.Msg(ok
+                ? $"FoW hop cull on: radPerTile={maxRatio:G6} samples={used}"
+                : $"FoW hop cull off: samples={used} min={minRatio:G6} max={maxRatio:G6}");
+            return ok ? maxRatio : 0f;
+        }
+
+        /// <summary>
+        /// Hop pass body. Knowledge is permanent, so every pair is tested known-first in both directions
+        /// (does the site's faction still need this traveler? does the traveler's faction still need this site?)
+        /// before any component, radius or distance work; then one rounded ApproxDistance per pair.
+        /// </summary>
+        private void SpotTravelerOnHop(WorldObject_Traveler traveler)
+        {
             EnsureTravelerTrackId(traveler);
             RevealTilesFromTraveler(traveler);
-            var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
-            float travelerMaxLos = GetMaxLos(traveler);
+
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return;
+
+            Faction tf = traveler.Faction;
+            int tTile = traveler.Tile.tileId;
+            float tAwareness = GetMaxLos(traveler);
+            float losFrac = GetLosFrac();
+            float tLos = tAwareness > 0f ? tAwareness * losFrac : 0f;
+            // How others see this traveler: T2+ travelers are spotted at full Awareness, smaller ones need LOS.
+            bool travelerAwarenessSpottable = CanSpotAtAwarenessRange(traveler);
+            HashSet<int> tfSites = tf != null ? GetOrCreateKnownSiteSet(tf) : null;
+            HashSet<int> tfTravelers = tf != null ? GetOrCreateKnownTravelerSet(tf) : null;
+
+            // Factions that already know this traveler (one pass over the per-faction sets, then O(1) per site).
+            HashSet<int> knowers = travelerKnowerScratch;
+            knowers.Clear();
+            int trackId = traveler.intelTrackId;
+            foreach (var kv in knownTravelers)
+            {
+                if (kv.Value != null && kv.Value.Contains(trackId))
+                    knowers.Add(kv.Key);
+            }
 
             List<Settlement> settlements = Find.WorldObjects?.Settlements;
             if (settlements != null)
             {
-                for (int i = 0; i < settlements.Count; i++)
+                // Angular cull first: a traveler is unknown to most distant factions, so known-first alone
+                // would still pay a comp lookup + distance for nearly every settlement on the planet.
+                EnsureHopCullCache(grid, settlements);
+                bool cull = hopCullRadPerTile > 0f && tTile >= 0 && tTile < hopCullTilesCount;
+                Vector3 tDir = cull ? grid.GetTileCenter(tTile).normalized : Vector3.zero;
+                float tMinDot = cull ? HopCullMinDot(tAwareness) : HopCullNever;
+                int siteCount = hopCullSites.Count;
+                int culled = 0;
+                for (int i = 0; i < siteCount; i++)
                 {
-                    Settlement s = settlements[i];
-                    if (s?.Faction == null || s.Faction == traveler.Faction) continue;
+                    if (cull)
+                    {
+                        float siteMinDot = hopCullMinDot[i];
+                        if (siteMinDot >= HopCullAlways)
+                        {
+                            culled++;
+                            continue;
+                        }
+                        // Pair range = the larger of both Awareness radii = the smaller cosine.
+                        float minDot = siteMinDot < tMinDot ? siteMinDot : tMinDot;
+                        if (minDot > HopCullNever && Vector3.Dot(hopCullDirs[i], tDir) < minDot)
+                        {
+                            culled++;
+                            continue;
+                        }
+                    }
+
+                    Settlement s = hopCullSites[i];
+                    if (s == null || s.Destroyed) continue;
+                    Faction sf = s.Faction;
+                    if (sf == null || sf == tf) continue;
+
+                    bool needSpotTraveler = !knowers.Contains(sf.loadID);
+                    bool needSpotSite = tfSites != null && !IsAlwaysKnown(s) && !tfSites.Contains(s.ID);
+                    if (!needSpotTraveler && !needSpotSite) continue;
+
                     // Player map colonies have no CompViralSpread but are FoW observers.
-                    bool playerColony = s.Faction.IsPlayer && s.HasMap;
+                    bool playerColony = sf.IsPlayer && s.HasMap;
                     if (!playerColony && s.GetComponent<CompViralSpread>() == null) continue;
 
-                    float approx = Find.WorldGrid.ApproxDistanceInTiles(s.Tile.tileId, traveler.Tile.tileId);
-                    float maxSpot = Mathf.Max(
-                        GetCachedSettlementMaxLos(s),
-                        travelerMaxLos) + 1f;
-                    if (approx > maxSpot) continue;
-                    float d = WorldActions_Utils.GetDistance(s.Tile, traveler.Tile, manager);
-                    if (!IsTravelerDiscovered(s.Faction, traveler))
+                    float sAwareness = playerColony ? GetLiveCachedMaxLos(s) : GetCachedSettlementMaxLos(s);
+                    int d = TileDistance(grid, s.Tile.tileId, tTile);
+                    if (d > 1 && d > Mathf.Max(sAwareness, tAwareness)) continue;
+
+                    if (needSpotTraveler
+                        && (d <= 1 || d <= SightRangeFor(sAwareness, losFrac, travelerAwarenessSpottable)))
                     {
-                        float spotR = GetSightRange(s, traveler);
-                        if (d <= 1f || d <= spotR)
-                            DiscoverTraveler(s.Faction, traveler, s);
+                        DiscoverTraveler(sf, traveler, s);
+                        knowers.Add(sf.loadID);
                     }
-                    if (traveler.Faction != null && !IsDiscovered(traveler.Faction, s))
-                    {
-                        if (d <= 1f || d <= GetSightRange(traveler, s))
-                            Discover(traveler.Faction, s, traveler);
-                    }
+                    if (needSpotSite
+                        && (d <= 1 || d <= tLos || (d <= tAwareness && CanSpotAtAwarenessRange(s))))
+                        Discover(tf, s, traveler);
                 }
+                perfHopSitesSeen += siteCount;
+                perfHopSitesCulled += culled;
             }
 
             IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
             for (int i = 0; i < outposts.Count; i++)
             {
-                var o = outposts[i];
-                if (o == null || o.Destroyed || o.Faction == null || o.Faction == traveler.Faction) continue;
-                float approx = Find.WorldGrid.ApproxDistanceInTiles(o.Tile.tileId, traveler.Tile.tileId);
-                float maxSpot = Mathf.Max(ComputeOutpostMaxLos(o), travelerMaxLos) + 1f;
-                if (approx > maxSpot) continue;
-                float d = WorldActions_Utils.GetDistance(o.Tile, traveler.Tile, manager);
-                if (!IsTravelerDiscovered(o.Faction, traveler))
+                WorldObject_WD_Outpost o = outposts[i];
+                if (o == null || o.Destroyed) continue;
+                Faction of = o.Faction;
+                if (of == null || of == tf) continue;
+
+                bool needSpotTraveler = !knowers.Contains(of.loadID);
+                bool needSpotSite = tfSites != null && !tfSites.Contains(o.ID);
+                if (!needSpotTraveler && !needSpotSite) continue;
+
+                float oAwareness = GetLiveCachedMaxLos(o);
+                int d = TileDistance(grid, o.Tile.tileId, tTile);
+                if (d > 1 && d > Mathf.Max(oAwareness, tAwareness)) continue;
+
+                if (needSpotTraveler
+                    && (d <= 1 || d <= SightRangeFor(oAwareness, losFrac, travelerAwarenessSpottable)))
                 {
-                    float spotR = GetSightRange(o, traveler);
-                    if (d <= 1f || d <= spotR)
-                        DiscoverTraveler(o.Faction, traveler, o);
+                    DiscoverTraveler(of, traveler, o);
+                    knowers.Add(of.loadID);
                 }
-                if (traveler.Faction != null && !IsDiscovered(traveler.Faction, o))
-                {
-                    if (d <= 1f || d <= GetSightRange(traveler, o))
-                        Discover(traveler.Faction, o, traveler);
-                }
+                if (needSpotSite
+                    && (d <= 1 || d <= tLos || (d <= tAwareness && CanSpotAtAwarenessRange(o))))
+                    Discover(tf, o, traveler);
             }
 
-            if (traveler.Faction != null && travelerMaxLos > 0f)
-            {
-                float los = travelerMaxLos * GetLosFrac();
-                IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
-                for (int i = 0; i < ats.Count; i++)
-                {
-                    WorldObject_AT_Turret at = ats[i];
-                    if (at == null || at.Destroyed || at.Faction == traveler.Faction) continue;
-                    if (IsDiscovered(traveler.Faction, at)) continue;
-                    float d = WorldActions_Utils.GetDistance(traveler.Tile, at.Tile, manager);
-                    if (d <= 1f || d <= los)
-                        Discover(traveler.Faction, at, traveler);
-                }
+            // Field structures, both directions:
+            // as targets (AT / Watch Tower / advanced) they are small, so the traveler needs Line of sight;
+            // as observers (AT turrets at fire range, Watch Towers at fixed Awareness) they spot the traveler like a site.
+            bool travelerSpotsField = tfSites != null && tAwareness > 0f;
 
-                var registry = WorldComponent_AdvancedBuildings.Get();
-                if (registry != null)
+            IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
+            for (int i = 0; i < ats.Count; i++)
+            {
+                WorldObject_AT_Turret at = ats[i];
+                if (at == null || at.Destroyed) continue;
+                SpotFieldPairOnHop(at, true, traveler, tf, tTile, tLos,
+                    travelerSpotsField, tfSites, knowers, grid);
+            }
+
+            IReadOnlyList<WorldObject_WD_PlayerWatchTower> towers = WorldObject_WD_PlayerWatchTower.LiveTowers;
+            for (int i = 0; i < towers.Count; i++)
+            {
+                WorldObject_WD_PlayerWatchTower wt = towers[i];
+                if (wt == null || wt.Destroyed) continue;
+                SpotFieldPairOnHop(wt, true, traveler, tf, tTile, tLos,
+                    travelerSpotsField, tfSites, knowers, grid);
+            }
+
+            var registry = WorldComponent_AdvancedBuildings.Get();
+            if (registry != null)
+            {
+                IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = registry.All;
+                for (int i = 0; i < buildings.Count; i++)
                 {
-                    IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = registry.All;
-                    for (int i = 0; i < buildings.Count; i++)
-                    {
-                        var b = buildings[i];
-                        if (b == null || b.Destroyed || b.Faction == traveler.Faction) continue;
-                        if (IsDiscovered(traveler.Faction, b)) continue;
-                        float d = WorldActions_Utils.GetDistance(traveler.Tile, b.Tile, manager);
-                        if (d <= 1f || d <= los)
-                            Discover(traveler.Faction, b, traveler);
-                    }
+                    var b = buildings[i];
+                    if (b == null || b.Destroyed) continue;
+                    // Only NPC Adv Watch Towers observe; other advanced buildings are targets only.
+                    SpotFieldPairOnHop(b, IsWatchTowerObserver(b), traveler, tf, tTile, tLos,
+                        travelerSpotsField, tfSites, knowers, grid);
                 }
             }
 
             IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
             for (int i = 0; i < live.Count; i++)
             {
-                var other = live[i];
+                WorldObject_Traveler other = live[i];
                 if (other == null || other.Destroyed || other == traveler) continue;
-                if (other.Faction == null || other.Faction == traveler.Faction) continue;
-                float d = WorldActions_Utils.GetDistance(other.Tile, traveler.Tile, manager);
-                if (!IsTravelerDiscovered(other.Faction, traveler))
+                Faction of = other.Faction;
+                if (of == null || of == tf) continue;
+
+                bool otherNeedsUs = !knowers.Contains(of.loadID);
+                bool weNeedOther = tfTravelers != null
+                    && !(other.intelTrackId > 0 && tfTravelers.Contains(other.intelTrackId));
+                if (!otherNeedsUs && !weNeedOther) continue;
+
+                float oAwareness = GetMaxLos(other);
+                int d = TileDistance(grid, other.Tile.tileId, tTile);
+                if (d > 1 && d > Mathf.Max(oAwareness, tAwareness)) continue;
+
+                if (otherNeedsUs
+                    && (d <= 1 || d <= SightRangeFor(oAwareness, losFrac, travelerAwarenessSpottable)))
                 {
-                    float spotR = GetSightRange(other, traveler);
-                    if (d <= 1f || d <= spotR)
-                        DiscoverTraveler(other.Faction, traveler, other);
+                    DiscoverTraveler(of, traveler, other);
+                    knowers.Add(of.loadID);
                 }
-                if (traveler.Faction != null && !IsTravelerDiscovered(traveler.Faction, other))
-                {
-                    float spotR = GetSightRange(traveler, other);
-                    if (d <= 1f || d <= spotR)
-                        DiscoverTraveler(traveler.Faction, other, traveler);
-                }
+                if (weNeedOther
+                    && (d <= 1 || d <= tLos || (d <= tAwareness && CanSpotAtAwarenessRange(other))))
+                    DiscoverTraveler(tf, other, traveler);
             }
 
-            // Caravan spot = scout LOS/Hunch by traveler class (legacy intelPlayerCaravanMaxLos still scribed).
-            float caravanHunch = WorldDominationMod.settings?.intelScoutMaxLos
+            // Caravan spot = scout LOS/Awareness by traveler class (legacy intelPlayerCaravanMaxLos still scribed).
+            float caravanAwareness = WorldDominationMod.settings?.intelScoutMaxLos
                 ?? WorldDominationSettings.DefIntelScoutMaxLos;
             List<Caravan> caravans = Find.WorldObjects?.Caravans;
-            if (caravans != null && caravanHunch > 0f)
+            if (caravans != null && caravanAwareness > 0f)
             {
                 float caravanSpot = GetScoutSpotRadius(GetSpotClass(traveler));
                 for (int i = 0; i < caravans.Count; i++)
                 {
                     Caravan c = caravans[i];
-                    if (c?.Faction == null || c.Faction == traveler.Faction) continue;
-                    float approx = Find.WorldGrid.ApproxDistanceInTiles(c.Tile.tileId, traveler.Tile.tileId);
-                    if (approx > caravanHunch + 1f) continue;
-                    float d = WorldActions_Utils.GetDistance(c.Tile, traveler.Tile, manager);
-                    if (!IsTravelerDiscovered(c.Faction, traveler))
+                    if (c == null || c.Destroyed) continue;
+                    Faction cf = c.Faction;
+                    if (cf == null || cf == tf) continue;
+                    if (knowers.Contains(cf.loadID)) continue;
+                    int d = TileDistance(grid, c.Tile.tileId, tTile);
+                    if (d <= 1 || d <= caravanSpot)
                     {
-                        if (d <= 1f || d <= caravanSpot)
-                            DiscoverTraveler(c.Faction, traveler, c);
+                        DiscoverTraveler(cf, traveler, c);
+                        knowers.Add(cf.loadID);
                     }
                 }
             }
 
-            // In-sight FoW for travelers changes every hop even without a new discovery.
-            InvalidateFowDrawCache();
+            // A hop changes this traveler's in-sight icon state without any new discovery, but only when it
+            // matters to the current view: the view's own mover, or a traveler the view already knows.
+            // (New discoveries bump Version; the view's own sight disks invalidate icons when they change.)
+            if (WdFowDraw.IsActive)
+            {
+                Faction view = WdFowDraw.EffectiveViewFaction;
+                if (view != null && (tf == view || knowers.Contains(view.loadID)))
+                    InvalidateFowDrawCache();
+            }
+        }
+
+        /// <summary>
+        /// Hop pass, one field structure vs the moving traveler. Known-first in both directions, then one
+        /// rounded ApproxDistance. The structure is always a Line-of-sight-only target for the traveler;
+        /// when <paramref name="fieldObserves"/> it also spots the traveler at its own sight range
+        /// (Awareness for T2+ travelers, LOS otherwise), same rule as settlements and outposts.
+        /// </summary>
+        private void SpotFieldPairOnHop(
+            WorldObject field,
+            bool fieldObserves,
+            WorldObject_Traveler traveler,
+            Faction tf,
+            int tTile,
+            float tLos,
+            bool travelerSpotsField,
+            HashSet<int> tfSites,
+            HashSet<int> knowers,
+            WorldGrid grid)
+        {
+            Faction ff = field.Faction;
+            if (ff == tf) return;
+
+            bool needSpotTraveler = fieldObserves && ff != null && !knowers.Contains(ff.loadID);
+            bool needSpotSite = travelerSpotsField && !tfSites.Contains(field.ID);
+            if (!needSpotTraveler && !needSpotSite) return;
+
+            int d = TileDistance(grid, tTile, field.Tile.tileId);
+
+            if (needSpotTraveler
+                && (d <= 1 || d <= GetSightRange(field, traveler)))
+            {
+                DiscoverTraveler(ff, traveler, field);
+                knowers.Add(ff.loadID);
+            }
+            if (needSpotSite && (d <= 1 || d <= tLos))
+                Discover(tf, field, traveler);
         }
 
         public void NotifySiteDestroyed(WorldObject wo)
@@ -1689,11 +2165,28 @@ namespace TSA_WorldDomination
             return new List<int>(set);
         }
 
+        /// <summary>
+        /// Daily LOS: queues every stationary observer and drains the queue a few observers per world tick
+        /// (<see cref="DailyLosObserversPerTick"/>), so the day rollover carries no single-tick spike.
+        /// Each observer's pass is independent and idempotent; discoveries land within a few ticks.
+        /// </summary>
         public void DailyLosPass(DailyWorldSnapshot snap)
         {
             if (!IsTracking() || snap?.SettlementsByFaction == null) return;
+            bool perf = PerfLogging;
+            long perfStart = perf ? System.Diagnostics.Stopwatch.GetTimestamp() : 0L;
             EnsureMaxLosCacheDay();
             cachedSettlementMaxLos.Clear();
+            liveSightRadiusCache.Clear();
+            hopCullDirty = true;
+            // Overnight age/stage growth can change a settlement's Awareness; drop the select-driven Sight
+            // radius cache so the gizmo disc picks up the new radius immediately (other change paths already do).
+            WD_RadiusOverlayPrefs.InvalidateResolveCache();
+
+            // A pass still in flight is simply restarted (a day is far longer than a pass needs).
+            dailyLosQueue.Clear();
+            dailyLosCursor = 0;
+            dailyLosSnap = snap;
 
             foreach (var kv in snap.SettlementsByFaction)
             {
@@ -1703,7 +2196,7 @@ namespace TSA_WorldDomination
                 {
                     Settlement s = list[i];
                     if (s != null && !s.Destroyed)
-                        RunLosFromObserver(s, snap);
+                        dailyLosQueue.Add(s);
                 }
             }
 
@@ -1713,31 +2206,122 @@ namespace TSA_WorldDomination
                 {
                     var o = snap.PlayerOutposts[i];
                     if (o != null && !o.Destroyed)
-                        RunLosFromOutpost(o, snap);
+                        dailyLosQueue.Add(o);
                 }
             }
 
-            // Player map colonies are not in SettlementsByFaction — run LOS for FoW seed.
-            Faction player = Faction.OfPlayerSilentFail;
-            if (player != null)
-            {
-                List<Settlement> settlements = Find.WorldObjects?.Settlements;
-                if (settlements != null)
-                {
-                    for (int i = 0; i < settlements.Count; i++)
-                    {
-                        Settlement s = settlements[i];
-                        if (s == null || s.Destroyed || s.Faction != player || !s.HasMap) continue;
-                        RunLosFromObserver(s, snap);
-                    }
-                }
-            }
+            // The player map colony (singular) is not in SettlementsByFaction — run LOS for FoW seed.
+            Settlement colony = InfluenceUtils.GetPlayerColony();
+            if (colony != null && !colony.Destroyed && colony.HasMap && colony.Faction?.IsPlayer == true)
+                dailyLosQueue.Add(colony);
 
+            QueueDailyFieldObservers();
+            // Not a duplicate of the 60-tick WorldComponentTick call: that one is gated on WdFowDraw.IsActive
+            // (fog overlay shown), this one only on IsTracking(). This is the once-daily fallback that keeps
+            // player-caravan scout discovery + tile exploration running when the player has the fog display off.
             TickMobileCaravanAndAirborneFowReveal();
-            // Age/stage can grow MaxLOS overnight — refresh the visible disk, don't wait for the 90-tick interval alone.
-            TileFow.MarkVisibleStructureDirty();
+
+            if (perf)
+                perfDailyTicks += System.Diagnostics.Stopwatch.GetTimestamp() - perfStart;
+
+            // World-gen / start-site selection: no world ticks will drain the queue, so run it now.
+            if (Current.ProgramState != ProgramState.Playing)
+                ProcessDailyLosQueue(int.MaxValue);
         }
 
+        /// <summary>Run up to <paramref name="budget"/> queued daily observers. No-op when the queue is empty.</summary>
+        private void ProcessDailyLosQueue(int budget)
+        {
+            int count = dailyLosQueue.Count;
+            if (dailyLosCursor >= count) return;
+
+            bool perf = PerfLogging;
+            long perfStart = perf ? System.Diagnostics.Stopwatch.GetTimestamp() : 0L;
+            DailyWorldSnapshot snap = dailyLosSnap ?? Manager?.CurrentDailySnapshot;
+
+            while (dailyLosCursor < count && budget > 0)
+            {
+                budget--;
+                WorldObject observer = dailyLosQueue[dailyLosCursor++];
+                if (observer == null || observer.Destroyed) continue;
+                if (observer is Settlement settlement)
+                    RunLosFromObserver(settlement, snap);
+                else if (observer is WorldObject_WD_Outpost outpost)
+                    RunLosFromOutpost(outpost, snap);
+                else
+                    RunLosFromFieldObserver(observer, snap);
+            }
+
+            bool done = dailyLosCursor >= count;
+            if (done)
+            {
+                dailyLosQueue.Clear();
+                dailyLosCursor = 0;
+                dailyLosSnap = null;
+                // Age/stage can grow MaxLOS overnight — diff the view's observer disks now.
+                TileFow.MarkVisibleStructureDirty();
+            }
+
+            if (perf)
+            {
+                perfDailyTicks += System.Diagnostics.Stopwatch.GetTimestamp() - perfStart;
+                perfDailySlices++;
+                if (done)
+                    LogDailyPerf();
+            }
+        }
+
+        /// <summary>Verbose-only: one [WD Perf] line per day with the FoW / LOS cost since the last daily pass.</summary>
+        private void LogDailyPerf()
+        {
+            WD_DevPerformanceSpikeLog.Msg(
+                $"FoW/LOS day: dailyLos={PerfMs(perfDailyTicks):F2}ms over {perfDailySlices} ticks"
+                + $" | hops={perfHopCalls} {PerfMs(perfHopTicks):F2}ms"
+                + $" (settlements culled {perfHopSitesCulled}/{perfHopSitesSeen}, cull={(hopCullRadPerTile > 0f ? "on" : "off")})"
+                + $" | iconRebuilds={perfIconRebuilds} {PerfMs(perfIconTicks):F2}ms"
+                + $" | diskRefresh={TileFow.PerfRefreshCount} {PerfMs(TileFow.PerfRefreshTicks):F2}ms"
+                + $" | fowView={(WdFowDraw.IsActive ? "on" : "off")}");
+            perfDailyTicks = 0L;
+            perfDailySlices = 0;
+            perfHopTicks = 0L;
+            perfHopCalls = 0;
+            perfHopSitesSeen = 0L;
+            perfHopSitesCulled = 0L;
+            perfIconTicks = 0L;
+            perfIconRebuilds = 0;
+            TileFow.PerfRefreshTicks = 0L;
+            TileFow.PerfRefreshCount = 0;
+        }
+
+        /// <summary>Field observers for the daily pass: AT turrets and Watch Towers (player + NPC).</summary>
+        private void QueueDailyFieldObservers()
+        {
+            IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
+            for (int i = 0; i < ats.Count; i++)
+            {
+                WorldObject_AT_Turret at = ats[i];
+                if (at != null && !at.Destroyed)
+                    dailyLosQueue.Add(at);
+            }
+
+            IReadOnlyList<WorldObject_WD_PlayerWatchTower> towers = WorldObject_WD_PlayerWatchTower.LiveTowers;
+            for (int i = 0; i < towers.Count; i++)
+            {
+                WorldObject_WD_PlayerWatchTower wt = towers[i];
+                if (wt != null && !wt.Destroyed)
+                    dailyLosQueue.Add(wt);
+            }
+
+            var advReg = WorldComponent_AdvancedBuildings.Get();
+            if (advReg == null) return;
+            IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = advReg.All;
+            for (int i = 0; i < buildings.Count; i++)
+            {
+                WorldObject_WD_AdvancedBuilding b = buildings[i];
+                if (b == null || b.Destroyed || !IsWatchTowerObserver(b)) continue;
+                dailyLosQueue.Add(b);
+            }
+        }
         /// <summary>
         /// Stationary observer MaxLOS changed (outpost defense band, settlement tier, etc.).
         /// Reveals/spots immediately and rebuilds the visible FoW disk — do not wait for the daily pass.
@@ -1747,20 +2331,32 @@ namespace TSA_WorldDomination
             if (!IsTracking() || observer == null || observer.Destroyed) return;
             if (!tileFowSeeded) return;
 
+            liveSightRadiusCache.Remove(observer.ID);
             if (observer is Settlement settlement)
             {
                 cachedSettlementMaxLos.Remove(settlement.ID);
+                hopCullDirty = true;
                 RunLosFromObserver(settlement);
             }
             else if (observer is WorldObject_WD_Outpost outpost)
             {
                 RunLosFromOutpost(outpost);
             }
+            else if (observer is WorldObject_AT_Turret || IsWatchTowerObserver(observer))
+            {
+                RunLosFromFieldObserver(observer);
+            }
             else
                 return;
 
-            TileFow.MarkVisibleStructureDirty();
-            TileFow.EnsureVisibleCacheFresh(force: true);
+            // Sight disks exist for the FoW view faction only: another faction's observer cannot change them.
+            if (ShouldDirtyVisibleStructureForMover(observer.Faction))
+            {
+                TileFow.MarkVisibleStructureDirty();
+                // Incremental: re-floods this observer's disk only (no whole-planet rebuild).
+                if (TileFow.EnsureVisibleCacheFresh())
+                    InvalidateFowDrawCache();
+            }
             WD_RadiusOverlayPrefs.InvalidateResolveCache();
         }
 
@@ -1771,6 +2367,7 @@ namespace TSA_WorldDomination
         /// </summary>
         public void NotifySiteAppeared(WorldObject site)
         {
+            hopCullDirty = true;
             if (!IsTracking() || site == null || site.Destroyed || !tileFowSeeded) return;
             NotifyStationaryObserverLosChanged(site);
             TryDiscoverSiteFromExistingObservers(site);
@@ -1783,6 +2380,7 @@ namespace TSA_WorldDomination
         /// </summary>
         public void NotifySiteAppearedAfterInit(WorldObject site)
         {
+            hopCullDirty = true;
             if (!IsTracking() || site == null || site.Destroyed || !tileFowSeeded) return;
             TryDiscoverSiteFromExistingObservers(site);
             ForceRebuildFowDrawCacheNow();
@@ -1792,6 +2390,8 @@ namespace TSA_WorldDomination
         public void ForceRebuildFowDrawCacheNow()
         {
             if (!WdFowDraw.IsActive) return;
+            // Icons read the view's tile sight bits: bring the disks up to date first.
+            TileFow.EnsureVisibleCacheFresh();
             fowCacheVersion = -1;
             fowCacheTick = -999;
             fowCacheViewFactionId = int.MinValue;
@@ -1803,7 +2403,9 @@ namespace TSA_WorldDomination
             if (site?.Faction == null || !site.Tile.Valid) return;
             WorldGrid grid = Find.WorldGrid;
             if (grid == null) return;
-            var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
+            // A site every faction already knows needs no observer scan at all.
+            if (IsAlwaysKnown(site)) return;
+            int siteId = site.ID;
 
             List<Settlement> settlements = Find.WorldObjects?.Settlements;
             if (settlements != null)
@@ -1812,10 +2414,13 @@ namespace TSA_WorldDomination
                 {
                     Settlement s = settlements[i];
                     if (s == null || s.Destroyed || ReferenceEquals(s, site)) continue;
-                    if (s.Faction == null || s.Faction == site.Faction) continue;
-                    bool playerColony = s.Faction.IsPlayer && s.HasMap;
+                    Faction sf = s.Faction;
+                    if (sf == null || sf == site.Faction) continue;
+                    // Known-first: skip before the comp lookup and distance.
+                    if (GetOrCreateKnownSiteSet(sf).Contains(siteId)) continue;
+                    bool playerColony = sf.IsPlayer && s.HasMap;
                     if (!playerColony && s.GetComponent<CompViralSpread>() == null) continue;
-                    TryDiscoverSiteFromObserver(s, s.Faction, site, manager);
+                    TryDiscoverSiteFromObserver(s, sf, site, grid);
                 }
             }
 
@@ -1825,10 +2430,42 @@ namespace TSA_WorldDomination
                 WorldObject_WD_Outpost o = outposts[i];
                 if (o == null || o.Destroyed) continue;
                 if (o.Faction == null || o.Faction == site.Faction) continue;
-                TryDiscoverSiteFromObserver(o, o.Faction, site, manager);
+                TryDiscoverSiteFromObserver(o, o.Faction, site, grid);
             }
 
-            // Player caravans (scout-style Hunch) as appear observers.
+            // Field observers: AT turrets and Watch Towers (player + NPC).
+            IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
+            for (int i = 0; i < ats.Count; i++)
+            {
+                WorldObject_AT_Turret at = ats[i];
+                if (at == null || at.Destroyed || ReferenceEquals(at, site)) continue;
+                if (at.Faction == null || at.Faction == site.Faction) continue;
+                TryDiscoverSiteFromObserver(at, at.Faction, site, grid);
+            }
+
+            IReadOnlyList<WorldObject_WD_PlayerWatchTower> towers = WorldObject_WD_PlayerWatchTower.LiveTowers;
+            for (int i = 0; i < towers.Count; i++)
+            {
+                WorldObject_WD_PlayerWatchTower wt = towers[i];
+                if (wt == null || wt.Destroyed || ReferenceEquals(wt, site)) continue;
+                if (wt.Faction == null || wt.Faction == site.Faction) continue;
+                TryDiscoverSiteFromObserver(wt, wt.Faction, site, grid);
+            }
+
+            var advReg = WorldComponent_AdvancedBuildings.Get();
+            if (advReg != null)
+            {
+                IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = advReg.All;
+                for (int i = 0; i < buildings.Count; i++)
+                {
+                    WorldObject_WD_AdvancedBuilding b = buildings[i];
+                    if (b == null || b.Destroyed || ReferenceEquals(b, site) || !IsWatchTowerObserver(b)) continue;
+                    if (b.Faction == null || b.Faction == site.Faction) continue;
+                    TryDiscoverSiteFromObserver(b, b.Faction, site, grid);
+                }
+            }
+
+            // Player caravans (scout-style Awareness) as appear observers.
             Faction player = Faction.OfPlayerSilentFail;
             if (player != null && player != site.Faction)
             {
@@ -1839,7 +2476,7 @@ namespace TSA_WorldDomination
                     {
                         Caravan c = caravans[i];
                         if (c == null || c.Destroyed || c.Faction != player) continue;
-                        TryDiscoverSiteFromObserver(c, player, site, manager);
+                        TryDiscoverSiteFromObserver(c, player, site, grid);
                     }
                 }
             }
@@ -1850,27 +2487,28 @@ namespace TSA_WorldDomination
                 WorldObject_Traveler t = travelers[i];
                 if (t == null || t.Destroyed || t.Faction == null || t.Faction == site.Faction) continue;
                 if (WorldObject_Traveler.IsShellMission(t.mission)) continue;
-                TryDiscoverSiteFromObserver(t, t.Faction, site, manager);
+                TryDiscoverSiteFromObserver(t, t.Faction, site, grid);
             }
         }
 
-        /// <summary>Same distance rules as <see cref="SpotSitesFromObserver"/> (approx +1 prefilter, then GetDistance).</summary>
+        /// <summary>
+        /// Same rules as <see cref="SpotSitesFromObserver"/>: known-first, then one rounded ApproxDistance.
+        /// Sites: LOS spots anything, the Awareness band only Awareness-spottable (Tier 3+) sites; field structures need LOS.
+        /// </summary>
         private void TryDiscoverSiteFromObserver(
             WorldObject observer,
             Faction observerFaction,
             WorldObject site,
-            WorldComponent_SpreadManager manager)
+            WorldGrid grid)
         {
             if (observer == null || observer.Destroyed || site == null || observerFaction == null) return;
-            if (IsDiscovered(observerFaction, site)) return;
+            if (GetOrCreateKnownSiteSet(observerFaction).Contains(site.ID)) return;
 
             float maxLos = GetMaxLos(observer);
             if (maxLos <= 0f) return;
-            float approx = Find.WorldGrid.ApproxDistanceInTiles(observer.Tile.tileId, site.Tile.tileId);
-            if (approx > maxLos + 1f) return;
-            float d = WorldActions_Utils.GetDistance(observer.Tile, site.Tile, manager);
-            if (d > maxLos && d > 1f) return;
-            if (d <= 1f || d <= GetSightRange(observer, site))
+            int d = TileDistance(grid, observer.Tile.tileId, site.Tile.tileId);
+            if (d > 1 && d > maxLos) return;
+            if (d <= 1 || d <= GetLosRadius(observer) || CanSpotAtAwarenessRange(site))
                 Discover(observerFaction, site, observer);
         }
 

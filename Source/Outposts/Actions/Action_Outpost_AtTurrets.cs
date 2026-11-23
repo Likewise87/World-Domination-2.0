@@ -85,6 +85,7 @@ namespace TSA_WorldDomination
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
             bool turretBusy = WorldActions_AtTurrets.HasActiveAtTurretProject(comp);
+            bool watchTowerBusy = WorldActions_WatchTowers.HasActiveWatchTowerProject(comp);
 
             if (turretBusy)
             {
@@ -99,7 +100,7 @@ namespace TSA_WorldDomination
                 return new FloatMenuOption(label, () => { }, icon, Color.cyan) { Disabled = true };
             }
 
-            if (roadBusy || blockBusy || trapBusy || decontamBusy
+            if (roadBusy || blockBusy || trapBusy || decontamBusy || watchTowerBusy
                 || WorldActions_PlayerScout.HasActiveScoutProject(comp))
             {
                 return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.cyan)

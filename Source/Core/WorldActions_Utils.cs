@@ -529,6 +529,17 @@ namespace TSA_WorldDomination
             return !PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(obj.Tile);
         }
 
+        /// <summary>
+        /// Same rounded tile distance as <see cref="GetDistance"/> without touching the saved distanceCache.
+        /// Use whenever either tile is mobile (traveler, caravan, pod, scout): those pairs never repeat,
+        /// so caching them only fills the 65k cache (and the save) and wipes the stable settlement pairs.
+        /// </summary>
+        public static int GetDistanceUncached(int tileA, int tileB)
+        {
+            if (tileA == tileB) return 0;
+            return Mathf.RoundToInt(Find.WorldGrid.ApproxDistanceInTiles(tileA, tileB));
+        }
+
         public static int GetDistance(int tileA, int tileB, WorldComponent_SpreadManager manager)
         {
             if (tileA == tileB) return 0;

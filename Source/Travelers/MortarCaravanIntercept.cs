@@ -250,7 +250,7 @@ namespace TSA_WorldDomination
         private static float RangeDistance(int fromTileId, int toTileId, WorldComponent_SpreadManager manager)
         {
             if (manager != null)
-                return WorldActions_Utils.GetDistance(fromTileId, toTileId, manager);
+                return WorldActions_Utils.GetDistanceUncached(fromTileId, toTileId);
             return Find.WorldGrid.ApproxDistanceInTiles(fromTileId, toTileId);
         }
 

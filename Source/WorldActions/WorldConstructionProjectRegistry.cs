@@ -12,10 +12,13 @@ namespace TSA_WorldDomination
     {
         private static readonly List<CompViralSpread> bridgeProjects = new List<CompViralSpread>();
         private static readonly List<CompViralSpread> atTurretProjects = new List<CompViralSpread>();
+        private static readonly List<CompViralSpread> watchTowerProjects = new List<CompViralSpread>();
 
         public static IReadOnlyList<CompViralSpread> ActiveBridgeProjects => bridgeProjects;
 
         public static IReadOnlyList<CompViralSpread> ActiveAtTurretProjects => atTurretProjects;
+
+        public static IReadOnlyList<CompViralSpread> ActiveWatchTowerProjects => watchTowerProjects;
 
         public static void NotifyBridgeChanged(CompViralSpread comp)
         {
@@ -35,6 +38,15 @@ namespace TSA_WorldDomination
             SetListed(atTurretProjects, comp, should);
         }
 
+        public static void NotifyWatchTowerChanged(CompViralSpread comp)
+        {
+            if (comp == null) return;
+            bool should = WorldActions_WatchTowers.HasActiveWatchTowerProject(comp)
+                && comp.parent != null
+                && !comp.parent.Destroyed;
+            SetListed(watchTowerProjects, comp, should);
+        }
+
         /// <summary>
         /// Authoritative rebuild after world objects spawn. Static lists are not per-World.
         /// </summary>
@@ -42,6 +54,7 @@ namespace TSA_WorldDomination
         {
             bridgeProjects.Clear();
             atTurretProjects.Clear();
+            watchTowerProjects.Clear();
             List<WorldObject> all = Find.WorldObjects?.AllWorldObjects;
             if (all == null) return;
             for (int i = 0; i < all.Count; i++)
@@ -52,6 +65,8 @@ namespace TSA_WorldDomination
                     bridgeProjects.Add(c);
                 if (WorldActions_AtTurrets.HasActiveAtTurretProject(c))
                     atTurretProjects.Add(c);
+                if (WorldActions_WatchTowers.HasActiveWatchTowerProject(c))
+                    watchTowerProjects.Add(c);
             }
         }
 

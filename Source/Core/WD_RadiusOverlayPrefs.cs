@@ -290,6 +290,13 @@ namespace TSA_WorldDomination
                 return true;
             }
 
+            // Player Watch Tower Sight gizmo shares traveler Sight prefs (Sight / Off).
+            if (worldObject is WorldObject_WD_PlayerWatchTower)
+            {
+                category = WD_RadiusOverlayCategory.WdTraveler;
+                return true;
+            }
+
             if (worldObject is WorldObject_Traveler)
             {
                 category = WD_RadiusOverlayCategory.WdTraveler;
@@ -345,9 +352,11 @@ namespace TSA_WorldDomination
             Material hopMat;
             float allyInnerSplit;
             int tick = Find.TickManager?.TicksGame ?? 0;
-            // Sight MaxLOS tracks live strength/age — never serve a stale radius (pawn transfers shrink it).
-            bool cacheHit = kind != WD_RadiusOverlayKind.Sight
-                && resolveCacheOk
+            // Sight uses the same resolve cache as every other kind: the radius only moves on pawn-tier /
+            // upgrade / settlement-tier / turret-range / daily-growth events, and each of those calls
+            // InvalidateResolveCache (see NotifyStationaryObserverLosChanged + DailyLosPass). GetMaxLos is
+            // itself 250t-cached, so bypassing this cache bought no extra liveness — only per-frame work.
+            bool cacheHit = resolveCacheOk
                 && resolveCacheObjectId == worldObject.ID
                 && resolveCacheKind == kind
                 && tick - resolveCacheTick < ResolveCacheFreshTicks;
@@ -380,7 +389,7 @@ namespace TSA_WorldDomination
                 || (kind == WD_RadiusOverlayKind.Attack
                     && (worldObject is WorldObject_AT_Turret || worldObject is WorldObject_WD_ArtilleryTurret));
             bool attackRangeBands = kind == WD_RadiusOverlayKind.Attack && worldObject is Settlement;
-            // Sight: two rings — LOS (inner) + Hunch (outer). Same for colonies and NPCs.
+            // Sight: two rings — LOS (inner) + Awareness (outer). Same for colonies and NPCs.
             bool sightLosBands = kind == WD_RadiusOverlayKind.Sight;
             bool zealAttackInnerCyan = false;
             if (attackRangeBands && worldObject is Settlement settlement)

@@ -452,6 +452,23 @@
   <TSA_WD_Caravans_HeaderTravel>Viaje y desgaste</TSA_WD_Caravans_HeaderTravel>
   <TSA_WD_Caravans_WalkingTicksPerMove>Ticks por casilla de viajero a pie</TSA_WD_Caravans_WalkingTicksPerMove>
   <TSA_WD_Caravans_WalkingTicksPerMoveTip>Ticks mundiales por casilla para viajeros WD por tierra. Más bajo = más rápido. También se usa en las estimaciones de desgaste de incursiones y caravanas comerciales. Afecta a los viajeros recién lanzados; los que ya van de camino mantienen la velocidad del lanzamiento.</TSA_WD_Caravans_WalkingTicksPerMoveTip>
+  <TSA_WD_Caravans_HeaderPathfinding>Ajustes de pathfinding</TSA_WD_Caravans_HeaderPathfinding>
+  <TSA_WD_Caravans_PlayerPawnCaravanPathfinding>Aplicar a caravanas reales del jugador</TSA_WD_Caravans_PlayerPawnCaravanPathfinding>
+  <TSA_WD_Caravans_PlayerPawnCaravanPathfindingTip>Caravanas vanilla del jugador con peones reales en el mapa mundial. Si está activo, su buscador de rutas prefiere rodear trampas de pinchos hostiles y asentamientos hostiles conocidos con los valores de abajo. No cambia la velocidad al caminar. Desactívalo para el enrutado vanilla de RimWorld.</TSA_WD_Caravans_PlayerPawnCaravanPathfindingTip>
+  <TSA_WD_Caravans_PlayerWdPathfinding>Aplicar a caravanas WD del jugador</TSA_WD_Caravans_PlayerWdPathfinding>
+  <TSA_WD_Caravans_PlayerWdPathfindingTip>Viajeros World Domination del jugador (reservas de fuerza en el mapa: exploradores, entregas, cuadrillas de construcción y similares). Si está activo, usan los sesgos de trampas y asentamientos de abajo. No son las caravanas con peones reales.</TSA_WD_Caravans_PlayerWdPathfindingTip>
+  <TSA_WD_Caravans_NpcWdPathfinding>Aplicar a caravanas WD PNJ</TSA_WD_Caravans_NpcWdPathfinding>
+  <TSA_WD_Caravans_NpcWdPathfindingTip>Viajeros World Domination PNJ (fuerzas de asalto, comerciantes, cuadrillas y reservas de fuerza similares). Si está activo, usan los sesgos de trampas y asentamientos de abajo, incluido evitar puestos del jugador conocidos. Los destinos nunca se evitan, así que los embudos con bloqueos siguen funcionando.</TSA_WD_Caravans_NpcWdPathfindingTip>
+  <TSA_WD_Caravans_ScoutTrapPathAvoidPenalty>Dificultad de pathfinding por trampas (exploradores)</TSA_WD_Caravans_ScoutTrapPathAvoidPenalty>
+  <TSA_WD_Caravans_ScoutTrapPathAvoidPenaltyTip>Coste extra de pathfinding en casillas con trampas hostiles para viajeros scout WD (scouts PNJ y scouts ágiles del jugador), si el interruptor WD correspondiente arriba está activo. Solo pathfinding. Los destinos de salto scout siguen sin aterrizar en trampas hostiles.</TSA_WD_Caravans_ScoutTrapPathAvoidPenaltyTip>
+  <TSA_WD_Caravans_CaravanTrapPathAvoidPenalty>Dificultad de pathfinding por trampas (no scout)</TSA_WD_Caravans_CaravanTrapPathAvoidPenalty>
+  <TSA_WD_Caravans_CaravanTrapPathAvoidPenaltyTip>Coste extra de pathfinding en casillas con trampas hostiles para viajeros WD que no son scout y para caravanas reales del jugador, si su interruptor arriba está activo. Solo pathfinding. Pon 0 para ignorar trampas al enrutar.</TSA_WD_Caravans_CaravanTrapPathAvoidPenaltyTip>
+  <TSA_WD_Caravans_HostileSiteAvoidRadius>Radio de evitación de sitios hostiles</TSA_WD_Caravans_HostileSiteAvoidRadius>
+  <TSA_WD_Caravans_HostileSiteAvoidRadiusTip>Casillas alrededor de cada sitio hostil conocido que reciben la dificultad de pathfinding. 0 es solo la casilla del sitio. Valores altos crean una burbuja suave; mantén esto bajo si embudas asaltantes con bloqueos cerca de tus puestos.</TSA_WD_Caravans_HostileSiteAvoidRadiusTip>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyInner>Dificultad de pathfinding más interna</TSA_WD_Caravans_HostileSiteAvoidPenaltyInner>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyInnerTip>Dificultad plana en la casilla del sitio hostil solo para pathfinding. Siempre al menos tan alta como el valor más externo. Compáralo con las flats de bloqueos de camino si usas embudos.</TSA_WD_Caravans_HostileSiteAvoidPenaltyInnerTip>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyOuter>Dificultad de pathfinding más externa</TSA_WD_Caravans_HostileSiteAvoidPenaltyOuter>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyOuterTip>Dificultad plana en el anillo exterior del radio. Los anillos intermedios interpolan desde el valor interno hasta este. Solo pathfinding.</TSA_WD_Caravans_HostileSiteAvoidPenaltyOuterTip>
   <TSA_WD_Artillery_TravelSpeedsInCaravansTip>Las velocidades de viaje (viajeros a pie, cápsulas, caravanas de interceptación) están en Caravanas y comercio → Viaje y desgaste.</TSA_WD_Artillery_TravelSpeedsInCaravansTip>
   <TSA_WD_Caravans_HeaderWaterTravel>Viaje por agua</TSA_WD_Caravans_HeaderWaterTravel>
   <TSA_WD_Caravans_AllowTravelOverWater>Permitir que las caravanas crucen agua</TSA_WD_Caravans_AllowTravelOverWater>
@@ -626,7 +643,7 @@
   <TSA_WD_OutpostWorldMapLabel_Strength>Fuerza</TSA_WD_OutpostWorldMapLabel_Strength>
   <TSA_WD_OutpostWorldMapLabel_StrengthTip>Muestra la fuerza actual/máxima y el cambio neto por día.</TSA_WD_OutpostWorldMapLabel_StrengthTip>
   <TSA_WD_OutpostWorldMapLabel_RaidCooldown>Enfriamiento de incursión</TSA_WD_OutpostWorldMapLabel_RaidCooldown>
-  <TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>Muestra si una avanzadilla puede ser asaltada o cuánto dura su enfriamiento.</TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>
+  <TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>Muestra si la colonia del jugador o una avanzada puede ser asaltada, o cuánto dura su enfriamiento.</TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>
   <TSA_WD_WorldMap_Raidable>Asaltable</TSA_WD_WorldMap_Raidable>
   <TSA_WD_WorldMap_RaidProtectionDays>{0} días</TSA_WD_WorldMap_RaidProtectionDays>
   <TSA_WD_WorldMap_OutpostSimulation>Simulación de establecer avanzadilla</TSA_WD_WorldMap_OutpostSimulation>

@@ -34,38 +34,38 @@
   <TSA_WD_Intel_FoggedName>???</TSA_WD_Intel_FoggedName>
   <TSA_WD_Intel_SettlementUndiscoveredTip>Asentamiento no descubierto</TSA_WD_Intel_SettlementUndiscoveredTip>
 
-  <TSA_WD_Intel_HeaderSightRings>Línea de visión y alcance Hunch</TSA_WD_Intel_HeaderSightRings>
-  <TSA_WD_Intel_HeaderSightRingsTip>Cada observador tiene dos distancias. Línea de visión: casillas claras, iconos brillantes y descubrir cualquier cosa. Alcance Hunch: velo gris, iconos tenues y solo objetivos medianos o mayores. Misma regla para asentamientos, viajeros, exploradores y tu colonia.</TSA_WD_Intel_HeaderSightRingsTip>
-  <TSA_WD_Intel_LosFrac>Línea de visión (% del alcance Hunch)</TSA_WD_Intel_LosFrac>
-  <TSA_WD_Intel_LosFracTip>Línea de visión como parte del alcance Hunch. Dentro de LOS ves todo. Entre LOS y Hunch solo asentamientos nivel 3+ y caravanas WD con fuerza T2 o más (los sitios T2 necesitan línea de visión).</TSA_WD_Intel_LosFracTip>
+  <TSA_WD_Intel_HeaderSightRings>Línea de visión y alcance de percepción</TSA_WD_Intel_HeaderSightRings>
+  <TSA_WD_Intel_HeaderSightRingsTip>Cada observador tiene dos distancias. Línea de visión: casillas claras, iconos brillantes y descubrir cualquier cosa. Alcance de percepción: velo gris, iconos tenues y solo objetivos medianos o mayores. Misma regla para asentamientos, viajeros, exploradores y tu colonia.</TSA_WD_Intel_HeaderSightRingsTip>
+  <TSA_WD_Intel_LosFrac>Línea de visión (% del alcance de percepción)</TSA_WD_Intel_LosFrac>
+  <TSA_WD_Intel_LosFracTip>Línea de visión como parte del alcance de percepción. Dentro de LOS ves todo. Entre LOS y percepción solo asentamientos nivel 3+ y caravanas WD con fuerza T2 o más (los sitios T2 necesitan línea de visión).</TSA_WD_Intel_LosFracTip>
 
-  <TSA_WD_Intel_HeaderSettlementLos>Alcance Hunch de asentamiento / puesto</TSA_WD_Intel_HeaderSettlementLos>
-  <TSA_WD_Intel_HeaderSettlementLosTip>Los asentamientos PNJ usan su nivel para el alcance Hunch. Tu colonia y tus puestos usan el número de peones (más gente, más lejos). Edad y etapa de partida escalan Hunch hasta el multiplicador de abajo. Los bonos de alcance Expert no aplican.</TSA_WD_Intel_HeaderSettlementLosTip>
-  <TSA_WD_Intel_SettlementLosMaxMult>Multiplicador de Hunch (Late + edad máx.)</TSA_WD_Intel_SettlementLosMaxMult>
-  <TSA_WD_Intel_SettlementLosMaxMultTip>En etapa Late y edad máxima, Hunch alcanza la base multiplicada por este valor. La mitad del crecimiento viene de la edad y la mitad de Mid o Late. Los bonos de alcance Expert no aplican.</TSA_WD_Intel_SettlementLosMaxMultTip>
+  <TSA_WD_Intel_HeaderSettlementLos>Alcance de percepción de asentamiento / puesto</TSA_WD_Intel_HeaderSettlementLos>
+  <TSA_WD_Intel_HeaderSettlementLosTip>Los asentamientos PNJ usan su nivel para el alcance de percepción. Tu colonia y tus puestos usan el número de peones (más gente, más lejos). Edad y etapa de partida escalan la percepción hasta el multiplicador de abajo. Los bonos de alcance Expert no aplican.</TSA_WD_Intel_HeaderSettlementLosTip>
+  <TSA_WD_Intel_SettlementLosMaxMult>Multiplicador de percepción (Late + edad máx.)</TSA_WD_Intel_SettlementLosMaxMult>
+  <TSA_WD_Intel_SettlementLosMaxMultTip>En etapa Late y edad máxima, la percepción alcanza la base multiplicada por este valor. La mitad del crecimiento viene de la edad y la mitad de Mid o Late. Los bonos de alcance Expert no aplican.</TSA_WD_Intel_SettlementLosMaxMultTip>
 
-  <TSA_WD_Intel_HeaderTravelerLos>Alcance Hunch de viajeros</TSA_WD_Intel_HeaderTravelerLos>
-  <TSA_WD_Intel_HeaderTravelerLosTip>El alcance Hunch y la clase del viajero vienen de la fuerza al partir. El desgaste nunca cambia la clase.</TSA_WD_Intel_HeaderTravelerLosTip>
-  <TSA_WD_Intel_TravelerMaxLosT1>Hunch de viajero T1 (casillas)</TSA_WD_Intel_TravelerMaxLosT1>
-  <TSA_WD_Intel_TravelerMaxLosT1Tip>Alcance Hunch de la clase de viajero más débil.</TSA_WD_Intel_TravelerMaxLosT1Tip>
-  <TSA_WD_Intel_TravelerMaxLosT2>Hunch de viajero T2 (casillas)</TSA_WD_Intel_TravelerMaxLosT2>
-  <TSA_WD_Intel_TravelerMaxLosT2Tip>Alcance Hunch de viajeros de clase T2.</TSA_WD_Intel_TravelerMaxLosT2Tip>
-  <TSA_WD_Intel_TravelerMaxLosT3>Hunch de viajero T3 (casillas)</TSA_WD_Intel_TravelerMaxLosT3>
-  <TSA_WD_Intel_TravelerMaxLosT3Tip>Alcance Hunch de viajeros de clase T3.</TSA_WD_Intel_TravelerMaxLosT3Tip>
-  <TSA_WD_Intel_TravelerMaxLosT4>Hunch de viajero T4 (casillas)</TSA_WD_Intel_TravelerMaxLosT4>
-  <TSA_WD_Intel_TravelerMaxLosT4Tip>Alcance Hunch de la clase de viajero más fuerte.</TSA_WD_Intel_TravelerMaxLosT4Tip>
+  <TSA_WD_Intel_HeaderTravelerLos>Alcance de percepción de viajeros</TSA_WD_Intel_HeaderTravelerLos>
+  <TSA_WD_Intel_HeaderTravelerLosTip>El alcance de percepción y la clase del viajero vienen de la fuerza al partir. El desgaste nunca cambia la clase. Los viajeros medios o mayores (fuerza T2 o más) se detectan en percepción; los más débiles solo dentro de la línea de visión.</TSA_WD_Intel_HeaderTravelerLosTip>
+  <TSA_WD_Intel_TravelerMaxLosT1>Percepción de viajero T1 (casillas)</TSA_WD_Intel_TravelerMaxLosT1>
+  <TSA_WD_Intel_TravelerMaxLosT1Tip>Alcance de percepción de la clase de viajero más débil.</TSA_WD_Intel_TravelerMaxLosT1Tip>
+  <TSA_WD_Intel_TravelerMaxLosT2>Percepción de viajero T2 (casillas)</TSA_WD_Intel_TravelerMaxLosT2>
+  <TSA_WD_Intel_TravelerMaxLosT2Tip>Alcance de percepción de viajeros de clase T2.</TSA_WD_Intel_TravelerMaxLosT2Tip>
+  <TSA_WD_Intel_TravelerMaxLosT3>Percepción de viajero T3 (casillas)</TSA_WD_Intel_TravelerMaxLosT3>
+  <TSA_WD_Intel_TravelerMaxLosT3Tip>Alcance de percepción de viajeros de clase T3.</TSA_WD_Intel_TravelerMaxLosT3Tip>
+  <TSA_WD_Intel_TravelerMaxLosT4>Percepción de viajero T4 (casillas)</TSA_WD_Intel_TravelerMaxLosT4>
+  <TSA_WD_Intel_TravelerMaxLosT4Tip>Alcance de percepción de la clase de viajero más fuerte.</TSA_WD_Intel_TravelerMaxLosT4Tip>
   <TSA_WD_Intel_TravelerStrengthT2>Clase T2 desde fuerza de partida</TSA_WD_Intel_TravelerStrengthT2>
   <TSA_WD_Intel_TravelerStrengthT2Tip>Los viajeros con esta fuerza de partida o más son clase T2. También es el umbral de fuego AT a larga distancia (banda exterior).</TSA_WD_Intel_TravelerStrengthT2Tip>
   <TSA_WD_Intel_TravelerStrengthT3>Clase T3 desde fuerza de partida</TSA_WD_Intel_TravelerStrengthT3>
   <TSA_WD_Intel_TravelerStrengthT3Tip>Los viajeros con esta fuerza de partida o más son clase T3.</TSA_WD_Intel_TravelerStrengthT3Tip>
   <TSA_WD_Intel_TravelerStrengthT4>Clase T4 desde fuerza de partida</TSA_WD_Intel_TravelerStrengthT4>
   <TSA_WD_Intel_TravelerStrengthT4Tip>Los viajeros con esta fuerza de partida o más son clase T4.</TSA_WD_Intel_TravelerStrengthT4Tip>
-  <TSA_WD_Intel_ScoutMaxLos>Alcance Hunch de explorador (casillas)</TSA_WD_Intel_ScoutMaxLos>
-  <TSA_WD_Intel_ScoutMaxLosTip>Hasta dónde las misiones de exploración y tus caravanas revelan intel del mapa (Hunch). La fuerza del explorador no cambia este alcance.</TSA_WD_Intel_ScoutMaxLosTip>
+  <TSA_WD_Intel_ScoutMaxLos>Alcance de percepción de explorador (casillas)</TSA_WD_Intel_ScoutMaxLos>
+  <TSA_WD_Intel_ScoutMaxLosTip>Alcance de percepción de exploradores y caravanas del jugador para detectar objetivos medios o mayores y explorar casillas. La línea de visión es el % LOS de esto (objetivos pequeños solo dentro). La fuerza del explorador no cambia este alcance.</TSA_WD_Intel_ScoutMaxLosTip>
   <TSA_WD_Intel_ScoutSpeedMult>Velocidad de explorador vs caravanas a pie</TSA_WD_Intel_ScoutSpeedMult>
   <TSA_WD_Intel_ScoutSpeedMultTip>Cuánto más rápidos van los exploradores PNJ y del jugador que las caravanas WD a pie. 1.20 = 20% más rápido. Los edificios Stable PNJ aún pueden acelerarlos más.</TSA_WD_Intel_ScoutSpeedMultTip>
   <TSA_WD_Intel_PlayerCaravanMaxLos>Alcance de visión de caravana del jugador (casillas)</TSA_WD_Intel_PlayerCaravanMaxLos>
-  <TSA_WD_Intel_PlayerCaravanMaxLosTip>Sin uso. Las caravanas del jugador usan el alcance Hunch de explorador.</TSA_WD_Intel_PlayerCaravanMaxLosTip>
+  <TSA_WD_Intel_PlayerCaravanMaxLosTip>Sin uso. Las caravanas del jugador usan el alcance de percepción de explorador.</TSA_WD_Intel_PlayerCaravanMaxLosTip>
 
   <TSA_WD_Intel_HeaderScoutsStrategic>Exploradores</TSA_WD_Intel_HeaderScoutsStrategic>
   <TSA_WD_Intel_HeaderScoutsStrategicTip>Los exploradores NPC se lanzan cuando Fog of War está activado. Los ajustes de Expandir estratégico están en Crecimiento y Expansión.</TSA_WD_Intel_HeaderScoutsStrategicTip>
@@ -98,13 +98,13 @@
   <TSA_WD_Intel_BurnTriggerRatioTip>Si la fuerza defensiva real supera la estimación con niebla en este ratio, se marca Got Burned al atacante.</TSA_WD_Intel_BurnTriggerRatioTip>
 
   <TSA_WD_Gizmo_ShowSightRadius>Mostrar línea de visión</TSA_WD_Gizmo_ShowSightRadius>
-  <TSA_WD_Gizmo_ShowSightRadiusDesc>Relleno hexagonal sobre la niebla.\n\nLínea de visión: {0} casillas\nAlcance Hunch: {1} casillas\n\nVes todo dentro de la línea de visión. En el alcance Hunch aún detectas asentamientos nivel 3+ y caravanas WD con fuerza {2}+ (los sitios T2 necesitan línea de visión). Torretas AT y edificios avanzados necesitan línea de visión.</TSA_WD_Gizmo_ShowSightRadiusDesc>
-  <TSA_WD_Gizmo_ShowSightRadiusDescPlayer>Relleno hexagonal sobre la niebla en este puesto.\n\nLínea de visión: {0} casillas\nAlcance Hunch: {1} casillas\n\nVes todo dentro de la línea de visión. En el alcance Hunch aún detectas asentamientos nivel 3+ y caravanas WD con fuerza {2}+ (los sitios T2 necesitan línea de visión). Los sitios no descubiertos pueden seguir ocultos.</TSA_WD_Gizmo_ShowSightRadiusDescPlayer>
-  <TSA_WD_Gizmo_ShowSightRadiusDescPlayerColony>Relleno hexagonal sobre la niebla en tu colonia.\n\nLínea de visión: {0} casillas\nAlcance Hunch: {1} casillas\n\nVes todo dentro de la línea de visión. En el alcance Hunch aún detectas asentamientos nivel 3+ y caravanas WD con fuerza {2}+ (los sitios T2 necesitan línea de visión).</TSA_WD_Gizmo_ShowSightRadiusDescPlayerColony>
-  <TSA_WD_Gizmo_SightRadiusBandsLegend>Dorado brillante = línea de visión ({0} casillas): casillas claras, iconos brillantes, descubrir cualquier cosa.\nDorado suave = alcance Hunch ({1} casillas): velo gris, iconos tenues, sitios nivel 3+ y caravanas WD con fuerza {2}+.</TSA_WD_Gizmo_SightRadiusBandsLegend>
-  <TSA_WD_Gizmo_SightScale_Pawns>Cada peón añade {0} de línea de visión y {1} de alcance Hunch (antes del crecimiento por edad y Late).</TSA_WD_Gizmo_SightScale_Pawns>
-  <TSA_WD_Gizmo_SightScale_SettlementTier>El alcance Hunch de un asentamiento PNJ usa su base de nivel (la línea de visión es el % LOS de eso). Edad y Late pueden crecer ambos.</TSA_WD_Gizmo_SightScale_SettlementTier>
-  <TSA_WD_Gizmo_SightScale_ScoutMobile>Usa el Hunch fijo de explorador (el doble en vuelo, igual que las cápsulas WD). No escala con peones ni nivel de asentamiento.</TSA_WD_Gizmo_SightScale_ScoutMobile>
+  <TSA_WD_Gizmo_ShowSightRadiusDesc>Relleno hexagonal sobre la niebla.\n\nLínea de visión: {0} casillas\nAlcance de percepción: {1} casillas\n\nVes todo dentro de la línea de visión. En el alcance de percepción aún detectas asentamientos nivel 3+ y caravanas WD con fuerza {2}+ (los sitios T2 necesitan línea de visión). Torretas AT y edificios avanzados necesitan línea de visión.</TSA_WD_Gizmo_ShowSightRadiusDesc>
+  <TSA_WD_Gizmo_ShowSightRadiusDescPlayer>Relleno hexagonal sobre la niebla en este puesto.\n\nLínea de visión: {0} casillas\nAlcance de percepción: {1} casillas\n\nVes todo dentro de la línea de visión. En el alcance de percepción aún detectas asentamientos nivel 3+ y caravanas WD con fuerza {2}+ (los sitios T2 necesitan línea de visión). Los sitios no descubiertos pueden seguir ocultos.</TSA_WD_Gizmo_ShowSightRadiusDescPlayer>
+  <TSA_WD_Gizmo_ShowSightRadiusDescPlayerColony>Relleno hexagonal sobre la niebla en tu colonia.\n\nLínea de visión: {0} casillas\nAlcance de percepción: {1} casillas\n\nVes todo dentro de la línea de visión. En el alcance de percepción aún detectas asentamientos nivel 3+ y caravanas WD con fuerza {2}+ (los sitios T2 necesitan línea de visión).</TSA_WD_Gizmo_ShowSightRadiusDescPlayerColony>
+  <TSA_WD_Gizmo_SightRadiusBandsLegend>Dorado brillante = línea de visión ({0} casillas): casillas claras, iconos brillantes, descubrir cualquier cosa.\nDorado suave = alcance de percepción ({1} casillas): velo gris, iconos tenues, sitios nivel 3+ y caravanas WD con fuerza {2}+.</TSA_WD_Gizmo_SightRadiusBandsLegend>
+  <TSA_WD_Gizmo_SightScale_Pawns>Cada peón añade {0} de línea de visión y {1} de alcance de percepción (antes del crecimiento por edad y Late).</TSA_WD_Gizmo_SightScale_Pawns>
+  <TSA_WD_Gizmo_SightScale_SettlementTier>El alcance de percepción de un asentamiento PNJ usa su base de nivel (la línea de visión es el % LOS de eso). Edad y Late pueden crecer ambos.</TSA_WD_Gizmo_SightScale_SettlementTier>
+  <TSA_WD_Gizmo_SightScale_ScoutMobile>Usa el alcance de percepción fijo de explorador (el doble en vuelo, igual que las cápsulas WD). No escala con peones ni nivel de asentamiento.</TSA_WD_Gizmo_SightScale_ScoutMobile>
 
   <TSA_WD_Log_Intel_Discovered>INTEL: {0} descubrió {1}.</TSA_WD_Log_Intel_Discovered>
 
@@ -117,7 +117,7 @@
   <TSA_WD_Intel_ViewAsPlayerTip>Vuelve a tu niebla de descubrimiento (juego normal con Fog of War activado).</TSA_WD_Intel_ViewAsPlayerTip>
   <TSA_WD_Intel_ViewAsTip>Solo depuración. Ver el mapa como el descubrimiento de otra facción. Tu niebla es la predeterminada cuando Fog of War está activado.</TSA_WD_Intel_ViewAsTip>
   <TSA_WD_Intel_ShowFogOfWar>Mostrar niebla de guerra</TSA_WD_Intel_ShowFogOfWar>
-  <TSA_WD_Intel_ShowFogOfWarTip>Activada: casillas claras = línea de visión; gris = Hunch o exploración recordada; negro = inexplorado. Oculta sitios y nombres no descubiertos. Desactivada: mapa totalmente visible (depuración). Solo de sesión.</TSA_WD_Intel_ShowFogOfWarTip>
+  <TSA_WD_Intel_ShowFogOfWarTip>Activada: casillas claras = línea de visión; gris = percepción o exploración recordada; negro = inexplorado. Oculta sitios y nombres no descubiertos. Desactivada: mapa totalmente visible (depuración). Solo de sesión.</TSA_WD_Intel_ShowFogOfWarTip>
 
   <TSA_WD_Intel_PlayerScout_Gizmo>Enviar explorador</TSA_WD_Intel_PlayerScout_Gizmo>
   <TSA_WD_Intel_PlayerScout_GizmoTip>Envía un viajero a explorar los alrededores. Clic izquierdo en una baldosa, o mantén Mayús y clic izquierdo para encadenar waypoints.\n\n{0}\n{1}\nDuración máxima: {2} días.</TSA_WD_Intel_PlayerScout_GizmoTip>

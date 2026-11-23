@@ -9,6 +9,7 @@ namespace TSA_WorldDomination
         private Vector2 scrollPosition;
         private readonly string windowTitle;
         private bool travelExpanded = true;
+        private bool pathfindingExpanded = true;
         private bool waterExpanded;
         private bool traderExpanded;
         private bool goodwillExpanded;
@@ -66,8 +67,8 @@ public override void DoWindowContents(Rect inRect)
         {
 var s = WorldDominationMod.settings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetCaravans(),
-                () => { travelExpanded = waterExpanded = traderExpanded = goodwillExpanded = deliveryExpanded = storytellerExpanded = true; },
-                () => { travelExpanded = waterExpanded = traderExpanded = goodwillExpanded = deliveryExpanded = storytellerExpanded = false; });
+                () => { travelExpanded = pathfindingExpanded = waterExpanded = traderExpanded = goodwillExpanded = deliveryExpanded = storytellerExpanded = true; },
+                () => { travelExpanded = pathfindingExpanded = waterExpanded = traderExpanded = goodwillExpanded = deliveryExpanded = storytellerExpanded = false; });
             
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Caravans_HeaderTravel".Translate(), ref travelExpanded, SettingsUI.SectionHeaderColor))
             {
@@ -83,6 +84,7 @@ var s = WorldDominationMod.settings;
                     WorldDominationSettings.MinRapidResponseTicksPerMoveMultiplier, WorldDominationSettings.MaxRapidResponseTicksPerMoveMultiplier,
                     "TSA_WD_Outpost_RapidResponseSpeedMultTooltip".Translate(), 0.05f, SliderFormat.PercentDecimal, WorldDominationSettings.DefRapidResponseTicksPerMoveMultiplier);
             }
+
             s.strengthLossPerHour = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_LossPerHour".Translate(), s.strengthLossPerHour, 0f, 0.25f,
                 "TSA_WD_Raid_LossPerHourTooltip".Translate(), 0.005f, SliderFormat.PercentDecimal, WorldDominationSettings.DefStrengthLossPerHour);
             s.maxTravelPercentageStrengthLoss = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_MaxTravelStrengthLoss".Translate(), s.maxTravelPercentageStrengthLoss, 0f, 1f,
@@ -106,6 +108,44 @@ var s = WorldDominationMod.settings;
                 s.attritionRestNearDestBufferDays = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_AttritionRestNearDest".Translate(), s.attritionRestNearDestBufferDays, 0f, 1f,
                     "TSA_WD_Caravans_AttritionRestNearDestTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefAttritionRestNearDestBufferDays);
             }
+            }
+            l.Gap(12f);
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Caravans_HeaderPathfinding".Translate(), ref pathfindingExpanded, SettingsUI.SectionHeaderColor))
+            {
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Caravans_PlayerPawnCaravanPathfinding".Translate(), ref s.playerPawnCaravanPathfindingAdjustments,
+                    "TSA_WD_Caravans_PlayerPawnCaravanPathfindingTip".Translate(), defaultValue: WorldDominationSettings.DefPlayerPawnCaravanPathfindingAdjustments);
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Caravans_PlayerWdPathfinding".Translate(), ref s.playerCaravansAvoidHostileSettlements,
+                    "TSA_WD_Caravans_PlayerWdPathfindingTip".Translate(), defaultValue: WorldDominationSettings.DefPlayerCaravansAvoidHostileSettlements);
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Caravans_NpcWdPathfinding".Translate(), ref s.npcCaravansAvoidHostileSettlements,
+                    "TSA_WD_Caravans_NpcWdPathfindingTip".Translate(), defaultValue: WorldDominationSettings.DefNpcCaravansAvoidHostileSettlements);
+
+                bool anyPathfinding =
+                    s.playerPawnCaravanPathfindingAdjustments
+                    || s.playerCaravansAvoidHostileSettlements
+                    || s.npcCaravansAvoidHostileSettlements;
+                if (anyPathfinding)
+                {
+                    s.scoutTrapPathAvoidPenalty = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_ScoutTrapPathAvoidPenalty".Translate(),
+                        s.scoutTrapPathAvoidPenalty, 0f, 10f,
+                        "TSA_WD_Caravans_ScoutTrapPathAvoidPenaltyTip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefScoutTrapPathAvoidPenalty);
+                    s.caravanTrapPathAvoidPenalty = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_CaravanTrapPathAvoidPenalty".Translate(),
+                        s.caravanTrapPathAvoidPenalty, 0f, 10f,
+                        "TSA_WD_Caravans_CaravanTrapPathAvoidPenaltyTip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefCaravanTrapPathAvoidPenalty);
+
+                    s.hostileSettlementPathAvoidRadius = (int)SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_HostileSiteAvoidRadius".Translate(),
+                        s.hostileSettlementPathAvoidRadius, 0f, 8f,
+                        "TSA_WD_Caravans_HostileSiteAvoidRadiusTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefHostileSettlementPathAvoidRadius);
+                    s.hostileSettlementPathAvoidPenaltyInner = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_HostileSiteAvoidPenaltyInner".Translate(),
+                        s.hostileSettlementPathAvoidPenaltyInner, 0f, 10f,
+                        "TSA_WD_Caravans_HostileSiteAvoidPenaltyInnerTip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefHostileSettlementPathAvoidPenaltyInner);
+                    if (s.hostileSettlementPathAvoidRadius >= 1)
+                    {
+                        s.hostileSettlementPathAvoidPenaltyOuter = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_HostileSiteAvoidPenaltyOuter".Translate(),
+                            s.hostileSettlementPathAvoidPenaltyOuter, 0f, 10f,
+                            "TSA_WD_Caravans_HostileSiteAvoidPenaltyOuterTip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefHostileSettlementPathAvoidPenaltyOuter);
+                    }
+                }
+                s.ClampCaravansCascades();
             }
             l.Gap(12f);
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Caravans_HeaderWaterTravel".Translate(), ref waterExpanded, SettingsUI.SectionHeaderColor))

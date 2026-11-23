@@ -556,21 +556,7 @@ namespace TSA_WorldDomination
                 target =>
                 {
                     if (!TryGetSurfaceTile(target, out int tile)) return false;
-                    bool cleared = WorldActions_RoadBlocks.ClearIfPresent(tile);
-                    cleared |= WorldActions_SpikeTraps.ClearIfPresent(tile);
-                    WorldObject_AT_Turret turret = AtTurretUtility.FindTurretAt(tile);
-                    if (turret != null && !turret.Destroyed)
-                    {
-                        turret.Destroy();
-                        cleared = true;
-                    }
-                    WorldObject_WD_AdvancedBuilding building = WorldComponent_AdvancedBuildings.Get()?.At(tile);
-                    if (building != null && !building.Destroyed)
-                    {
-                        building.suppressDestroyedLetter = true;
-                        building.Destroy();
-                        cleared = true;
-                    }
+                    bool cleared = WorldActions_Fortifications.TryClearAt(tile);
                     if (!cleared)
                     {
                         Messages.Message("TSA_WD_WorldSetup_RemoveFortifyNone".Translate(), MessageTypeDefOf.RejectInput);

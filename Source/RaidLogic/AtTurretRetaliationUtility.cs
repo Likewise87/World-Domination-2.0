@@ -76,7 +76,9 @@ namespace TSA_WorldDomination
 
         /// <summary>Detour/primary target that is resolved on arrival as a field fight (AT turret or advanced building).</summary>
         public static bool IsFieldStructureTarget(WorldObject wo) =>
-            wo is WorldObject_AT_Turret || wo is WorldObject_WD_AdvancedBuilding;
+            wo is WorldObject_AT_Turret
+            || wo is WorldObject_WD_AdvancedBuilding
+            || wo is WorldObject_WD_PlayerWatchTower;
 
         /// <summary>
         /// After an AT shell hit that leaves the traveler alive: begin save/restore detour onto the firing turret.

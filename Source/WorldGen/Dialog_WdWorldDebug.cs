@@ -33,6 +33,9 @@ namespace TSA_WorldDomination
         }
 
         private Vector2 scrollPosition;
+        private string searchFilter = "";
+        /// <summary>While searching, true when the current section header matched so all body items show.</summary>
+        private bool searchSectionHeaderMatched;
         private static bool favoritesExpanded = true;
         private static bool settlementsExpanded = true;
         private static bool fortsExpanded = true;
@@ -164,6 +167,16 @@ namespace TSA_WorldDomination
             y += Outpost_Dialog_UI.DialogTitleRowAdvance;
             Text.Font = GameFont.Small;
 
+            // Same layout as SettingsUI.DrawSettingsSearchBar (label 22% | field 78%, 28px).
+            const float searchH = 28f;
+            Rect searchRow = new Rect(inRect.x, y, viewW, searchH);
+            string searchTip = "TSA_WD_Settings_SearchTip".Translate();
+            if (!searchTip.NullOrEmpty())
+                SettingsUI.TipRegion(searchRow, searchTip);
+            Widgets.Label(searchRow.LeftPart(0.22f), "TSA_WD_Settings_Search".Translate());
+            searchFilter = Widgets.TextField(searchRow.RightPart(0.78f), searchFilter ?? "");
+            y += searchH + 6f;
+
             Rect outRect = new Rect(inRect.x, y, inRect.width, inRect.height - (y - inRect.y) - bottomReserve);
             Rect viewRect = new Rect(0f, 0f, viewW, EstimateViewHeight());
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
@@ -195,9 +208,74 @@ namespace TSA_WorldDomination
             miscExpanded = expanded;
         }
 
-        private static void DrawFavorites(Listing_Standard listing)
+        private bool IsSearchActive =>
+            !searchFilter.NullOrEmpty() && searchFilter.Trim().Length > 0;
+
+        private static bool TextMatchesFilter(string text, string q) =>
+            !text.NullOrEmpty() && text.IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0;
+
+        private bool ItemMatchesQuery(DebugDashItem item)
         {
-            if (!DrawSection(listing, "Favorites", ref favoritesExpanded)) return;
+            if (item == null) return false;
+            string q = searchFilter.Trim();
+            return TextMatchesFilter(item.Id, q) || TextMatchesFilter(item.Tip, q);
+        }
+
+        private bool AnyFavoriteMatches()
+        {
+            var ids = WorldDominationMod.settings?.wdDebugFavoriteIds;
+            if (ids == null || catalogById == null) return false;
+            for (int i = 0; i < ids.Count; i++)
+            {
+                if (catalogById.TryGetValue(ids[i], out DebugDashItem item) && ItemMatchesQuery(item))
+                    return true;
+            }
+            return false;
+        }
+
+        private bool AnyToolMatches(List<DebugDashItem> tools)
+        {
+            if (tools == null) return false;
+            for (int i = 0; i < tools.Count; i++)
+            {
+                if (ItemMatchesQuery(tools[i]))
+                    return true;
+            }
+            return false;
+        }
+
+        private int CountMatchingFavorites()
+        {
+            var ids = WorldDominationMod.settings?.wdDebugFavoriteIds;
+            if (ids == null || catalogById == null) return 0;
+            if (!IsSearchActive) return ids.Count;
+            int n = 0;
+            for (int i = 0; i < ids.Count; i++)
+            {
+                if (catalogById.TryGetValue(ids[i], out DebugDashItem item) && ItemMatchesQuery(item))
+                    n++;
+            }
+            return n;
+        }
+
+        private int CountMatchingTools(string sectionTitle, List<DebugDashItem> tools)
+        {
+            if (tools == null) return 0;
+            if (!IsSearchActive) return tools.Count;
+            if (TextMatchesFilter(sectionTitle, searchFilter.Trim()))
+                return tools.Count;
+            int n = 0;
+            for (int i = 0; i < tools.Count; i++)
+            {
+                if (ItemMatchesQuery(tools[i]))
+                    n++;
+            }
+            return n;
+        }
+
+        private void DrawFavorites(Listing_Standard listing)
+        {
+            if (!DrawSection(listing, "Favorites", ref favoritesExpanded, AnyFavoriteMatches)) return;
 
             var ids = WorldDominationMod.settings?.wdDebugFavoriteIds;
             if (ids == null || ids.Count == 0) return;
@@ -209,64 +287,114 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static void DrawSettlements(Listing_Standard listing)
+        private void DrawSettlements(Listing_Standard listing)
         {
-            if (!DrawSection(listing, "Settlements", ref settlementsExpanded)) return;
+            if (!DrawSection(listing, "Settlements", ref settlementsExpanded, () => AnyToolMatches(settlementsTools))) return;
             DrawToolList(listing, settlementsTools);
         }
 
-        private static void DrawForts(Listing_Standard listing)
+        private void DrawForts(Listing_Standard listing)
         {
-            if (!DrawSection(listing, "Fortifications and buildings", ref fortsExpanded)) return;
+            if (!DrawSection(listing, "Fortifications and buildings", ref fortsExpanded, () => AnyToolMatches(fortsTools))) return;
             DrawToolList(listing, fortsTools);
         }
 
-        private static void DrawRaids(Listing_Standard listing)
+        private void DrawRaids(Listing_Standard listing)
         {
-            if (!DrawSection(listing, "Raids and travelers", ref raidsExpanded)) return;
+            if (!DrawSection(listing, "Raids and travelers", ref raidsExpanded, () => AnyToolMatches(raidsTools))) return;
             DrawToolList(listing, raidsTools);
         }
 
-        private static void DrawIntel(Listing_Standard listing)
+        private void DrawIntel(Listing_Standard listing)
         {
-            if (!DrawSection(listing, "Intel", ref intelExpanded)) return;
+            if (!DrawSection(listing, "Intel", ref intelExpanded, () => AnyToolMatches(intelTools))) return;
             DrawToolList(listing, intelTools);
         }
 
-        private static void DrawProgression(Listing_Standard listing)
+        private void DrawProgression(Listing_Standard listing)
         {
-            if (!DrawSection(listing, "Game progression / Difficulty", ref progressionExpanded)) return;
+            if (!DrawSection(listing, "Game progression / Difficulty", ref progressionExpanded, () => AnyToolMatches(progressionTools))) return;
             DrawToolList(listing, progressionTools);
         }
 
-        private static void DrawQuests(Listing_Standard listing)
+        private void DrawQuests(Listing_Standard listing)
         {
-            if (!DrawSection(listing, "Quests", ref questsExpanded)) return;
+            if (!DrawSection(listing, "Quests", ref questsExpanded, () => AnyToolMatches(questsTools))) return;
             DrawToolList(listing, questsTools);
         }
 
-        private static void DrawMisc(Listing_Standard listing)
+        private void DrawMisc(Listing_Standard listing)
         {
-            if (!DrawSection(listing, "Misc", ref miscExpanded)) return;
+            if (!DrawSection(listing, "Misc", ref miscExpanded, () => AnyToolMatches(miscTools))) return;
             DrawToolList(listing, miscTools);
         }
 
-        private static void DrawToolList(Listing_Standard listing, List<DebugDashItem> tools)
+        private void DrawToolList(Listing_Standard listing, List<DebugDashItem> tools)
         {
             if (tools == null) return;
             for (int i = 0; i < tools.Count; i++)
                 DrawDashItem(listing, tools[i]);
         }
 
-        private static bool DrawSection(Listing_Standard listing, string title, ref bool expanded)
+        private bool DrawSection(Listing_Standard listing, string title, ref bool expanded, Func<bool> bodyHasMatches)
         {
+            if (IsSearchActive)
+            {
+                string q = searchFilter.Trim();
+                bool headerMatch = TextMatchesFilter(title, q);
+                bool bodyMatch = bodyHasMatches != null && bodyHasMatches();
+                if (!headerMatch && !bodyMatch)
+                {
+                    searchSectionHeaderMatched = false;
+                    return false;
+                }
+
+                searchSectionHeaderMatched = headerMatch;
+                listing.Gap(SettingsUI.StandardGap);
+                Rect r = listing.GetRect(26f);
+                Color c = SettingsUI.SectionHeaderColor;
+                string colorHex = ColorUtility.ToHtmlStringRGBA(c);
+                Text.Font = GameFont.Small;
+                Widgets.Label(r, $"<b><color=#{colorHex}>▼  {title}</color></b>");
+                listing.GapLine(6f);
+                listing.Gap(4f);
+                return true;
+            }
+
+            searchSectionHeaderMatched = false;
             return SettingsUI.DrawCollapsibleHeader(listing, title, ref expanded, SettingsUI.SectionHeaderColor);
         }
 
-        private static float EstimateViewHeight()
+        private float EstimateViewHeight()
         {
-            int favCount = WorldDominationMod.settings?.wdDebugFavoriteIds?.Count ?? 0;
             float h = 24f;
+            if (IsSearchActive)
+            {
+                string q = searchFilter.Trim();
+                void AddSection(string title, int matchCount, int fullCount)
+                {
+                    bool headerMatch = TextMatchesFilter(title, q);
+                    int n = headerMatch ? fullCount : matchCount;
+                    if (n > 0 || headerMatch)
+                        h += SectionHeight(true, n);
+                }
+
+                int favFull = WorldDominationMod.settings?.wdDebugFavoriteIds?.Count ?? 0;
+                AddSection("Favorites", CountMatchingFavorites(), favFull);
+                AddSection("Settlements", CountMatchingTools("Settlements", settlementsTools), settlementsTools?.Count ?? 0);
+                AddSection("Fortifications and buildings",
+                    CountMatchingTools("Fortifications and buildings", fortsTools), fortsTools?.Count ?? 0);
+                AddSection("Raids and travelers",
+                    CountMatchingTools("Raids and travelers", raidsTools), raidsTools?.Count ?? 0);
+                AddSection("Intel", CountMatchingTools("Intel", intelTools), intelTools?.Count ?? 0);
+                AddSection("Game progression / Difficulty",
+                    CountMatchingTools("Game progression / Difficulty", progressionTools), progressionTools?.Count ?? 0);
+                AddSection("Quests", CountMatchingTools("Quests", questsTools), questsTools?.Count ?? 0);
+                AddSection("Misc", CountMatchingTools("Misc", miscTools), miscTools?.Count ?? 0);
+                return Mathf.Max(h, 200f);
+            }
+
+            int favCount = WorldDominationMod.settings?.wdDebugFavoriteIds?.Count ?? 0;
             h += SectionHeight(favoritesExpanded, favCount);
             h += SectionHeight(settlementsExpanded, settlementsTools?.Count ?? 6);
             h += SectionHeight(fortsExpanded, fortsTools?.Count ?? 12);
@@ -281,9 +409,11 @@ namespace TSA_WorldDomination
         private static float SectionHeight(bool expanded, int buttons) =>
             40f + (expanded ? buttons * 40f + 12f : 0f);
 
-        private static void DrawDashItem(Listing_Standard listing, DebugDashItem item)
+        private void DrawDashItem(Listing_Standard listing, DebugDashItem item)
         {
             if (item == null) return;
+            if (IsSearchActive && !searchSectionHeaderMatched && !ItemMatchesQuery(item))
+                return;
 
             Rect row = listing.GetRect(ToolButtonHeight);
             Rect starCell = new Rect(row.x, row.y, StarColWidth, row.height);

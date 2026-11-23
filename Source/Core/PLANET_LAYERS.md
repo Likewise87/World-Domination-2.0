@@ -122,16 +122,19 @@ When Settlement Intel tracking is on (`WdFowDraw.IsActive`), surface FoW meshes 
 | Layer | Role |
 |-------|------|
 | `WD_WorldLayer_FowIncognita` | Opaque black — never explored for the view faction |
-| `WD_WorldLayer_FowShroud` | Semi-transparent — explored (Hunch/memory) but outside current LOS clear disk |
+| `WD_WorldLayer_FowShroud` | Semi-transparent — explored (Awareness/memory) but outside current LOS clear disk |
 | `WD_WorldLayer_FowBlackout` | Full cover while meshes rebuild on view switch |
 
-Explored / visible bits: `WdFowTileMemory` on `WorldComponent_SettlementIntel` (scribed per-faction
-explored `BitArray`s). Explore radius = Hunch; clear `visibleBits` = LOS (`Hunch × intelLosFrac`).
-Reveal via daily observers, travelers, scouts, caravans (scout Hunch), drop pods (2× land Hunch).
-Progressive dirty queues — do not rebuild full-planet verts every discovery. Full visible-disk
-rebuild + O(tiles) reconcile only on observer-structure dirty / view switch / force — not on icon
-`InvalidateFowDrawCache`, Discover `Version`, or the ~90t icon timer. `SetDirty` must not register
-layers mid-draw. Non-WO fortification overlays (traps / road blocks / trench edges) gate on
+Explored / sight state: `WdFowTileMemory` on `WorldComponent_SettlementIntel`. Explored `BitArray`
+is kept and scribed for the **player only** (plus the active debug view faction for the session).
+Explore radius = Awareness; clear LOS = `Awareness × intelLosFrac`. Current sight is per-tile observer
+counts (`losCount` / `awarenessCount`) built from one tile list per view-faction observer.
+Reveal via daily observers, travelers, scouts, caravans (scout Awareness), drop pods (2× land Awareness).
+Progressive dirty queues — do not rebuild full-planet verts every discovery. Observer-structure
+dirty re-floods only the observers that moved, resized or vanished; a full disk rebuild happens
+only on view switch / tile-count change — never on icon `InvalidateFowDrawCache` or Discover
+`Version`. Layers read bits and drain dirty queues; they never call `EnsureVisibleCacheFresh`.
+`SetDirty` must not register layers mid-draw. Non-WO fortification overlays (traps / road blocks / trench edges) gate on
 `WdFowDraw.ShouldDrawTileOverlay` (hide on unexplored). Details: `ARCHITECTURE.md` § Settlement
 intel; icon hide/dim: `WORLD_MAP_ICONS.md`.
 

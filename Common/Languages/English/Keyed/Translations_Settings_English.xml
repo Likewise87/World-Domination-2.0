@@ -597,6 +597,23 @@
   <TSA_WD_Caravans_HeaderTravel>Travel and Attrition</TSA_WD_Caravans_HeaderTravel>
   <TSA_WD_Caravans_WalkingTicksPerMove>Walking traveler ticks per tile</TSA_WD_Caravans_WalkingTicksPerMove>
   <TSA_WD_Caravans_WalkingTicksPerMoveTip>World ticks per tile for land WD travelers. Lower = faster. Also used for raid and trader prep attrition estimates. Applies to newly launched travelers; already moving ones keep their launch speed.</TSA_WD_Caravans_WalkingTicksPerMoveTip>
+  <TSA_WD_Caravans_HeaderPathfinding>Pathfinding Adjustments</TSA_WD_Caravans_HeaderPathfinding>
+  <TSA_WD_Caravans_PlayerPawnCaravanPathfinding>Apply to real player caravans</TSA_WD_Caravans_PlayerPawnCaravanPathfinding>
+  <TSA_WD_Caravans_PlayerPawnCaravanPathfindingTip>Vanilla player caravans with real pawns on the world map. When on, their route finder prefers detours around hostile spike traps and known hostile settlements using the values below. Does not change how fast they walk. Turn off for unaltered RimWorld caravan routing.</TSA_WD_Caravans_PlayerPawnCaravanPathfindingTip>
+  <TSA_WD_Caravans_PlayerWdPathfinding>Apply to player WD caravans</TSA_WD_Caravans_PlayerWdPathfinding>
+  <TSA_WD_Caravans_PlayerWdPathfindingTip>Player World Domination travelers (strength pools on the world map: scouts, deliveries, construction crews, and similar). When on, they use the trap and hostile-settlement pathfinding biases below. Not the same as real-pawn caravans.</TSA_WD_Caravans_PlayerWdPathfindingTip>
+  <TSA_WD_Caravans_NpcWdPathfinding>Apply to NPC WD caravans</TSA_WD_Caravans_NpcWdPathfinding>
+  <TSA_WD_Caravans_NpcWdPathfindingTip>NPC World Domination travelers (raid forces, traders, construction crews, and similar strength pools). When on, they use the trap and hostile-settlement pathfinding biases below, including avoiding known player outposts. Destination sites are never avoided, so road-block funnels still work.</TSA_WD_Caravans_NpcWdPathfindingTip>
+  <TSA_WD_Caravans_ScoutTrapPathAvoidPenalty>Scout trap pathfinding difficulty</TSA_WD_Caravans_ScoutTrapPathAvoidPenalty>
+  <TSA_WD_Caravans_ScoutTrapPathAvoidPenaltyTip>Extra pathfinding cost on hostile spike-trap tiles for scout WD travelers (NPC scouts and nimble player scouts), when the matching WD toggle above is on. Pathfinding only. Scout hop destinations still never land on hostile traps.</TSA_WD_Caravans_ScoutTrapPathAvoidPenaltyTip>
+  <TSA_WD_Caravans_CaravanTrapPathAvoidPenalty>Non-scout trap pathfinding difficulty</TSA_WD_Caravans_CaravanTrapPathAvoidPenalty>
+  <TSA_WD_Caravans_CaravanTrapPathAvoidPenaltyTip>Extra pathfinding cost on hostile spike-trap tiles for non-scout WD travelers and for real player caravans, when their toggle above is on. Pathfinding only. Set to 0 to ignore traps when routing.</TSA_WD_Caravans_CaravanTrapPathAvoidPenaltyTip>
+  <TSA_WD_Caravans_HostileSiteAvoidRadius>Hostile site avoid radius</TSA_WD_Caravans_HostileSiteAvoidRadius>
+  <TSA_WD_Caravans_HostileSiteAvoidRadiusTip>How many tiles around each known hostile settlement (and, for NPC movers, player outpost) get the pathfinding cost below. 0 is the site tile only. Keep this low if you funnel raiders with road blocks near your outposts.</TSA_WD_Caravans_HostileSiteAvoidRadiusTip>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyInner>Innermost pathfinding difficulty</TSA_WD_Caravans_HostileSiteAvoidPenaltyInner>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyInnerTip>Extra pathfinding cost on the hostile site tile itself. Always at least as high as the outermost value. Compare to road-block movement flats if you rely on funnels. Destination sites are exempt.</TSA_WD_Caravans_HostileSiteAvoidPenaltyInnerTip>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyOuter>Outermost pathfinding difficulty</TSA_WD_Caravans_HostileSiteAvoidPenaltyOuter>
+  <TSA_WD_Caravans_HostileSiteAvoidPenaltyOuterTip>Extra pathfinding cost at the outer ring of the avoid radius. Rings between center and edge lerp from innermost to this value. Pathfinding only.</TSA_WD_Caravans_HostileSiteAvoidPenaltyOuterTip>
   <TSA_WD_Artillery_TravelSpeedsInCaravansTip>Travel speeds (walking travelers, drop pods, Interception Caravans) are under Caravans and Trade → Travel and Attrition.</TSA_WD_Artillery_TravelSpeedsInCaravansTip>
   <TSA_WD_Caravans_HeaderWaterTravel>Water travel</TSA_WD_Caravans_HeaderWaterTravel>
   <TSA_WD_Caravans_AllowTravelOverWater>Allow caravans to travel over water</TSA_WD_Caravans_AllowTravelOverWater>
@@ -706,7 +723,7 @@
   <TSA_WD_OutpostWorldMapLabel_Strength>Strength</TSA_WD_OutpostWorldMapLabel_Strength>
   <TSA_WD_OutpostWorldMapLabel_StrengthTip>Shows the current/max strength and net change per day.</TSA_WD_OutpostWorldMapLabel_StrengthTip>
   <TSA_WD_OutpostWorldMapLabel_RaidCooldown>Raid cooldown</TSA_WD_OutpostWorldMapLabel_RaidCooldown>
-  <TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>Shows whether an outpost can be raided or how long its cooldown lasts.</TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>
+  <TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>Shows whether the player colony or an outpost can be raided, or how long its cooldown lasts.</TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>
   <TSA_WD_WorldMap_Raidable>Raidable</TSA_WD_WorldMap_Raidable>
   <TSA_WD_WorldMap_RaidProtectionDays>{0} Days</TSA_WD_WorldMap_RaidProtectionDays>
   <TSA_WD_WorldMap_OutpostSimulation>Establish outpost simulation</TSA_WD_WorldMap_OutpostSimulation>

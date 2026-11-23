@@ -533,6 +533,7 @@ namespace TSA_WorldDomination
             if (WorldComponent_SpikeTraps.Get()?.HasTrapAt(tileId) == true) return false;
             if (TileHasAtTurret(tileId)) return false;
             if (WorldComponent_AdvancedBuildings.Get()?.HasAt(tileId) == true) return false;
+            if (WorldObject_WD_PlayerWatchTower.FindAt(tileId) != null) return false;
             return true;
         }
 

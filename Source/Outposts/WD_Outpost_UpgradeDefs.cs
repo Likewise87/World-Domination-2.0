@@ -90,6 +90,8 @@ namespace TSA_WorldDomination
         public float tileMiningBonus;
         /// <summary>Additive hunting animal-abundance score when built (0.15 = +15pp).</summary>
         public float tileAnimalAbundanceBonus;
+        /// <summary>Flat FoW Awareness/MaxLOS tiles added to the outpost when this upgrade is built (Watch Tower line).</summary>
+        public float losBonusTiles;
         /// <summary>Additive fishing fish-abundance score when built (0.15 = +15pp).</summary>
         public float tileFishAbundanceBonus;
 

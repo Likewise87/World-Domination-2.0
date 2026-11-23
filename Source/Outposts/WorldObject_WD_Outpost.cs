@@ -4104,6 +4104,20 @@ namespace TSA_WorldDomination
             return total;
         }
 
+        /// <summary>Sum of <see cref="OutpostUpgradeDef.losBonusTiles"/> × built level (Watch Tower upgrade line).</summary>
+        public float GetBuiltUpgradeLosBonusTiles()
+        {
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return 0f;
+            float total = 0f;
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (def != null) total += def.losBonusTiles * kv.Value;
+            }
+            return total;
+        }
+
         /// <summary>Sum of <see cref="OutpostUpgradeDef.tileFishAbundanceBonus"/> × built level.</summary>
         public float GetBuiltUpgradeTileFishAbundanceBonus()
         {
@@ -4487,6 +4501,8 @@ namespace TSA_WorldDomination
             }
             if (defUpgrade.raiseTileEcologyBaselineToFull)
                 TerraformingUpgradeUtility.ClearPollutionInRadius(Tile, TerraformingUpgradeUtility.BuildPollutionClearRadius);
+            if (defUpgrade.losBonusTiles > 0f)
+                WorldComponent_SettlementIntel.Get()?.NotifyStationaryObserverLosChanged(this);
             InvalidateInspectCache();
             return true;
         }

@@ -46,6 +46,7 @@ namespace TSA_WorldDomination
                 return true;
             var s = WorldDominationMod.settings;
             if (wo is WorldObject_WD_Outpost || wo is WorldObject_Traveler || wo is WorldObject_AT_Turret
+                || wo is WorldObject_WD_PlayerWatchTower
                 || wo is WorldObject_WD_AdvancedBuilding)
                 return s?.alwaysShowOutpostTravelerIconsRegardlessOfZoom
                     ?? WorldDominationSettings.DefAlwaysShowOutpostTravelerIconsRegardlessOfZoom;
@@ -75,7 +76,9 @@ namespace TSA_WorldDomination
         /// </summary>
         private static bool HideAtTurretWhenFortificationsHidden(WorldObject wo)
         {
-            if (wo is not WorldObject_AT_Turret && wo is not WorldObject_WD_AdvancedBuilding) return false;
+            if (wo is not WorldObject_AT_Turret
+                && wo is not WorldObject_WD_PlayerWatchTower
+                && wo is not WorldObject_WD_AdvancedBuilding) return false;
             return !WorldComponent_WDVisualizerToggle.ShowRoadBlocksAndTraps;
         }
 

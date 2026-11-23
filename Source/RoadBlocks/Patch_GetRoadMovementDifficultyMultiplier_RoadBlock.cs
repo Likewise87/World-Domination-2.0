@@ -52,13 +52,23 @@ namespace TSA_WorldDomination
                 }
             }
 
-            // Scout FindPath: strongly prefer routes that skip hostile spike traps.
+            // Scout FindPath: prefer routes that skip hostile spike traps (pathfinding bias only).
             if (WdScoutTrapAvoidPathContext.Active && __state && toTile.Valid
                 && WorldActions_SpikeTraps.IsHostileTrapTo(toTile.tileId, WdScoutTrapAvoidPathContext.MoverFaction))
             {
                 float terrainT = WorldPathGrid.CalculatedMovementDifficultyAt(toTile, false);
                 if (terrainT < 0.01f) terrainT = 0.01f;
                 __result += WdScoutTrapAvoidPathContext.HostileTrapFlatPenalty / terrainT;
+            }
+
+            // Hostile settlement/outpost avoid (pathfinding bias only; dest site disk omitted at Activate).
+            if (WdHostileSiteAvoidPathContext.Active && __state && toTile.Valid
+                && WdHostileSiteAvoidPathContext.TryGetPenalty(toTile.tileId, out float sitePenalty)
+                && sitePenalty > 0f)
+            {
+                float terrainS = WorldPathGrid.CalculatedMovementDifficultyAt(toTile, false);
+                if (terrainS < 0.01f) terrainS = 0.01f;
+                __result += sitePenalty / terrainS;
             }
 
             // WD FindPath pollution cost (approach A): only while WdPollutionPathContext is active.

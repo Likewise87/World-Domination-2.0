@@ -12,26 +12,31 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Soft Vehicle Framework compat so on-road hops use WD/vanilla road mult (tiers, winter)
-    /// with road-block / pollution flat additives re-baked against VF terrain.
-    /// No hard reference to Vehicles.dll — inactive when VF is not loaded.
-    /// Skipped when Roads of the Rim is active (same gate as WD vanilla road movement writes);
-    /// RotR owns road cost integration in that setup.
+    /// Soft Vehicle Framework compat: (1) inject WD glitter into VehicleDef <c>customRoadCosts</c>
+    /// (runs even when Roads of the Rim is active); (2) on-road hop Harmony re-bake for tiers /
+    /// winter / blocks (skipped when RotR is active — RotR owns those tiers).
+    /// No hard reference to Vehicles.dll.
     /// </summary>
     /// <remarks>
     /// Released VF 1.6 exposes <c>RoadCostHelper.GetRoadMovementDifficultyMultiplier</c> (float).
     /// Newer/develop builds may use <c>GetRoadMovementMultiplier</c> returning a nested
     /// <c>RoadMultiplier</c> struct; both shapes are discovered and patched when present.
+    /// VVE <c>AssignDefaults</c> stamps every RoadDef into <c>customRoadCosts</c> at a flat cost,
+    /// which erases WD glitter's better RoadDef mult — overwritten here.
     /// </remarks>
     [StaticConstructorOnStartup]
     public static class VehicleFrameworkRoadMovementCompat
     {
         public const string PackageId = "SmashPhil.VehicleFramework";
+        public const string GlitterRoadDefName = "TSA_WD_GlitterRoad";
 
         private static bool active;
+        private static bool glitterInjectReady;
         private static Type vehicleDefType;
         private static Type vehiclePawnType;
         private static PropertyInfo vehicleDefOnPawn;
+        private static FieldInfo vehiclePropertiesField;
+        private static FieldInfo customRoadCostsField;
         private static MethodInfo calculatedMovementDifficultyAt;
         private static Type roadMultiplierType;
         private static FieldInfo roadMultiplierRoadDefField;
@@ -43,26 +48,29 @@ namespace TSA_WorldDomination
             if (!IsVehicleFrameworkActive())
                 return;
 
-            // Match ApplyVanillaRoadMovementSettings: WD road mult ownership only without RotR.
-            if (WorldActions_Roads.RoadsOfTheRimActive)
-            {
-                Log.Message("[TSA WD] Vehicle Framework road movement compat skipped (Roads of the Rim active).");
-                return;
-            }
-
             try
             {
-                Type helperType = AccessTools.TypeByName("Vehicles.RoadCostHelper");
-                if (helperType == null)
+                if (!TryResolveVehicleDefReflection())
                 {
-                    Log.Warning("[TSA WD] Vehicle Framework road movement: RoadCostHelper not found; disabled.");
+                    Log.Warning("[TSA WD] Vehicle Framework: VehicleDef reflection incomplete; glitter inject + hop shim disabled.");
                     return;
                 }
 
-                vehicleDefType = AccessTools.TypeByName("Vehicles.VehicleDef");
-                vehiclePawnType = AccessTools.TypeByName("Vehicles.VehiclePawn");
-                if (vehiclePawnType != null)
-                    vehicleDefOnPawn = AccessTools.Property(vehiclePawnType, "VehicleDef");
+                glitterInjectReady = true;
+
+                // Hop Harmony: WD road mult ownership only without RotR (same gate as RoadDef writes).
+                if (WorldActions_Roads.RoadsOfTheRimActive)
+                {
+                    Log.Message("[TSA WD] Vehicle Framework road hop shim skipped (Roads of the Rim active); glitter customRoadCosts inject still available.");
+                    return;
+                }
+
+                Type helperType = AccessTools.TypeByName("Vehicles.RoadCostHelper");
+                if (helperType == null)
+                {
+                    Log.Warning("[TSA WD] Vehicle Framework road movement: RoadCostHelper not found; hop shim disabled.");
+                    return;
+                }
 
                 Type pathGridType = AccessTools.TypeByName("Vehicles.World.WorldVehiclePathGrid");
                 if (pathGridType != null)
@@ -116,12 +124,12 @@ namespace TSA_WorldDomination
 
                 if (patched == 0)
                 {
-                    Log.Warning("[TSA WD] Vehicle Framework road movement: no compatible GetRoad* methods; disabled.");
+                    Log.Warning("[TSA WD] Vehicle Framework road movement: no compatible GetRoad* methods; hop shim disabled.");
                     return;
                 }
 
                 active = true;
-                Log.Message($"[TSA WD] Vehicle Framework road movement compat active ({patched} patch(es)).");
+                Log.Message($"[TSA WD] Vehicle Framework road movement hop shim active ({patched} patch(es)).");
             }
             catch (Exception ex)
             {
@@ -130,6 +138,86 @@ namespace TSA_WorldDomination
         }
 
         public static bool Active => active;
+
+        private static bool TryResolveVehicleDefReflection()
+        {
+            vehicleDefType = AccessTools.TypeByName("Vehicles.VehicleDef");
+            if (vehicleDefType == null) return false;
+
+            vehiclePawnType = AccessTools.TypeByName("Vehicles.VehiclePawn");
+            if (vehiclePawnType != null)
+                vehicleDefOnPawn = AccessTools.Property(vehiclePawnType, "VehicleDef");
+
+            // VehicleDef.properties → VehicleProperties.customRoadCosts (Dictionary<RoadDef, float>).
+            vehiclePropertiesField = AccessTools.Field(vehicleDefType, "properties")
+                ?? AccessTools.DeclaredField(vehicleDefType, "properties");
+            if (vehiclePropertiesField == null) return false;
+
+            Type propsType = vehiclePropertiesField.FieldType;
+            customRoadCostsField = AccessTools.Field(propsType, "customRoadCosts")
+                ?? AccessTools.DeclaredField(propsType, "customRoadCosts");
+            return customRoadCostsField != null;
+        }
+
+        /// <summary>
+        /// Overwrite every VehicleDef's <c>customRoadCosts[TSA_WD_GlitterRoad]</c> with WD glitter movement.
+        /// Call from <see cref="WorldActions_Roads.ApplyVanillaRoadMovementSettings"/> (and settings apply).
+        /// Runs with or without RotR / hop shim.
+        /// </summary>
+        public static void ApplyGlitterCustomRoadCosts()
+        {
+            if (!IsVehicleFrameworkActive()) return;
+            if (!glitterInjectReady && !TryResolveVehicleDefReflection())
+            {
+                Log.WarningOnce("[TSA WD] VF glitter customRoadCosts: VehicleDef reflection unavailable.",
+                    "TSA_WD_VF_GlitterInject_Reflect".GetHashCode());
+                return;
+            }
+            glitterInjectReady = true;
+
+            WorldDominationSettings s = WorldDominationMod.settings;
+            if (s == null) return;
+
+            RoadDef glitter = DefDatabase<RoadDef>.GetNamedSilentFail(GlitterRoadDefName);
+            if (glitter == null) return;
+
+            float mult = s.GetFallbackRoadMovement(SettlementTier.T4);
+            try
+            {
+                Type defDb = typeof(DefDatabase<>).MakeGenericType(vehicleDefType);
+                PropertyInfo allProp = AccessTools.Property(defDb, "AllDefsListForReading");
+                if (allProp == null) return;
+                object listObj = allProp.GetValue(null);
+                if (listObj is not IList defs || defs.Count == 0) return;
+
+                int written = 0;
+                for (int i = 0; i < defs.Count; i++)
+                {
+                    object def = defs[i];
+                    if (def == null) continue;
+                    object props = vehiclePropertiesField.GetValue(def);
+                    if (props == null) continue;
+                    object dictObj = customRoadCostsField.GetValue(props);
+                    if (dictObj == null)
+                    {
+                        // Allocate empty dict if missing (rare).
+                        dictObj = Activator.CreateInstance(customRoadCostsField.FieldType);
+                        customRoadCostsField.SetValue(props, dictObj);
+                    }
+                    if (dictObj is not IDictionary dict) continue;
+                    dict[glitter] = mult;
+                    written++;
+                }
+
+                if (written > 0)
+                    Log.Message($"[TSA WD] VF glitter customRoadCosts set to {mult:0.###} on {written} VehicleDef(s).");
+            }
+            catch (Exception ex)
+            {
+                Log.WarningOnce($"[TSA WD] VF glitter customRoadCosts inject failed: {ex.Message}",
+                    "TSA_WD_VF_GlitterInject_Fail".GetHashCode());
+            }
+        }
 
         public static bool IsVehicleFrameworkActive()
         {
@@ -180,7 +268,8 @@ namespace TSA_WorldDomination
 
                 RoadDef roadDef = roadMultiplierRoadDefField.GetValue(__result) as RoadDef;
                 float mult = (float)roadMultiplierMultiplierField.GetValue(__result);
-                float adjusted = AdjustMultiplier(mult, roadDef != null, __0, from, to);
+                // Match float postfix: tile road link, not only whether VF packed a RoadDef.
+                float adjusted = AdjustMultiplier(mult, HasRoadLink(from, to), __0, from, to);
                 if (Mathf.Approximately(adjusted, mult)) return;
 
                 __result = roadMultiplierCtor.Invoke(new object[] { roadDef, adjusted });

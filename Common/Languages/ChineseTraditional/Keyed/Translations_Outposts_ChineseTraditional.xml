@@ -668,7 +668,7 @@
   <!-- EN: Remove fortifications -->
   <TSA_WD_RemoveFortifications>移除防禦工事</TSA_WD_RemoveFortifications>
   <!-- EN: Send a crew to remove road blocks, spike traps, or AT Turrets along a path. Click any passable tile; work tiles are those that actually have a fortification. -->
-  <TSA_WD_RemoveFortificationsDesc>派遣小隊沿路徑移除路障、尖刺陷阱或反戰車砲塔。點擊任何可通行的地塊；只有實際有防禦工事的地塊才會施工。</TSA_WD_RemoveFortificationsDesc>
+  <TSA_WD_RemoveFortificationsDesc>派遣小隊沿路徑移除路障、尖刺陷阱、反戰車砲塔或瞭望塔。點擊任何可通行的地塊；只有實際有防禦工事的地塊才會施工。</TSA_WD_RemoveFortificationsDesc>
   <!-- EN: Remove roads -->
   <TSA_WD_RemoveRoads>移除道路</TSA_WD_RemoveRoads>
   <!-- EN: Send a crew to remove existing roads along a path. Each segment takes as long as building a dirt road, regardless of road type.\n\nShift+click to place waypoints; click without Shift to set the final destination. -->
@@ -775,6 +775,21 @@
   <TSA_WD_BuildAT_Turret>建造砲塔</TSA_WD_BuildAT_Turret>
   <!-- EN: Build AT Turrets on world tiles. They will shoot at passing hostile ground based caravans. Configure which ones to target. -->
   <TSA_WD_BuildAT_TurretDesc>在世界地塊上建造反戰車砲塔。砲塔會射擊經過的敵對地面旅隊。可設定要鎖定哪些目標。</TSA_WD_BuildAT_TurretDesc>
+  <TSA_WD_BuildPlayerWatchTower>建造瞭望塔</TSA_WD_BuildPlayerWatchTower>
+  <TSA_WD_CancelPlayerWatchTower>取消瞭望塔</TSA_WD_CancelPlayerWatchTower>
+  <TSA_WD_CancelPlayerWatchTowerDesc>中止瞭望塔工程並摧毀已派出的施工隊。不退還力量。</TSA_WD_CancelPlayerWatchTowerDesc>
+  <TSA_WD_PlayerWatchTowerCancelled>{0} 的瞭望塔工程已取消。</TSA_WD_PlayerWatchTowerCancelled>
+  <TSA_WD_PlayerWatchTowerTooltip>偵察周圍 {0} 格半徑。消耗 {1} 力量。每座約 {2} 天（建造技能）。</TSA_WD_PlayerWatchTowerTooltip>
+  <TSA_WD_PlayerWatchTowerTooltip_NoStrength>偵察周圍 {0} 格半徑。每座約 {1} 天（建造技能）。殖民地建造不消耗力量。</TSA_WD_PlayerWatchTowerTooltip_NoStrength>
+  <TSA_WD_PlayerWatchTower_TargetPrompt>點擊範圍內的地塊放置瞭望塔。按住 Shift 可連續排隊。</TSA_WD_PlayerWatchTower_TargetPrompt>
+  <TSA_WD_PlayerWatchTower_InvalidTile>無法在該地塊建造瞭望塔。</TSA_WD_PlayerWatchTower_InvalidTile>
+  <TSA_WD_PlayerWatchTower_TargetSet>已設定瞭望塔工程（{0} 個地塊）。</TSA_WD_PlayerWatchTower_TargetSet>
+  <TSA_WD_Inspect_PlayerWatchTowerStatus>瞭望塔：{0}% → {1}</TSA_WD_Inspect_PlayerWatchTowerStatus>
+  <TSA_WD_Log_PlayerWatchTowerBuilt>{0} 在地塊 {1} 建成瞭望塔。</TSA_WD_Log_PlayerWatchTowerBuilt>
+  <TSA_WD_PlayerWatchTower_Inspect_Los>視野：{0} / {1} 格（視線 / 感知）</TSA_WD_PlayerWatchTower_Inspect_Los>
+  <TSA_WD_PlayerWatchTower_Inspect_BuiltBy>建造自 {0}</TSA_WD_PlayerWatchTower_Inspect_BuiltBy>
+  <TSA_WD_PlayerWatchTower_Log_DestroyedBy>{0} 被 {1} 摧毀。</TSA_WD_PlayerWatchTower_Log_DestroyedBy>
+  <TSA_WD_PlayerWatchTower_Log_Destroyed>{0} 已摧毀。</TSA_WD_PlayerWatchTower_Log_Destroyed>
   <!-- EN: Cancel AT Turret -->
   <TSA_WD_CancelAT_Turret>取消反戰車砲塔</TSA_WD_CancelAT_Turret>
   <!-- EN: Abort the AT Turret project and destroy any crew already en route. No strength refund. -->
@@ -3521,6 +3536,7 @@
   <TSA_WD_OutpostUpgrades_BenefitTileMining>+{0}%採礦效率</TSA_WD_OutpostUpgrades_BenefitTileMining>
   <!-- EN: +{0}% Animal Abundance -->
   <TSA_WD_OutpostUpgrades_BenefitTileAnimals>+{0}%動物豐富度</TSA_WD_OutpostUpgrades_BenefitTileAnimals>
+  <TSA_WD_OutpostUpgrades_BenefitLosBonus>+{0} 戰爭迷霧視野</TSA_WD_OutpostUpgrades_BenefitLosBonus>
   <!-- EN: +{0}% Fish Stocks -->
   <TSA_WD_OutpostUpgrades_BenefitTileFish>+{0}%魚類資源</TSA_WD_OutpostUpgrades_BenefitTileFish>
   <!-- EN: +{0} shell damage -->

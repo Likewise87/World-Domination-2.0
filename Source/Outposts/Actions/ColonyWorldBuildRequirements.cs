@@ -183,6 +183,33 @@ namespace TSA_WorldDomination
         public static List<OutpostUpgradeCostEntry> GetMaterialCostsForAtTurret(AtTurretTier tier) =>
             ApplyWorldBuildMaterialScale(GetMaterialCostsForAtTurretUnscaled(tier));
 
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForWatchTowerUnscaled()
+        {
+            WdWorldBuildCostExtension ext = WorldActions_WatchTowers.GetBuildExtension();
+            if (ext?.cost == null || ext.cost.Count == 0) return EmptyCosts;
+            return ext.cost;
+        }
+
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForWatchTower() =>
+            ApplyWorldBuildMaterialScale(GetMaterialCostsForWatchTowerUnscaled());
+
+        public static bool HasMaterialCostsForWatchTower() =>
+            HasWorldBuildMaterials(GetMaterialCostsForWatchTowerUnscaled());
+
+        public static ResearchProjectDef GetRequiredResearchForWatchTower()
+        {
+            WdWorldBuildCostExtension ext = WorldActions_WatchTowers.GetBuildExtension();
+            if (ext?.researchPrerequisites == null || ext.researchPrerequisites.Count == 0) return null;
+            return ext.researchPrerequisites[0];
+        }
+
+        public static bool MeetsWatchTowerRequirements(WorldObject actor)
+        {
+            float skill = ColonyWorldBuildUtility.GetActorConstructionSkillRaw(actor);
+            int minC = WorldActions_WatchTowers.GetMinConstruction();
+            return MeetsConstruction(skill, minC) && IsResearchMet(GetRequiredResearchForWatchTower());
+        }
+
         /// <summary>True when this actor pays world-build materials (player outpost or colony build site).</summary>
         public static bool ActorPaysWorldBuildMaterials(WorldObject actor)
         {
@@ -356,6 +383,7 @@ namespace TSA_WorldDomination
 
         private const float CostIconSize = 18f;
         private const float CostIconGap = 4f;
+        private const float CostLabelGap = 8f; // space between option label and first cost count
         private const float CostCountMinW = 18f;
 
         private struct CostIconSnap
@@ -422,7 +450,7 @@ namespace TSA_WorldDomination
             Text.Font = GameFont.Small;
             if (snaps.Count == 0) return;
 
-            opt.extraPartWidth = totalW;
+            opt.extraPartWidth = CostLabelGap + totalW;
             opt.extraPartOnGUI = rect =>
             {
                 DrawMaterialCostIcons(rect, snaps);
@@ -433,7 +461,7 @@ namespace TSA_WorldDomination
         private static void DrawMaterialCostIcons(Rect rect, List<CostIconSnap> snaps)
         {
             if (snaps == null || snaps.Count == 0) return;
-            float x = rect.x;
+            float x = rect.x + CostLabelGap;
             float midY = rect.y + rect.height * 0.5f;
             Text.Font = GameFont.Tiny;
             for (int i = 0; i < snaps.Count; i++)

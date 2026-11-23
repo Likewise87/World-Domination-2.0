@@ -20,7 +20,7 @@ namespace TSA_WorldDomination
 
         public static Map GetColonyMap() => Find.AnyPlayerHomeMap;
 
-        /// <summary>All player outposts with <see cref="CompOutpostArmory"/> (cached per tick).</summary>
+        /// <summary>All player outposts with <see cref="CompOutpostArmory"/> (cached per tick). Payment pool only — not traveler origins.</summary>
         public static List<WorldObject_WD_Outpost> GetContributingWarehouses()
         {
             int t = Find.TickManager?.TicksGame ?? 0;
@@ -39,6 +39,55 @@ namespace TSA_WorldDomination
             storeCache = result;
             storeCacheTick = t;
             return result;
+        }
+
+        /// <summary>
+        /// Nearest real warehouse from an armory payment list. Skips non-warehouses and optional
+        /// <paramref name="excludeTile"/> (e.g. the site being upgraded). Symbolic traveler origins only.
+        /// </summary>
+        public static WorldObject_WD_Outpost FindNearestWarehouseOrigin(
+            int fromTile,
+            List<WorldObject_WD_Outpost> armoryOutposts,
+            int excludeTile = -1)
+        {
+            if (armoryOutposts == null || armoryOutposts.Count == 0 || Find.WorldGrid == null)
+                return null;
+            WorldObject_WD_Outpost nearest = null;
+            float bestDist = float.MaxValue;
+            for (int i = 0; i < armoryOutposts.Count; i++)
+            {
+                WorldObject_WD_Outpost wo = armoryOutposts[i];
+                if (wo == null || wo.Destroyed) continue;
+                if (!Outpost_Production_Utils.IsWarehouseOutpost(wo.def)) continue;
+                if (excludeTile >= 0 && wo.Tile.tileId == excludeTile) continue;
+                float d = Find.WorldGrid.ApproxDistanceInTiles(fromTile, wo.Tile.tileId);
+                if (d < bestDist)
+                {
+                    bestDist = d;
+                    nearest = wo;
+                }
+            }
+            return nearest;
+        }
+
+        /// <summary>Closest warehouse or colony map parent to <paramref name="fromTile"/>.</summary>
+        public static WorldObject ResolveWarehouseOrColonyOrigin(
+            int fromTile,
+            Map colonyMap,
+            List<WorldObject_WD_Outpost> armoryOutposts,
+            int excludeTile = -1)
+        {
+            if (Find.WorldGrid == null)
+                return colonyMap?.Parent;
+
+            WorldObject nearestWh = FindNearestWarehouseOrigin(fromTile, armoryOutposts, excludeTile);
+            WorldObject colony = colonyMap?.Parent;
+            if (nearestWh == null) return colony;
+            if (colony == null) return nearestWh;
+
+            float dWh = Find.WorldGrid.ApproxDistanceInTiles(fromTile, nearestWh.Tile.tileId);
+            float dCol = Find.WorldGrid.ApproxDistanceInTiles(fromTile, colony.Tile.tileId);
+            return dWh <= dCol ? nearestWh : colony;
         }
 
         public static bool IsAnyStoneBlocksCost(OutpostUpgradeCostEntry c)

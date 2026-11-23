@@ -9,25 +9,47 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Per-faction explored tiles + session current-visible bits for View World as tile FoW.
-    /// Draw layers read dirty queues only; no sight math on the draw path.
+    /// Explored tiles (player, plus the active debug "View World as" faction) and session sight disks for tile FoW.
+    /// Sight disks are per-observer and incremental: one observer change touches only that observer's tiles.
+    /// Draw layers read dirty queues and bits only; no sight math on the draw path.
     /// </summary>
     public class WdFowTileMemory
     {
         private const int MaxRevealHopRadius = 64;
+        private const int MaxRevealMemoEntries = 8192;
+        /// <summary>Radius drift (tiles) tolerated before an observer disk is re-flooded (growth creeps per tick).</summary>
+        private const float DiskRadiusEpsilon = 0.05f;
+
+        private sealed class ObserverDisk
+        {
+            public int tileId = -1;
+            public float awareness;
+            public float los;
+            public int seenStamp;
+            public readonly List<int> awarenessTiles = new List<int>(256);
+            public readonly List<int> losTiles = new List<int>(128);
+        }
 
         private readonly Dictionary<int, BitArray> exploredByFaction = new Dictionary<int, BitArray>();
         /// <summary>Faction loadID → world feature uniqueIDs seen on explored tiles (for landform name FoW).</summary>
         private readonly Dictionary<int, HashSet<int>> knownFeaturesByFaction = new Dictionary<int, HashSet<int>>();
-        private BitArray visibleBits;
-        private BitArray previousVisibleBits;
+
+        // Session sight state for the current FoW view faction: per-tile observer counts.
+        private ushort[] losCount;
+        private ushort[] awarenessCount;
+        private readonly Dictionary<int, ObserverDisk> disksByObserverId = new Dictionary<int, ObserverDisk>();
+        private readonly Stack<ObserverDisk> diskPool = new Stack<ObserverDisk>();
+        private readonly List<int> staleDiskIds = new List<int>();
+        private int diskRefreshStamp;
         private int visibleFactionId = int.MinValue;
-        /// <summary>Bumped when LOS disks must rebuild (observer move / view change). Not tied to discovery Version.</summary>
+        /// <summary>Bumped when LOS disks must refresh (observer move / radius change). Not tied to discovery Version.</summary>
         private int visibleStructureEpoch;
         private int visibleCacheEpoch = -1;
-        private int visibleCacheTick = -999;
         private int tilesCount;
         private bool visibleForceFullReconcile;
+
+        /// <summary>(faction, centre tile) → largest Awareness radius already flooded into explored this session.</summary>
+        private readonly Dictionary<long, float> revealMemo = new Dictionary<long, float>();
 
         private readonly List<int> dirtyIncognita = new List<int>(256);
         private readonly List<int> dirtyShroud = new List<int>(256);
@@ -36,10 +58,16 @@ namespace TSA_WorldDomination
         /// <summary>Coalesce trench mesh rebuild when newly explored tiles may reveal edges.</summary>
         private bool trenchOverlayDirty;
 
-        private readonly Queue<PlanetTile> openTiles = new Queue<PlanetTile>();
-        private readonly Dictionary<int, int> distancesByTileId = new Dictionary<int, int>(256);
+        // Flood scratch: stamped visited array + list used as a queue (no per-flood allocations).
+        private int[] floodStamp;
+        private int floodStampCounter;
+        private readonly List<PlanetTile> floodQueue = new List<PlanetTile>(512);
         private readonly List<PlanetTile> neighborTiles = new List<PlanetTile>(8);
         private readonly List<WorldObject> visibleObserverScratch = new List<WorldObject>(64);
+
+        /// <summary>Verbose-only timing (Stopwatch ticks / refresh count) read and reset by the daily FoW perf line.</summary>
+        public long PerfRefreshTicks;
+        public int PerfRefreshCount;
 
         /// <summary>False during POV switch blackout; true when FoW meshes are ready to show.</summary>
         public bool LayersReady { get; private set; } = true;
@@ -48,15 +76,31 @@ namespace TSA_WorldDomination
 
         public void ClearSession()
         {
-            visibleBits = null;
-            previousVisibleBits = null;
+            ResetVisibleState();
             visibleFactionId = int.MinValue;
             visibleCacheEpoch = -1;
-            visibleCacheTick = -999;
             visibleStructureEpoch = 0;
             visibleForceFullReconcile = true;
             ClearDirtyQueues();
             LayersReady = true;
+        }
+
+        private void ResetVisibleState()
+        {
+            losCount = null;
+            awarenessCount = null;
+            foreach (var kv in disksByObserverId)
+                RecycleDisk(kv.Value);
+            disksByObserverId.Clear();
+        }
+
+        private void RecycleDisk(ObserverDisk disk)
+        {
+            if (disk == null) return;
+            disk.awarenessTiles.Clear();
+            disk.losTiles.Clear();
+            disk.tileId = -1;
+            diskPool.Push(disk);
         }
 
         // Instance fields: ExposeData is invoked per Scribe mode; locals filled in LoadingVars are discarded
@@ -72,9 +116,13 @@ namespace TSA_WorldDomination
             {
                 scribeExploredKeys = new List<int>();
                 scribeExploredBlobsB64 = new List<string>();
+                // Only the player's exploration is persistent. If the player faction cannot be resolved,
+                // write everything rather than risk dropping the player's map.
+                Faction player = Faction.OfPlayerSilentFail;
                 foreach (var kv in exploredByFaction)
                 {
                     if (kv.Value == null || kv.Value.Length == 0) continue;
+                    if (player != null && kv.Key != player.loadID) continue;
                     scribeExploredKeys.Add(kv.Key);
                     scribeExploredBlobsB64.Add(Convert.ToBase64String(BitArrayToBytes(kv.Value)));
                 }
@@ -87,13 +135,18 @@ namespace TSA_WorldDomination
                 ApplyLoadedExploredBits();
         }
 
-        /// <summary>Rebuild explored bitsets from scribed Base64. Safe to call from PostLoadInit or FinalizeInit.</summary>
+        /// <summary>
+        /// Rebuild explored bitsets from scribed Base64. Safe to call from PostLoadInit or FinalizeInit.
+        /// NPC entries from older saves are loaded here and pruned later by <see cref="DropNonPlayerExplored"/>
+        /// (the player faction is not reliably resolvable this early).
+        /// </summary>
         public void ApplyLoadedExploredBits()
         {
             if (scribeExploredKeys == null || scribeExploredBlobsB64 == null) return;
 
             exploredByFaction.Clear();
             knownFeaturesByFaction.Clear();
+            revealMemo.Clear();
             int n = Mathf.Min(scribeExploredKeys.Count, scribeExploredBlobsB64.Count);
             int expect = Find.WorldGrid?.TilesCount ?? 0;
             for (int i = 0; i < n; i++)
@@ -120,6 +173,44 @@ namespace TSA_WorldDomination
                 RebuildKnownFeaturesFromExplored(factionId);
         }
 
+        /// <summary>
+        /// Explored tiles are tracked for the player and for the active debug "View World as" faction only.
+        /// NPC factions keep no tile history (their site / traveler knowledge is separate and unaffected).
+        /// </summary>
+        public static bool TracksExploredFor(Faction faction)
+        {
+            if (faction == null) return false;
+            return faction.IsPlayer || faction == WdFowDraw.ViewFaction;
+        }
+
+        /// <summary>
+        /// Drop explored memory of every faction except the player and the active debug view.
+        /// No-op when the player faction cannot be resolved (never risk the player's map).
+        /// </summary>
+        public void DropNonPlayerExplored()
+        {
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player == null) return;
+            int playerId = player.loadID;
+            Faction debugView = WdFowDraw.ViewFaction;
+            int keepId = debugView != null && !debugView.IsPlayer ? debugView.loadID : playerId;
+
+            List<int> drop = null;
+            foreach (var kv in exploredByFaction)
+            {
+                if (kv.Key == playerId || kv.Key == keepId) continue;
+                drop ??= new List<int>();
+                drop.Add(kv.Key);
+            }
+            if (drop == null) return;
+            for (int i = 0; i < drop.Count; i++)
+            {
+                exploredByFaction.Remove(drop[i]);
+                knownFeaturesByFaction.Remove(drop[i]);
+            }
+            revealMemo.Clear();
+        }
+
         public void EnsureTilesCount()
         {
             int n = Find.WorldGrid?.TilesCount ?? 0;
@@ -141,8 +232,9 @@ namespace TSA_WorldDomination
                 }
                 exploredByFaction[keys[i]] = next;
             }
-            visibleBits = null;
-            previousVisibleBits = null;
+            ResetVisibleState();
+            revealMemo.Clear();
+            floodStamp = null;
         }
 
         public BitArray GetExplored(int factionLoadId)
@@ -166,7 +258,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Mutator / icon gate. When FoW inactive: true (show everything).
-        /// When FoW active but mesh not ready: false. Else: current MaxLOS visible bit.
+        /// When FoW active but mesh not ready: false. Else: current LOS bit.
         /// </summary>
         public bool IsTileCurrentlyVisibleForFow(int tileId)
         {
@@ -175,14 +267,40 @@ namespace TSA_WorldDomination
             return IsTileVisibleBit(tileId);
         }
 
-        /// <summary>Raw current-LOS bit for mesh raise/collapse (ignores LayersReady).</summary>
+        /// <summary>
+        /// Current clear-LOS bit for the FoW view faction (ignores LayersReady). Pure read:
+        /// the world tick keeps the disks fresh, draw / GUI callers never trigger sight math.
+        /// </summary>
         public bool IsTileVisibleBit(int tileId)
         {
-            EnsureVisibleCacheFresh();
-            if (visibleBits == null || tileId < 0 || tileId >= visibleBits.Length) return false;
-            return visibleBits[tileId];
+            ushort[] counts = losCount;
+            if (counts == null || tileId < 0 || tileId >= counts.Length) return false;
+            return counts[tileId] > 0;
         }
 
+        /// <summary>Current Awareness bit for the FoW view faction (LOS tiles are always inside Awareness). Pure read.</summary>
+        public bool IsTileInAwareness(int tileId)
+        {
+            ushort[] counts = awarenessCount;
+            if (counts == null || tileId < 0 || tileId >= counts.Length) return false;
+            return counts[tileId] > 0;
+        }
+
+        /// <summary>
+        /// O(1) "is this tile in current sight" for the FoW view faction. False when the disks are not built
+        /// for <paramref name="faction"/> (FoW draw off, other view, tile out of range): caller falls back to an observer loop.
+        /// </summary>
+        public bool TryGetViewAwareness(Faction faction, int tileId, out bool inAwareness)
+        {
+            inAwareness = false;
+            ushort[] counts = awarenessCount;
+            if (faction == null || counts == null || visibleForceFullReconcile) return false;
+            if (visibleFactionId != faction.loadID || !WdFowDraw.IsActive) return false;
+            if (WdFowDraw.EffectiveViewFaction != faction) return false;
+            if (tileId < 0 || tileId >= counts.Length) return false;
+            inAwareness = counts[tileId] > 0;
+            return true;
+        }
 
         public bool IsTileExploredForView(int tileId)
         {
@@ -241,14 +359,14 @@ namespace TSA_WorldDomination
             }
         }
 
+        /// <summary>Force a full disk rebuild on the next refresh (view switch only; never from hop / discovery paths).</summary>
         public void InvalidateVisibleCache()
         {
             visibleCacheEpoch = -1;
-            visibleCacheTick = -999;
             visibleForceFullReconcile = true;
         }
 
-        /// <summary>Observer move / MaxLOS change: rebuild visible disks soon (not on every discovery).</summary>
+        /// <summary>Observer move / MaxLOS change: refresh changed observer disks soon (not on every discovery).</summary>
         public void MarkVisibleStructureDirty()
         {
             visibleStructureEpoch++;
@@ -259,6 +377,8 @@ namespace TSA_WorldDomination
             EnsureTilesCount();
             InvalidateVisibleCache();
             ClearDirtyQueues();
+            // NPC tile history is not kept: only the player and the faction being debug-viewed hold explored bits.
+            DropNonPlayerExplored();
 
             if (!WdFowDraw.IsActive)
             {
@@ -282,6 +402,16 @@ namespace TSA_WorldDomination
                 return;
             }
 
+            // Debug view of an NPC faction starts from what it sees right now (the forced refresh below
+            // explores its current Awareness disks); it accumulates only while it stays the view.
+            Faction view = WdFowDraw.EffectiveViewFaction;
+            if (view != null && !view.IsPlayer)
+            {
+                exploredByFaction.Remove(view.loadID);
+                knownFeaturesByFaction.Remove(view.loadID);
+                revealMemo.Clear();
+            }
+
             EnsureVisibleCacheFresh(force: true);
             ClearDirtyQueues();
 
@@ -294,162 +424,295 @@ namespace TSA_WorldDomination
             WD_WorldLayer_FowShroud.SetDirty();
         }
 
-        public void EnsureVisibleCacheFresh(bool force = false)
+        /// <summary>
+        /// Bring the view faction's sight disks up to date. Call from world tick / gameplay paths only, never from draw.
+        /// O(1) when nothing is dirty; otherwise re-floods only observers whose tile or radius changed.
+        /// Returns true when any tile's sight state may have changed (icon hide/dim cache should rebuild).
+        /// </summary>
+        public bool EnsureVisibleCacheFresh(bool force = false)
         {
             if (!WdFowDraw.IsActive)
             {
-                visibleBits = null;
-                return;
+                if (losCount != null || awarenessCount != null || disksByObserverId.Count > 0)
+                    ResetVisibleState();
+                return false;
             }
 
             EnsureTilesCount();
             Faction view = WdFowDraw.EffectiveViewFaction;
-            if (view == null || tilesCount <= 0) return;
+            if (view == null || tilesCount <= 0) return false;
 
-            int tick = Find.TickManager?.TicksGame ?? 0;
             int viewId = view.loadID;
-            // Discovery Version no longer forces full-planet rebuild; observer moves bump visibleStructureEpoch.
-            // Skip O(tiles) reconcile when structure epoch is unchanged (do not rebuild on the 90t timer alone).
-            if (!force
-                && !visibleForceFullReconcile
-                && visibleCacheEpoch == visibleStructureEpoch
-                && visibleFactionId == viewId
-                && visibleBits != null
-                && visibleBits.Length == tilesCount)
+            bool arraysOk = losCount != null && losCount.Length == tilesCount
+                && awarenessCount != null && awarenessCount.Length == tilesCount;
+            bool full = force || visibleForceFullReconcile || visibleFactionId != viewId || !arraysOk;
+            // Discovery Version and the icon timer never reach here: only a structure epoch bump does.
+            if (!full && visibleCacheEpoch == visibleStructureEpoch)
+                return false;
+
+            var intel = WorldComponent_SettlementIntel.Get();
+            if (intel == null) return false;
+
+            bool perf = WorldDominationMod.settings != null && WorldDominationMod.settings.verboseLogging;
+            long perfStart = perf ? System.Diagnostics.Stopwatch.GetTimestamp() : 0L;
+
+            int epoch = visibleStructureEpoch;
+            BitArray explored = GetExplored(viewId);
+            bool changed = false;
+
+            if (!arraysOk)
             {
-                visibleCacheTick = tick;
-                return;
+                ResetVisibleState();
+                losCount = new ushort[tilesCount];
+                awarenessCount = new ushort[tilesCount];
+                changed = true;
+            }
+            else if (full)
+            {
+                changed |= RemoveAllDisks(explored);
             }
 
-            if (previousVisibleBits == null || previousVisibleBits.Length != tilesCount)
-                previousVisibleBits = new BitArray(tilesCount);
-            else
-                previousVisibleBits.SetAll(false);
-
-            if (visibleBits != null && visibleBits.Length == tilesCount)
-            {
-                for (int i = 0; i < tilesCount; i++)
-                    previousVisibleBits[i] = visibleBits[i];
-            }
-
-            if (visibleBits == null || visibleBits.Length != tilesCount)
-                visibleBits = new BitArray(tilesCount);
-            else
-                visibleBits.SetAll(false);
-
-            RebuildVisibleBits(view);
-            visibleCacheEpoch = visibleStructureEpoch;
-            visibleCacheTick = tick;
             visibleFactionId = viewId;
             visibleForceFullReconcile = false;
+            changed |= SyncObserverDisks(intel, view, explored);
+            visibleCacheEpoch = epoch;
 
-            // Fog dirty for visibility transitions (explored tiles only matter for shroud).
-            BitArray explored = GetExplored(viewId);
-            for (int i = 0; i < tilesCount; i++)
+            if (changed)
+                RequestIncrementalMeshUpdate();
+
+            if (perf)
             {
-                bool was = previousVisibleBits[i];
-                bool now = visibleBits[i];
-                if (was == now) continue;
-                if (explored != null && explored[i])
-                    QueueShroud(i);
+                PerfRefreshTicks += System.Diagnostics.Stopwatch.GetTimestamp() - perfStart;
+                PerfRefreshCount++;
             }
-            RequestIncrementalMeshUpdate();
+            return changed || full;
         }
 
-        private void RebuildVisibleBits(Faction view)
+        /// <summary>Diff current view observers against their recorded disks; re-flood only what moved or resized.</summary>
+        private bool SyncObserverDisks(WorldComponent_SettlementIntel intel, Faction view, BitArray explored)
         {
-            var intel = WorldComponent_SettlementIntel.Get();
+            bool changed = false;
+            int stamp = ++diskRefreshStamp;
+            int viewId = view.loadID;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            if (intel == null) return;
-
             intel.CollectFowObserversPublic(view, manager, visibleObserverScratch);
-            BitArray explored = GetExplored(view.loadID);
 
             for (int i = 0; i < visibleObserverScratch.Count; i++)
             {
                 WorldObject obs = visibleObserverScratch[i];
                 if (obs == null || obs.Destroyed) continue;
-                float hunch = WorldComponent_SettlementIntel.GetHunchRadius(obs);
-                if (hunch <= 0f) continue;
+                PlanetTile center = obs.Tile;
+                if (!center.Valid) continue;
+                float awareness = WorldComponent_SettlementIntel.GetAwarenessRadius(obs);
+                if (awareness <= 0f) continue;
+                // Explore out to Awareness; clear tiles only to LOS (Watch Tower uses fixed LoS, not frac).
                 float los = WorldComponent_SettlementIntel.GetLosRadius(obs);
-                // Explore out to Hunch; clear tiles only to LOS.
-                ApplyDisk(obs.Tile, hunch, los, visibleBits, explored, view.loadID, queueIncognitaOnExplore: true);
+
+                int id = obs.ID;
+                if (disksByObserverId.TryGetValue(id, out ObserverDisk disk))
+                {
+                    if (disk.seenStamp == stamp) continue;
+                    disk.seenStamp = stamp;
+                    if (disk.tileId == center.tileId
+                        && Mathf.Abs(disk.awareness - awareness) < DiskRadiusEpsilon
+                        && Mathf.Abs(disk.los - los) < DiskRadiusEpsilon)
+                        continue;
+                    RemoveDiskCounts(disk, explored);
+                }
+                else
+                {
+                    disk = diskPool.Count > 0 ? diskPool.Pop() : new ObserverDisk();
+                    disk.seenStamp = stamp;
+                    disksByObserverId[id] = disk;
+                }
+
+                disk.tileId = center.tileId;
+                disk.awareness = awareness;
+                disk.los = los;
+                FloodDisk(center, awareness, los, disk, explored, viewId);
+                changed = true;
             }
+
+            // Observers that are gone (destroyed, arrived, changed faction) release their tiles.
+            staleDiskIds.Clear();
+            foreach (var kv in disksByObserverId)
+            {
+                if (kv.Value.seenStamp != stamp)
+                    staleDiskIds.Add(kv.Key);
+            }
+            for (int i = 0; i < staleDiskIds.Count; i++)
+            {
+                int id = staleDiskIds[i];
+                ObserverDisk disk = disksByObserverId[id];
+                RemoveDiskCounts(disk, explored);
+                disksByObserverId.Remove(id);
+                RecycleDisk(disk);
+                changed = true;
+            }
+            staleDiskIds.Clear();
+            return changed;
         }
 
-        /// <summary>Reveal Hunch disk into explored for a faction (gameplay tracking). Does not clear tiles.</summary>
-        public void RevealTilesInRadius(Faction faction, PlanetTile center, float hunchRadius)
+        private bool RemoveAllDisks(BitArray explored)
         {
-            if (faction == null || !center.Valid || hunchRadius <= 0f) return;
+            if (disksByObserverId.Count == 0) return false;
+            foreach (var kv in disksByObserverId)
+            {
+                RemoveDiskCounts(kv.Value, explored);
+                RecycleDisk(kv.Value);
+            }
+            disksByObserverId.Clear();
+            return true;
+        }
+
+        /// <summary>Release one observer's tiles. Queues shroud only where the last clear-LOS observer left.</summary>
+        private void RemoveDiskCounts(ObserverDisk disk, BitArray explored)
+        {
+            ushort[] los = losCount;
+            ushort[] awareness = awarenessCount;
+            if (los != null)
+            {
+                List<int> tiles = disk.losTiles;
+                for (int i = 0; i < tiles.Count; i++)
+                {
+                    int id = tiles[i];
+                    if (id < 0 || id >= los.Length || los[id] == 0) continue;
+                    if (--los[id] == 0 && explored != null && id < explored.Length && explored[id])
+                        QueueShroud(id);
+                }
+            }
+            if (awareness != null)
+            {
+                List<int> tiles = disk.awarenessTiles;
+                for (int i = 0; i < tiles.Count; i++)
+                {
+                    int id = tiles[i];
+                    if (id < 0 || id >= awareness.Length || awareness[id] == 0) continue;
+                    awareness[id]--;
+                }
+            }
+            disk.losTiles.Clear();
+            disk.awarenessTiles.Clear();
+        }
+
+        /// <summary>
+        /// Reveal Awareness disk into explored for a faction (gameplay tracking). Does not clear tiles.
+        /// Only the player and the active debug view keep tile memory, and a (centre, radius) already flooded
+        /// this session is skipped: stationary observers only flood again when their radius grows.
+        /// </summary>
+        public void RevealTilesInRadius(Faction faction, PlanetTile center, float awarenessRadius)
+        {
+            if (faction == null || !center.Valid || awarenessRadius <= 0f) return;
+            if (!TracksExploredFor(faction)) return;
             if (!WorldComponent_SettlementIntel.IsTracking()) return;
             EnsureTilesCount();
             BitArray explored = GetExplored(faction.loadID);
             if (explored == null) return;
-            ApplyDisk(center, hunchRadius, clearRadius: 0f, visibleOverlay: null, explored, faction.loadID, queueIncognitaOnExplore: true);
+
+            long key = ((long)faction.loadID << 32) | (uint)center.tileId;
+            if (revealMemo.TryGetValue(key, out float done) && done >= awarenessRadius)
+                return;
+            if (revealMemo.Count >= MaxRevealMemoEntries)
+                revealMemo.Clear();
+            revealMemo[key] = awarenessRadius;
+
+            FloodDisk(center, awarenessRadius, 0f, null, explored, faction.loadID);
             RequestIncrementalMeshUpdate();
         }
 
-        public void RevealTilesInRadius(Faction faction, int centerTileId, float hunchRadius)
+        public void RevealTilesInRadius(Faction faction, int centerTileId, float awarenessRadius)
         {
             PlanetLayer surface = Find.WorldGrid?.Surface;
             if (surface == null || centerTileId < 0) return;
-            RevealTilesInRadius(faction, new PlanetTile(centerTileId, surface), hunchRadius);
+            RevealTilesInRadius(faction, new PlanetTile(centerTileId, surface), awarenessRadius);
         }
 
         /// <summary>
-        /// Flood from center: mark explored within exploreRadius; mark clear (visible) within clearRadius.
-        /// clearRadius should be ≤ exploreRadius (LOS ≤ Hunch).
+        /// Flood from center: mark explored within exploreRadius. With a <paramref name="disk"/>, also count the
+        /// observer into Awareness (exploreRadius) and clear LOS (clearRadius ≤ exploreRadius) and record its tiles.
+        /// Disk membership is the same ApproxDistance test as before; only the bookkeeping is allocation-free.
         /// </summary>
-        private void ApplyDisk(
+        private void FloodDisk(
             PlanetTile center,
             float exploreRadius,
             float clearRadius,
-            BitArray visibleOverlay,
+            ObserverDisk disk,
             BitArray explored,
-            int factionLoadId,
-            bool queueIncognitaOnExplore)
+            int factionLoadId)
         {
             WorldGrid grid = Find.WorldGrid;
             if (grid == null || !center.Valid) return;
+            int centerId = center.tileId;
+            if (centerId < 0 || centerId >= tilesCount) return;
+
+            if (floodStamp == null || floodStamp.Length != tilesCount)
+            {
+                floodStamp = new int[tilesCount];
+                floodStampCounter = 0;
+            }
+            if (floodStampCounter == int.MaxValue)
+            {
+                Array.Clear(floodStamp, 0, floodStamp.Length);
+                floodStampCounter = 0;
+            }
+            int stamp = ++floodStampCounter;
 
             float hopBasis = Mathf.Max(exploreRadius, clearRadius);
             int hopWindow = Mathf.Min(
                 Mathf.Max(WorldMapRadiusVisual.GetHopDrawRadius(hopBasis), Mathf.CeilToInt(hopBasis) + 2),
                 MaxRevealHopRadius);
 
-            openTiles.Clear();
-            distancesByTileId.Clear();
-            openTiles.Enqueue(center);
-            distancesByTileId[center.tileId] = 0;
-
             Faction view = WdFowDraw.EffectiveViewFaction;
             bool viewMatches = view != null && view.loadID == factionLoadId;
+            ushort[] los = losCount;
+            ushort[] awareness = awarenessCount;
+            bool countDisk = disk != null && los != null && awareness != null;
 
-            while (openTiles.Count > 0)
+            floodQueue.Clear();
+            floodQueue.Add(center);
+            floodStamp[centerId] = stamp;
+            int head = 0;
+            int hop = 0;
+            int levelEnd = 1;
+
+            while (head < floodQueue.Count)
             {
-                PlanetTile tile = openTiles.Dequeue();
-                int hop = distancesByTileId[tile.tileId];
-                float approx = grid.ApproxDistanceInTiles(center, tile);
-                int id = tile.tileId;
-                if (id >= 0 && id < tilesCount)
+                if (head == levelEnd)
                 {
-                    if (visibleOverlay != null && clearRadius > 0f && approx <= clearRadius)
-                        visibleOverlay[id] = true;
+                    hop++;
+                    levelEnd = floodQueue.Count;
+                }
+                PlanetTile tile = floodQueue[head++];
+                int id = tile.tileId;
+                float approx = id == centerId ? 0f : grid.ApproxDistanceInTiles(center, tile);
+                bool inExplore = approx <= exploreRadius;
 
-                    if (explored != null && approx <= exploreRadius)
+                // Only note features on newly explored tiles (skip re-note every disk paint).
+                if (explored != null && inExplore && !explored[id])
+                {
+                    explored[id] = true;
+                    NoteFeatureOnExploredTile(factionLoadId, id);
+                    if (viewMatches)
                     {
-                        // Only note features on newly explored tiles (skip re-note every disk paint).
-                        if (!explored[id])
-                        {
-                            explored[id] = true;
-                            NoteFeatureOnExploredTile(factionLoadId, id);
-                            if (queueIncognitaOnExplore && viewMatches)
-                            {
-                                QueueIncognita(id);
-                                QueueShroud(id);
-                                trenchOverlayDirty = true;
-                            }
-                        }
+                        QueueIncognita(id);
+                        QueueShroud(id);
+                        trenchOverlayDirty = true;
+                    }
+                }
+
+                if (countDisk)
+                {
+                    if (inExplore)
+                    {
+                        awareness[id]++;
+                        disk.awarenessTiles.Add(id);
+                    }
+                    if (clearRadius > 0f && approx <= clearRadius)
+                    {
+                        disk.losTiles.Add(id);
+                        // Shroud changes only where the first clear-LOS observer arrives.
+                        if (los[id]++ == 0 && explored != null && explored[id])
+                            QueueShroud(id);
                     }
                 }
 
@@ -459,9 +722,11 @@ namespace TSA_WorldDomination
                 for (int i = 0; i < neighborTiles.Count; i++)
                 {
                     PlanetTile n = neighborTiles[i];
-                    if (!n.Valid || distancesByTileId.ContainsKey(n.tileId)) continue;
-                    distancesByTileId[n.tileId] = hop + 1;
-                    openTiles.Enqueue(n);
+                    if (!n.Valid) continue;
+                    int nid = n.tileId;
+                    if (nid < 0 || nid >= tilesCount || floodStamp[nid] == stamp) continue;
+                    floodStamp[nid] = stamp;
+                    floodQueue.Add(n);
                 }
             }
         }
@@ -473,9 +738,9 @@ namespace TSA_WorldDomination
             {
                 WorldObject obs = observers[i];
                 if (obs == null || obs.Destroyed) continue;
-                float hunch = WorldComponent_SettlementIntel.GetHunchRadius(obs);
-                if (hunch <= 0f) continue;
-                RevealTilesInRadius(faction, obs.Tile, hunch);
+                float awareness = WorldComponent_SettlementIntel.GetAwarenessRadius(obs);
+                if (awareness <= 0f) continue;
+                RevealTilesInRadius(faction, obs.Tile, awareness);
             }
         }
 

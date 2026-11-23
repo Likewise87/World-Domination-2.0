@@ -172,17 +172,17 @@ namespace TSA_WorldDomination
             var intel = WorldComponent_SettlementIntel.Get();
             WdFowTileMemory mem = intel?.TileFow;
             if (mem == null) return;
-            mem.EnsureVisibleCacheFresh();
 
+            // Sight disks are refreshed by the caller (view switch) / world tick; this path only reads bits.
             Faction view = WdFowDraw.EffectiveViewFaction;
-            int viewId = view?.loadID ?? int.MinValue;
+            BitArray explored = view != null ? mem.GetExplored(view.loadID) : null;
             NativeArray<int> offsets = planetLayer.UnsafeTileIDToVerts_offsets;
             NativeArray<Vector3> verts = planetLayer.UnsafeVerts;
             int n = planetLayer.TilesCount;
 
             for (int tileId = 0; tileId < n; tileId++)
             {
-                if (!ShouldShowOverlay(mem, viewId, tileId)) continue;
+                if (!ShouldShowOverlay(mem, explored, tileId)) continue;
                 EnsureTileVerts(tileId, offsets, verts);
                 ApplyTileRaised(tileId, offsets, verts, raised: true);
             }
@@ -211,7 +211,7 @@ namespace TSA_WorldDomination
                 yield break;
 
             EnsureMaterial();
-            mem.EnsureVisibleCacheFresh();
+            // Draw path: never refresh sight here. The world tick keeps the disks fresh and fills the dirty queues.
             // Drain entire dirty queue in one go (incremental traveler updates only).
             if (!mem.TryDrainDirty(IsIncognitaLayer, drainScratch, maxCount: int.MaxValue))
                 yield break;
@@ -219,14 +219,14 @@ namespace TSA_WorldDomination
             NativeArray<int> offsets = planetLayer.UnsafeTileIDToVerts_offsets;
             NativeArray<Vector3> verts = planetLayer.UnsafeVerts;
             Faction view = WdFowDraw.EffectiveViewFaction;
-            int viewId = view?.loadID ?? int.MinValue;
+            BitArray explored = view != null ? mem.GetExplored(view.loadID) : null;
 
             for (int d = 0; d < drainScratch.Count; d++)
             {
                 int tileId = drainScratch[d];
                 if (tileId < 0 || tileId >= planetLayer.TilesCount) continue;
 
-                if (ShouldShowOverlay(mem, viewId, tileId))
+                if (ShouldShowOverlay(mem, explored, tileId))
                 {
                     EnsureTileVerts(tileId, offsets, verts);
                     ApplyTileRaised(tileId, offsets, verts, raised: true);
@@ -240,11 +240,12 @@ namespace TSA_WorldDomination
             FinalizeTouchedMeshes();
         }
 
-        private bool ShouldShowOverlay(WdFowTileMemory mem, int viewId, int tileId)
+        private bool ShouldShowOverlay(WdFowTileMemory mem, BitArray explored, int tileId)
         {
+            bool isExplored = explored != null && tileId >= 0 && tileId < explored.Length && explored[tileId];
             if (IsIncognitaLayer)
-                return !mem.IsExplored(viewId, tileId);
-            return mem.IsExplored(viewId, tileId) && !mem.IsTileVisibleBit(tileId);
+                return !isExplored;
+            return isExplored && !mem.IsTileVisibleBit(tileId);
         }
 
         private void EnsureMaterial()

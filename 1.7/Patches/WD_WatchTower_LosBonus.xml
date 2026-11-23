@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+  <!-- Hunting Watch Tower line: flat FoW LOS bonus (1.7 OutpostUpgradeDef.losBonusTiles). -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_WoodenWatchTower"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_WoodenWatchTower"]</xpath>
+      <value>
+        <losBonusTiles>10</losBonusTiles>
+      </value>
+    </match>
+  </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedWatchTower"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedWatchTower"]</xpath>
+      <value>
+        <losBonusTiles>15</losBonusTiles>
+      </value>
+    </match>
+  </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedWatchTower"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedWatchTower"]</xpath>
+      <value>
+        <losBonusTiles>20</losBonusTiles>
+      </value>
+    </match>
+  </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_UltraWatchTower"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_UltraWatchTower"]</xpath>
+      <value>
+        <losBonusTiles>25</losBonusTiles>
+      </value>
+    </match>
+  </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarWatchTower"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarWatchTower"]</xpath>
+      <value>
+        <losBonusTiles>30</losBonusTiles>
+      </value>
+    </match>
+  </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarWatchTower"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarWatchTower"]</xpath>
+      <value>
+        <losBonusTiles>40</losBonusTiles>
+      </value>
+    </match>
+  </Operation>
+</Patch>

@@ -197,24 +197,9 @@ namespace TSA_WorldDomination
             Map colonyMap,
             List<WorldObject_WD_Outpost> warehouses)
         {
-            if (outpost == null || Find.WorldGrid == null) return colonyMap?.Parent;
-            WorldObject nearestWh = null;
-            float best = float.MaxValue;
-            if (warehouses != null)
-            {
-                for (int i = 0; i < warehouses.Count; i++)
-                {
-                    var wh = warehouses[i];
-                    if (wh == null || wh.Tile == outpost.Tile) continue;
-                    float d = Find.WorldGrid.ApproxDistanceInTiles(outpost.Tile, wh.Tile);
-                    if (d < best) { best = d; nearestWh = wh; }
-                }
-            }
-            WorldObject colony = colonyMap?.Parent;
-            if (nearestWh == null) return colony;
-            if (colony == null) return nearestWh;
-            float dCol = Find.WorldGrid.ApproxDistanceInTiles(outpost.Tile, colony.Tile);
-            return best <= dCol ? nearestWh : colony;
+            if (outpost == null) return colonyMap?.Parent;
+            return ColonyWorldBuildMaterials.ResolveWarehouseOrColonyOrigin(
+                outpost.Tile.tileId, colonyMap, warehouses, excludeTile: outpost.Tile.tileId);
         }
 
         /// <summary>Apply pending or explicit type change. Synchronous. Returns false on preflight failure.</summary>

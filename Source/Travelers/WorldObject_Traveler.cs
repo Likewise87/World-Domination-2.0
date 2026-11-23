@@ -9,7 +9,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, OutpostTypeChange, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate, BridgeBuilding, BridgeDeconstruct, TrenchBuilding, TrenchClearing, Scout }
+    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, OutpostTypeChange, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate, BridgeBuilding, BridgeDeconstruct, TrenchBuilding, TrenchClearing, Scout, WatchTower }
     public enum RaidOrderOutcome { PlayerOutpostConquestMenu, AllyClaimsTarget, AllyAwardsToPlayer }
 
     public class WorldObject_Traveler : WorldObject
@@ -391,6 +391,7 @@ namespace TSA_WorldDomination
                     TravelerMission.NpcFortify => "TSA_WD_Traveler_NpcFortify".Translate(),
                     TravelerMission.NpcAtTurret => "TSA_WD_Traveler_NpcAtTurret".Translate(),
                     TravelerMission.AtTurret => "TSA_WD_Traveler_AtTurret".Translate(),
+                    TravelerMission.WatchTower => "TSA_WD_Traveler_WatchTower".Translate(),
                     _ => "TSA_WD_TravelerCaravan".Translate()
                 };
                 missionLabelCache[mission] = label;
@@ -699,6 +700,8 @@ namespace TSA_WorldDomination
                 originObject.GetComponent<CompViralSpread>()?.NotifySpikeTrapCrewReturned();
             if (mission == TravelerMission.AtTurret && originObject != null && !originObject.Destroyed)
                 originObject.GetComponent<CompViralSpread>()?.NotifyAtTurretCrewReturned();
+            if (mission == TravelerMission.WatchTower && originObject != null && !originObject.Destroyed)
+                originObject.GetComponent<CompViralSpread>()?.NotifyWatchTowerCrewReturned();
             if (mission == TravelerMission.Decontamination && originObject != null && !originObject.Destroyed)
                 originObject.GetComponent<CompViralSpread>()?.NotifyDecontaminationCrewReturned();
             if ((mission == TravelerMission.TrenchBuilding || mission == TravelerMission.TrenchClearing)
@@ -837,6 +840,7 @@ namespace TSA_WorldDomination
             || m == TravelerMission.RoadBlock
             || m == TravelerMission.SpikeTrap
             || m == TravelerMission.AtTurret
+            || m == TravelerMission.WatchTower
             || m == TravelerMission.Decontamination
             || m == TravelerMission.NpcFortify
             || m == TravelerMission.NpcAtTurret;

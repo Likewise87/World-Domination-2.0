@@ -19,7 +19,7 @@ namespace TSA_WorldDomination
         /// Pass <paramref name="accuracyBandMaxRange"/> (absolute configured max) so shrink only clips the disk; colors stay locked to full max.
         /// Pass <paramref name="attackRangeBands"/> for NPC Attack equal-quarter raid-range rings.
         /// Pass <paramref name="allyInnerRadiusSplit"/> for Tunnel Network ally annulus (Cyan inner / CyanDeep outer).
-        /// Pass <paramref name="sightLosBands"/> for Intel LOS + Hunch rings (sightFracT1 = LOS/Hunch).
+        /// Pass <paramref name="sightLosBands"/> for Intel LOS + Awareness rings (sightFracT1 = LOS/Awareness).
         /// </summary>
         public static void DrawOrFill(
             PlanetTile center,

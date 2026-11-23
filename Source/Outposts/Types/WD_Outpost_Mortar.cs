@@ -348,9 +348,7 @@ namespace TSA_WorldDomination
             if (wo == null || wo.Destroyed || source == null || source.Destroyed) return false;
             if (wo == source) return false;
             float range = rangeOverride ?? GetPlayerMortarConfiguredMaxRangeTiles(source);
-            float dist = manager != null
-                ? WorldActions_Utils.GetDistance(source.Tile, wo.Tile, manager)
-                : Find.WorldGrid.ApproxDistanceInTiles(source.Tile, wo.Tile);
+            float dist = WorldActions_Utils.GetDistanceUncached(source.Tile, wo.Tile);
             if (dist > range) return false;
             return wo is Settlement
                 || wo is WorldObject_AT_Turret
@@ -407,9 +405,7 @@ namespace TSA_WorldDomination
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             float maxRange = MortarFireUtils.GetPlayerMortarConfiguredMaxRangeTiles(origin);
             int aimTile = MortarCaravanIntercept.ResolveMortarAimTileId(origin, target, maxRange);
-            float dist = manager != null
-                ? WorldActions_Utils.GetDistance(origin.Tile, aimTile, manager)
-                : Find.WorldGrid.ApproxDistanceInTiles(origin.Tile, aimTile);
+            float dist = WorldActions_Utils.GetDistanceUncached(origin.Tile, aimTile);
             float hitBonus = origin.GetBuiltUpgradeMortarHitChanceBonus();
             bool hit = RollMortarHit(dist, maxRange, bestShooting, seth, hitBonus);
 

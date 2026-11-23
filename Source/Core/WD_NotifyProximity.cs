@@ -34,12 +34,8 @@ namespace TSA_WorldDomination
             return best <= radius;
         }
 
-        private static float DistanceTiles(int a, int b)
-        {
-            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            return manager != null
-                ? WorldActions_Utils.GetDistance(a, b, manager)
-                : Find.WorldGrid.ApproxDistanceInTiles(a, b);
-        }
+        // Event tile vs player site: uncached (event tiles never repeat, keep them out of the saved distanceCache).
+        private static float DistanceTiles(int a, int b) =>
+            WorldActions_Utils.GetDistanceUncached(a, b);
     }
 }

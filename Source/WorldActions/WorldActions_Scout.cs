@@ -446,26 +446,23 @@ namespace TSA_WorldDomination
             if (faction == null || tile < 0) return;
             var intel = WorldComponent_SettlementIntel.Get();
             if (intel == null || !WorldComponent_SettlementIntel.IsTracking()) return;
-            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            if (manager == null || Find.WorldObjects == null) return;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null || Find.WorldObjects == null) return;
 
             float scoutMax = WorldDominationMod.settings?.intelScoutMaxLos
                 ?? WorldDominationSettings.DefIntelScoutMaxLos;
 
-            WorldGrid grid = Find.WorldGrid;
+            // Known-first, then one rounded ApproxDistance per pair (no saved distanceCache writes: the
+            // scout tile changes every hop). Outer cull at scout Awareness before the per-target radius.
             List<Settlement> settlements = Find.WorldObjects.Settlements;
             for (int i = 0; i < settlements.Count; i++)
             {
                 Settlement s = settlements[i];
                 if (s == null || s.Destroyed) continue;
                 if (intel.IsDiscovered(faction, s)) continue;
-                float r = WorldComponent_SettlementIntel.GetScoutSpotRadius(s);
-                float approx = grid != null
-                    ? grid.ApproxDistanceInTiles(tile, s.Tile.tileId)
-                    : float.MaxValue;
-                if (approx > r + 1f) continue;
-                float d = WorldActions_Utils.GetDistance(tile, s.Tile.tileId, manager);
-                if (d <= 1f || d <= r)
+                int d = WorldComponent_SettlementIntel.TileDistance(grid, tile, s.Tile.tileId);
+                if (d > 1 && d > scoutMax) continue;
+                if (d <= 1 || d <= WorldComponent_SettlementIntel.GetScoutSpotRadius(s))
                     intel.Discover(faction, s, observer);
             }
 
@@ -475,13 +472,9 @@ namespace TSA_WorldDomination
                 WorldObject_WD_Outpost o = outposts[i];
                 if (o == null || o.Destroyed) continue;
                 if (intel.IsDiscovered(faction, o)) continue;
-                float r = WorldComponent_SettlementIntel.GetScoutSpotRadius(o);
-                float approx = grid != null
-                    ? grid.ApproxDistanceInTiles(tile, o.Tile.tileId)
-                    : float.MaxValue;
-                if (approx > r + 1f) continue;
-                float d = WorldActions_Utils.GetDistance(tile, o.Tile.tileId, manager);
-                if (d <= 1f || d <= r)
+                int d = WorldComponent_SettlementIntel.TileDistance(grid, tile, o.Tile.tileId);
+                if (d > 1 && d > scoutMax) continue;
+                if (d <= 1 || d <= WorldComponent_SettlementIntel.GetScoutSpotRadius(o))
                     intel.Discover(faction, o, observer);
             }
 
@@ -493,13 +486,20 @@ namespace TSA_WorldDomination
                 WorldObject_AT_Turret at = ats[i];
                 if (at == null || at.Destroyed) continue;
                 if (intel.IsDiscovered(faction, at)) continue;
-                float approx = grid != null
-                    ? grid.ApproxDistanceInTiles(tile, at.Tile.tileId)
-                    : float.MaxValue;
-                if (approx > scoutLos + 1f) continue;
-                float d = WorldActions_Utils.GetDistance(tile, at.Tile.tileId, manager);
-                if (d <= 1f || d <= scoutLos)
+                int d = WorldComponent_SettlementIntel.TileDistance(grid, tile, at.Tile.tileId);
+                if (d <= 1 || d <= scoutLos)
                     intel.Discover(faction, at, observer);
+            }
+
+            IReadOnlyList<WorldObject_WD_PlayerWatchTower> towers = WorldObject_WD_PlayerWatchTower.LiveTowers;
+            for (int i = 0; i < towers.Count; i++)
+            {
+                WorldObject_WD_PlayerWatchTower wt = towers[i];
+                if (wt == null || wt.Destroyed) continue;
+                if (intel.IsDiscovered(faction, wt)) continue;
+                int d = WorldComponent_SettlementIntel.TileDistance(grid, tile, wt.Tile.tileId);
+                if (d <= 1 || d <= scoutLos)
+                    intel.Discover(faction, wt, observer);
             }
 
             var registry = WorldComponent_AdvancedBuildings.Get();
@@ -511,12 +511,8 @@ namespace TSA_WorldDomination
                     var b = buildings[i];
                     if (b == null || b.Destroyed) continue;
                     if (intel.IsDiscovered(faction, b)) continue;
-                    float approx = grid != null
-                        ? grid.ApproxDistanceInTiles(tile, b.Tile.tileId)
-                        : float.MaxValue;
-                    if (approx > scoutLos + 1f) continue;
-                    float d = WorldActions_Utils.GetDistance(tile, b.Tile.tileId, manager);
-                    if (d <= 1f || d <= scoutLos)
+                    int d = WorldComponent_SettlementIntel.TileDistance(grid, tile, b.Tile.tileId);
+                    if (d <= 1 || d <= scoutLos)
                         intel.Discover(faction, b, observer);
                 }
             }

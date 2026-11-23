@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Player FoW Watch Tower (1.7-only worldObjectClass). Shared AdvWO_Watchtower art. -->
+  <WorldObjectDef>
+    <defName>TSA_WD_PlayerWatchTower</defName>
+    <label>Watch Tower</label>
+    <description>A wooden lookout that extends Fog of War sight around this tile.</description>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_WD_PlayerWatchTower, TSA_WorldDomination</worldObjectClass>
+    <selectable>true</selectable>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconDrawSize>0.75</expandingIconDrawSize>
+    <expandingIconTexture>WorldObjects/AdvancedBuildings/AdvWO_Watchtower</expandingIconTexture>
+    <texture>World/WorldObjects/Settlements/Settlement</texture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
+        <minCumulativeConstructionSkill>10</minCumulativeConstructionSkill>
+        <cost>
+          <li><thingDef>WoodLog</thingDef><count>300</count></li>
+        </cost>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+</Defs>

@@ -88,6 +88,7 @@
   <TSA_WD_Traveler_NpcFortify>Fortify Crew</TSA_WD_Traveler_NpcFortify>
   <TSA_WD_Traveler_NpcAtTurret>AT Turret Crew</TSA_WD_Traveler_NpcAtTurret>
   <TSA_WD_Traveler_AtTurret>AT Turret Crew</TSA_WD_Traveler_AtTurret>
+  <TSA_WD_Traveler_WatchTower>Watch Tower Crew</TSA_WD_Traveler_WatchTower>
   <TSA_WD_Traveler_Outpost_Decontamination>Decontamination Crew</TSA_WD_Traveler_Outpost_Decontamination>
   <TSA_WD_Inspect_Settlement>{0} {1}</TSA_WD_Inspect_Settlement>
   <TSA_WD_JumpToOutpost>Jump to {0}</TSA_WD_JumpToOutpost>

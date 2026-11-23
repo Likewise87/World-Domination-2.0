@@ -91,6 +91,8 @@ namespace TSA_WorldDomination
             }
 
             ApplyRoadWinterReductionSettings();
+            // VF/VVE AssignDefaults flattens glitter; overwrite customRoadCosts even when RotR skips RoadDef writes / hop shim.
+            VehicleFrameworkRoadMovementCompat.ApplyGlitterCustomRoadCosts();
         }
 
         /// <summary>

@@ -516,7 +516,7 @@ namespace TSA_WorldDomination
         public const float DefIntelTargetRingFracT2 = 0.80f;
         public const float DefIntelTargetRingFracT3 = 1.00f;
         public const float DefIntelTargetRingFracT4 = 1.00f;
-        /// <summary>Clear line-of-sight radius as a fraction of Hunch (former MaxLOS). Def matches old T1 ring.</summary>
+        /// <summary>Clear line-of-sight radius as a fraction of Awareness (former MaxLOS). Def matches old T1 ring.</summary>
         public const float DefIntelLosFrac = 0.60f;
         public const float DefIntelSettlementLosMaxMult = 1.45f;
         public const float DefIntelTravelerMaxLosT1 = 4f;
@@ -990,6 +990,22 @@ namespace TSA_WorldDomination
         public const float DefWaterPathLandThresholdDays = 1.5f;
         /// <summary>When true, T3/T4 tech-eligible raids with no land path launch as drop pods instead of water A*.</summary>
         public const bool DefAllowT3T4DropPodsOverWater = true;
+        /// <summary>Player WD travelers (and player pawn caravans when that toggle is on) soft-avoid known hostile settlements in FindPath.</summary>
+        public const bool DefPlayerCaravansAvoidHostileSettlements = true;
+        /// <summary>Vanilla player Caravan (real pawns) may use WD pathfinding adjustments (traps + hostile sites).</summary>
+        public const bool DefPlayerPawnCaravanPathfindingAdjustments = true;
+        /// <summary>NPC WD travelers soft-avoid known hostile settlements and player outposts in FindPath.</summary>
+        public const bool DefNpcCaravansAvoidHostileSettlements = true;
+        /// <summary>BFS radius (tiles) around hostile sites that receive pathfinding difficulty bias.</summary>
+        public const int DefHostileSettlementPathAvoidRadius = 1;
+        /// <summary>Pathfinding flat difficulty at the hostile site tile (ring 0).</summary>
+        public const float DefHostileSettlementPathAvoidPenaltyInner = 2f;
+        /// <summary>Pathfinding flat difficulty at the outer ring (radius edge).</summary>
+        public const float DefHostileSettlementPathAvoidPenaltyOuter = 1f;
+        /// <summary>Scout / nimble-scout FindPath flat difficulty on hostile spike-trap tiles.</summary>
+        public const float DefScoutTrapPathAvoidPenalty = 8f;
+        /// <summary>Non-scout WD travelers and player caravans FindPath flat difficulty on hostile spike-trap tiles.</summary>
+        public const float DefCaravanTrapPathAvoidPenalty = 2f;
         /// <summary>0 = always crow-flies prep; 1 = always FindPath prep; default 0.3 ≈ every 3rd assess exact. Fraction 0–1 (UI shows %).</summary>
         public const float DefTravelPrepExactPercent = 0.3f;
 
@@ -1699,7 +1715,7 @@ namespace TSA_WorldDomination
         public float intelTargetRingFracT2 = DefIntelTargetRingFracT2;
         public float intelTargetRingFracT3 = DefIntelTargetRingFracT3;
         public float intelTargetRingFracT4 = DefIntelTargetRingFracT4;
-        /// <summary>LOS / Hunch split (live). Legacy size-ring fracs stay scribed unused.</summary>
+        /// <summary>LOS / Awareness split (live). Legacy size-ring fracs stay scribed unused.</summary>
         public float intelLosFrac = DefIntelLosFrac;
         /// <summary>One-shot: seed intelLosFrac from intelTargetRingFracT1 on first load after two-ring sight.</summary>
         public bool intelSightTwoRingMigrated = false;
@@ -1716,7 +1732,7 @@ namespace TSA_WorldDomination
         public float intelScoutSpeedMult = DefIntelScoutSpeedMult;
         /// <summary>Player scout max lifetime in days (base; outpost upgrades may add).</summary>
         public float intelPlayerScoutMaxLifetimeDays = DefIntelPlayerScoutMaxLifetimeDays;
-        /// <summary>Legacy (scribed unused). Player caravans use intelScoutMaxLos for FoW Hunch. Not drawn in settings UI.</summary>
+        /// <summary>Legacy (scribed unused). Player caravans use intelScoutMaxLos for FoW Awareness. Not drawn in settings UI.</summary>
         public float intelPlayerCaravanMaxLos = DefIntelPlayerCaravanMaxLos;
         public float settlementIntelBurnedHiddenStrengthPct = DefSettlementIntelBurnedHiddenStrengthPct;
         public float settlementIntelGotBurnedDays = DefSettlementIntelGotBurnedDays;
@@ -2018,6 +2034,14 @@ namespace TSA_WorldDomination
         public float travelerWaterMovementDifficulty = DefTravelerWaterMovementDifficulty;
         public float waterPathLandThresholdDays = DefWaterPathLandThresholdDays;
         public bool allowT3T4DropPodsOverWater = DefAllowT3T4DropPodsOverWater;
+        public bool playerCaravansAvoidHostileSettlements = DefPlayerCaravansAvoidHostileSettlements;
+        public bool playerPawnCaravanPathfindingAdjustments = DefPlayerPawnCaravanPathfindingAdjustments;
+        public bool npcCaravansAvoidHostileSettlements = DefNpcCaravansAvoidHostileSettlements;
+        public int hostileSettlementPathAvoidRadius = DefHostileSettlementPathAvoidRadius;
+        public float hostileSettlementPathAvoidPenaltyInner = DefHostileSettlementPathAvoidPenaltyInner;
+        public float hostileSettlementPathAvoidPenaltyOuter = DefHostileSettlementPathAvoidPenaltyOuter;
+        public float scoutTrapPathAvoidPenalty = DefScoutTrapPathAvoidPenalty;
+        public float caravanTrapPathAvoidPenalty = DefCaravanTrapPathAvoidPenalty;
         public float travelPrepExactPercent = DefTravelPrepExactPercent;
         public bool experimentalColonyWorldBuild = DefExperimentalColonyWorldBuild;
         public bool experimentalPlayerConquestRaze = DefExperimentalPlayerConquestRaze;
@@ -3370,6 +3394,16 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref travelerWaterMovementDifficulty, "travelerWaterMovementDifficulty", DefTravelerWaterMovementDifficulty);
             Scribe_Values.Look(ref waterPathLandThresholdDays, "waterPathLandThresholdDays", DefWaterPathLandThresholdDays);
             Scribe_Values.Look(ref allowT3T4DropPodsOverWater, "allowT3T4DropPodsOverWater", DefAllowT3T4DropPodsOverWater);
+            Scribe_Values.Look(ref playerCaravansAvoidHostileSettlements, "playerCaravansAvoidHostileSettlements", DefPlayerCaravansAvoidHostileSettlements);
+            Scribe_Values.Look(ref playerPawnCaravanPathfindingAdjustments, "playerPawnCaravanPathfindingAdjustments", DefPlayerPawnCaravanPathfindingAdjustments);
+            Scribe_Values.Look(ref npcCaravansAvoidHostileSettlements, "npcCaravansAvoidHostileSettlements", DefNpcCaravansAvoidHostileSettlements);
+            Scribe_Values.Look(ref hostileSettlementPathAvoidRadius, "hostileSettlementPathAvoidRadius", DefHostileSettlementPathAvoidRadius);
+            Scribe_Values.Look(ref hostileSettlementPathAvoidPenaltyInner, "hostileSettlementPathAvoidPenaltyInner", DefHostileSettlementPathAvoidPenaltyInner);
+            Scribe_Values.Look(ref hostileSettlementPathAvoidPenaltyOuter, "hostileSettlementPathAvoidPenaltyOuter", DefHostileSettlementPathAvoidPenaltyOuter);
+            Scribe_Values.Look(ref scoutTrapPathAvoidPenalty, "scoutTrapPathAvoidPenalty", DefScoutTrapPathAvoidPenalty);
+            Scribe_Values.Look(ref caravanTrapPathAvoidPenalty, "caravanTrapPathAvoidPenalty", DefCaravanTrapPathAvoidPenalty);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                ClampCaravansCascades();
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
                 float loadedPrep = -1f;
@@ -5885,6 +5919,18 @@ namespace TSA_WorldDomination
             };
         }
 
+        /// <summary>Innermost path-avoid penalty must stay &gt;= outermost (road-block cascade style).</summary>
+        public void ClampCaravansCascades()
+        {
+            hostileSettlementPathAvoidRadius = Mathf.Clamp(hostileSettlementPathAvoidRadius, 0, 8);
+            scoutTrapPathAvoidPenalty = Mathf.Clamp(scoutTrapPathAvoidPenalty, 0f, 10f);
+            caravanTrapPathAvoidPenalty = Mathf.Clamp(caravanTrapPathAvoidPenalty, 0f, 10f);
+            hostileSettlementPathAvoidPenaltyInner = Mathf.Clamp(hostileSettlementPathAvoidPenaltyInner, 0f, 10f);
+            hostileSettlementPathAvoidPenaltyOuter = Mathf.Clamp(hostileSettlementPathAvoidPenaltyOuter, 0f, 10f);
+            if (hostileSettlementPathAvoidPenaltyInner < hostileSettlementPathAvoidPenaltyOuter)
+                hostileSettlementPathAvoidPenaltyInner = hostileSettlementPathAvoidPenaltyOuter;
+        }
+
         public void ResetCaravans()
         {
             strengthLossPerHour = DefStrengthLossPerHour;
@@ -5900,6 +5946,15 @@ namespace TSA_WorldDomination
             travelerWaterMovementDifficulty = DefTravelerWaterMovementDifficulty;
             waterPathLandThresholdDays = DefWaterPathLandThresholdDays;
             allowT3T4DropPodsOverWater = DefAllowT3T4DropPodsOverWater;
+            playerCaravansAvoidHostileSettlements = DefPlayerCaravansAvoidHostileSettlements;
+            playerPawnCaravanPathfindingAdjustments = DefPlayerPawnCaravanPathfindingAdjustments;
+            npcCaravansAvoidHostileSettlements = DefNpcCaravansAvoidHostileSettlements;
+            hostileSettlementPathAvoidRadius = DefHostileSettlementPathAvoidRadius;
+            hostileSettlementPathAvoidPenaltyInner = DefHostileSettlementPathAvoidPenaltyInner;
+            hostileSettlementPathAvoidPenaltyOuter = DefHostileSettlementPathAvoidPenaltyOuter;
+            scoutTrapPathAvoidPenalty = DefScoutTrapPathAvoidPenalty;
+            caravanTrapPathAvoidPenalty = DefCaravanTrapPathAvoidPenalty;
+            ClampCaravansCascades();
             outpostDeliveryStrengthCost = DefOutpostDeliveryStrengthCost;
             outpostDeliveryMinStrength = DefOutpostDeliveryMinStrength;
             maxGoodwill = DefMaxGoodwill;

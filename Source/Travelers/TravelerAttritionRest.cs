@@ -105,9 +105,7 @@ namespace TSA_WorldDomination
                 int gunTileId = gun.Tile.tileId;
                 if (gunTileId < 0) continue;
 
-                float dist = manager != null
-                    ? (float)WorldActions_Utils.GetDistance(gunTileId, travelerTileId, manager)
-                    : Find.WorldGrid.ApproxDistanceInTiles(gunTileId, travelerTileId);
+                float dist = WorldActions_Utils.GetDistanceUncached(gunTileId, travelerTileId);
                 if (dist <= gun.EffectiveRangeTiles
                     && AtTurretUtility.CanEngageAtDistance(gun, traveler, dist))
                     return true;

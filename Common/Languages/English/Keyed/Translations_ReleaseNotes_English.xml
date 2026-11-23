@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_77_Title>FoW performance, Watchtower, Bugfix</TSA_WD_Update_2_3_77_Title>
+  <TSA_WD_Update_2_3_77_Body><![CDATA[
+<size=16><b>2.3.77 - FoW performance, Watchtower, Bugfix</b></size>\n
+<color=#00FFFFFF>Release date: November 23rd 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• Further work on the fog of war logic should cut lag a lot when the feature is active.\n
+• New Feature: players can now build a Watch Tower that provides line of sight. Hunting outpost Watch Tower upgrades also grant line of sight bonuses (likely to be reworked later so some outpost upgrades become physical objects on the world map).\n
+• Bugfix: after all outposts could store any item, they incorrectly became valid starting points for outpost upgrade, bribe, and settlement buy caravans. Those caravan types again spawn from the closest warehouse or the colony as intended.\n
+• Bugfix: vehicles from Vehicle Framework incorrectly didn't benefit from WD Glitter Roads. Now they do.\n
+• New Feature: WD caravans try to avoid traps and walking over hostile settlements/outposts in a small radius. This works by raising the perceived movement difficulty of tiles with traps and settlements so pathfinding generally steers around them. Use road blocks (even multiple layers) to make surrounding tiles harder to traverse so enemies may still cross traps or walk over your Rapid Response outpost and trigger a defense.\n
+• Wording: "Hunch" is now called Awareness range. Line of sight is the inner clear range: clear tiles, bright icons, and you spot everything. Awareness range is the outer band: grey explored tiles and dim icons; only Tier 3+ settlements and stronger WD caravans are spotted there (Tier 2 sites still need Line of sight).\n
+]]></TSA_WD_Update_2_3_77_Body>
   <TSA_WD_Update_2_3_76_Title>Fog of War &amp; more</TSA_WD_Update_2_3_76_Title>
   <TSA_WD_Update_2_3_76_Body><![CDATA[
 <size=16><b>2.3.76 - Fog of War & more</b></size>\n
@@ -10,7 +23,7 @@
 • New Feature: Full fog of war. The world map starts completely black. Both you and NPC factions need to scout it. You can only interact with and attack what you see. Settlements and outposts have different lines of sight. The "Build" menu is now "Build & Scout" so you can dispatch plain scout caravans (slightly faster, slightly higher LOS, try to avoid traps known at dispatch). Select multiple waypoints. Max lifetime: 2 days.\n
 • Kill switch for the whole feature on the main WD mod settings page if you do not want it. Fine-tune in the "Intel" tab.\n
 • Fog of War significantly changes the balance. Highly recommended to reset all mod settings. With fewer fights until enemies find each other, settlement tier upgrades and similar pacing were slowed.\n
-• Any settlement and caravan has a real line of sight (the truth) plus an extended "hunch" radius. Large caravans and T3+ settlements are already visible in the hunch radius. Visualize ranges via the Line of Sight gizmo on those world objects.\n
+• Any settlement and caravan has a real Line of sight plus an extended Awareness range. Large caravans and T3+ settlements are already visible in the Awareness range. Visualize ranges via the Line of Sight gizmo on those world objects.\n
 • Knowledge is global: if a faction sees your outpost or caravan, anyone in that faction knows forever. Open the Stats tab of your outpost or colony, then Intel, to see who knows you.\n
 • New quests introduce these mechanics (e.g. scouting). The closest neutral faction reveals itself after 3 in-game days and asks you to start scouting, awarding a mood buff.\n
 • Rebalance of virtual caravan clashes on the open world map. Uses its own curve, not the settlement/outpost attack math.\n

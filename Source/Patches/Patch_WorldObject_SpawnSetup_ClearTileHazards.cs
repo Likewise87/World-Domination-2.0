@@ -6,8 +6,8 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Occupying world objects clear road blocks and spike traps on their tile
-    /// (player establish, NPC expand/conquer, vanilla quests).
+    /// Occupying world objects clear fortifications on their tile
+    /// (player establish, NPC expand/conquer, vanilla quests): blocks, traps, then AT / adv / Watch Towers.
     /// </summary>
     [HarmonyPatch(typeof(WorldObject), nameof(WorldObject.SpawnSetup))]
     public static class Patch_WorldObject_SpawnSetup_ClearTileHazards
@@ -30,9 +30,9 @@ namespace TSA_WorldDomination
             // Foreign MapParent claims a trench tile: wipe other owners' edges. Keep claimant's own network.
             WorldComponent_WdTrenches.Get()?.WipeEdgesTouchingTileExceptOwner(tileId, __instance);
 
-            WorldObject_WD_AdvancedBuilding building = WorldComponent_AdvancedBuildings.Get()?.At(tileId);
-            if (building != null && !building.Destroyed)
-                AdvancedBuildingCombatUtility.DestroyBuilding(building, null);
+            // Quiet clear of AT / advanced buildings / player Watch Towers (same SSoT as Remove Fortifications).
+            // Do not use DestroyBuilding(..., log: true) — establish must not spam Action Log.
+            WorldActions_Fortifications.TryClearAt(tileId);
         }
 
         private static bool ShouldClearHazardsUnder(WorldObject wo)

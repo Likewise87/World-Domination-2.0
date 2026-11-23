@@ -440,7 +440,8 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Pick one exact ring at a time (no mixing closer rings into the pool).
-        /// Artillery: r=1, then 2..max. Economic: r=2, then outside fortify belt, then outward, then remaining rings.
+        /// Artillery: r=1, then 2..max. Watch Tower: prefer far rings within player build radius (8).
+        /// Other economic: r=2, then outside fortify belt, then outward, then remaining rings.
         /// </summary>
         public static bool FindBuildTile(Settlement owner, AdvancedBuildingDef def, out int tile)
         {
@@ -452,9 +453,13 @@ namespace TSA_WorldDomination
             var comp = owner.GetComponent<CompViralSpread>();
             SettlementTier tier = comp?.tier ?? SettlementTier.T1;
             int outerFortify = WorldActions_FortifyKit.OuterFortifyRadius(tier);
+            bool isWatchTower = def.effect == AdvancedBuildingEffect.AttackRangePct;
+            int playerWatchRadius = Mathf.RoundToInt(WorldActions_WatchTowers.BuildRadiusTiles);
             int max = Mathf.Max(5, def.maxRadius);
             if (def.IsArtillery)
                 max = Mathf.Max(4, def.maxRadius);
+            else if (isWatchTower)
+                max = Mathf.Max(playerWatchRadius, def.maxRadius);
 
             // Build per-ring candidate lists once via BFS.
             var byRing = new List<int>[max + 1];
@@ -491,6 +496,23 @@ namespace TSA_WorldDomination
             if (def.IsArtillery)
             {
                 for (int ring = 1; ring <= max; ring++)
+                {
+                    if (TryPickFromRing(byRing[ring], out tile))
+                        return true;
+                }
+                return false;
+            }
+
+            // Watch Tower FoW posts: same max radius as player builds; prefer away from the settlement.
+            if (isWatchTower)
+            {
+                const int preferMinRing = 4;
+                for (int ring = max; ring >= preferMinRing; ring--)
+                {
+                    if (TryPickFromRing(byRing[ring], out tile))
+                        return true;
+                }
+                for (int ring = preferMinRing - 1; ring >= 1; ring--)
                 {
                     if (TryPickFromRing(byRing[ring], out tile))
                         return true;
