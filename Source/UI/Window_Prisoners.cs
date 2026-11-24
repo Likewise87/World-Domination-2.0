@@ -1236,7 +1236,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        /// <summary>Pemmican per pawn when recruit-journey packing is enabled (see Experimental settings).</summary>
+        /// <summary>Pemmican per pawn when recruit-journey packing is enabled (see Quality of Life settings).</summary>
         internal static int RecruitJourneyPemmican => PlayerPawnTransferUtility.RecruitTravelPemmicanPerPawn;
     }
 }

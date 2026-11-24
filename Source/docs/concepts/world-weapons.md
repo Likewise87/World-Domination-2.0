@@ -43,7 +43,7 @@ Watch Mid / Late status on the dashboard before assuming the sky is safe.
 
 AT turrets are built as fortification projects. Players need enough Machining and respect global and per-site caps. Light, Medium, and Heavy guns differ in range, damage, cooldown, and HP.
 
-They auto-engage eligible hostile ground travelers (raids, traders, expansion, roads, fortify, logistics) in a short tile range. After a shot the barrel stays on that heading; only a player AT turret can set a rest azimuth from its gizmo. Experimental settings can let NPC AT guns also fire on player WD travelers and real pawn caravans.
+They auto-engage eligible hostile ground travelers (raids, traders, expansion, roads, fortify, logistics) in a short tile range. After a shot the barrel stays on that heading; only a player AT turret can set a rest azimuth from its gizmo. Combat Difficulty settings can let NPC AT guns also fire on player WD travelers and real pawn caravans.
 
 AT turrets can be overrun by a player caravan on their tile and can be damaged by mortar fire. They do not replace a Rapid Response interceptor; they are a static choke-point weapon.
 

@@ -126,6 +126,9 @@
   <TSA_WD_BtnWorldRaids>世界地图袭击</TSA_WD_BtnWorldRaids>
   <TSA_WD_BtnCaravans>远行队与贸易</TSA_WD_BtnCaravans>
   <TSA_WD_BtnExperimental>实验性</TSA_WD_BtnExperimental>
+  <TSA_WD_BtnPollution>污染</TSA_WD_BtnPollution>
+  <TSA_WD_BtnQualityOfLife>生活质量</TSA_WD_BtnQualityOfLife>
+  <TSA_WD_BtnAppearanceAndSound>外观与音效</TSA_WD_BtnAppearanceAndSound>
   <TSA_WD_BtnQuests>任务</TSA_WD_BtnQuests>
   <TSA_WD_BtnPlayerArtillery>迫击炮、防空与快速反应逻辑</TSA_WD_BtnPlayerArtillery>
   <TSA_WD_Category>世界霸权</TSA_WD_Category>
@@ -188,6 +191,9 @@
   <TSA_WD_DescWorldRaids>模拟袭击结果（胜率曲线、损失）、最低进攻比、盟友拉动半径、NPC 攻击范围、洗劫/废墟与驻军保留。行进损耗见「远行队与贸易」。</TSA_WD_DescWorldRaids>
   <TSA_WD_DescCaravans>旅行者/空投舱/快速反应速度、行进损耗与休息、水路寻路、贸易商队（护卫/升级）、贸易好感、前哨配送成本及叙事者商人屏蔽。水路寻路也可在「设置预设 → 性能」中配置。</TSA_WD_DescCaravans>
   <TSA_WD_DescExperimental>实验性玩法开关（战壕、军械库、撤退/防御预算）、世界地图图标缩放、叠加层按住键、旅行食物/界面辅助，以及旅行者污染伤害/寻路。NPC 设防见「世界行动」。任务开关见「任务」。</TSA_WD_DescExperimental>
+  <TSA_WD_DescPollution>旅行者污染离开伤害、寻路规避及相关 Biotech 世界地图污染规则。</TSA_WD_DescPollution>
+  <TSA_WD_DescQualityOfLife>世界地图叠加层按住键、默认自动加入抵达者、人员调动旅行食物、WD 菜单中的前哨需求预览，以及殖民地世界建造（道路 / 路障 / 陷阱）。</TSA_WD_DescQualityOfLife>
+  <TSA_WD_DescAppearanceAndSound>无论缩放始终显示世界地图图标，以及 WD 世界地图战斗音效。</TSA_WD_DescAppearanceAndSound>
   <TSA_WD_DescQuests>启用或禁用 WD 任务发放（首座前哨、间谍行动、加固、共同敌人、殖民地道路连接，以及世界霸权胜利）。</TSA_WD_DescQuests>
   <TSA_WD_FacDet_BtnView>查看</TSA_WD_FacDet_BtnView>
   <TSA_WD_FacDet_HeaderName>定居点名称</TSA_WD_FacDet_HeaderName>
@@ -967,9 +973,11 @@
   <TSA_WD_Pollution_BannerRouteAltered>路线已改道以避开污染</TSA_WD_Pollution_BannerRouteAltered>
   <TSA_WD_Msg_RaidCancelledPollution>袭击已取消：该路线约因污染损失 {0} 力量。</TSA_WD_Msg_RaidCancelledPollution>
   <TSA_WD_Experimental_HeaderWorldActionsRaidLogic>世界行动与袭击逻辑</TSA_WD_Experimental_HeaderWorldActionsRaidLogic>
-  <TSA_WD_Experimental_ColonyWorldBuild>实验：殖民地世界建造（道路 / 路障 / 陷阱）</TSA_WD_Experimental_ColonyWorldBuild>
+  <TSA_WD_Experimental_ColonyWorldBuild>殖民地世界建造（道路 / 路障 / 陷阱）</TSA_WD_Experimental_ColonyWorldBuild>
   <TSA_WD_Experimental_ColonyWorldBuildTip>开启后，你的殖民地定居点获得青色“建造”指令（道路、路障、尖刺陷阱）。速度与解锁取决于殖民地地图上殖民者建造技能总和。无工程师加成，不消耗 WD 实力。关闭会取消殖民地进行中的建造项目。</TSA_WD_Experimental_ColonyWorldBuildTip>
-  <TSA_WD_Experimental_EnableTrenches>实验：战壕防御</TSA_WD_Experimental_EnableTrenches>
+  <TSA_WD_Experimental_PlayerConquestRaze>玩家征服可夷平</TSA_WD_Experimental_PlayerConquestRaze>
+  <TSA_WD_Experimental_PlayerConquestRazeTip>开启后，你亲自消灭 NPC 定居点（或会打开征服菜单的模拟征服）时，会掷与 NPC 自动突袭相同的夷平概率。若被夷平，你将无法获得招募／赠礼／前哨机会，并留下限时废墟。默认关闭。</TSA_WD_Experimental_PlayerConquestRazeTip>
+  <TSA_WD_Experimental_EnableTrenches>战壕防御</TSA_WD_Experimental_EnableTrenches>
   <TSA_WD_Experimental_EnableTrenchesTip>开启后，玩家前哨可挖独占战壕支线（木材费用，尖端到枢纽拆除）。敌对纵队踩上你的战壕时可选战斗 / 自动 / 放行。关闭会清除全部玩家战壕并取消相关工程。</TSA_WD_Experimental_EnableTrenchesTip>
   <TSA_WD_Experimental_AT_TargetPlayerTravelers>NPC AT 炮塔攻击玩家 WD 远行队</TSA_WD_Experimental_AT_TargetPlayerTravelers>
   <TSA_WD_Experimental_AT_TargetPlayerTravelersTip>开启后，敌对 NPC AT 炮塔可向你的地面 WD 远行队开火（袭击、升级、交付、商队及其他非空中任务）。关闭后不再发起新交火；已在飞行中的炮弹仍会结算。</TSA_WD_Experimental_AT_TargetPlayerTravelersTip>
@@ -1038,9 +1046,9 @@
   <TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>开启后，屏蔽旅途中商队的随机原版故事叙述者事件：伏击、狂暴动物伏击、商队遭遇、勒索，以及商队疾病。不影响 WD 定居点伏击、快速反应或旅行者交战。默认关闭。</TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>
   <TSA_WD_Experimental_NpcRaidKillGoodwillPer500>击杀以其他派系为目标的旅行者时，每 500 兵力获得的好感增益</TSA_WD_Experimental_NpcRaidKillGoodwillPer500>
   <TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip>好感增益：当你消灭一支前往其他派系定居点的 WD 旅行者时，该派系对你获得好感。按旅行者兵力缩放（500 兵力 = 此数值，1000 = 两倍）。设为 0 关闭。AT 炮塔改道与咽喉拦截在适用时仍记入原定居点。</TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip>
-  <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>实验：前哨撤离兵力预算</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
+  <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>前哨撤离兵力预算</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>开启后，撤离使用当前未封顶的进攻兵力，并允许 5% 的确认余量。若所选殖民者超过该预算，会弹出选择：组建商队、留在前哨或标记失去。关闭后，调动不再做该兵力检查。</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
-  <TSA_WD_Experimental_OutpostDefenseDeployBudget>实验：前哨手动防御部署兵力预算</TSA_WD_Experimental_OutpostDefenseDeployBudget>
+  <TSA_WD_Experimental_OutpostDefenseDeployBudget>前哨手动防御部署兵力预算</TSA_WD_Experimental_OutpostDefenseDeployBudget>
   <TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>开启后，“手动战斗”按当前进攻兵力限制可部署的前哨殖民者。关闭后可任意选择，无预算上限。</TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>
   <TSA_WD_Experimental_HeaderAtTurrets>反坦克炮</TSA_WD_Experimental_HeaderAtTurrets>
   <TSA_WD_Experimental_AT_TurretMaxStrength>AT 炮塔实力（生命值）</TSA_WD_Experimental_AT_TurretMaxStrength>

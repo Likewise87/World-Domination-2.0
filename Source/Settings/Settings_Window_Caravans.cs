@@ -237,6 +237,10 @@ var s = WorldDominationMod.settings;
             {
             SettingsUI.DrawCheckbox(l, "TSA_WD_Caravans_BlockStorytellerTraders".Translate(), ref s.blockStorytellerTradersOnlyWD,
                 SettingsUI.TooltipWithDefault("TSA_WD_Caravans_BlockStorytellerTradersTip".Translate(), WorldDominationSettings.DefBlockStorytellerTradersOnlyWD));
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_DisableVanillaCaravanIncidents".Translate(),
+                ref s.experimentalDisableVanillaCaravanIncidents,
+                "TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip".Translate(),
+                defaultValue: WorldDominationSettings.DefExperimentalDisableVanillaCaravanIncidents);
             }
         }
     }

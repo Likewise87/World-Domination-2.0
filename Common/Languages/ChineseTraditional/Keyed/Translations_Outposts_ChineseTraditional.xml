@@ -1178,16 +1178,18 @@
   <!-- EN: Only one WD Outpost Delivery Spot is allowed per map. -->
   <TSA_WD_DeliverySpot_AlreadyExists>每張地圖只能有一個WD哨站配送點。</TSA_WD_DeliverySpot_AlreadyExists>
   <TSA_WD_RemotePowerSpot_NeedColonyHome>只能建在你的殖民地主地圖上。</TSA_WD_RemotePowerSpot_NeedColonyHome>
+  <!-- EN: Remote power spots require outpost electricity (unavailable in Medieval mode or when outpost power is disabled). -->
+  <TSA_WD_RemotePowerSpot_NeedOutpostPower>遠程電力接入點需要哨站電力（中世紀模式或關閉哨站電力時不可用）。</TSA_WD_RemotePowerSpot_NeedOutpostPower>
   <TSA_WD_RemotePowerSpot_GizmoShare>遠程電力份額</TSA_WD_RemotePowerSpot_GizmoShare>
-  <TSA_WD_RemotePowerSpot_GizmoShareDesc>設定此點位在發電廠哨站 Keep 遠程電力中的相對份額。已接通點位之間會正規化，使全部 Keep 都進入這些電網。</TSA_WD_RemotePowerSpot_GizmoShareDesc>
+  <TSA_WD_RemotePowerSpot_GizmoShareDesc>設定此點位從發電廠哨站獲得電力的相對份額。已接通點位之間會正規化。</TSA_WD_RemotePowerSpot_GizmoShareDesc>
   <TSA_WD_RemotePowerSpot_ShareTitle>遠程電力份額</TSA_WD_RemotePowerSpot_ShareTitle>
   <TSA_WD_RemotePowerSpot_ShareBody>設定此接入點應從 WD 發電廠哨站全部產出電力中分得多少權重。</TSA_WD_RemotePowerSpot_ShareBody>
   <TSA_WD_RemotePowerSpot_ShareSlider>權重：{0}</TSA_WD_RemotePowerSpot_ShareSlider>
   <TSA_WD_RemotePowerSpot_ShareEffective>有效份額：{0} %</TSA_WD_RemotePowerSpot_ShareEffective>
   <TSA_WD_RemotePowerSpot_ShareEffectiveWatts>有效電力：{0}</TSA_WD_RemotePowerSpot_ShareEffectiveWatts>
   <TSA_WD_RemotePowerSpot_InspectShare>遠程份額權重 {0}（有效 {1}%）</TSA_WD_RemotePowerSpot_InspectShare>
-  <TSA_WD_RemotePowerSpot_InspectIneligible>遠程份額權重 {0}（未接通；若無有效點位則均分各電網）</TSA_WD_RemotePowerSpot_InspectIneligible>
-  <TSA_WD_RemotePowerSpot_InspectWatts>輸送 {0}</TSA_WD_RemotePowerSpot_InspectWatts>
+  <TSA_WD_RemotePowerSpot_InspectIneligible>遠程份額權重 {0}（未接通）</TSA_WD_RemotePowerSpot_InspectIneligible>
+  <TSA_WD_PowerPlant_InspectNeedsSpot>沒有遠程電力接入點時，殖民地不會從發電廠哨站獲得任何電力（可用 {0}）。</TSA_WD_PowerPlant_InspectNeedsSpot>
   <!-- EN: Outpost Overview -->
   <TSA_WD_OutpostManager>哨站總覽</TSA_WD_OutpostManager>
   <!-- EN: Outpost Overview Page -->

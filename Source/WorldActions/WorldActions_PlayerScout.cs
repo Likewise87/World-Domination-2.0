@@ -11,6 +11,7 @@ namespace TSA_WorldDomination
     /// Player virtual WD scout: trap-style waypoint targeting, asphalt-equivalent muster
     /// (pawn count × 5 skill), then launch along waypoints in click order.
     /// </summary>
+    [StaticConstructorOnStartup]
     public static class WorldActions_PlayerScout
     {
         /// <summary>One scout-prep pawn equals this much Construction skill for asphalt road muster.</summary>

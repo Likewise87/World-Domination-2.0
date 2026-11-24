@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <!-- Colony-map marker: wired spots take all Keep remote watts (weighted). 1.7-only (custom ThingClass/Comp). -->
+  <!-- Colony-map generator: power plant outpost watts enter via CompPowerTrader.PowerOutput. 1.7-only. -->
   <ThingDef ParentName="BuildingBase">
     <defName>TSA_WD_RemotePowerSpot</defName>
     <label>WD remote power spot</label>
-    <description>Designates where remote power from World Domination power plant outposts should enter your colony grid. Wire it into a power net. If any spots are connected, all colony Keep power goes to those nets by relative share. With no connected spots, power splits equally across every net.</description>
+    <description>Designates where power from World Domination power plant outposts enters your colony grid. Wire it into a power net (within conduit range). Relative share weights split that power among connected spots. Without a remote power spot, the colony won't receive any energy from power plant outposts.</description>
     <category>Building</category>
     <thingClass>Building</thingClass>
     <selectable>true</selectable>
@@ -13,7 +13,7 @@
     <passability>Standable</passability>
     <fillPercent>0.15</fillPercent>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <tickerType>Rare</tickerType>
+    <tickerType>Normal</tickerType>
     <useHitPoints>false</useHitPoints>
     <rotatable>false</rotatable>
     <scatterableOnMapGen>false</scatterableOnMapGen>
@@ -30,8 +30,8 @@
       <texPath>WorldObjects/Outposts/WD_Outpost_Powerplant</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1,1)</drawSize>
-      <!-- Same cyan as player world-map / WD UI icons (Unity Color.cyan). -->
-      <color>(0, 1, 1)</color>
+      <!-- Softened cyan (full Color.cyan was too loud on the colony map). -->
+      <color>(0, 0.55, 0.55)</color>
     </graphicData>
     <building>
       <isEdifice>true</isEdifice>
@@ -41,6 +41,7 @@
       <li>TSA_WorldDomination.PlaceWorker_WdColonyHomeOnly</li>
     </placeWorkers>
     <comps>
+      <!-- Must be exact CompPowerTrader: ThingDef.ConnectToPower uses typeof equality (subclasses never connect / draw wire). -->
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
         <basePowerConsumption>0</basePowerConsumption>

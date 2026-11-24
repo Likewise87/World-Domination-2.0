@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <TSA_WD_RemotePowerSpot.label>Punto de energia remota WD</TSA_WD_RemotePowerSpot.label>
-  <TSA_WD_RemotePowerSpot.description>Marca por donde debe entrar en tu red la energia remota de las centrales WD. Conectalo a una red electrica. Si hay puntos conectados, toda la energia Keep de la colonia va a esas redes segun la cuota relativa. Sin puntos conectados, se reparte por igual entre todas las redes.</TSA_WD_RemotePowerSpot.description>
+  <TSA_WD_RemotePowerSpot.description>Marca por donde entra en tu red la energia de las centrales WD. Conectalo a una red electrica (alcance de conducto). Los pesos relativos reparte esa energia entre los puntos conectados. Sin un punto de energia remota, la colonia no recibe energia de las centrales.</TSA_WD_RemotePowerSpot.description>
 </LanguageData>

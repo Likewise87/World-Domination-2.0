@@ -759,7 +759,7 @@ namespace TSA_WorldDomination
         public const float DefOutpostIncidentDailyChance = 0.075f;
         public const bool DefNotifyOutpostIncident = true;
         public const float DefCoalitionRaidPriorityBias = 0.75f;
-        /// <summary>Experimental: player colony can Build roads / road blocks / spike traps on the world map.</summary>
+        /// <summary>Player colony can Build roads / road blocks / spike traps on the world map.</summary>
         public const bool DefExperimentalColonyWorldBuild = true;
         public const bool DefEnableFirstOutpostQuest = true;
         public const bool DefEnableCommonEnemySettlementQuest = true;
@@ -862,22 +862,22 @@ namespace TSA_WorldDomination
         public const float DefRazeChance = 0.15f;
         /// <summary>Days a WD raze ruin blocks founding before despawning.</summary>
         public const float DefRuinLingerDays = 7f;
-        /// <summary>Experimental: player map/simulated conquest can roll raze instead of the conquest opportunity menu.</summary>
+        /// <summary>Player map/simulated conquest can roll raze instead of the conquest opportunity menu.</summary>
         public const bool DefExperimentalPlayerConquestRaze = false;
 
-        // --- FEATURE A: TARGET-OF-OPPORTUNITY RETARGETING (experimental) ---
+        // --- FEATURE A: TARGET-OF-OPPORTUNITY RETARGETING ---
         public const bool DefExperimentalTargetOfOpportunity = true;
-        /// <summary>Experimental: assault-map artillery support without a mortar outpost in range / without CD.</summary>
+        /// <summary>Assault-map artillery support without a mortar outpost in range / without CD. Debug Misc toggle only.</summary>
         public const bool DefExperimentalUnlimitedAssaultMortarSupport = false;
-        /// <summary>Experimental opt-out: CE outpost Occupants passively stockpile basic Primary ammo (see <see cref="OutpostCeAmmoCompat"/>).</summary>
+        /// <summary>CE outpost Occupants passively stockpile basic Primary ammo (see <see cref="OutpostCeAmmoCompat"/>). Debug Misc toggle only.</summary>
         public const bool DefExperimentalOutpostCePassiveAmmo = true;
-        /// <summary>Experimental opt-out: outposts keep a loose gear store (see <see cref="CompOutpostArmory"/>).</summary>
+        /// <summary>Outposts keep a loose gear store (see <see cref="CompOutpostArmory"/>). Debug Misc toggle only.</summary>
         public const bool DefExperimentalOutpostArmory = true;
-        /// <summary>Experimental: stack and restore CompColorable dye + StyleDef on outpost armory/warehouse stock.</summary>
+        /// <summary>Stack and restore CompColorable dye + StyleDef on outpost armory/warehouse stock. Debug Misc toggle only.</summary>
         public const bool DefExperimentalRetainOutpostEquipmentColor = true;
-        /// <summary>Player outpost trench arms (world build + walk-over defense). Default on.</summary>
+        /// <summary>Player outpost trench arms (world build + walk-over defense). Debug Misc toggle only. Default on.</summary>
         public const bool DefEnableTrenches = true;
-        /// <summary>Experimental kill switch: block vanilla storyteller incidents targeting traveling caravans (ambush, meeting, demand, disease). Off by default.</summary>
+        /// <summary>Block vanilla storyteller incidents targeting traveling caravans (ambush, meeting, demand, disease). Off by default.</summary>
         public const bool DefExperimentalDisableVanillaCaravanIncidents = false;
         /// <summary>Cheap per-event coin flip rolled before any strength math; also the primary performance throttle.</summary>
         public const float DefTargetOfOpportunityEligibilityRollPct = 0.15f;
@@ -919,13 +919,13 @@ namespace TSA_WorldDomination
         /// <summary>Shared A/B/C escape hatch: when true, skips the <see cref="WdEscalation.IsMidOrLate"/> gate so target-of-opportunity, marauding, and settlement ambush can fire from the very start of a game, not just mid/late escalation.</summary>
         public const bool DefOpportunityFeaturesIgnoreEscalationGate = true;
 
-        /// <summary>Experimental: when transferring pawns from an outpost, gate over-budget withdrawals behind Form Caravan / Leave / Mark Lost.</summary>
+        /// <summary>When transferring pawns from an outpost, gate over-budget withdrawals behind Form Caravan / Leave / Mark Lost.</summary>
         public const bool DefExperimentalOutpostWithdrawStrengthBudget = true;
-        /// <summary>Experimental: manual defense deploy picker enforces an offensive-strength selection budget.</summary>
+        /// <summary>Manual defense deploy picker enforces an offensive-strength selection budget.</summary>
         public const bool DefExperimentalOutpostDefenseDeployBudget = true;
-        /// <summary>Experimental: T4 settlements may launch ballistic gravship raids (requires Odyssey + Gravship Raids).</summary>
+        /// <summary>T4 settlements may launch ballistic gravship raids (requires Odyssey + Gravship Raids).</summary>
         public const bool DefExperimentalT4GravshipRaids = false;
-        /// <summary>When experimental T4 gravship raids are on, chance a T4 raid uses gravship instead of drop-pod/walk.</summary>
+        /// <summary>When T4 gravship raids are on, chance a T4 raid uses gravship instead of drop-pod/walk.</summary>
         public const float DefExperimentalGravshipRaidChanceT4 = 0.25f;
         /// <summary>Play WD combat oneshots on the world map (AT / mortar / flak). On by default.</summary>
         public const bool DefEnableWorldMapSounds = true;
@@ -1243,6 +1243,7 @@ namespace TSA_WorldDomination
         public const bool DefNotifyRoadCancelledByTrench = true;
         public const bool DefNotifyTrenchCancelledByRoad = true;
         public const bool DefNotifyOutpostNoProduction = true;
+        public const bool DefNotifyNoRemotePowerSpot = true;
         public const bool DefNotifyOutpostUnusedExperts = true;
         public const bool DefNotifyLateGameActive = true;
         public const bool DefNotifyMidGameActive = true;
@@ -2375,6 +2376,7 @@ namespace TSA_WorldDomination
         public bool notifyTrenchCancelledByRoad = DefNotifyTrenchCancelledByRoad;
         public bool notifyOutpostNoProduction = DefNotifyOutpostNoProduction;
         public bool notifyOutpostUnpowered = true;
+        public bool notifyNoRemotePowerSpot = DefNotifyNoRemotePowerSpot;
         public bool notifyOutpostUnusedExperts = DefNotifyOutpostUnusedExperts;
         public bool notifyLateGameActive = DefNotifyLateGameActive;
         public bool notifyMidGameActive = DefNotifyMidGameActive;
@@ -3695,6 +3697,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref notifyTrenchCancelledByRoad, "notifyTrenchCancelledByRoad", DefNotifyTrenchCancelledByRoad);
             Scribe_Values.Look(ref notifyOutpostNoProduction, "notifyOutpostNoProduction", DefNotifyOutpostNoProduction);
             Scribe_Values.Look(ref notifyOutpostUnpowered, "notifyOutpostUnpowered", true);
+            Scribe_Values.Look(ref notifyNoRemotePowerSpot, "notifyNoRemotePowerSpot", DefNotifyNoRemotePowerSpot);
             Scribe_Values.Look(ref notifyOutpostUnusedExperts, "notifyOutpostUnusedExperts", DefNotifyOutpostUnusedExperts);
             Scribe_Values.Look(ref notifyLateGameActive, "notifyLateGameActive", DefNotifyLateGameActive);
             Scribe_Values.Look(ref notifyMidGameActive, "notifyMidGameActive", DefNotifyMidGameActive);
@@ -4999,6 +5002,8 @@ namespace TSA_WorldDomination
             conquestFoundingPawnsT3 = DefConquestFoundingPawnsT3;
             conquestFoundingPawnsT4 = DefConquestFoundingPawnsT4;
             conquestFoundingMinRelevantSkill = DefConquestFoundingMinRelevantSkill;
+            experimentalOutpostWithdrawStrengthBudget = DefExperimentalOutpostWithdrawStrengthBudget;
+            experimentalOutpostDefenseDeployBudget = DefExperimentalOutpostDefenseDeployBudget;
             ResetMiningBaselines();
         }
 
@@ -5499,6 +5504,7 @@ namespace TSA_WorldDomination
             settlementAmbushMaxStrengthRatio = DefSettlementAmbushMaxStrengthRatio;
             settlementAmbushMinTier = DefSettlementAmbushMinTier;
             settlementAmbushMaxConcurrent = DefSettlementAmbushMaxConcurrent;
+            experimentalPlayerConquestRaze = DefExperimentalPlayerConquestRaze;
             WorldComponent_SettlementWatchIndex.Get()?.Invalidate();
         }
 
@@ -5992,6 +5998,7 @@ namespace TSA_WorldDomination
             walkingTravelerTicksPerMove = DefWalkingTravelerTicksPerMove;
             dropPodTicksPerMove = DefDropPodTicksPerMove;
             rapidResponseTicksPerMoveMultiplier = DefRapidResponseTicksPerMoveMultiplier;
+            experimentalDisableVanillaCaravanIncidents = DefExperimentalDisableVanillaCaravanIncidents;
         }
 
         public void ResetSabotage()
@@ -6048,53 +6055,38 @@ namespace TSA_WorldDomination
             enableWorldDominationVictoryQuest = DefEnableWorldDominationVictoryQuest;
         }
 
+        /// <summary>
+        /// Legacy ResetAll helper for fields that used to live on the Experimental page.
+        /// Page-owned fields reset via ResetPollution / ResetQualityOfLife / ResetAppearanceAndSound /
+        /// Combat / Outposts / Caravans; this still restores UI-removed kill switches and leftover feature flags.
+        /// </summary>
         public void ResetExperimental()
         {
-            experimentalColonyWorldBuild = DefExperimentalColonyWorldBuild;
+            ResetPollution();
+            ResetQualityOfLife();
+            ResetAppearanceAndSound();
             experimentalPlayerConquestRaze = DefExperimentalPlayerConquestRaze;
-            experimentalTargetOfOpportunity = DefExperimentalTargetOfOpportunity;
+            experimentalOutpostWithdrawStrengthBudget = DefExperimentalOutpostWithdrawStrengthBudget;
+            experimentalOutpostDefenseDeployBudget = DefExperimentalOutpostDefenseDeployBudget;
+            experimentalDisableVanillaCaravanIncidents = DefExperimentalDisableVanillaCaravanIncidents;
             experimentalUnlimitedAssaultMortarSupport = DefExperimentalUnlimitedAssaultMortarSupport;
             experimentalOutpostCePassiveAmmo = DefExperimentalOutpostCePassiveAmmo;
             experimentalOutpostArmory = DefExperimentalOutpostArmory;
             experimentalRetainOutpostEquipmentColor = DefExperimentalRetainOutpostEquipmentColor;
             enableTrenches = DefEnableTrenches;
-            experimentalDisableVanillaCaravanIncidents = DefExperimentalDisableVanillaCaravanIncidents;
-            targetOfOpportunityEligibilityRollPct = DefTargetOfOpportunityEligibilityRollPct;
-            targetOfOpportunityMinRatioAdvantage = DefTargetOfOpportunityMinRatioAdvantage;
-            targetOfOpportunityMaxRetargets = DefTargetOfOpportunityMaxRetargets;
-            targetChangesMaxLifetime = DefTargetChangesMaxLifetime;
-            targetOfOpportunityDogpileCooldownTicks = DefTargetOfOpportunityDogpileCooldownTicks;
-            experimentalContinueAfterConquest = DefExperimentalContinueAfterConquest;
-            maraudingChanceToOccurPct = DefMaraudingChanceToOccurPct;
-            maraudingMinSurvivingStrengthAbsolute = DefMaraudingMinSurvivingStrengthAbsolute;
-            maraudingMaxChainedTargets = DefMaraudingMaxChainedTargets;
-            maraudingPostWinStrengthLossPct = DefMaraudingPostWinStrengthLossPct;
-            experimentalSettlementAmbush = DefExperimentalSettlementAmbush;
-            settlementAmbushChancePct = DefSettlementAmbushChancePct;
-            settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
-            settlementAmbushWatchRangeTiles = DefSettlementAmbushWatchRangeTiles;
-            settlementAmbushWatchRangeWithAssetsTiles = DefSettlementAmbushWatchRangeWithAssetsTiles;
-            settlementAmbushSelfDefenseMinRatio = DefSettlementAmbushSelfDefenseMinRatio;
-            settlementAmbushMaxStrengthRatio = DefSettlementAmbushMaxStrengthRatio;
-            settlementAmbushMinTier = DefSettlementAmbushMinTier;
-            settlementAmbushMaxConcurrent = DefSettlementAmbushMaxConcurrent;
             opportunityFeaturesIgnoreEscalationGate = DefOpportunityFeaturesIgnoreEscalationGate;
-            experimentalOutpostWithdrawStrengthBudget = DefExperimentalOutpostWithdrawStrengthBudget;
-            experimentalOutpostDefenseDeployBudget = DefExperimentalOutpostDefenseDeployBudget;
             experimentalT4GravshipRaids = DefExperimentalT4GravshipRaids;
             experimentalGravshipRaidChanceT4 = DefExperimentalGravshipRaidChanceT4;
-            enableWorldMapSounds = DefEnableWorldMapSounds;
             enableAtTurretTargetPlayerTravelers = DefEnableAtTurretTargetPlayerTravelers;
             enableAtTurretTargetPlayerCaravans = DefEnableAtTurretTargetPlayerCaravans;
             minPlayerCaravanVisibilityToTarget = DefMinPlayerCaravanVisibilityToTarget;
-            enableOutpostUpkeep = DefEnableOutpostUpkeep;
-            dropPodTransportCostComponents = DefDropPodTransportCostComponents;
-            giveFoodOnPrisonerRecruitTransfer = DefGiveFoodOnPrisonerRecruitTransfer;
-            giveFoodOnAllPlayerPawnsTransfer = DefGiveFoodOnAllPlayerPawnsTransfer;
-            showOutpostRequirementsPreviewInWdMenu = DefShowOutpostRequirementsPreviewInWdMenu;
-            upkeepSilverPerOccupant = DefUpkeepSilverPerOccupant;
-            upkeepIntervalDays = DefUpkeepIntervalDays;
+            targetOfOpportunityDogpileCooldownTicks = DefTargetOfOpportunityDogpileCooldownTicks;
             hostileNearbyPartnerMult = DefHostileNearbyPartnerMult;
+            WorldComponent_SettlementWatchIndex.Get()?.Invalidate();
+        }
+
+        public void ResetPollution()
+        {
             travelerPollutionDamageEnabled = DefTravelerPollutionDamageEnabled;
             wasterPollutionImmunityEnabled = DefWasterPollutionImmunityEnabled;
             pollutionDamageRaiders = DefPollutionDamageRaiders;
@@ -6110,12 +6102,24 @@ namespace TSA_WorldDomination
             pollutionDamageAtFull = DefPollutionDamageAtFull;
             pollutionDamageRadius = DefPollutionDamageRadius;
             npcSettlementDecontaminationStrengthCost = DefNpcSettlementDecontaminationStrengthCost;
-            alwaysShowOutpostTravelerIconsRegardlessOfZoom = DefAlwaysShowOutpostTravelerIconsRegardlessOfZoom;
-            alwaysShowSettlementIconsRegardlessOfZoom = DefAlwaysShowSettlementIconsRegardlessOfZoom;
+        }
+
+        public void ResetQualityOfLife()
+        {
+            experimentalColonyWorldBuild = DefExperimentalColonyWorldBuild;
             worldMapOverlayHoldKey = DefWorldMapOverlayHoldKey;
             autoAddPawnsOnArrivalDefault = DefAutoAddPawnsOnArrivalDefault;
+            giveFoodOnPrisonerRecruitTransfer = DefGiveFoodOnPrisonerRecruitTransfer;
+            giveFoodOnAllPlayerPawnsTransfer = DefGiveFoodOnAllPlayerPawnsTransfer;
+            showOutpostRequirementsPreviewInWdMenu = DefShowOutpostRequirementsPreviewInWdMenu;
+        }
+
+        public void ResetAppearanceAndSound()
+        {
+            enableWorldMapSounds = DefEnableWorldMapSounds;
+            alwaysShowOutpostTravelerIconsRegardlessOfZoom = DefAlwaysShowOutpostTravelerIconsRegardlessOfZoom;
+            alwaysShowSettlementIconsRegardlessOfZoom = DefAlwaysShowSettlementIconsRegardlessOfZoom;
             Patch_WdWorldObjectNoExpandingIcon.NotifyIconModeChanged();
-            WorldComponent_SettlementWatchIndex.Get()?.Invalidate();
         }
 
         public void ResetNotifications()
@@ -6137,6 +6141,7 @@ namespace TSA_WorldDomination
             notifyTrenchCancelledByRoad = DefNotifyTrenchCancelledByRoad;
             notifyOutpostNoProduction = DefNotifyOutpostNoProduction;
             notifyOutpostUnpowered = true;
+            notifyNoRemotePowerSpot = DefNotifyNoRemotePowerSpot;
             notifyOutpostUnusedExperts = DefNotifyOutpostUnusedExperts;
             notifyLateGameActive = DefNotifyLateGameActive;
             notifyMidGameActive = DefNotifyMidGameActive;

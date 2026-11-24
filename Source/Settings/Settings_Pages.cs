@@ -25,7 +25,9 @@ namespace TSA_WorldDomination
         Disinformation,
         WorldGen,
         BaseGeneration,
-        Experimental,
+        Pollution,
+        QualityOfLife,
+        AppearanceAndSound,
         Quests
     }
 
@@ -143,9 +145,15 @@ namespace TSA_WorldDomination
                 P(WdSettingsPage.BaseGeneration, "TSA_WD_BtnBaseGeneration", "TSA_WD_DescBaseGeneration",
                     "WorldObjects/Settlements/T2_Vanguard", "TSA_WD_HeaderMisc", true,
                     Dialog_BaseGenerationSettings.DrawEmbedded, null, NavIconCyan),
-                P(WdSettingsPage.Experimental, "TSA_WD_BtnExperimental", "TSA_WD_DescExperimental",
-                    "UI/Commands/AdvancedFilter", "TSA_WD_HeaderMisc", false,
-                    Dialog_ExperimentalSettings.DrawEmbedded, null, NavIconCyan),
+                P(WdSettingsPage.Pollution, "TSA_WD_BtnPollution", "TSA_WD_DescPollution",
+                    "WorldObjects/Travelers/Caravan_Decontamination", "TSA_WD_HeaderMisc", false,
+                    Dialog_PollutionSettings.DrawEmbedded, null, NavIconCyan),
+                P(WdSettingsPage.QualityOfLife, "TSA_WD_BtnQualityOfLife", "TSA_WD_DescQualityOfLife",
+                    "UI/Commands/Fortify", "TSA_WD_HeaderMisc", false,
+                    Dialog_QualityOfLifeSettings.DrawEmbedded, null),
+                P(WdSettingsPage.AppearanceAndSound, "TSA_WD_BtnAppearanceAndSound", "TSA_WD_DescAppearanceAndSound",
+                    "UI/Commands/Highlight", "TSA_WD_HeaderMisc", false,
+                    Dialog_AppearanceAndSoundSettings.DrawEmbedded, null, NavIconCyan),
             };
             byId = new Dictionary<WdSettingsPage, WdSettingsPageDef>();
             for (int i = 0; i < pages.Count; i++)

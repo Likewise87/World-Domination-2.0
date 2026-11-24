@@ -106,6 +106,11 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetCombatDifficulty(),
                 () => SetAllExpanded(true),
                 () => SetAllExpanded(false));
+
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_PlayerConquestRaze".Translate(),
+                ref s.experimentalPlayerConquestRaze,
+                "TSA_WD_Experimental_PlayerConquestRazeTip".Translate(),
+                defaultValue: WorldDominationSettings.DefExperimentalPlayerConquestRaze);
             
             DrawRaidPressure(l, s);
             DrawRaidDrought(l, s);

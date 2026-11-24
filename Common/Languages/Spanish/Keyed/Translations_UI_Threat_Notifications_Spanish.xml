@@ -236,6 +236,10 @@
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>
   <TSA_WD_Notify_OutpostNoProduction>Alerta: avanzadillas sin producción</TSA_WD_Notify_OutpostNoProduction>
   <TSA_WD_Notify_OutpostNoProductionTooltip>Alerta silenciosa y persistente cuando al menos una avanzadilla WD necesita elegir producción pero no tiene nada seleccionado. Al pasar el ratón se listan las afectadas. Clic para ir a la primera.</TSA_WD_Notify_OutpostNoProductionTooltip>
+  <TSA_WD_Notify_NoRemotePowerSpot>Alerta: sin punto de energia remota</TSA_WD_Notify_NoRemotePowerSpot>
+  <TSA_WD_Notify_NoRemotePowerSpotTooltip>Alerta silenciosa y persistente cuando una central tiene electricidad para la colonia pero no hay un punto de energia remota cableado en el mapa de la colonia. Clic para ir a una central.</TSA_WD_Notify_NoRemotePowerSpotTooltip>
+  <TSA_WD_Alert_NoRemotePowerSpot>WD: Sin punto de energia remota</TSA_WD_Alert_NoRemotePowerSpot>
+  <TSA_WD_Alert_NoRemotePowerSpotDesc>Necesitas construir al menos un punto de energia remota en el mapa de tu colonia para recibir la electricidad de tu central. Colocalo como un generador normal conectado a la red. Configura en cada punto cuanta electricidad (cuota) debe recibir.</TSA_WD_Alert_NoRemotePowerSpotDesc>
   <TSA_WD_Notify_OutpostUnusedExperts>Alerta: avanzadillas sin expertos</TSA_WD_Notify_OutpostUnusedExperts>
   <TSA_WD_Notify_OutpostUnusedExpertsTooltip>Alerta silenciosa y persistente cuando al menos una avanzadilla WD tiene plazas de experto sin usar. Al pasar el ratón se listan con asignados/máximo. Clic para ir a la primera.</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
   <TSA_WD_Alert_OutpostNoProduction>WD: Avanzadillas sin producción</TSA_WD_Alert_OutpostNoProduction>

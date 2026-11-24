@@ -694,6 +694,33 @@ namespace TSA_WorldDomination
             Add(miscTools, "Pollution -25%", IconMinus,
                 "WD debug: click a world tile to remove 25% pollution (Biotech). Clamped 0-100%.",
                 DebugDashKind.Click, DebugActions_WorldDebug.PollutionMinus25AtMouse, PlusMinusIconInnerPad);
+            Add(miscTools, "Toggle unlimited assault mortar support", IconConfig,
+                "Flip experimentalUnlimitedAssaultMortarSupport and report the new state.",
+                DebugDashKind.Instant, () => ToggleSettingBool(
+                    "Unlimited assault mortar support",
+                    () => WorldDominationMod.settings.experimentalUnlimitedAssaultMortarSupport,
+                    v => WorldDominationMod.settings.experimentalUnlimitedAssaultMortarSupport = v));
+            Add(miscTools, "Toggle outpost armory", IconConfig,
+                "Flip experimentalOutpostArmory and report the new state.",
+                DebugDashKind.Instant, () => ToggleSettingBool(
+                    "Outpost armory",
+                    () => WorldDominationMod.settings.experimentalOutpostArmory,
+                    v => WorldDominationMod.settings.experimentalOutpostArmory = v));
+            Add(miscTools, "Toggle outpost CE passive ammo", IconConfig,
+                "Flip experimentalOutpostCePassiveAmmo and report the new state.",
+                DebugDashKind.Instant, () => ToggleSettingBool(
+                    "Outpost CE passive ammo",
+                    () => WorldDominationMod.settings.experimentalOutpostCePassiveAmmo,
+                    v => WorldDominationMod.settings.experimentalOutpostCePassiveAmmo = v));
+            Add(miscTools, "Toggle retain outpost equipment color", IconConfig,
+                "Flip experimentalRetainOutpostEquipmentColor and report the new state.",
+                DebugDashKind.Instant, () => ToggleSettingBool(
+                    "Retain outpost equipment color",
+                    () => WorldDominationMod.settings.experimentalRetainOutpostEquipmentColor,
+                    v => WorldDominationMod.settings.experimentalRetainOutpostEquipmentColor = v));
+            Add(miscTools, "Toggle trench defenses", IconConfig,
+                "Flip enableTrenches; turning off calls WorldActions_Trenches.OnFeatureDisabled.",
+                DebugDashKind.Instant, ToggleTrenches);
             Add(miscTools, "Force outpost type change", IconConfig,
                 "Click a player outpost, then pick a new outpost type (debug force apply).",
                 DebugDashKind.SelfManaged, WD_WorldDebugOps.BeginForceOutpostTypeChange);
@@ -727,6 +754,24 @@ namespace TSA_WorldDomination
             Add(miscTools, "Raid bias: clear", IconConfig,
                 "Click NPC site: clear that faction’s raid bias.",
                 DebugDashKind.Click, DebugActions_Quests.RaidBiasClearClicked);
+        }
+
+        private static void ToggleSettingBool(string label, Func<bool> get, Action<bool> set)
+        {
+            if (WorldDominationMod.settings == null) return;
+            bool next = !get();
+            set(next);
+            Messages.Message($"WD debug: {label} → {(next ? "ON" : "OFF")}", MessageTypeDefOf.NeutralEvent);
+        }
+
+        private static void ToggleTrenches()
+        {
+            if (WorldDominationMod.settings == null) return;
+            bool next = !WorldDominationMod.settings.enableTrenches;
+            WorldDominationMod.settings.enableTrenches = next;
+            if (!next)
+                WorldActions_Trenches.OnFeatureDisabled();
+            Messages.Message($"WD debug: Trench defenses → {(next ? "ON" : "OFF")}", MessageTypeDefOf.NeutralEvent);
         }
     }
 }

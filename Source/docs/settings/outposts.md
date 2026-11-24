@@ -18,6 +18,8 @@ This page controls player outpost actions, founding requirements, production, fo
 | Pollution reduces fertility, animals, and fish | On | Applies the tile pollution multiplier to farming, hunting, and fishing ecology. Mining is unaffected. |
 | Outpost upgrades cost materials | On | Requires the materials listed by each upgrade. |
 | Outpost upgrades have research requirements | On | Enforces research prerequisites listed by upgrades. |
+| Outpost withdraw strength budget | On | Checks selected pawn withdrawal against current uncapped offensive strength with a 5% allowance. Over-budget selections open resolution choices. |
+| Outpost defense deploy strength budget | On | Limits pawns selected for Fight Manually according to current offensive strength. |
 
 ## Establishment requirements
 

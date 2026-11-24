@@ -612,16 +612,17 @@
   <TSA_WD_OutpostDelivery_LetterLabel>Goods received from {0}</TSA_WD_OutpostDelivery_LetterLabel>
   <TSA_WD_DeliverySpot_AlreadyExists>Only one WD Outpost Delivery Spot is allowed per map.</TSA_WD_DeliverySpot_AlreadyExists>
   <TSA_WD_RemotePowerSpot_NeedColonyHome>Place this on your colony home map only.</TSA_WD_RemotePowerSpot_NeedColonyHome>
+  <TSA_WD_RemotePowerSpot_NeedOutpostPower>Remote power spots require outpost electricity (unavailable in Medieval mode or when outpost power is disabled).</TSA_WD_RemotePowerSpot_NeedOutpostPower>
   <TSA_WD_RemotePowerSpot_GizmoShare>Remote power share</TSA_WD_RemotePowerSpot_GizmoShare>
-  <TSA_WD_RemotePowerSpot_GizmoShareDesc>Set this spot's relative share of Keep remote power from power plant outposts. Shares normalize among connected spots so the full Keep always goes to them.</TSA_WD_RemotePowerSpot_GizmoShareDesc>
+  <TSA_WD_RemotePowerSpot_GizmoShareDesc>Set this spot's relative share of power from power plant outposts. Shares normalize among connected spots.</TSA_WD_RemotePowerSpot_GizmoShareDesc>
   <TSA_WD_RemotePowerSpot_ShareTitle>Remote power share</TSA_WD_RemotePowerSpot_ShareTitle>
   <TSA_WD_RemotePowerSpot_ShareBody>Define the weight for how much of all the power produced by WD powerplant outposts this spot should get.</TSA_WD_RemotePowerSpot_ShareBody>
   <TSA_WD_RemotePowerSpot_ShareSlider>Weight: {0}</TSA_WD_RemotePowerSpot_ShareSlider>
   <TSA_WD_RemotePowerSpot_ShareEffective>Effective Share: {0} %</TSA_WD_RemotePowerSpot_ShareEffective>
   <TSA_WD_RemotePowerSpot_ShareEffectiveWatts>Effective Power: {0}</TSA_WD_RemotePowerSpot_ShareEffectiveWatts>
   <TSA_WD_RemotePowerSpot_InspectShare>Remote share weight {0} (effective {1}%)</TSA_WD_RemotePowerSpot_InspectShare>
-  <TSA_WD_RemotePowerSpot_InspectIneligible>Remote share weight {0} (not connected; equal-net fallback if no spots are eligible)</TSA_WD_RemotePowerSpot_InspectIneligible>
-  <TSA_WD_RemotePowerSpot_InspectWatts>Delivering {0}</TSA_WD_RemotePowerSpot_InspectWatts>
+  <TSA_WD_RemotePowerSpot_InspectIneligible>Remote share weight {0} (not connected)</TSA_WD_RemotePowerSpot_InspectIneligible>
+  <TSA_WD_PowerPlant_InspectNeedsSpot>Without a remote power spot, the colony won't receive any energy from power plant outposts ({0} available).</TSA_WD_PowerPlant_InspectNeedsSpot>
   <TSA_WD_OutpostManager>Outpost Overview</TSA_WD_OutpostManager>
   <TSA_WD_OutpostManager_Title>Outpost Overview Page</TSA_WD_OutpostManager_Title>
   <TSA_WD_Outpost_BuildCostMult>Outpost build cost multiplier</TSA_WD_Outpost_BuildCostMult>

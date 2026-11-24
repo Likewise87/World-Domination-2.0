@@ -17,6 +17,9 @@ namespace TSA_WorldDomination
                 || Outpost_EstablishmentRequirements.IsActiveCamp(map.Parent))
                 return new AcceptanceReport("TSA_WD_RemotePowerSpot_NeedColonyHome".Translate());
 
+            if (def.defName == "TSA_WD_RemotePowerSpot" && !OutpostPowerGrid.Enabled)
+                return new AcceptanceReport("TSA_WD_RemotePowerSpot_NeedOutpostPower".Translate());
+
             TerrainAffordanceDef need = def.terrainAffordanceNeeded;
             CellRect rect = GenAdj.OccupiedRect(loc, rot, def.Size);
             foreach (IntVec3 c in rect)

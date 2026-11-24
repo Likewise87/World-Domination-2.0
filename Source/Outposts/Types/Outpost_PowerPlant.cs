@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -8,7 +7,8 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Power plant outposts generate remote watts. Outpost assignments leave Keep residual for colony Harmony inject.
+    /// Power plant outposts generate remote watts. Outpost assignments leave Keep residual for colony spots
+    /// (<see cref="CompWdRemotePowerSpot"/> → <see cref="CompPowerTrader.PowerOutput"/>).
     /// </summary>
     public static class Outpost_PowerPlant
     {
@@ -29,7 +29,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        /// <summary>Watts this plant contributes to colony PowerNets (Keep residual after outpost links).</summary>
+        /// <summary>Watts this plant contributes to colony Keep (after outpost links).</summary>
         public static float GetColonyFacingRemotePowerWatts(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null || !outpost.IsPowerPlantOutpost) return 0f;
@@ -57,7 +57,7 @@ namespace TSA_WorldDomination
             return total;
         }
 
-        public static Map? GetPlayerColonyMap()
+        public static Map GetPlayerColonyMap()
         {
             if (Current.Game?.Maps == null) return null;
             var maps = Current.Game.Maps;
@@ -73,32 +73,10 @@ namespace TSA_WorldDomination
 
         public static bool HasPlayerColonyMap() => GetPlayerColonyMap() != null;
 
-        public static float GetRemotePowerWattsForPowerNet(PowerNet net)
+        public static bool HasEligibleRemotePowerSpots(Map map = null)
         {
-            var comp = Find.World?.GetComponent<WorldComponent_OutpostPowerPlant>();
-            if (comp != null)
-                return comp.GetCachedWattsPerPowerNet(net);
-            return GetRemotePowerWattsForPowerNetUncached(net);
-        }
-
-        internal static float GetRemotePowerWattsForPowerNetUncached(PowerNet net)
-        {
-            if (net?.Map == null) return 0f;
-            if (!OutpostPowerGrid.GetColonyReceivesRemotePower() && OutpostPowerGrid.Enabled)
-                return 0f;
-            Map? colony = GetPlayerColonyMap();
-            if (colony == null || net.Map != colony) return 0f;
-            float totalWatts = GetTotalRemotePowerWatts();
-            if (totalWatts <= 0f) return 0f;
-
-            if (TryCollectEligibleSpots(colony, out List<CompWdRemotePowerSpot> spots, out float sumShares)
-                && spots != null
-                && sumShares > 0f)
-                return SumWattsForPowerNet(net, totalWatts, spots, sumShares);
-
-            int netCount = CountPowerNets(colony);
-            if (netCount <= 0) return 0f;
-            return totalWatts / netCount;
+            Map colony = map ?? GetPlayerColonyMap();
+            return TryCollectEligibleSpots(colony, out _, out float sum) && sum > 0f;
         }
 
         internal static ThingDef ResolveRemotePowerSpotDef()
@@ -109,7 +87,7 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Effective fraction of Keep watts this eligible spot receives (0..1), or -1 if ineligible / no spot mode.
+        /// Effective fraction of Keep watts this eligible spot receives (0..1), or -1 if ineligible / no spots.
         /// </summary>
         public static float GetSpotEffectiveShareFraction(CompWdRemotePowerSpot spot)
         {
@@ -121,6 +99,7 @@ namespace TSA_WorldDomination
             return spot.SharePercent / sum;
         }
 
+        /// <summary>Live allocation for UI preview only. Plant CompTick must use the cached plant field.</summary>
         public static float GetSpotAllocatedWatts(CompWdRemotePowerSpot spot)
         {
             float frac = GetSpotEffectiveShareFraction(spot);
@@ -128,9 +107,7 @@ namespace TSA_WorldDomination
             return GetTotalRemotePowerWatts() * frac;
         }
 
-        /// <summary>
-        /// Collects wired spots with weight &gt; 0. Returns false when none (equal-net fallback).
-        /// </summary>
+        /// <summary>Collects wired spots with weight &gt; 0. Returns false when none.</summary>
         internal static bool TryCollectEligibleSpots(
             Map colony,
             out List<CompWdRemotePowerSpot> spots,
@@ -159,27 +136,6 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        /// <summary>
-        /// Live PowerNet match (do not key a cache by PowerNet identity; nets rebuild often).
-        /// </summary>
-        internal static float SumWattsForPowerNet(
-            PowerNet net,
-            float totalWatts,
-            List<CompWdRemotePowerSpot> spots,
-            float sumShares)
-        {
-            if (net == null || spots == null || sumShares <= 0f || totalWatts <= 0f) return 0f;
-            float watts = 0f;
-            for (int i = 0; i < spots.Count; i++)
-            {
-                CompWdRemotePowerSpot spot = spots[i];
-                if (spot == null || !spot.IsEligible) continue;
-                if (!ReferenceEquals(spot.PowerNet, net)) continue;
-                watts += totalWatts * (spot.SharePercent / sumShares);
-            }
-            return watts;
-        }
-
         internal static float SumEligibleShareWeights(Map map)
         {
             if (!TryCollectEligibleSpots(map, out List<CompWdRemotePowerSpot> spots, out float sum) || spots == null)
@@ -201,7 +157,13 @@ namespace TSA_WorldDomination
                 if (line.Contains("TSA_WD_"))
                     line = formatted + " generated";
             }
-            return line + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
+            line += Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
+
+            float keep = OutpostPowerGrid.GetColonyKeepWatts(outpost);
+            if (keep > 0f && HasPlayerColonyMap() && !HasEligibleRemotePowerSpots())
+                line += "\n" + "TSA_WD_PowerPlant_InspectNeedsSpot".Translate(FormatWatts(keep));
+
+            return line;
         }
 
         public static string GetOverviewProductLine(WorldObject_WD_Outpost outpost)
@@ -215,7 +177,12 @@ namespace TSA_WorldDomination
                 FormatWatts(keep));
             if (product.Contains("TSA_WD_"))
                 product = FormatWatts(watts) + " (" + FormatWatts(watts - keep) + " outposts / " + FormatWatts(keep) + " colony)";
-            return product + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
+            product += Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
+
+            if (keep > 0f && HasPlayerColonyMap() && !HasEligibleRemotePowerSpots())
+                product += "\n" + "TSA_WD_PowerPlant_InspectNeedsSpot".Translate(FormatWatts(keep));
+
+            return product;
         }
 
         public static IEnumerable<Gizmo> GetGizmos(WorldObject_WD_Outpost outpost)
@@ -236,12 +203,6 @@ namespace TSA_WorldDomination
             return watts.ToString("F0") + " W";
         }
 
-        internal static int CountPowerNets(Map map)
-        {
-            var nets = map?.powerNetManager?.AllNetsListForReading;
-            return nets?.Count ?? 0;
-        }
-
         public static void NotifyRemotePowerDirty()
         {
             Find.World?.GetComponent<WorldComponent_OutpostPowerPlant>()?.NotifyDirty();
@@ -253,17 +214,11 @@ namespace TSA_WorldDomination
         private bool wattsDirty = true;
         private float cachedTotalWatts;
         private Map cachedColonyMap;
-        private int cachedNetCount = -1;
-        private float cachedEqualWattsPerNet;
         private bool cachedUsingSpots;
         private float cachedSpotSumShares;
         private List<CompWdRemotePowerSpot> cachedEligibleSpots;
-        /// <summary>True when dirty or last refresh had watts &gt; 0. Harmony skips Find.World when false.</summary>
-        private static bool s_mayHaveRemoteWatts = true;
 
         public WorldComponent_OutpostPowerPlant(World world) : base(world) { }
-
-        public static bool MayHaveRemoteWatts => s_mayHaveRemoteWatts;
 
         public override void FinalizeInit(bool fromLoad)
         {
@@ -274,7 +229,6 @@ namespace TSA_WorldDomination
         public void NotifyDirty()
         {
             wattsDirty = true;
-            s_mayHaveRemoteWatts = true;
         }
 
         public float GetCachedTotalRemotePowerWatts()
@@ -283,117 +237,91 @@ namespace TSA_WorldDomination
             return cachedTotalWatts;
         }
 
-        public bool TryGetRemoteWattsOrZero(PowerNet net, out float watts)
+        public bool HasEligibleSpotsCached()
         {
-            watts = 0f;
-            if (net?.Map == null) return false;
-
-            if (!wattsDirty && cachedTotalWatts <= 0f)
-                return false;
-
-            watts = GetCachedWattsPerPowerNet(net);
-            return watts > 0f;
-        }
-
-        public float GetCachedWattsPerPowerNet(PowerNet net)
-        {
-            if (net?.Map == null) return 0f;
-
             EnsureFresh();
-            if (cachedTotalWatts <= 0f) return 0f;
-
-            Map colony = cachedColonyMap;
-            if (colony == null || !colony.IsPlayerHome)
-            {
-                colony = Outpost_PowerPlant.GetPlayerColonyMap();
-                if (!ReferenceEquals(colony, cachedColonyMap))
-                {
-                    cachedColonyMap = colony;
-                    RebuildSplitCache();
-                }
-            }
-            if (colony == null || net.Map != colony) return 0f;
-
-            if (cachedUsingSpots)
-            {
-                // Match live PowerNet refs on spots (nets rebuild; do not Dictionary-key by PowerNet).
-                return Outpost_PowerPlant.SumWattsForPowerNet(
-                    net, cachedTotalWatts, cachedEligibleSpots, cachedSpotSumShares);
-            }
-
-            int netCount = Outpost_PowerPlant.CountPowerNets(colony);
-            if (netCount <= 0) return 0f;
-            if (netCount != cachedNetCount || !ReferenceEquals(cachedColonyMap, colony))
-            {
-                cachedColonyMap = colony;
-                cachedNetCount = netCount;
-                cachedEqualWattsPerNet = cachedTotalWatts / netCount;
-            }
-            return cachedEqualWattsPerNet;
+            return cachedUsingSpots;
         }
 
         private void EnsureFresh()
         {
             if (!wattsDirty) return;
-            // Refresh outpost allocation first so Keep watts are current.
             Find.World?.GetComponent<WorldComponent_OutpostPowerGrid>()?.EnsureAllocationFresh();
             cachedTotalWatts = Outpost_PowerPlant.ComputeTotalRemotePowerWattsUncached();
             cachedColonyMap = Outpost_PowerPlant.GetPlayerColonyMap();
-            RebuildSplitCache();
+            RebuildSplitCacheAndSyncSpots();
             wattsDirty = false;
-            s_mayHaveRemoteWatts = cachedTotalWatts > 0f;
         }
 
-        private void RebuildSplitCache()
+        private void RebuildSplitCacheAndSyncSpots()
         {
-            cachedNetCount = -1;
-            cachedEqualWattsPerNet = 0f;
             cachedUsingSpots = false;
             cachedSpotSumShares = 0f;
             cachedEligibleSpots = null;
-            if (cachedTotalWatts <= 0f || cachedColonyMap == null) return;
 
-            if (Outpost_PowerPlant.TryCollectEligibleSpots(cachedColonyMap, out List<CompWdRemotePowerSpot> spots, out float sumShares)
+            Map colony = cachedColonyMap;
+            if (colony == null)
+            {
+                ZeroAllSpotOutputs(null);
+                return;
+            }
+
+            if (cachedTotalWatts > 0f
+                && Outpost_PowerPlant.TryCollectEligibleSpots(colony, out List<CompWdRemotePowerSpot> spots, out float sumShares)
                 && spots != null
                 && sumShares > 0f)
             {
                 cachedUsingSpots = true;
                 cachedEligibleSpots = spots;
                 cachedSpotSumShares = sumShares;
+                SyncSpotOutputs(colony, spots, sumShares, cachedTotalWatts);
                 return;
             }
 
-            int netCount = Outpost_PowerPlant.CountPowerNets(cachedColonyMap);
-            cachedNetCount = netCount;
-            if (netCount > 0)
-                cachedEqualWattsPerNet = cachedTotalWatts / netCount;
+            ZeroAllSpotOutputs(colony);
         }
-    }
 
-    [HarmonyPatch(typeof(PowerNet), nameof(PowerNet.CurrentEnergyGainRate))]
-    public static class Patch_PowerNet_CurrentEnergyGainRate_RemoteOutpostPower
-    {
-        [HarmonyPostfix]
-        public static void Postfix(PowerNet __instance, ref float __result)
+        private static void SyncSpotOutputs(Map colony, List<CompWdRemotePowerSpot> eligible, float sumShares, float totalWatts)
         {
-            if (!WorldComponent_OutpostPowerPlant.MayHaveRemoteWatts) return;
-            var comp = Find.World?.GetComponent<WorldComponent_OutpostPowerPlant>();
-            if (comp == null || !comp.TryGetRemoteWattsOrZero(__instance, out float watts))
+            ThingDef spotDef = Outpost_PowerPlant.ResolveRemotePowerSpotDef();
+            var all = colony?.listerThings?.ThingsOfDef(spotDef);
+            if (all != null)
+            {
+                for (int i = 0; i < all.Count; i++)
+                {
+                    Thing t = all[i];
+                    if (t == null || t.Destroyed) continue;
+                    var comp = t.TryGetComp<CompWdRemotePowerSpot>();
+                    if (comp == null) continue;
+                    float watts = 0f;
+                    if (comp.IsEligible && sumShares > 0f && totalWatts > 0f)
+                        watts = totalWatts * (comp.SharePercent / sumShares);
+                    comp.ApplyCachedAllocatedWatts(watts);
+                }
                 return;
-            __result += watts * CompPower.WattsToWattDaysPerTick;
-        }
-    }
+            }
 
-    [HarmonyPatch(typeof(PowerNet), "get_HasActivePowerSource")]
-    public static class Patch_PowerNet_HasActivePowerSource_RemoteOutpostPower
-    {
-        [HarmonyPostfix]
-        public static void Postfix(PowerNet __instance, ref bool __result)
+            for (int i = 0; i < eligible.Count; i++)
+            {
+                CompWdRemotePowerSpot spot = eligible[i];
+                if (spot == null) continue;
+                float watts = totalWatts * (spot.SharePercent / sumShares);
+                spot.ApplyCachedAllocatedWatts(watts);
+            }
+        }
+
+        private static void ZeroAllSpotOutputs(Map colony)
         {
-            if (__result || !WorldComponent_OutpostPowerPlant.MayHaveRemoteWatts) return;
-            var comp = Find.World?.GetComponent<WorldComponent_OutpostPowerPlant>();
-            if (comp != null && comp.TryGetRemoteWattsOrZero(__instance, out _))
-                __result = true;
+            if (colony == null) return;
+            ThingDef spotDef = Outpost_PowerPlant.ResolveRemotePowerSpotDef();
+            var all = colony.listerThings?.ThingsOfDef(spotDef);
+            if (all == null) return;
+            for (int i = 0; i < all.Count; i++)
+            {
+                Thing t = all[i];
+                if (t == null || t.Destroyed) continue;
+                t.TryGetComp<CompWdRemotePowerSpot>()?.ApplyCachedAllocatedWatts(0f);
+            }
         }
     }
 }

@@ -57,3 +57,4 @@ This page configures World Domination travelers, water routing, WD trader carava
 | Control | Default | What it changes |
 |---|---:|---|
 | Disable storyteller trader caravans | Off | When on, blocks storyteller-spawned trader caravans while leaving WD trader caravans enabled. |
+| Disable vanilla caravan travel incidents | Off | When on, blocks random vanilla storyteller events on traveling player caravans (ambush, meeting, demand, disease). Does not affect WD settlement ambush, Rapid Response, or traveler clashes. |

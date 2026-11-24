@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <TSA_WD_RemotePowerSpot.label>WD 遠程電力接入點</TSA_WD_RemotePowerSpot.label>
-  <TSA_WD_RemotePowerSpot.description>指定 World Domination 發電廠哨站的遠程電力從何處進入殖民地電網。需接入電線。若有已接通的接入點，全部殖民地 Keep 電力按相對份額進入這些電網；若無已接通接入點，則均分到所有電網。</TSA_WD_RemotePowerSpot.description>
+  <TSA_WD_RemotePowerSpot.description>指定 World Domination 發電廠哨站的電力從何處進入殖民地電網。需接入電線（導管連接範圍內）。相對份額在已接通接入點之間分配。沒有遠程電力接入點時，殖民地不會從發電廠哨站獲得任何電力。</TSA_WD_RemotePowerSpot.description>
 </LanguageData>

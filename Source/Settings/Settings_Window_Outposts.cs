@@ -99,6 +99,14 @@ var s = WorldDominationMod.settings;
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_UpgradesCostMaterialsTooltip".Translate(), WorldDominationSettings.DefOutpostUpgradesCostMaterials));
             SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_UpgradesRequireResearch".Translate(), ref s.outpostUpgradesRequireResearch,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_UpgradesRequireResearchTooltip".Translate(), WorldDominationSettings.DefOutpostUpgradesRequireResearch));
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_OutpostWithdrawStrengthBudget".Translate(),
+                ref s.experimentalOutpostWithdrawStrengthBudget,
+                "TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip".Translate(),
+                defaultValue: WorldDominationSettings.DefExperimentalOutpostWithdrawStrengthBudget);
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_OutpostDefenseDeployBudget".Translate(),
+                ref s.experimentalOutpostDefenseDeployBudget,
+                "TSA_WD_Experimental_OutpostDefenseDeployBudgetTip".Translate(),
+                defaultValue: WorldDominationSettings.DefExperimentalOutpostDefenseDeployBudget);
             }
             l.Gap(12f);
 

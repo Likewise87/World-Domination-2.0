@@ -67,7 +67,10 @@ Performance and Difficulty are independent packs. Choosing an entry does nothing
 
 - [Initial World Generation](world-generation.md), Advanced
 - [Map Generation and Garrison](garrison.md), Advanced
-- [Experimental](experimental.md)
+- Pollution (`Settings_Window_Pollution.cs`)
+- Quality of Life (`Settings_Window_QualityOfLife.cs`)
+- Appearance and Sound (`Settings_Window_AppearanceAndSound.cs`)
+- [Former Experimental relocation map](experimental.md)
 
 **Verbose logging** is located directly in this section.
 

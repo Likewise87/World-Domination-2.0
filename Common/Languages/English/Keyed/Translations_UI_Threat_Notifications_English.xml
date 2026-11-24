@@ -250,6 +250,10 @@
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>
   <TSA_WD_Notify_OutpostNoProduction>Alert: outposts without production</TSA_WD_Notify_OutpostNoProduction>
   <TSA_WD_Notify_OutpostNoProductionTooltip>Silent, persistent alert when at least one WD outpost needs a production pick but has nothing selected. Mouseover lists affected outposts. Click jumps to the first.</TSA_WD_Notify_OutpostNoProductionTooltip>
+  <TSA_WD_Notify_NoRemotePowerSpot>Alert: no remote power spot</TSA_WD_Notify_NoRemotePowerSpot>
+  <TSA_WD_Notify_NoRemotePowerSpotTooltip>Silent, persistent alert when a power plant outpost has electricity for the colony but no wired remote power spot exists on the colony map. Click jumps to a power plant outpost.</TSA_WD_Notify_NoRemotePowerSpotTooltip>
+  <TSA_WD_Alert_NoRemotePowerSpot>WD: No Remote Power Spot</TSA_WD_Alert_NoRemotePowerSpot>
+  <TSA_WD_Alert_NoRemotePowerSpotDesc>You need to build at least one remote power spot on your colony map to receive the electricity from your power plant outpost. Place it like a normal generator connected to the power grid. Configure per spot how much electricity (share) it should get.</TSA_WD_Alert_NoRemotePowerSpotDesc>
   <TSA_WD_Notify_OutpostUnusedExperts>Alert: outposts without experts</TSA_WD_Notify_OutpostUnusedExperts>
   <TSA_WD_Notify_OutpostUnusedExpertsTooltip>Silent, persistent alert when at least one WD outpost has unused expert slots. Mouseover lists affected outposts with assigned/max. Click jumps to the first.</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
   <TSA_WD_Alert_OutpostNoProduction>WD: Outposts w/o Production</TSA_WD_Alert_OutpostNoProduction>

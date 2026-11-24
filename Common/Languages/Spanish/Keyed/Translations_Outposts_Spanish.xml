@@ -2340,16 +2340,17 @@
   <TSA_WD_Conquest_AllyGiftBlockedAlliedToConquered>No se puede entregar este asentamiento a esta facción porque está aliada con la facción a la que pertenecía.</TSA_WD_Conquest_AllyGiftBlockedAlliedToConquered>
   <TSA_WD_DeliverySpot_AlreadyExists>Solo se permite un punto de entrega de avanzadilla WD por mapa.</TSA_WD_DeliverySpot_AlreadyExists>
   <TSA_WD_RemotePowerSpot_NeedColonyHome>Coloca esto solo en el mapa de tu colonia principal.</TSA_WD_RemotePowerSpot_NeedColonyHome>
+  <TSA_WD_RemotePowerSpot_NeedOutpostPower>Los puntos de energia remota requieren electricidad de avanzadillas (no disponible en modo medieval o si la energia de avanzadillas esta desactivada).</TSA_WD_RemotePowerSpot_NeedOutpostPower>
   <TSA_WD_RemotePowerSpot_GizmoShare>Cuota de energia remota</TSA_WD_RemotePowerSpot_GizmoShare>
-  <TSA_WD_RemotePowerSpot_GizmoShareDesc>Define la cuota relativa de la energia Keep remota de las centrales. Las cuotas se normalizan entre puntos conectados para que toda la Keep vaya a ellos.</TSA_WD_RemotePowerSpot_GizmoShareDesc>
+  <TSA_WD_RemotePowerSpot_GizmoShareDesc>Define la cuota relativa de la energia de las centrales. Las cuotas se normalizan entre puntos conectados.</TSA_WD_RemotePowerSpot_GizmoShareDesc>
   <TSA_WD_RemotePowerSpot_ShareTitle>Cuota de energia remota</TSA_WD_RemotePowerSpot_ShareTitle>
   <TSA_WD_RemotePowerSpot_ShareBody>Define el peso de cuanta energia de toda la producida por centrales WD debe recibir este punto.</TSA_WD_RemotePowerSpot_ShareBody>
   <TSA_WD_RemotePowerSpot_ShareSlider>Peso: {0}</TSA_WD_RemotePowerSpot_ShareSlider>
   <TSA_WD_RemotePowerSpot_ShareEffective>Cuota efectiva: {0} %</TSA_WD_RemotePowerSpot_ShareEffective>
   <TSA_WD_RemotePowerSpot_ShareEffectiveWatts>Potencia efectiva: {0}</TSA_WD_RemotePowerSpot_ShareEffectiveWatts>
   <TSA_WD_RemotePowerSpot_InspectShare>Peso de cuota remota {0} (efectivo {1}%)</TSA_WD_RemotePowerSpot_InspectShare>
-  <TSA_WD_RemotePowerSpot_InspectIneligible>Peso de cuota remota {0} (sin conexion; si no hay puntos validos se usa el reparto igual)</TSA_WD_RemotePowerSpot_InspectIneligible>
-  <TSA_WD_RemotePowerSpot_InspectWatts>Entrega {0}</TSA_WD_RemotePowerSpot_InspectWatts>
+  <TSA_WD_RemotePowerSpot_InspectIneligible>Peso de cuota remota {0} (sin conexion)</TSA_WD_RemotePowerSpot_InspectIneligible>
+  <TSA_WD_PowerPlant_InspectNeedsSpot>Sin un punto de energia remota, la colonia no recibe energia de las centrales ({0} disponibles).</TSA_WD_PowerPlant_InspectNeedsSpot>
   <TSA_WD_StatsTooltip_BandBase>Base de banda: {0}%</TSA_WD_StatsTooltip_BandBase>
   <TSA_WD_StatsTooltip_Baseline>Base: {0}</TSA_WD_StatsTooltip_Baseline>
   <TSA_WD_StatsTooltip_MaxRange>Alcance máx.: {0}</TSA_WD_StatsTooltip_MaxRange>

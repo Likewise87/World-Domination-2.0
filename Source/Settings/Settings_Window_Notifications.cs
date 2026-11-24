@@ -112,6 +112,10 @@ var s = WorldDominationMod.settings;
                     ref s.notifyOutpostNoProduction,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_OutpostNoProductionTooltip".Translate(), WorldDominationSettings.DefNotifyOutpostNoProduction));
 
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Notify_NoRemotePowerSpot".Translate(),
+                    ref s.notifyNoRemotePowerSpot,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_NoRemotePowerSpotTooltip".Translate(), WorldDominationSettings.DefNotifyNoRemotePowerSpot));
+
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Notify_OutpostUnusedExperts".Translate(),
                     ref s.notifyOutpostUnusedExperts,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_OutpostUnusedExpertsTooltip".Translate(), WorldDominationSettings.DefNotifyOutpostUnusedExperts));

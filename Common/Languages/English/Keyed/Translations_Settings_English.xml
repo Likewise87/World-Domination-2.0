@@ -134,6 +134,9 @@
   <TSA_WD_BtnWorldRaids>World Map Raids</TSA_WD_BtnWorldRaids>
   <TSA_WD_BtnCaravans>Caravans &amp; Trade</TSA_WD_BtnCaravans>
   <TSA_WD_BtnExperimental>Experimental</TSA_WD_BtnExperimental>
+  <TSA_WD_BtnPollution>Pollution</TSA_WD_BtnPollution>
+  <TSA_WD_BtnQualityOfLife>Quality of Life</TSA_WD_BtnQualityOfLife>
+  <TSA_WD_BtnAppearanceAndSound>Appearance and Sound</TSA_WD_BtnAppearanceAndSound>
   <TSA_WD_BtnQuests>Quests</TSA_WD_BtnQuests>
   <TSA_WD_BtnPlayerArtillery>Mortar, Anti Air and Rapid Response Logic</TSA_WD_BtnPlayerArtillery>
   <TSA_WD_Category>World Domination</TSA_WD_Category>
@@ -202,6 +205,9 @@
   <TSA_WD_DescWorldRaids>Simulated raid outcomes (win curves, losses), min attack ratio, ally pull radius, NPC attack ranges, raze/ruins, and garrison retain. Travel attrition is under Caravans.</TSA_WD_DescWorldRaids>
   <TSA_WD_DescCaravans>Traveler, drop-pod, and Rapid Response speeds, travel attrition and rest, water pathing, trader caravans (escort/tier-up), goodwill from trade, outpost delivery costs, and storyteller trader blocking. Water pathing is also set by Setting presets → Performance.</TSA_WD_DescCaravans>
   <TSA_WD_DescExperimental>Experimental gameplay toggles (trenches, armory, withdraw/defense budgets), world-map icon zoom, overlay hold key, travel-food/UI helpers, and traveler pollution damage/pathfinding. NPC fortify is under World Actions. Quest offer toggles are under Quests.</TSA_WD_DescExperimental>
+  <TSA_WD_DescPollution>Traveler pollution exit damage, pathfinding avoidance, and related Biotech world-map pollution rules.</TSA_WD_DescPollution>
+  <TSA_WD_DescQualityOfLife>World-map overlay hold key, auto-add arrivals, travel food on pawn transfer, outpost sim preview in the WD menu, and colony world Build (roads / blocks / traps).</TSA_WD_DescQualityOfLife>
+  <TSA_WD_DescAppearanceAndSound>Always-show world-map icons regardless of zoom, and WD world-map combat sounds.</TSA_WD_DescAppearanceAndSound>
   <TSA_WD_DescQuests>Enable or disable WD quest offers (first outpost, spy-ops, fortify, common enemy, colony road link, and World Domination victory).</TSA_WD_DescQuests>
   <TSA_WD_HeaderImportant>Setting presets</TSA_WD_HeaderImportant>
   <TSA_WD_MedievalMode>Medieval mode</TSA_WD_MedievalMode>
@@ -971,11 +977,11 @@
   <TSA_WD_Msg_RaidCancelledPollution>Raid cancelled: the route would lose about {0} strength to pollution.</TSA_WD_Msg_RaidCancelledPollution>
   <TSA_WD_Msg_AlliedRaidUnknownTarget>{0} does not know of {1}. Allied raid order cancelled.</TSA_WD_Msg_AlliedRaidUnknownTarget>
   <TSA_WD_Experimental_HeaderWorldActionsRaidLogic>World Actions &amp; Raid Logic</TSA_WD_Experimental_HeaderWorldActionsRaidLogic>
-  <TSA_WD_Experimental_ColonyWorldBuild>Experimental: colony world Build (roads / blocks / traps)</TSA_WD_Experimental_ColonyWorldBuild>
+  <TSA_WD_Experimental_ColonyWorldBuild>Colony world Build (roads / blocks / traps)</TSA_WD_Experimental_ColonyWorldBuild>
   <TSA_WD_Experimental_ColonyWorldBuildTip>When on, your colony Settlement gets the cyan Build gizmo (roads, road blocks, spike traps). Speed and unlocks use the sum of Construction skill on colonists at the colony map. No Engineer bonus and no WD strength cost. Turning this off cancels active colony construction projects.</TSA_WD_Experimental_ColonyWorldBuildTip>
-  <TSA_WD_Experimental_EnableTrenches>Experimental: trench defenses</TSA_WD_Experimental_EnableTrenches>
+  <TSA_WD_Experimental_EnableTrenches>Trench defenses</TSA_WD_Experimental_EnableTrenches>
   <TSA_WD_Experimental_EnableTrenchesTip>When on, player outposts can dig exclusive trench arms (wood cost, tip-to-hub remove). Hostile columns that walk onto your trenches get Fight / Auto / Let them pass. Turning this off wipes all player trenches and cancels trench projects.</TSA_WD_Experimental_EnableTrenchesTip>
-  <TSA_WD_Experimental_PlayerConquestRaze>Experimental: player conquest can raze</TSA_WD_Experimental_PlayerConquestRaze>
+  <TSA_WD_Experimental_PlayerConquestRaze>Player conquest can raze</TSA_WD_Experimental_PlayerConquestRaze>
   <TSA_WD_Experimental_PlayerConquestRazeTip>When on, wiping an NPC settlement yourself (or simulated conquest that would open the conquest menu) rolls the same Raze Chance as automatic NPC raids. On a raze, you get no recruit / gift / outpost opportunity, and timed ruins remain. Off by default.</TSA_WD_Experimental_PlayerConquestRazeTip>
   <TSA_WD_Experimental_AT_TargetPlayerTravelers>NPC AT Turrets target player WD travelers</TSA_WD_Experimental_AT_TargetPlayerTravelers>
   <TSA_WD_Experimental_AT_TargetPlayerTravelersTip>When on, hostile NPC AT Turrets may fire at your ground WD travelers (raid, upgrade, delivery, trader, and other non-airborne missions). Off stops new engagements; shells already in flight still resolve.</TSA_WD_Experimental_AT_TargetPlayerTravelersTip>
@@ -1023,7 +1029,7 @@
   <TSA_WD_Experimental_AmbushWatchRangeTip>How far an eligible-tier plain NPC settlement watches for ambush targets. Meant to match the inner blocked-tile radius around a settlement. Mortar and Rapid Response sites intercept through their own defense range, not this ambush watch.</TSA_WD_Experimental_AmbushWatchRangeTip>
   <TSA_WD_Experimental_OpportunityIgnoreEscalationGate>Allow target-of-opportunity, marauding and ambush from the start</TSA_WD_Experimental_OpportunityIgnoreEscalationGate>
   <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>When on, target-of-opportunity retargeting, post-victory marauding, and settlement interception caravans against you (whichever are enabled above) can trigger from the start instead of waiting for mid or late escalation. NPC-vs-NPC interception caravans already ignore the stage gate. Has no effect unless at least one of those features is also on.</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
-  <TSA_WD_Experimental_EnableWorldMapSounds>WD world map combat sounds</TSA_WD_Experimental_EnableWorldMapSounds>
+  <TSA_WD_Experimental_EnableWorldMapSounds>World map combat sounds</TSA_WD_Experimental_EnableWorldMapSounds>
   <TSA_WD_Experimental_EnableWorldMapSoundsTip>When on, AT Turret, mortar, and flak fire play short oneshots on the world map. Turn off to mute all of those WD combat sounds. UI clicks are unchanged.</TSA_WD_Experimental_EnableWorldMapSoundsTip>
   <TSA_WD_Experimental_UnlimitedAssaultMortarSupport>Unlimited Mortar support on settlement assault</TSA_WD_Experimental_UnlimitedAssaultMortarSupport>
   <TSA_WD_Experimental_UnlimitedAssaultMortarSupportTip>When on, the assault-map artillery float button can fire without a mortar outpost in range and without putting an outpost on cooldown. Off by default.</TSA_WD_Experimental_UnlimitedAssaultMortarSupportTip>
@@ -1051,9 +1057,9 @@
   <TSA_WD_Experimental_T4GravshipRaidsTip>When on, tier-4 settlements may launch ballistic gravship raid travelers at the player. Requires Odyssey and the Gravship Raids Workshop mod (sk.gravshipraids). Without those mods the option has no effect. Off by default.</TSA_WD_Experimental_T4GravshipRaidsTip>
   <TSA_WD_Experimental_GravshipRaidChanceT4>T4 gravship raid chance</TSA_WD_Experimental_GravshipRaidChanceT4>
   <TSA_WD_Experimental_GravshipRaidChanceT4Tip>When a T4 settlement launches a raid and gravship raids are enabled, chance it uses a gravship traveler instead of drop pods or a walking caravan. Rolled before the normal drop-pod chance.</TSA_WD_Experimental_GravshipRaidChanceT4Tip>
-  <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>Experimental: outpost withdraw strength budget</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
+  <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>Outpost withdraw strength budget</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>When on, withdrawals use current uncapped offensive strength with a 5% confirmation allowance. If the selected pawns exceed that budget, a picker opens: Form Caravan, Leave at Outpost, or Mark as Lost. When off, transfers always proceed without that check.</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
-  <TSA_WD_Experimental_OutpostDefenseDeployBudget>Experimental: outpost defense deploy strength budget</TSA_WD_Experimental_OutpostDefenseDeployBudget>
+  <TSA_WD_Experimental_OutpostDefenseDeployBudget>Outpost defense deploy strength budget</TSA_WD_Experimental_OutpostDefenseDeployBudget>
   <TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>When on, Fight Manually limits how many outpost pawns you can deploy by current offensive strength. When off, you can select any mix with no budget cap.</TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>
   <TSA_WD_Experimental_HeaderAtTurrets>AT Turrets</TSA_WD_Experimental_HeaderAtTurrets>
   <TSA_WD_Experimental_HeaderPlayerAtTurretCaps>Player AT Turret caps</TSA_WD_Experimental_HeaderPlayerAtTurretCaps>

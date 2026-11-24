@@ -2340,16 +2340,17 @@
   <TSA_WD_Conquest_AllyGiftBlockedAlliedToConquered>无法将此定居点交给该派系，因为他们与该定居点原属派系结盟。</TSA_WD_Conquest_AllyGiftBlockedAlliedToConquered>
   <TSA_WD_DeliverySpot_AlreadyExists>每张地图只允许一个 WD 前哨交付点。</TSA_WD_DeliverySpot_AlreadyExists>
   <TSA_WD_RemotePowerSpot_NeedColonyHome>只能建在你的殖民地主地图上。</TSA_WD_RemotePowerSpot_NeedColonyHome>
+  <TSA_WD_RemotePowerSpot_NeedOutpostPower>远程电力接入点需要前哨电力（中世纪模式或关闭前哨电力时不可用）。</TSA_WD_RemotePowerSpot_NeedOutpostPower>
   <TSA_WD_RemotePowerSpot_GizmoShare>远程电力份额</TSA_WD_RemotePowerSpot_GizmoShare>
-  <TSA_WD_RemotePowerSpot_GizmoShareDesc>设置该点位在发电厂前哨 Keep 远程电力中的相对份额。已接通点位之间会归一化，使全部 Keep 都进入这些电网。</TSA_WD_RemotePowerSpot_GizmoShareDesc>
+  <TSA_WD_RemotePowerSpot_GizmoShareDesc>设置该点位从发电厂前哨获得电力的相对份额。已接通点位之间会归一化。</TSA_WD_RemotePowerSpot_GizmoShareDesc>
   <TSA_WD_RemotePowerSpot_ShareTitle>远程电力份额</TSA_WD_RemotePowerSpot_ShareTitle>
   <TSA_WD_RemotePowerSpot_ShareBody>设定此接入点应从 WD 发电厂前哨全部产出电力中分得多少权重。</TSA_WD_RemotePowerSpot_ShareBody>
   <TSA_WD_RemotePowerSpot_ShareSlider>权重：{0}</TSA_WD_RemotePowerSpot_ShareSlider>
   <TSA_WD_RemotePowerSpot_ShareEffective>有效份额：{0} %</TSA_WD_RemotePowerSpot_ShareEffective>
   <TSA_WD_RemotePowerSpot_ShareEffectiveWatts>有效电力：{0}</TSA_WD_RemotePowerSpot_ShareEffectiveWatts>
   <TSA_WD_RemotePowerSpot_InspectShare>远程份额权重 {0}（有效 {1}%）</TSA_WD_RemotePowerSpot_InspectShare>
-  <TSA_WD_RemotePowerSpot_InspectIneligible>远程份额权重 {0}（未接通；若无有效点位则均分各电网）</TSA_WD_RemotePowerSpot_InspectIneligible>
-  <TSA_WD_RemotePowerSpot_InspectWatts>输送 {0}</TSA_WD_RemotePowerSpot_InspectWatts>
+  <TSA_WD_RemotePowerSpot_InspectIneligible>远程份额权重 {0}（未接通）</TSA_WD_RemotePowerSpot_InspectIneligible>
+  <TSA_WD_PowerPlant_InspectNeedsSpot>没有远程电力接入点时，殖民地不会从发电厂前哨获得任何电力（可用 {0}）。</TSA_WD_PowerPlant_InspectNeedsSpot>
   <TSA_WD_StatsTooltip_BandBase>区间基数：{0}%</TSA_WD_StatsTooltip_BandBase>
   <TSA_WD_StatsTooltip_Baseline>基准：{0}</TSA_WD_StatsTooltip_Baseline>
   <TSA_WD_StatsTooltip_MaxRange>最大射程：{0}</TSA_WD_StatsTooltip_MaxRange>

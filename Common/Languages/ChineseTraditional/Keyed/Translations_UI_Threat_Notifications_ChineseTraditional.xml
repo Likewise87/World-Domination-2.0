@@ -486,6 +486,14 @@
   <TSA_WD_Notify_OutpostNoProduction>警報：哨站未選產出</TSA_WD_Notify_OutpostNoProduction>
   <!-- EN: Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts needs a production pick but has nothing selected. Mouseover lists all affected outposts. Click to jump to the first. -->
   <TSA_WD_Notify_OutpostNoProductionTooltip>至少一個WD哨站需選產出但未選時的無音效持續警報。滑鼠移上列出受影響哨站。點擊跳至第一個。</TSA_WD_Notify_OutpostNoProductionTooltip>
+  <!-- EN: Alert: no remote power spot -->
+  <TSA_WD_Notify_NoRemotePowerSpot>警報：無遠程電力接入點</TSA_WD_Notify_NoRemotePowerSpot>
+  <!-- EN: Silent, persistent alert when a power plant outpost has electricity for the colony but no wired remote power spot exists on the colony map. Click jumps to a power plant outpost. -->
+  <TSA_WD_Notify_NoRemotePowerSpotTooltip>當發電廠哨站有供給殖民地的電力，但殖民地地圖上沒有已接通的遠程電力接入點時，顯示無音效持續警報。點擊跳至發電廠哨站。</TSA_WD_Notify_NoRemotePowerSpotTooltip>
+  <!-- EN: WD: No Remote Power Spot -->
+  <TSA_WD_Alert_NoRemotePowerSpot>WD：無遠程電力接入點</TSA_WD_Alert_NoRemotePowerSpot>
+  <!-- EN: You need to build at least one remote power spot on your colony map to receive the electricity from your power plant outpost. Place it like a normal generator connected to the power grid. Configure per spot how much electricity (share) it should get. -->
+  <TSA_WD_Alert_NoRemotePowerSpotDesc>你需要在殖民地地圖至少建造一個遠程電力接入點，才能接收發電廠哨站的電力。像普通發電機一樣接入電網放置。可為每個接入點設定應得電力份額。</TSA_WD_Alert_NoRemotePowerSpotDesc>
   <!-- EN: Show outposts without experts alert (right side) -->
   <TSA_WD_Notify_OutpostUnusedExperts>警報：哨站未用專家位</TSA_WD_Notify_OutpostUnusedExperts>
   <!-- EN: Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts has unused expert slots. Mouseover lists all affected outposts with assigned/max. Click to jump to the first. -->

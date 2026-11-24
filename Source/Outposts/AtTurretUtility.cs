@@ -17,7 +17,7 @@ namespace TSA_WorldDomination
     /// <summary>
     /// Spawn, ownership caps, and tile legality for AT Turrets.
     /// NPC: per <see cref="WorldObject_AT_Turret.builtBySettlement"/> and settlement tier (T1–T4 settings).
-    /// Player: global cap plus per colony/outpost site cap (Experimental settings).
+    /// Player: global cap plus per colony/outpost site cap (Building Projects / fortify settings).
     /// </summary>
     public static class AtTurretUtility
     {

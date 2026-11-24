@@ -255,6 +255,9 @@
   <TSA_WD_BtnCaravans>旅隊與交易</TSA_WD_BtnCaravans>
   <!-- EN: Experimental -->
   <TSA_WD_BtnExperimental>實驗性</TSA_WD_BtnExperimental>
+  <TSA_WD_BtnPollution>汙染</TSA_WD_BtnPollution>
+  <TSA_WD_BtnQualityOfLife>生活品質</TSA_WD_BtnQualityOfLife>
+  <TSA_WD_BtnAppearanceAndSound>外觀與音效</TSA_WD_BtnAppearanceAndSound>
   <TSA_WD_BtnQuests>任務</TSA_WD_BtnQuests>
   <!-- EN: Mortar, Anti Air and Rapid Response Logic -->
   <TSA_WD_BtnPlayerArtillery>迫擊砲、防空與快速反應邏輯</TSA_WD_BtnPlayerArtillery>
@@ -390,6 +393,9 @@
   <TSA_WD_DescCaravans>移動耗損、WD旅隊的水路尋路、商隊、玩家殖民地商隊間隔、哨站配送費用，以及阻擋故事敘述者商人。水路尋路也可由「設定預設集 → 效能」設定。</TSA_WD_DescCaravans>
   <!-- EN: World actions and raid logic experiments, world-map icon zoom behavior, overlay hold key, NPC fortify travelers, traveler pollution damage, and pollution pathfinding toggles. -->
   <TSA_WD_DescExperimental>世界行動與突襲邏輯實驗、世界地圖圖示縮放行為、疊加層按住鍵、旅行者汙染傷害與尋路開關。任務開關見「任務」。</TSA_WD_DescExperimental>
+  <TSA_WD_DescPollution>旅行者汙染離開傷害、尋路迴避及相關 Biotech 世界地圖汙染規則。</TSA_WD_DescPollution>
+  <TSA_WD_DescQualityOfLife>世界地圖疊加層按住鍵、預設自動加入抵達者、人員調動旅行食物、WD 選單中的哨站需求預覽，以及殖民地世界建造（道路／路障／陷阱）。</TSA_WD_DescQualityOfLife>
+  <TSA_WD_DescAppearanceAndSound>無論縮放一律顯示世界地圖圖示，以及 WD 世界地圖戰鬥音效。</TSA_WD_DescAppearanceAndSound>
   <TSA_WD_DescQuests>啟用或停用 WD 任務發放（首座前哨、間諜行動、加固、共同敵人、殖民地道路連結，以及世界霸權勝利）。</TSA_WD_DescQuests>
   <!-- EN: Setting presets -->
   <TSA_WD_HeaderImportant>設定預設集</TSA_WD_HeaderImportant>
@@ -1873,11 +1879,11 @@
   <!-- EN: World Actions & Raid Logic -->
   <TSA_WD_Experimental_HeaderWorldActionsRaidLogic>世界行動與突襲邏輯</TSA_WD_Experimental_HeaderWorldActionsRaidLogic>
   <!-- EN: Experimental: colony world Build (roads / blocks / traps) -->
-  <TSA_WD_Experimental_ColonyWorldBuild>實驗性：殖民地世界建造（道路／路障／陷阱）</TSA_WD_Experimental_ColonyWorldBuild>
+  <TSA_WD_Experimental_ColonyWorldBuild>殖民地世界建造（道路／路障／陷阱）</TSA_WD_Experimental_ColonyWorldBuild>
   <!-- EN: When on, your colony Settlement gets the cyan Build gizmo (roads, road blocks, spike traps). Speed and unlocks use the sum of Construction skill on colonists at the colony map. No Engineer bonus and no WD strength cost. Turning this off cancels active colony construction projects. -->
   <TSA_WD_Experimental_ColonyWorldBuildTip>開啟後，你的殖民地據點會獲得青色的「建造」按鈕（道路、路障、尖刺陷阱）。速度與解鎖取決於殖民地地圖上殖民者的建造技能總和。沒有工程師加成，也不消耗WD戰力。關閉此選項會取消殖民地進行中的建造專案。</TSA_WD_Experimental_ColonyWorldBuildTip>
   <!-- EN: Experimental: player conquest can raze -->
-  <TSA_WD_Experimental_PlayerConquestRaze>實驗性：玩家征服可夷平</TSA_WD_Experimental_PlayerConquestRaze>
+  <TSA_WD_Experimental_PlayerConquestRaze>玩家征服可夷平</TSA_WD_Experimental_PlayerConquestRaze>
   <!-- EN: When on, wiping an NPC settlement yourself (or simulated conquest that would open the conquest menu) rolls the same Raze Chance as automatic NPC raids. On a raze, you get no recruit / gift / outpost opportunity, and timed ruins remain. Off by default. -->
   <TSA_WD_Experimental_PlayerConquestRazeTip>開啟後，你親自消滅NPC據點（或會開啟征服選單的模擬征服）時，會擲與NPC自動突襲相同的夷平機率。若被夷平，你將無法獲得招募／贈禮／哨站機會，且會留下限時廢墟。預設關閉。</TSA_WD_Experimental_PlayerConquestRazeTip>
   <!-- EN: NPC AT Turrets target player WD travelers -->
@@ -1999,11 +2005,11 @@
   <!-- EN: When a T4 settlement launches a raid and gravship raids are enabled, chance it uses a gravship traveler instead of drop pods or a walking caravan. Rolled before the normal drop-pod chance. -->
   <TSA_WD_Experimental_GravshipRaidChanceT4Tip>啟用重力船突襲時，T4據點發動突襲會以此機率使用重力船旅行者，而非運輸艙或步行旅隊。判定早於一般的運輸艙機率。</TSA_WD_Experimental_GravshipRaidChanceT4Tip>
   <!-- EN: Experimental: outpost withdraw strength budget -->
-  <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>實驗性：哨站撤出戰力預算</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
+  <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>哨站撤出戰力預算</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
   <!-- EN: When on, withdrawals use current uncapped offensive strength with a 5% confirmation allowance. If the selected pawns exceed that budget, a picker opens: Form Caravan, Leave at Outpost, or Mark as Lost. When off, transfers always proceed without that check. -->
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>開啟後，撤出時以目前不設上限的進攻戰力為準，並有5% 的確認寬限。若所選角色超出預算，會開啟選擇視窗：組織旅隊、留在哨站或標記為失蹤。關閉時，轉移一律直接進行，不做此檢查。</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
   <!-- EN: Experimental: outpost defense deploy strength budget -->
-  <TSA_WD_Experimental_OutpostDefenseDeployBudget>實驗性：哨站防禦部署戰力預算</TSA_WD_Experimental_OutpostDefenseDeployBudget>
+  <TSA_WD_Experimental_OutpostDefenseDeployBudget>哨站防禦部署戰力預算</TSA_WD_Experimental_OutpostDefenseDeployBudget>
   <!-- EN: When on, Fight Manually limits how many outpost pawns you can deploy by current offensive strength. When off, you can select any mix with no budget cap. -->
   <TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>開啟後，「手動作戰」會依目前進攻戰力限制可部署的哨站角色數量。關閉時可任意選擇組合，不受預算上限限制。</TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>
   <!-- EN: AT Turrets -->
