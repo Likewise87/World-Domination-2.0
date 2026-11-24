@@ -23,10 +23,29 @@ namespace TSA_WorldDomination
         /// <summary>Session toggle (default on). Debug may turn off to see full map while inspecting.</summary>
         public static bool ShowFogOfWar = true;
 
-        /// <summary>True when Settlement Intel kill+gate is on and FoW draw is enabled.</summary>
+        /// <summary>
+        /// Tracking/explore gate: Settlement Intel kill+gate on and session FoW draw enabled.
+        /// Keep true while the player toggle is off so caravan/airborne explore and sight disks still run.
+        /// </summary>
         public static bool IsActive =>
             ShowFogOfWar
             && WorldComponent_SettlementIntel.IsGateConfigured();
+
+        /// <summary>
+        /// Whether the current view should hide/draw FoW tiles and icons.
+        /// Player view also requires <see cref="WorldDominationSettings.intelPlayerFogOfWar"/>.
+        /// Debug View-as-NPC still draws that faction's fog when the player toggle is off.
+        /// </summary>
+        public static bool DrawFogForCurrentView
+        {
+            get
+            {
+                if (!IsActive) return false;
+                if (!IsViewingAsPlayer) return true;
+                var seth = WorldDominationMod.settings;
+                return seth == null || seth.intelPlayerFogOfWar;
+            }
+        }
 
         /// <summary>Faction whose discovery / explored tiles drive the overlay.</summary>
         public static Faction EffectiveViewFaction
@@ -58,7 +77,7 @@ namespace TSA_WorldDomination
         /// </summary>
         public static bool ShouldDrawTileOverlay(int tileId)
         {
-            if (!IsActive) return true;
+            if (!DrawFogForCurrentView) return true;
             if (tileId < 0) return false;
             var intel = WorldComponent_SettlementIntel.Get();
             if (intel?.TileFow == null) return true;
@@ -109,7 +128,7 @@ namespace TSA_WorldDomination
         public static Color ApplyIconColor(WorldObject wo, Color c)
         {
             // Cache read only on draw path.
-            if (wo == null || !IsActive) return c;
+            if (wo == null || !DrawFogForCurrentView) return c;
             var intel = WorldComponent_SettlementIntel.Get();
             if (intel == null || !intel.IsFowDimmed(wo)) return c;
             c.a *= DimAlphaMul;

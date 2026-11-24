@@ -79,7 +79,7 @@ namespace TSA_WorldDomination
                 {
                     var (worldObject, comp) = tierLabelCache[i];
                     if (worldObject.Destroyed) continue;
-                    if (WdFowDraw.IsActive)
+                    if (WdFowDraw.DrawFogForCurrentView)
                     {
                         var intel = WorldComponent_SettlementIntel.Get();
                         if (intel != null && intel.IsFowHidden(worldObject)) continue;

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_78_Title>Exclude Player from FOW</TSA_WD_Update_2_3_78_Title>
+  <TSA_WD_Update_2_3_78_Body><![CDATA[
+<size=16><b>2.3.78 - Exclude Player from FOW</b></size>\n
+<color=#00FFFFFF>Release date: November 24th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• In the Intel mod settings you can now turn off Fog of War for the player faction. NPC FoW still applies when the feature is enabled overall.\n
+• Colony and outposts are capped at 3 Watch Towers. Destroying an outpost now also destroys its Watch Towers. A line is drawn between each Watch Tower and its outpost to show ownership.\n
+• As requested by a player: when an Empire WD trader caravan arrives at your colony, there is a 20% chance Tribute Collectors spawn instead of a normal trader. Requires the Royalty DLC and the Empire faction. Tune the chance under Caravans & Trade.\n
+• Another attempt so shuttles tied to a quest are ignored by AA turrets.\n
+]]></TSA_WD_Update_2_3_78_Body>
   <TSA_WD_Update_2_3_77_Title>FoW performance, Watchtower, Bugfix</TSA_WD_Update_2_3_77_Title>
   <TSA_WD_Update_2_3_77_Body><![CDATA[
 <size=16><b>2.3.77 - FoW performance, Watchtower, Bugfix</b></size>\n

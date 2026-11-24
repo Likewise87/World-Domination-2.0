@@ -7,11 +7,16 @@ namespace TSA_WorldDomination
 {
     public static class Trader_OnPlayerColony
     {
+        private const string TributeCollectorIncidentDefName = "CaravanArrivalTributeCollector";
+
         public static bool IsWorldDominationTrader;
 
         public static bool TrySpawnTraderOnPlayerColony(Settlement targetColony, Faction traderFaction, TraderKindDef traderKind = null)
         {
             if (targetColony == null || !targetColony.HasMap || traderFaction == null) return false;
+
+            if (traderKind == null && TrySpawnEmpireTributeCollector(targetColony.Map, traderFaction))
+                return true;
 
             IncidentParms parms = new IncidentParms
             {
@@ -25,6 +30,41 @@ namespace TSA_WorldDomination
             {
                 IsWorldDominationTrader = true;
                 return IncidentDefOf.TraderCaravanArrival.Worker.TryExecute(parms);
+            }
+            finally
+            {
+                IsWorldDominationTrader = false;
+            }
+        }
+
+        /// <summary>
+        /// AI/story Empire WD arrivals only: roll settings chance to fire Royalty Tribute Collectors
+        /// instead of a normal trader caravan. Player-ordered traders pass an explicit traderKind and skip this.
+        /// </summary>
+        private static bool TrySpawnEmpireTributeCollector(Map map, Faction traderFaction)
+        {
+            if (map == null || traderFaction == null) return false;
+            if (!ModsConfig.RoyaltyActive) return false;
+            if (Faction.OfEmpire == null || traderFaction != Faction.OfEmpire) return false;
+
+            WorldDominationSettings settings = WorldDominationMod.settings;
+            float chance = settings != null ? settings.traderEmpireTributeCollectorChance : 0f;
+            if (chance <= 0f || !Rand.Chance(chance)) return false;
+
+            IncidentDef incident = DefDatabase<IncidentDef>.GetNamedSilentFail(TributeCollectorIncidentDefName);
+            if (incident?.Worker == null) return false;
+
+            IncidentParms parms = new IncidentParms
+            {
+                target = map,
+                faction = Faction.OfEmpire,
+                forced = true
+            };
+
+            try
+            {
+                IsWorldDominationTrader = true;
+                return incident.Worker.TryExecute(parms);
             }
             finally
             {

@@ -62,7 +62,7 @@ namespace TSA_WorldDomination
             {
                 if (!(nodes[i].Obj is WorldObject_WD_Outpost wo)) continue;
                 if (wo.Faction == null || !wo.Faction.IsPlayer) continue;
-                if (WdFowDraw.IsActive)
+                if (WdFowDraw.DrawFogForCurrentView)
                 {
                     var intel = WorldComponent_SettlementIntel.Get();
                     if (intel != null && intel.IsFowHidden(wo)) continue;
@@ -100,7 +100,7 @@ namespace TSA_WorldDomination
             Settlement colony = InfluenceUtils.GetPlayerColony();
             if (colony == null || colony.Destroyed) return;
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(colony)) return;
-            if (WdFowDraw.IsActive)
+            if (WdFowDraw.DrawFogForCurrentView)
             {
                 var intel = WorldComponent_SettlementIntel.Get();
                 if (intel != null && intel.IsFowHidden(colony)) return;

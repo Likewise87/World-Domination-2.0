@@ -1262,6 +1262,7 @@ namespace TSA_WorldDomination
                 // Loose armory stock dies with the outpost; retreating pawns keep only worn/carried gear.
                 CompOutpostArmory.Get(this)?.ClearAndDestroyAll();
                 WorldActions_Trenches.WipeForOwner(this);
+                WorldActions_WatchTowers.WipeForBuilder(this);
             }
             OutpostPowerGrid.NotifyOutpostPowerTopologyChanged();
             bool wasWarehouse = Outpost_Production_Utils.IsWarehouseOutpost(def);

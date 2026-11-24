@@ -505,46 +505,65 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Quest-linked airborne (Royalty shuttle / TransportShip with questTags on the ship or shipThing).
-        /// Player Odyssey / permit shuttles without questTags stay valid AA targets.
+        /// World-map quest TransportShip / Royalty shuttle — not a valid AA target (quest fails on Destroyed).
+        /// Fail open: unresolved ship or no tags/reservation → normal AA. Permit CallShuttle stays shootable.
         /// </summary>
         public static bool IsQuestLinkedAirborne(WorldObject target)
         {
             if (target == null || target.Destroyed) return false;
             if (HasQuestTags(target.questTags)) return true;
-
             if (target is not TravellingTransporters pods) return false;
 
-            // Primary: TransportShip flights expose the ship via arrivalAction.
-            if (pods.arrivalAction is TransportersArrivalAction_TransportShip shipArrive)
+            TransportShip ship = TryResolveTransportShip(pods);
+            if (ship == null) return false;
+            if (IsQuestTaggedTransportShip(ship)) return true;
+            try
             {
-                if (IsQuestTaggedTransportShip(shipArrive.transportShip))
+                QuestManager qm = Find.QuestManager;
+                if (qm != null && qm.IsReservedByAnyQuest(ship))
                     return true;
             }
-
-            // Fallback: private Shuttle thing + TransportShipManager / CompShuttle.shipParent.
-            Thing shuttle = TryGetTravellingShuttle(pods);
-            if (shuttle != null && HasQuestTags(shuttle.questTags))
-                return true;
-
-            CompShuttle shuttleComp = shuttle?.TryGetComp<CompShuttle>();
-            if (IsQuestTaggedTransportShip(shuttleComp?.shipParent))
-                return true;
-
-            TransportShipManager manager = Find.TransportShipManager;
-            if (manager?.AllTransportShips == null || shuttle == null)
-                return false;
-
-            List<TransportShip> ships = manager.AllTransportShips;
-            for (int i = 0; i < ships.Count; i++)
-            {
-                TransportShip ship = ships[i];
-                if (ship == null || ship.shipThing != shuttle) continue;
-                if (IsQuestTaggedTransportShip(ship))
-                    return true;
-            }
-
+            catch { /* fail open */ }
             return false;
+        }
+
+        /// <summary>
+        /// Resolve the in-flight <see cref="TransportShip"/> for vanilla pods. Null → fail open (shootable).
+        /// Tags live on the ship / hull; <see cref="TravellingTransporters.questTags"/> stay empty in flight.
+        /// </summary>
+        private static TransportShip TryResolveTransportShip(TravellingTransporters pods)
+        {
+            if (pods == null || pods.Destroyed) return null;
+
+            try
+            {
+                if (pods.arrivalAction is TransportersArrivalAction_TransportShip shipArrive
+                    && shipArrive.transportShip != null)
+                    return shipArrive.transportShip;
+
+                Thing shuttle = TryGetTravellingShuttle(pods) ?? TryGetShuttleFromPodContents(pods);
+                if (shuttle != null)
+                {
+                    CompShuttle shuttleComp = shuttle.TryGetComp<CompShuttle>();
+                    if (shuttleComp?.shipParent != null)
+                        return shuttleComp.shipParent;
+
+                    TransportShipManager manager = Find.TransportShipManager;
+                    List<TransportShip> ships = manager?.AllTransportShips;
+                    if (ships != null)
+                    {
+                        for (int i = 0; i < ships.Count; i++)
+                        {
+                            TransportShip ship = ships[i];
+                            if (ship != null && ship.shipThing == shuttle)
+                                return ship;
+                        }
+                    }
+                }
+            }
+            catch { /* fail open */ }
+
+            return null;
         }
 
         private static bool IsQuestTaggedTransportShip(TransportShip ship)
@@ -562,11 +581,46 @@ namespace TSA_WorldDomination
         private static readonly MethodInfo TravellingShuttleGetter =
             AccessTools.PropertyGetter(typeof(TravellingTransporters), "Shuttle");
 
+        private static readonly FieldInfo TravellingTransportersField =
+            AccessTools.Field(typeof(TravellingTransporters), "transporters");
+
         private static Thing TryGetTravellingShuttle(TravellingTransporters pods)
         {
             if (pods == null || TravellingShuttleGetter == null) return null;
             try { return TravellingShuttleGetter.Invoke(pods, null) as Thing; }
             catch { return null; }
+        }
+
+        /// <summary>
+        /// When private Shuttle / GetShuttle is null, hull may still sit in pod innerContainer with CompShuttle.
+        /// </summary>
+        private static Thing TryGetShuttleFromPodContents(TravellingTransporters pods)
+        {
+            if (pods == null || TravellingTransportersField == null) return null;
+            try
+            {
+                if (TravellingTransportersField.GetValue(pods) is not System.Collections.IList list || list.Count == 0)
+                    return null;
+                object info = list[0];
+                if (info == null) return null;
+
+                // ActiveTransporterInfo: ThingOwner innerContainer (public) or GetDirectlyHeldThings.
+                if (info is IThingHolder holder)
+                {
+                    ThingOwner directly = holder.GetDirectlyHeldThings();
+                    if (directly != null)
+                    {
+                        for (int i = 0; i < directly.Count; i++)
+                        {
+                            Thing t = directly[i];
+                            if (t != null && t.TryGetComp<CompShuttle>() != null)
+                                return t;
+                        }
+                    }
+                }
+            }
+            catch { /* fail open */ }
+            return null;
         }
 
         /// <summary>

@@ -313,6 +313,12 @@ namespace TSA_WorldDomination
                 atTurretUsed + "/" + atTurretMax,
                 "TSA_WD_OutpostStats_Row_AtTurretMaxTip");
 
+            int watchTowerUsed = WorldActions_WatchTowers.CountUsedSlots(outpost);
+            int watchTowerMax = WorldActions_WatchTowers.MaxPerBuilder;
+            AddRow(section, "TSA_WD_OutpostStats_Row_WatchTower",
+                "TSA_WD_OutpostStats_Row_WatchTowerValue".Translate(watchTowerUsed, watchTowerMax).ToString(),
+                "TSA_WD_OutpostStats_Row_WatchTowerTip");
+
             string currentlyBuilding;
             if (comp != null && (comp.roadTargetTile != -1
                 || WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp)

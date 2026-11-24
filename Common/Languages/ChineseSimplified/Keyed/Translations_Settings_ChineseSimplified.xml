@@ -536,6 +536,8 @@
   <TSA_WD_Caravans_ReceiverRewardTip>WD 贸易商队抵达时授予接收定居点的实力。玩家前哨不能作为目标。</TSA_WD_Caravans_ReceiverRewardTip>
   <TSA_WD_Caravans_Goodwill>抵达时双方好感</TSA_WD_Caravans_Goodwill>
   <TSA_WD_Caravans_GoodwillTip>贸易商队成功抵达时,双方派系各自获得的好感。</TSA_WD_Caravans_GoodwillTip>
+  <TSA_WD_Caravans_TributeCollectorChance>朝贡征收队概率</TSA_WD_Caravans_TributeCollectorChance>
+  <TSA_WD_Caravans_TributeCollectorChanceTip>当帝国派系的 WD 贸易商队抵达你的殖民地时，有该概率生成 Royalty 朝贡征收队，而不是普通贸易商队。仅对帝国派系生效，且需要启用 Royalty DLC。玩家点名召唤的商队始终生成所请求的商人类型。世界战力与好感奖励两种情况都会照常结算。</TSA_WD_Caravans_TributeCollectorChanceTip>
   <TSA_WD_Caravans_HeaderTraderTierUps>贸易商队阶层升级（达上限时）</TSA_WD_Caravans_HeaderTraderTierUps>
   <TSA_WD_Caravans_TierUpT1ToT2>升级概率 T1 至 T2</TSA_WD_Caravans_TierUpT1ToT2>
   <TSA_WD_Caravans_TierUpT1ToT2Tip>WD 贸易商队成功交易后，若实力奖励只会把定居点顶到当前阶层实力上限，则按此概率升为 T2。常规阶层成长所需的同阶邻居等条件不适用。</TSA_WD_Caravans_TierUpT1ToT2Tip>

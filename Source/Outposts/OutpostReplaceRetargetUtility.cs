@@ -100,6 +100,13 @@ namespace TSA_WorldDomination
                         turret.builtBySite = newOutpost;
                         changed++;
                     }
+                    if (worldObjects[i] is WorldObject_WD_PlayerWatchTower tower
+                        && !tower.Destroyed
+                        && ReferenceEquals(tower.builtBySite, oldOutpost))
+                    {
+                        tower.builtBySite = newOutpost;
+                        changed++;
+                    }
                 }
             }
 

@@ -176,6 +176,8 @@ var s = WorldDominationMod.settings;
                 "TSA_WD_Caravans_ReceiverRewardTip".Translate(), 5f, SliderFormat.Fixed0, WorldDominationSettings.DefTraderCaravanReceiverRewardStrength);
             s.traderCaravanGoodwillGain = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_Goodwill".Translate(), s.traderCaravanGoodwillGain, 0f, 50f,
                 "TSA_WD_Caravans_GoodwillTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefTraderCaravanGoodwillGain);
+            s.traderEmpireTributeCollectorChance = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_TributeCollectorChance".Translate(), s.traderEmpireTributeCollectorChance, 0f, 1f,
+                "TSA_WD_Caravans_TributeCollectorChanceTip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefTraderEmpireTributeCollectorChance);
             s.cooldownPlayerColonyTraderDays = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_PlayerColonyTraderCooldown".Translate(), s.cooldownPlayerColonyTraderDays, 0f, 60f,
                 "TSA_WD_Caravans_PlayerColonyTraderCooldownTip".Translate(), 0.25f, SliderFormat.Fixed2, WorldDominationSettings.DefCooldownPlayerColonyTraderDays);
             s.traderDestinationSearchRadius = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_TraderDestSearchRadius".Translate(), s.traderDestinationSearchRadius, 5f, 200f,

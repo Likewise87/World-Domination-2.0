@@ -17,7 +17,7 @@ namespace TSA_WorldDomination
         public const string DefName = "TSA_WD_PlayerWatchTower";
         public const string ExpandingIconPath = "WorldObjects/AdvancedBuildings/AdvWO_Watchtower";
 
-        /// <summary>Outpost or colony that ordered the build (soft ref; does not tear down this tower).</summary>
+        /// <summary>Outpost or colony that ordered the build. Hard ownership: builder Destroy wipes its towers (type-change retargets).</summary>
         public WorldObject builtBySite;
 
         private static readonly List<WorldObject_WD_PlayerWatchTower> liveTowers = new List<WorldObject_WD_PlayerWatchTower>();
@@ -38,6 +38,22 @@ namespace TSA_WorldDomination
                 if (all[i] is WorldObject_WD_PlayerWatchTower t && !t.Destroyed)
                     liveTowers.Add(t);
             }
+            // Pre-ownership saves / races: drop towers with no live builder (not during type-change).
+            if (!AnyTypeChangeShellRemoval())
+                WorldActions_WatchTowers.WipeOrphans();
+        }
+
+        private static bool AnyTypeChangeShellRemoval()
+        {
+            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+            if (outposts == null) return false;
+            for (int i = 0; i < outposts.Count; i++)
+            {
+                WorldObject_WD_Outpost o = outposts[i];
+                if (o != null && !o.Destroyed && o.typeChangeShellRemoval)
+                    return true;
+            }
+            return false;
         }
 
         public static WorldObject_WD_PlayerWatchTower FindAt(int tileId)
@@ -112,6 +128,13 @@ namespace TSA_WorldDomination
                 yield return g;
         }
 
+        public override void DrawExtraSelectionOverlays()
+        {
+            base.DrawExtraSelectionOverlays();
+            if (!Find.WorldSelector.IsSelected(this)) return;
+            PlayerWatchTowerSelectionLines.DrawToBuilder(this);
+        }
+
         public override string GetInspectString()
         {
             int tick = Find.TickManager?.TicksGame ?? 0;
@@ -140,6 +163,8 @@ namespace TSA_WorldDomination
             // Base eligibility only. Do not use IsValidBuildTile here: the active project still
             // lists this tile and would lock itself (same pattern as AT turret TrySpawn).
             if (!WorldActions_WatchTowers.IsBaseEligibleBuildTile(tileId))
+                return null;
+            if (builtBySite != null && !WorldActions_WatchTowers.CanAcceptPlaced(builtBySite))
                 return null;
 
             WorldObjectDef def = DefDatabase<WorldObjectDef>.GetNamedSilentFail(DefName);

@@ -262,7 +262,7 @@ namespace TSA_WorldDomination
         /// </summary>
         public bool IsTileCurrentlyVisibleForFow(int tileId)
         {
-            if (!WdFowDraw.IsActive) return true;
+            if (!WdFowDraw.DrawFogForCurrentView) return true;
             if (!LayersReady) return false;
             return IsTileVisibleBit(tileId);
         }
@@ -312,7 +312,7 @@ namespace TSA_WorldDomination
         /// <summary>Landform / feature name visible for current FoW view (any explored tile of that feature).</summary>
         public bool IsFeatureKnownForView(WorldFeature feature)
         {
-            if (feature == null || !WdFowDraw.IsActive) return true;
+            if (feature == null || !WdFowDraw.DrawFogForCurrentView) return true;
             Faction view = WdFowDraw.EffectiveViewFaction;
             if (view == null) return true;
             if (!knownFeaturesByFaction.TryGetValue(view.loadID, out HashSet<int> set) || set == null)

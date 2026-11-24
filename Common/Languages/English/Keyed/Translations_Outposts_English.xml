@@ -412,6 +412,9 @@
   <TSA_WD_Log_PlayerWatchTowerBuilt>{0} finished a Watch Tower on tile {1}.</TSA_WD_Log_PlayerWatchTowerBuilt>
   <TSA_WD_PlayerWatchTower_Inspect_Los>Sight: {0} / {1} tiles (LOS / Awareness)</TSA_WD_PlayerWatchTower_Inspect_Los>
   <TSA_WD_PlayerWatchTower_Inspect_BuiltBy>Built from {0}</TSA_WD_PlayerWatchTower_Inspect_BuiltBy>
+  <TSA_WD_PlayerWatchTower_AtCap>Watch Tower limit reached ({0} max)</TSA_WD_PlayerWatchTower_AtCap>
+  <TSA_WD_Gizmo_HighlightWatchTowers>Highlight Watch Towers</TSA_WD_Gizmo_HighlightWatchTowers>
+  <TSA_WD_Gizmo_HighlightWatchTowersDesc>Draw cyan lines from this site to each Watch Tower it built.</TSA_WD_Gizmo_HighlightWatchTowersDesc>
   <TSA_WD_PlayerWatchTower_Log_DestroyedBy>{0} destroyed by {1}.</TSA_WD_PlayerWatchTower_Log_DestroyedBy>
   <TSA_WD_PlayerWatchTower_Log_Destroyed>{0} destroyed.</TSA_WD_PlayerWatchTower_Log_Destroyed>
   <TSA_WD_CancelAT_Turret>Cancel AT Turret</TSA_WD_CancelAT_Turret>
@@ -2211,6 +2214,9 @@
   <TSA_WD_OutpostStats_Row_AtTurretBuildRadiusTip>Maximum tile distance for planning AT Turret construction from this outpost.</TSA_WD_OutpostStats_Row_AtTurretBuildRadiusTip>
   <TSA_WD_OutpostStats_Row_AtTurretMax>Max turrets</TSA_WD_OutpostStats_Row_AtTurretMax>
   <TSA_WD_OutpostStats_Row_AtTurretMaxTip>AT Turrets attributed to this outpost (placed and in transit) versus the per-site cap from Experimental settings. A separate global player cap can still block new builds.</TSA_WD_OutpostStats_Row_AtTurretMaxTip>
+  <TSA_WD_OutpostStats_Row_WatchTower>Watchtower</TSA_WD_OutpostStats_Row_WatchTower>
+  <TSA_WD_OutpostStats_Row_WatchTowerValue>{0} ({1} max)</TSA_WD_OutpostStats_Row_WatchTowerValue>
+  <TSA_WD_OutpostStats_Row_WatchTowerTip>Watch Towers attributed to this site (placed and still queued). Each outpost and the player colony may own up to 3.</TSA_WD_OutpostStats_Row_WatchTowerTip>
   <TSA_WD_OutpostStats_Row_RoadCurrentlyBuilding>Currently building</TSA_WD_OutpostStats_Row_RoadCurrentlyBuilding>
   <TSA_WD_OutpostStats_Row_RoadCurrentlyBuildingTip>Active construction project (road, road blocks, traps, or turrets), or None when idle.</TSA_WD_OutpostStats_Row_RoadCurrentlyBuildingTip>
   <TSA_WD_OutpostStats_Value_RoadNone>None</TSA_WD_OutpostStats_Value_RoadNone>

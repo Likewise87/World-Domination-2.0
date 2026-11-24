@@ -486,6 +486,8 @@
   <TSA_WD_Caravans_ReceiverRewardTip>Fuerza concedida al asentamiento receptor. Las avanzadillas del jugador no son objetivos válidos.</TSA_WD_Caravans_ReceiverRewardTip>
   <TSA_WD_Caravans_Goodwill>Buena voluntad mutua al llegar</TSA_WD_Caravans_Goodwill>
   <TSA_WD_Caravans_GoodwillTip>Buena voluntad que ganan ambas facciones al completarse el comercio.</TSA_WD_Caravans_GoodwillTip>
+  <TSA_WD_Caravans_TributeCollectorChance>Probabilidad de recolectores de tributo</TSA_WD_Caravans_TributeCollectorChance>
+  <TSA_WD_Caravans_TributeCollectorChanceTip>Cuando una caravana comercial WD del Imperio llega a tu colonia, esta es la probabilidad de que aparezcan recolectores de tributo de Royalty en lugar de una caravana comercial normal. Solo aplica a la facción del Imperio y solo si el DLC Royalty está activo. Los comerciantes pedidos por el jugador siempre generan el tipo solicitado. Las recompensas de fuerza y buena voluntad del mundo se aplican de igual forma.</TSA_WD_Caravans_TributeCollectorChanceTip>
   <TSA_WD_Caravans_HeaderTraderTierUps>Ascensos por comercio (techo de nivel)</TSA_WD_Caravans_HeaderTraderTierUps>
   <TSA_WD_Caravans_TierUpT1ToT2>Probabilidad de ascenso T1 a T2</TSA_WD_Caravans_TierUpT1ToT2>
   <TSA_WD_Caravans_TierUpT1ToT2Tip>Tras un comercio exitoso de un comerciante WD, si la recompensa de fuerza solo llevaría al asentamiento hasta el máximo de su nivel actual, esta probabilidad lo asciende a T2. No aplican los requisitos de vecinos del mismo nivel del ascenso normal.</TSA_WD_Caravans_TierUpT1ToT2Tip>

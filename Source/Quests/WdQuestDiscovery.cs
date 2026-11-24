@@ -18,12 +18,7 @@ namespace TSA_WorldDomination
         public static bool PlayerSeesSettlement(WorldObject wo)
         {
             if (wo == null || wo.Destroyed) return false;
-            if (!WorldComponent_SettlementIntel.IsTracking())
-                return true;
-            Faction player = Faction.OfPlayerSilentFail;
-            if (player == null) return false;
-            WorldComponent_SettlementIntel intel = WorldComponent_SettlementIntel.Get();
-            return intel != null && intel.IsDiscovered(player, wo);
+            return WdPlayerIntel.PlayerKnows(wo);
         }
 
         /// <summary>True if this faction has at least one WD surface settlement the player can see for quests.</summary>

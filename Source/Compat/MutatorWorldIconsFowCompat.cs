@@ -62,7 +62,7 @@ namespace TSA_WorldDomination
         /// <summary>Harmony Prefix: skip mutator icons on unexplored (black) tiles when FoW is on.</summary>
         public static bool PrefixDrawTileMaterials(int tileId)
         {
-            if (!WdFowDraw.IsActive)
+            if (!WdFowDraw.DrawFogForCurrentView)
                 return true;
             var intel = WorldComponent_SettlementIntel.Get();
             if (intel == null)

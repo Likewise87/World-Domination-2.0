@@ -25,6 +25,9 @@ namespace TSA_WorldDomination
             if (!(outpost is WorldObject_WD_Outpost) && !ColonyWorldBuildUtility.IsPlayerColonyBuildActor(outpost))
                 yield break;
 
+            if (WorldActions_WatchTowers.CountBuiltBy(outpost) >= 1)
+                yield return MakeHighlightGizmo(outpost);
+
             var comp = outpost.GetComponent<CompViralSpread>();
             if (comp == null || !WorldActions_WatchTowers.HasActiveWatchTowerProject(comp)) yield break;
 
@@ -38,6 +41,21 @@ namespace TSA_WorldDomination
                     WorldActions_WatchTowers.ClearWatchTowerProject(comp);
                     Messages.Message("TSA_WD_PlayerWatchTowerCancelled".Translate(outpost.LabelCap), MessageTypeDefOf.NeutralEvent);
                 }
+            };
+        }
+
+        private static Command_Toggle MakeHighlightGizmo(WorldObject builder)
+        {
+            return new Command_Toggle
+            {
+                defaultLabel = "TSA_WD_Gizmo_HighlightWatchTowers".Translate(),
+                defaultDesc = "TSA_WD_Gizmo_HighlightWatchTowersDesc".Translate(),
+                icon = BuildIcon,
+                defaultIconColor = Color.cyan,
+                isActive = () => PlayerWatchTowerSelectionLines.IsHighlightActive(builder),
+                toggleAction = () => PlayerWatchTowerSelectionLines.SetHighlight(
+                    builder,
+                    !PlayerWatchTowerSelectionLines.IsHighlightActive(builder))
             };
         }
 
@@ -75,6 +93,16 @@ namespace TSA_WorldDomination
                 {
                     Disabled = true
                 };
+            }
+
+            if (!WorldActions_WatchTowers.CanBuildAnother(outpost))
+            {
+                return new FloatMenuOption(
+                    WorldActions_WatchTowers.PlayerAtCapLabel(outpost),
+                    () => { },
+                    icon,
+                    Color.cyan)
+                { Disabled = true };
             }
 
             float totalConstruction = ColonyWorldBuildUtility.GetActorConstructionSkillRaw(outpost);
@@ -117,9 +145,16 @@ namespace TSA_WorldDomination
                 return;
             }
 
+            if (!WorldActions_WatchTowers.CanBuildAnother(source))
+            {
+                Messages.Message(WorldActions_WatchTowers.PlayerAtCapLabel(source), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
             float range = WorldActions_WatchTowers.GetMaxRange(source);
             PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(source);
             var sessionTiles = new List<int>();
+            int remaining = WorldActions_WatchTowers.RemainingSlots(source);
 
             Messages.Message("TSA_WD_PlayerWatchTower_TargetPrompt".Translate(), MessageTypeDefOf.NeutralEvent);
             Find.WorldTargeter.BeginTargeting(
@@ -145,13 +180,26 @@ namespace TSA_WorldDomination
                     }
 
                     bool shift = Event.current != null && Event.current.shift;
+                    int already = sessionTiles.Count;
                     if (sessionTiles.Contains(tileId))
                         return false;
 
                     if (shift)
                     {
+                        if (already >= remaining)
+                        {
+                            Messages.Message(WorldActions_WatchTowers.PlayerAtCapLabel(source), MessageTypeDefOf.RejectInput);
+                            return false;
+                        }
+
                         sessionTiles.Add(tileId);
                         Messages.Message("TSA_WD_RoadWaypointAdded".Translate(sessionTiles.Count), MessageTypeDefOf.TaskCompletion);
+                        return false;
+                    }
+
+                    if (already + 1 > remaining)
+                    {
+                        Messages.Message(WorldActions_WatchTowers.PlayerAtCapLabel(source), MessageTypeDefOf.RejectInput);
                         return false;
                     }
 
@@ -181,7 +229,8 @@ namespace TSA_WorldDomination
                     if (mouseTile >= 0
                         && Find.WorldGrid.ApproxDistanceInTiles(source.Tile.tileId, mouseTile) <= range + 0.01f
                         && WorldActions_WatchTowers.IsValidBuildTile(mouseTile, source.Faction, comp)
-                        && !sessionTiles.Contains(mouseTile))
+                        && !sessionTiles.Contains(mouseTile)
+                        && sessionTiles.Count < remaining)
                     {
                         Action_Outpost_BuildRoad.DrawOrangeStar(mouseTile);
                     }
@@ -201,6 +250,7 @@ namespace TSA_WorldDomination
                     float dist = Find.WorldGrid.ApproxDistanceInTiles(source.Tile.tileId, tileId);
                     if (dist > range + 0.01f) return false;
                     if (sessionTiles.Contains(tileId)) return false;
+                    if (sessionTiles.Count >= remaining) return false;
                     return WorldActions_WatchTowers.IsValidBuildTile(tileId, source.Faction, comp);
                 },
                 null,

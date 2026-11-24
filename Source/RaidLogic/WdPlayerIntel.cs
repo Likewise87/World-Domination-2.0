@@ -14,12 +14,23 @@ namespace TSA_WorldDomination
     {
         public static bool TrackingActive => WorldComponent_SettlementIntel.IsTracking();
 
+        /// <summary>Tracking on and player FoW toggle on. Off = player omniscient for UI/interaction; NPC raid Knows unchanged.</summary>
+        public static bool PlayerFogActive
+        {
+            get
+            {
+                if (!TrackingActive) return false;
+                var seth = WorldDominationMod.settings;
+                return seth == null || seth.intelPlayerFogOfWar;
+            }
+        }
+
         public static Faction Player => Faction.OfPlayerSilentFail;
 
         public static bool PlayerKnows(WorldObject wo)
         {
             if (wo == null || wo.Destroyed) return false;
-            if (!TrackingActive) return true;
+            if (!PlayerFogActive) return true;
             var intel = WorldComponent_SettlementIntel.Get();
             if (intel == null) return true;
             Faction p = Player;
@@ -38,7 +49,7 @@ namespace TSA_WorldDomination
         public static bool CanJumpOrLookTarget(WorldObject wo)
         {
             if (wo == null || wo.Destroyed) return false;
-            if (!TrackingActive) return true;
+            if (!PlayerFogActive) return true;
             var seth = WorldDominationMod.settings;
             if (seth != null && seth.intelNotifyJumpUndiscovered) return true;
             Faction p = Player;
@@ -49,7 +60,7 @@ namespace TSA_WorldDomination
         public static bool ShouldListTraveler(WorldObject_Traveler t)
         {
             if (t == null || t.Destroyed) return false;
-            if (!TrackingActive) return true;
+            if (!PlayerFogActive) return true;
             Faction p = Player;
             if (p != null && t.Faction == p) return true;
             var seth = WorldDominationMod.settings;
@@ -61,7 +72,7 @@ namespace TSA_WorldDomination
         public static string LabelForLetter(WorldObject wo)
         {
             if (wo == null || wo.Destroyed) return "?";
-            if (!TrackingActive || PlayerKnows(wo))
+            if (!PlayerFogActive || PlayerKnows(wo))
                 return wo.LabelCap;
             Faction f = wo.Faction;
             if (f != null)
@@ -73,7 +84,7 @@ namespace TSA_WorldDomination
         public static string FoggedSettlementListName(WorldObject wo)
         {
             if (wo == null || wo.Destroyed) return "?";
-            if (!TrackingActive || PlayerKnows(wo))
+            if (!PlayerFogActive || PlayerKnows(wo))
                 return wo.LabelCap;
             return FoggedNameLabel;
         }
@@ -112,7 +123,7 @@ namespace TSA_WorldDomination
         public static LookTargets LookTargetsFromKnown(List<WorldObject> candidates)
         {
             if (candidates == null || candidates.Count == 0) return null;
-            if (!TrackingActive) return new LookTargets(candidates);
+            if (!PlayerFogActive) return new LookTargets(candidates);
             var known = new List<WorldObject>(candidates.Count);
             for (int i = 0; i < candidates.Count; i++)
             {
@@ -128,6 +139,8 @@ namespace TSA_WorldDomination
         {
             if (faction == null || target == null || target.Destroyed) return false;
             if (!TrackingActive) return true;
+            // Player mortar / interact: respect player FoW toggle without Discover-all.
+            if (faction.IsPlayer && !PlayerFogActive) return true;
             if (target.Faction == faction) return true;
             var intel = WorldComponent_SettlementIntel.Get();
             if (intel == null) return true;

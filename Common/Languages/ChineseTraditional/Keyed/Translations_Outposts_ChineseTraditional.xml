@@ -788,6 +788,9 @@
   <TSA_WD_Log_PlayerWatchTowerBuilt>{0} 在地塊 {1} 建成瞭望塔。</TSA_WD_Log_PlayerWatchTowerBuilt>
   <TSA_WD_PlayerWatchTower_Inspect_Los>視野：{0} / {1} 格（視線 / 感知）</TSA_WD_PlayerWatchTower_Inspect_Los>
   <TSA_WD_PlayerWatchTower_Inspect_BuiltBy>建造自 {0}</TSA_WD_PlayerWatchTower_Inspect_BuiltBy>
+  <TSA_WD_PlayerWatchTower_AtCap>瞭望塔已達上限（最多 {0}）</TSA_WD_PlayerWatchTower_AtCap>
+  <TSA_WD_Gizmo_HighlightWatchTowers>突顯瞭望塔</TSA_WD_Gizmo_HighlightWatchTowers>
+  <TSA_WD_Gizmo_HighlightWatchTowersDesc>從此地點向其建造的每座瞭望塔繪製青色連線。</TSA_WD_Gizmo_HighlightWatchTowersDesc>
   <TSA_WD_PlayerWatchTower_Log_DestroyedBy>{0} 被 {1} 摧毀。</TSA_WD_PlayerWatchTower_Log_DestroyedBy>
   <TSA_WD_PlayerWatchTower_Log_Destroyed>{0} 已摧毀。</TSA_WD_PlayerWatchTower_Log_Destroyed>
   <!-- EN: Cancel AT Turret -->
@@ -4060,6 +4063,9 @@
   <TSA_WD_OutpostStats_Row_AtTurretMax>砲塔上限</TSA_WD_OutpostStats_Row_AtTurretMax>
   <!-- EN: AT Turrets attributed to this outpost (placed and in transit) versus the per-site cap from Experimental settings. A separate global player cap can still block new builds. -->
   <TSA_WD_OutpostStats_Row_AtTurretMaxTip>歸屬於此哨站的反戰車砲塔（已放置與運送中）相對於實驗性設定中的每地點上限。另有全域玩家上限，仍可能阻擋新建造。</TSA_WD_OutpostStats_Row_AtTurretMaxTip>
+  <TSA_WD_OutpostStats_Row_WatchTower>瞭望塔</TSA_WD_OutpostStats_Row_WatchTower>
+  <TSA_WD_OutpostStats_Row_WatchTowerValue>{0}（最多 {1}）</TSA_WD_OutpostStats_Row_WatchTowerValue>
+  <TSA_WD_OutpostStats_Row_WatchTowerTip>歸屬此地點的瞭望塔（已放置與仍在佇列）。每個哨站與玩家殖民地最多各 3 座。</TSA_WD_OutpostStats_Row_WatchTowerTip>
   <!-- EN: Currently building -->
   <TSA_WD_OutpostStats_Row_RoadCurrentlyBuilding>目前建造中</TSA_WD_OutpostStats_Row_RoadCurrentlyBuilding>
   <!-- EN: Active construction project (road, road blocks, traps, or turrets), or None when idle. -->

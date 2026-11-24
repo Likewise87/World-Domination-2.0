@@ -21,6 +21,7 @@ namespace TSA_WorldDomination
             Action_Outpost_SpikeTraps.DrawSpikeTrapOverlayIfSelected(__instance);
             Action_Outpost_AtTurrets.DrawAtTurretOverlayIfSelected(__instance);
             Action_Outpost_WatchTower.DrawWatchTowerOverlayIfSelected(__instance);
+            PlayerWatchTowerSelectionLines.DrawForBuilderIfHighlight(__instance);
             Action_Outpost_Decontamination.DrawDecontaminationOverlayIfSelected(__instance);
             Action_Outpost_BuildTrench.DrawTrenchOverlayIfSelected(__instance);
             // White routes for active construction crews from this origin (orange = full project only).

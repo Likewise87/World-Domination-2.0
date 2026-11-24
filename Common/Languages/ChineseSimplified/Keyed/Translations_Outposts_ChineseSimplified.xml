@@ -2260,6 +2260,9 @@
   <TSA_WD_Log_PlayerWatchTowerBuilt>{0} 在地块 {1} 建成瞭望塔。</TSA_WD_Log_PlayerWatchTowerBuilt>
   <TSA_WD_PlayerWatchTower_Inspect_Los>视野：{0} / {1} 格（视线 / 感知）</TSA_WD_PlayerWatchTower_Inspect_Los>
   <TSA_WD_PlayerWatchTower_Inspect_BuiltBy>建造自 {0}</TSA_WD_PlayerWatchTower_Inspect_BuiltBy>
+  <TSA_WD_PlayerWatchTower_AtCap>瞭望塔已达上限（最多 {0}）</TSA_WD_PlayerWatchTower_AtCap>
+  <TSA_WD_Gizmo_HighlightWatchTowers>高亮瞭望塔</TSA_WD_Gizmo_HighlightWatchTowers>
+  <TSA_WD_Gizmo_HighlightWatchTowersDesc>从此地点向其建造的每座瞭望塔绘制青色连线。</TSA_WD_Gizmo_HighlightWatchTowersDesc>
   <TSA_WD_PlayerWatchTower_Log_DestroyedBy>{0} 被 {1} 摧毁。</TSA_WD_PlayerWatchTower_Log_DestroyedBy>
   <TSA_WD_PlayerWatchTower_Log_Destroyed>{0} 已摧毁。</TSA_WD_PlayerWatchTower_Log_Destroyed>
   <TSA_WD_CancelAT_Turret>取消 AT 炮塔</TSA_WD_CancelAT_Turret>
@@ -2327,6 +2330,9 @@
   <TSA_WD_OutpostStats_Row_AtTurretBuildRadiusTip>从此前哨站规划 AT 炮塔修建的最大格距。</TSA_WD_OutpostStats_Row_AtTurretBuildRadiusTip>
   <TSA_WD_OutpostStats_Row_AtTurretMax>炮塔上限</TSA_WD_OutpostStats_Row_AtTurretMax>
   <TSA_WD_OutpostStats_Row_AtTurretMaxTip>归属此前哨的 AT 炮塔（已放置与在途）相对实验设置中的每站点上限。全局玩家上限仍可能阻止新建。</TSA_WD_OutpostStats_Row_AtTurretMaxTip>
+  <TSA_WD_OutpostStats_Row_WatchTower>瞭望塔</TSA_WD_OutpostStats_Row_WatchTower>
+  <TSA_WD_OutpostStats_Row_WatchTowerValue>{0}（最多 {1}）</TSA_WD_OutpostStats_Row_WatchTowerValue>
+  <TSA_WD_OutpostStats_Row_WatchTowerTip>归属此地点的瞭望塔（已放置与仍在队列）。每个前哨与玩家殖民地最多各 3 座。</TSA_WD_OutpostStats_Row_WatchTowerTip>
   <TSA_WD_Build>建造</TSA_WD_Build>
   <TSA_WD_BuildAndScout>Build &amp; Scout</TSA_WD_BuildAndScout>
   <TSA_WD_BuildDesc>从此前哨建造道路、路障或尖刺陷阱。</TSA_WD_BuildDesc>

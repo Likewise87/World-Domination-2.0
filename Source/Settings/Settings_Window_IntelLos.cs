@@ -133,6 +133,19 @@ namespace TSA_WorldDomination
             if (s.gateSettlementIntel == WdThreatStageGate.Never)
                 return;
 
+            bool prevPlayerFow = s.intelPlayerFogOfWar;
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Intel_PlayerFogOfWar".Translate(),
+                ref s.intelPlayerFogOfWar,
+                "TSA_WD_Intel_PlayerFogOfWarTip".Translate(),
+                defaultValue: WorldDominationSettings.DefIntelPlayerFogOfWar);
+            if (prevPlayerFow != s.intelPlayerFogOfWar && Current.ProgramState == ProgramState.Playing)
+            {
+                var intel = WorldComponent_SettlementIntel.Get();
+                intel?.InvalidateFowDrawCache();
+                intel?.NotifyTileFowViewChanged();
+                Patch_WdWorldObjectNoExpandingIcon.NotifyIconModeChanged();
+            }
+
             SettingsUI.DrawCheckbox(l, "TSA_WD_Intel_PlayerColoniesAlwaysKnown".Translate(),
                 ref s.intelPlayerColoniesAlwaysKnown,
                 "TSA_WD_Intel_PlayerColoniesAlwaysKnownTip".Translate());

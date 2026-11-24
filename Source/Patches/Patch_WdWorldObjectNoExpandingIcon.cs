@@ -42,7 +42,7 @@ namespace TSA_WorldDomination
             // icons + Close-zoom terrain-hide bypass makes space settlements pop onto the surface view.
             if (WorldActions_Utils.IsSpace(wo)) return false;
             // FoW view: ExpandingIcon-only so dim alpha is not fighting a full-bright Material mesh.
-            if (WdFowDraw.IsActive && WdFowDraw.IsFowTarget(wo))
+            if (WdFowDraw.DrawFogForCurrentView && WdFowDraw.IsFowTarget(wo))
                 return true;
             var s = WorldDominationMod.settings;
             if (wo is WorldObject_WD_Outpost || wo is WorldObject_Traveler || wo is WorldObject_AT_Turret
@@ -87,7 +87,7 @@ namespace TSA_WorldDomination
         {
             if (HideShellAtFarZoom(wo) || HideAtTurretWhenFortificationsHidden(wo))
                 return true;
-            if (WdFowDraw.IsActive)
+            if (WdFowDraw.DrawFogForCurrentView)
             {
                 var intel = WorldComponent_SettlementIntel.Get();
                 if (intel != null && intel.IsFowHidden(wo))

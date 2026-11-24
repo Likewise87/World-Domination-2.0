@@ -2260,6 +2260,9 @@
   <TSA_WD_Log_PlayerWatchTowerBuilt>{0} terminó una torre de vigía en la casilla {1}.</TSA_WD_Log_PlayerWatchTowerBuilt>
   <TSA_WD_PlayerWatchTower_Inspect_Los>Visión: {0} / {1} casillas (LOS / percepción)</TSA_WD_PlayerWatchTower_Inspect_Los>
   <TSA_WD_PlayerWatchTower_Inspect_BuiltBy>Construida desde {0}</TSA_WD_PlayerWatchTower_Inspect_BuiltBy>
+  <TSA_WD_PlayerWatchTower_AtCap>Límite de torres de vigilancia ({0} máx.)</TSA_WD_PlayerWatchTower_AtCap>
+  <TSA_WD_Gizmo_HighlightWatchTowers>Resaltar torres de vigilancia</TSA_WD_Gizmo_HighlightWatchTowers>
+  <TSA_WD_Gizmo_HighlightWatchTowersDesc>Dibuja líneas cian desde este sitio hasta cada torre de vigilancia que construyó.</TSA_WD_Gizmo_HighlightWatchTowersDesc>
   <TSA_WD_PlayerWatchTower_Log_DestroyedBy>{0} destruida por {1}.</TSA_WD_PlayerWatchTower_Log_DestroyedBy>
   <TSA_WD_PlayerWatchTower_Log_Destroyed>{0} destruida.</TSA_WD_PlayerWatchTower_Log_Destroyed>
   <TSA_WD_CancelAT_Turret>Cancelar AT Turret</TSA_WD_CancelAT_Turret>
@@ -2327,6 +2330,9 @@
   <TSA_WD_OutpostStats_Row_AtTurretBuildRadiusTip>Distancia máxima en casillas para planificar construcción de AT Turret desde esta avanzadilla.</TSA_WD_OutpostStats_Row_AtTurretBuildRadiusTip>
   <TSA_WD_OutpostStats_Row_AtTurretMax>Máx. torretas</TSA_WD_OutpostStats_Row_AtTurretMax>
   <TSA_WD_OutpostStats_Row_AtTurretMaxTip>AT Turrets atribuidas a esta avanzadilla (colocadas y en tránsito) frente al tope por sitio de Ajustes experimentales. Un tope global aparte aún puede bloquear nuevas construcciones.</TSA_WD_OutpostStats_Row_AtTurretMaxTip>
+  <TSA_WD_OutpostStats_Row_WatchTower>Torre de vigilancia</TSA_WD_OutpostStats_Row_WatchTower>
+  <TSA_WD_OutpostStats_Row_WatchTowerValue>{0} ({1} máx.)</TSA_WD_OutpostStats_Row_WatchTowerValue>
+  <TSA_WD_OutpostStats_Row_WatchTowerTip>Torres de vigilancia de este sitio (colocadas y aún en cola). Cada avanzadilla y la colonia del jugador pueden tener hasta 3.</TSA_WD_OutpostStats_Row_WatchTowerTip>
   <TSA_WD_Build>Construir</TSA_WD_Build>
   <TSA_WD_BuildAndScout>Build &amp; Scout</TSA_WD_BuildAndScout>
   <TSA_WD_BuildDesc>Construye carreteras, bloqueos de carretera o trampas de pinchos desde esta avanzadilla.</TSA_WD_BuildDesc>

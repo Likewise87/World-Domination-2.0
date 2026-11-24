@@ -26,6 +26,12 @@ namespace TSA_WorldDomination
             if (worldObject == null) return snap;
 
             snap.Sections.Add(BuildActiveNow());
+            if (worldObject is Settlement colony
+                && colony.Faction?.IsPlayer == true
+                && colony.HasMap)
+            {
+                snap.Sections.Add(BuildPlayerColonyWatchTowers(colony));
+            }
             snap.Sections.Add(BuildKnownTo(worldObject));
             snap.Sections.Add(BuildGotBurned(worldObject));
             if (worldObject is Settlement settlement)
@@ -36,6 +42,22 @@ namespace TSA_WorldDomination
             }
 
             return snap;
+        }
+
+        private static OutpostStatsSection BuildPlayerColonyWatchTowers(Settlement colony)
+        {
+            var section = new OutpostStatsSection
+            {
+                Title = "",
+                FullWidth = true
+            };
+            int used = WorldActions_WatchTowers.CountUsedSlots(colony);
+            int max = WorldActions_WatchTowers.MaxPerBuilder;
+            AddRow(section,
+                "TSA_WD_OutpostStats_Row_WatchTower".Translate().ToString(),
+                "TSA_WD_OutpostStats_Row_WatchTowerValue".Translate(used, max).ToString(),
+                "TSA_WD_OutpostStats_Row_WatchTowerTip".Translate().ToString());
+            return section;
         }
 
         private static OutpostStatsSection BuildActiveNow()

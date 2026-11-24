@@ -14,7 +14,7 @@ namespace TSA_WorldDomination
     {
         public static bool Prefix(WorldFeatureTextMesh text, WorldFeature feature)
         {
-            if (!WdFowDraw.IsActive || feature == null || text == null)
+            if (!WdFowDraw.DrawFogForCurrentView || feature == null || text == null)
                 return true;
 
             var intel = WorldComponent_SettlementIntel.Get();

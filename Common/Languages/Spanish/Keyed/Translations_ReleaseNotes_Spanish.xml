@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_78_Title>Excluir al jugador de la niebla de guerra</TSA_WD_Update_2_3_78_Title>
+  <TSA_WD_Update_2_3_78_Body><![CDATA[
+<size=16><b>2.3.78 - Excluir al jugador de la niebla de guerra</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 24 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• En los ajustes de Intel puedes desactivar la niebla de guerra para la facción del jugador. La niebla de los PNJ sigue aplicando si la función está activa en general.\n
+• Colonia y avanzadas tienen un máximo de 3 Atalayas. Destruir una avanzada también destruye sus Atalayas. Se dibuja una línea entre cada Atalaya y su avanzada para mostrar a quién pertenece.\n
+• A petición de un jugador: cuando una caravana comercial WD del Imperio llega a tu colonia, hay un 20% de probabilidad de que aparezcan recolectores de tributo en lugar de un comerciante normal. Requiere el DLC Royalty y la facción del Imperio. Ajusta el porcentaje en Caravanas y comercio.\n
+• Otro intento para que las lanzaderas ligadas a una misión sean ignoradas por las torretas AA.\n
+]]></TSA_WD_Update_2_3_78_Body>
   <TSA_WD_Update_2_3_77_Title>Rendimiento de niebla de guerra, atalaya y corrección</TSA_WD_Update_2_3_77_Title>
   <TSA_WD_Update_2_3_77_Body><![CDATA[
 <size=16><b>2.3.77 - Rendimiento de niebla de guerra, atalaya y corrección</b></size>\n

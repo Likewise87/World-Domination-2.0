@@ -10,6 +10,8 @@
   <TSA_WD_Intel_EnableSettlementIntelTip>關閉：完整地圖情報。開啟：未發現的地點與旅行者保持隱藏，直到被發現，且 NPC 可派出偵察。下方的 Activates 只控制突襲何時使用不完整情報。中途關閉可能需要重載存檔以清除殘留圖層。</TSA_WD_Intel_EnableSettlementIntelTip>
   <TSA_WD_Intel_DisableRestartTip>已關閉 Fog of War。若 FoW 殘留請重載存檔。</TSA_WD_Intel_DisableRestartTip>
   <TSA_WD_Intel_GateSettlementIntelTip>Never 即使開啟戰爭迷霧也會關閉本功能。Always、From Mid 或 From Late：從第 0 天起發現與偵察；突襲情報迷霧在該階段開始。</TSA_WD_Intel_GateSettlementIntelTip>
+  <TSA_WD_Intel_PlayerFogOfWar>為玩家啟用戰爭迷霧</TSA_WD_Intel_PlayerFogOfWar>
+  <TSA_WD_Intel_PlayerFogOfWarTip>關閉：玩家擁有完整視野，並可與未發現地點互動（迫擊砲、任務、列表）。NPC 突襲知識與其他派系的迷霧不變。探索仍會進行，重新啟用後沿用既有記憶。不會永久清除發現記錄。</TSA_WD_Intel_PlayerFogOfWarTip>
   <TSA_WD_Intel_PlayerColoniesAlwaysKnown>玩家殖民地對所有派系始終已知</TSA_WD_Intel_PlayerColoniesAlwaysKnown>
   <TSA_WD_Intel_PlayerColoniesAlwaysKnownTip>關閉：其他派系必須透過據點、旅行者或偵察的視野發現你的殖民地。開啟：你的殖民地對所有派系始終已知。</TSA_WD_Intel_PlayerColoniesAlwaysKnownTip>
   <TSA_WD_Intel_NotifyJumpUndiscovered>通知可指向未發現據點</TSA_WD_Intel_NotifyJumpUndiscovered>

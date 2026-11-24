@@ -784,13 +784,13 @@ namespace TSA_WorldDomination
         public bool IsFowHidden(WorldObject wo)
         {
             // Draw/GUI path: cache read only (rebuild happens on world tick).
-            if (!WdFowDraw.IsActive || wo == null) return false;
+            if (!WdFowDraw.DrawFogForCurrentView || wo == null) return false;
             return fowHiddenIds.Contains(wo.ID);
         }
 
         public bool IsFowDimmed(WorldObject wo)
         {
-            if (!WdFowDraw.IsActive || wo == null) return false;
+            if (!WdFowDraw.DrawFogForCurrentView || wo == null) return false;
             return fowDimIds.Contains(wo.ID);
         }
 
@@ -798,7 +798,8 @@ namespace TSA_WorldDomination
         public void EnsureFowDrawCacheFresh()
         {
             WdFowDraw.ClearIfGateOff();
-            if (!WdFowDraw.IsActive)
+            // Hide/dim cache is for current-view draw. Explore still uses IsActive.
+            if (!WdFowDraw.DrawFogForCurrentView)
             {
                 if (fowHiddenIds.Count > 0 || fowDimIds.Count > 0)
                 {

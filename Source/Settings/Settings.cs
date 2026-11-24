@@ -497,6 +497,8 @@ namespace TSA_WorldDomination
         public const WdThreatStageGate DefGateSettlementIntel = WdThreatStageGate.Always;
         /// <summary>Master kill switch for Settlement Intel / player FoW. Default on.</summary>
         public const bool DefEnableSettlementIntel = true;
+        /// <summary>When tracking is on, whether the player view draws FoW / is gated by discovery. Default on.</summary>
+        public const bool DefIntelPlayerFogOfWar = true;
         public const bool DefIntelPlayerColoniesAlwaysKnown = false;
         public const bool DefIntelNotifyJumpUndiscovered = false;
         /// <summary>When on, Discover + FoW disk the attacker settlement at player-bound raid launch.</summary>
@@ -1375,6 +1377,7 @@ namespace TSA_WorldDomination
         public const float DefTraderCaravanSenderRewardStrength = 250f;
         public const float DefTraderCaravanReceiverRewardStrength = 150f;
         public const float DefTraderCaravanGoodwillGain = 4f;
+        public const float DefTraderEmpireTributeCollectorChance = 0.20f;
         /// <summary>Per player map colony: minimum days between being picked as a WD trader destination. Starts when the trader is dispatched. 0 = no limit.</summary>
         public const float DefCooldownPlayerColonyTraderDays = 2f;
 
@@ -1692,6 +1695,8 @@ namespace TSA_WorldDomination
         public WdThreatStageGate gateSettlementIntel = DefGateSettlementIntel;
         /// <summary>Master kill switch. Off = no FoW ticks/layers cost; perfect info. Restart tip when disabling.</summary>
         public bool enableSettlementIntel = DefEnableSettlementIntel;
+        /// <summary>When tracking is on, player view uses FoW hide/draw and discovery gates. Off = full player vision/interaction; NPC raid knowledge unchanged.</summary>
+        public bool intelPlayerFogOfWar = DefIntelPlayerFogOfWar;
         /// <summary>When true, player map colonies stay known to all factions.</summary>
         public bool intelPlayerColoniesAlwaysKnown = DefIntelPlayerColoniesAlwaysKnown;
         /// <summary>When true, letters may LookTarget/jump to undiscovered origins.</summary>
@@ -2478,6 +2483,7 @@ namespace TSA_WorldDomination
         public float traderCaravanSenderRewardStrength = DefTraderCaravanSenderRewardStrength;
         public float traderCaravanReceiverRewardStrength = DefTraderCaravanReceiverRewardStrength;
         public float traderCaravanGoodwillGain = DefTraderCaravanGoodwillGain;
+        public float traderEmpireTributeCollectorChance = DefTraderEmpireTributeCollectorChance;
         public float cooldownPlayerColonyTraderDays = DefCooldownPlayerColonyTraderDays;
 
         public float traderTierUpgradeChanceT1ToT2 = DefTraderTierUpgradeChanceT1ToT2;
@@ -3105,6 +3111,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref gateThreatAttritionRest, "gateThreatAttritionRest", DefGateThreatAttritionRest);
             Scribe_Values.Look(ref gateSettlementIntel, "gateSettlementIntel", DefGateSettlementIntel);
             Scribe_Values.Look(ref enableSettlementIntel, "enableSettlementIntel", DefEnableSettlementIntel);
+            Scribe_Values.Look(ref intelPlayerFogOfWar, "intelPlayerFogOfWar", DefIntelPlayerFogOfWar);
             Scribe_Values.Look(ref intelTradersRequireKnownTarget, "intelTradersRequireKnownTarget", DefIntelTradersRequireKnownTarget);
             Scribe_Values.Look(ref intelSpottedCaravansRemainVisible, "intelSpottedCaravansRemainVisible", DefIntelSpottedCaravansRemainVisible);
             Scribe_Values.Look(ref intelPlayerColoniesAlwaysKnown, "intelPlayerColoniesAlwaysKnown", DefIntelPlayerColoniesAlwaysKnown);
@@ -3798,6 +3805,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref traderCaravanSenderRewardStrength, "traderCaravanSenderRewardStrength", DefTraderCaravanSenderRewardStrength);
             Scribe_Values.Look(ref traderCaravanReceiverRewardStrength, "traderCaravanReceiverRewardStrength", DefTraderCaravanReceiverRewardStrength);
             Scribe_Values.Look(ref traderCaravanGoodwillGain, "traderCaravanGoodwillGain", DefTraderCaravanGoodwillGain);
+            Scribe_Values.Look(ref traderEmpireTributeCollectorChance, "traderEmpireTributeCollectorChance", DefTraderEmpireTributeCollectorChance);
             Scribe_Values.Look(ref cooldownPlayerColonyTraderDays, "cooldownPlayerColonyTraderDays", DefCooldownPlayerColonyTraderDays);
             Scribe_Values.Look(ref traderTierUpgradeChanceT1ToT2, "traderTierUpgradeChanceT1ToT2", DefTraderTierUpgradeChanceT1ToT2);
             Scribe_Values.Look(ref traderTierUpgradeChanceT2ToT3, "traderTierUpgradeChanceT2ToT3", DefTraderTierUpgradeChanceT2ToT3);
@@ -4830,6 +4838,7 @@ namespace TSA_WorldDomination
             traderCaravanSenderRewardStrength = DefTraderCaravanSenderRewardStrength;
             traderCaravanReceiverRewardStrength = DefTraderCaravanReceiverRewardStrength;
             traderCaravanGoodwillGain = DefTraderCaravanGoodwillGain;
+            traderEmpireTributeCollectorChance = DefTraderEmpireTributeCollectorChance;
             cooldownPlayerColonyTraderDays = DefCooldownPlayerColonyTraderDays;
             traderTierUpgradeChanceT1ToT2 = DefTraderTierUpgradeChanceT1ToT2;
             traderTierUpgradeChanceT2ToT3 = DefTraderTierUpgradeChanceT2ToT3;
@@ -5271,6 +5280,7 @@ namespace TSA_WorldDomination
         {
             gateSettlementIntel = DefGateSettlementIntel;
             enableSettlementIntel = DefEnableSettlementIntel;
+            intelPlayerFogOfWar = DefIntelPlayerFogOfWar;
             intelPlayerColoniesAlwaysKnown = DefIntelPlayerColoniesAlwaysKnown;
             intelNotifyJumpUndiscovered = DefIntelNotifyJumpUndiscovered;
             intelUncoverOnRaid = DefIntelUncoverOnRaid;
@@ -5962,6 +5972,7 @@ namespace TSA_WorldDomination
             traderCaravanSenderRewardStrength = DefTraderCaravanSenderRewardStrength;
             traderCaravanReceiverRewardStrength = DefTraderCaravanReceiverRewardStrength;
             traderCaravanGoodwillGain = DefTraderCaravanGoodwillGain;
+            traderEmpireTributeCollectorChance = DefTraderEmpireTributeCollectorChance;
             cooldownPlayerColonyTraderDays = DefCooldownPlayerColonyTraderDays;
             blockStorytellerTradersOnlyWD = DefBlockStorytellerTradersOnlyWD;
             traderTierUpgradeChanceT1ToT2 = DefTraderTierUpgradeChanceT1ToT2;

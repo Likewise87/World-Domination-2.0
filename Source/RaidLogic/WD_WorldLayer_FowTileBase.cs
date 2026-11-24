@@ -19,7 +19,7 @@ namespace TSA_WorldDomination
 
         public override bool Visible =>
             base.Visible
-            && WdFowDraw.IsActive
+            && WdFowDraw.DrawFogForCurrentView
             && !(WorldComponent_SettlementIntel.Get()?.TileFow?.LayersReady ?? true);
 
         public override bool VisibleWhenLayerNotSelected => false;
@@ -112,7 +112,7 @@ namespace TSA_WorldDomination
 
         public override bool Visible =>
             base.Visible
-            && WdFowDraw.IsActive
+            && WdFowDraw.DrawFogForCurrentView
             && (WorldComponent_SettlementIntel.Get()?.TileFow?.LayersReady ?? false);
 
         public override bool VisibleWhenLayerNotSelected => false;

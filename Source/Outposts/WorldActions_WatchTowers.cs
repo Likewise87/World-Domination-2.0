@@ -11,6 +11,48 @@ namespace TSA_WorldDomination
     {
         public const float BuildRadiusTiles = 8f;
         public const float ExpeditionStrengthBase = 80f;
+        /// <summary>Hard max Watch Towers per outpost or per player colony (placed + remaining planned).</summary>
+        public const int MaxPerBuilder = 3;
+
+        public static int CountBuiltBy(WorldObject site)
+        {
+            if (site == null) return 0;
+            int n = 0;
+            IReadOnlyList<WorldObject_WD_PlayerWatchTower> live = WorldObject_WD_PlayerWatchTower.LiveTowers;
+            for (int i = 0; i < live.Count; i++)
+            {
+                WorldObject_WD_PlayerWatchTower t = live[i];
+                if (t == null || t.Destroyed) continue;
+                if (ReferenceEquals(t.builtBySite, site))
+                    n++;
+            }
+            return n;
+        }
+
+        /// <summary>Tiles still in the active project queue (includes the current work tile).</summary>
+        public static int CountRemainingPlanned(WorldObject site)
+        {
+            var comp = site?.GetComponent<CompViralSpread>();
+            if (comp?.watchTowerPlannedTiles == null || comp.watchTowerPlannedTiles.Count == 0)
+                return 0;
+            int idx = Mathf.Clamp(comp.watchTowerWorkIndex, 0, comp.watchTowerPlannedTiles.Count);
+            return comp.watchTowerPlannedTiles.Count - idx;
+        }
+
+        public static int CountUsedSlots(WorldObject site) =>
+            CountBuiltBy(site) + CountRemainingPlanned(site);
+
+        public static int RemainingSlots(WorldObject site) =>
+            Mathf.Max(0, MaxPerBuilder - CountUsedSlots(site));
+
+        public static bool CanBuildAnother(WorldObject site) =>
+            site != null && RemainingSlots(site) > 0;
+
+        public static bool CanAcceptPlaced(WorldObject site) =>
+            site != null && CountBuiltBy(site) < MaxPerBuilder;
+
+        public static string PlayerAtCapLabel(WorldObject site) =>
+            "TSA_WD_PlayerWatchTower_AtCap".Translate(MaxPerBuilder).ToString();
 
         public static WorldObjectDef WatchTowerDef =>
             DefDatabase<WorldObjectDef>.GetNamedSilentFail(WorldObject_WD_PlayerWatchTower.DefName);
@@ -215,6 +257,7 @@ namespace TSA_WorldDomination
 
             if (faction != null
                 && ColonyWorldBuildRequirements.MeetsWatchTowerRequirements(origin)
+                && CanAcceptPlaced(origin)
                 && IsValidBuildTile(tile, faction, comp))
             {
                 WorldObject_WD_PlayerWatchTower tower = WorldObject_WD_PlayerWatchTower.TrySpawn(tile, faction, origin);
@@ -266,6 +309,14 @@ namespace TSA_WorldDomination
         public static void CommitProject(CompViralSpread comp, List<int> plannedTiles)
         {
             if (comp == null || plannedTiles == null || plannedTiles.Count == 0) return;
+            WorldObject origin = comp.parent;
+            // New project replaces any prior queue; slots = max - placed.
+            int room = origin != null
+                ? Mathf.Max(0, MaxPerBuilder - CountBuiltBy(origin))
+                : MaxPerBuilder;
+            if (room <= 0) return;
+            if (plannedTiles.Count > room)
+                plannedTiles = plannedTiles.GetRange(0, room);
             comp.watchTowerPlannedTiles = new List<int>(plannedTiles);
             comp.watchTowerWorkIndex = 0;
             comp.watchTowerProgress = 0f;
@@ -323,6 +374,45 @@ namespace TSA_WorldDomination
                 manager.AddLog(entry);
             }
             wt.Destroy();
+        }
+
+        /// <summary>
+        /// Quiet-destroy all Watch Towers owned by this builder and cancel its Watch Tower project/crews.
+        /// Call from real outpost/colony teardown only (skip Path B type-change shell removal).
+        /// </summary>
+        public static void WipeForBuilder(WorldObject builder)
+        {
+            if (builder == null) return;
+
+            IReadOnlyList<WorldObject_WD_PlayerWatchTower> live = WorldObject_WD_PlayerWatchTower.LiveTowers;
+            for (int i = live.Count - 1; i >= 0; i--)
+            {
+                WorldObject_WD_PlayerWatchTower t = live[i];
+                if (t == null || t.Destroyed) continue;
+                if (!ReferenceEquals(t.builtBySite, builder)) continue;
+                t.Destroy();
+            }
+
+            var comp = builder.GetComponent<CompViralSpread>();
+            if (HasActiveWatchTowerProject(comp))
+                ClearWatchTowerProject(comp);
+            else
+                DestroyActiveCrewsFrom(builder);
+
+            PlayerWatchTowerSelectionLines.ClearHighlight(builder);
+        }
+
+        /// <summary>Quiet-destroy towers whose builder is missing (pre-ownership saves / races). Never call during type-change shell removal.</summary>
+        public static void WipeOrphans()
+        {
+            IReadOnlyList<WorldObject_WD_PlayerWatchTower> live = WorldObject_WD_PlayerWatchTower.LiveTowers;
+            for (int i = live.Count - 1; i >= 0; i--)
+            {
+                WorldObject_WD_PlayerWatchTower t = live[i];
+                if (t == null || t.Destroyed) continue;
+                if (t.builtBySite != null && !t.builtBySite.Destroyed) continue;
+                t.Destroy();
+            }
         }
     }
 }

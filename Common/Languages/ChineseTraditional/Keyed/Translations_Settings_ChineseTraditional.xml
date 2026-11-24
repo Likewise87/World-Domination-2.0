@@ -1218,6 +1218,10 @@
   <TSA_WD_Caravans_Goodwill>抵達時雙方友好度</TSA_WD_Caravans_Goodwill>
   <!-- EN: Goodwill gained by both factions on successful trader caravan arrival. -->
   <TSA_WD_Caravans_GoodwillTip>商隊成功抵達時雙方派系獲得的友好度。</TSA_WD_Caravans_GoodwillTip>
+  <!-- EN: Chance of Tribute Collectors -->
+  <TSA_WD_Caravans_TributeCollectorChance>朝貢徵收隊機率</TSA_WD_Caravans_TributeCollectorChance>
+  <!-- EN: When a WD trader caravan from the Empire arrives at your colony, this is the chance that Royalty Tribute Collectors spawn instead of a normal trader caravan. Only applies to the Empire faction and only if the Royalty DLC is active. Player-ordered traders always spawn the requested trader kind. World strength and goodwill rewards still apply either way. -->
+  <TSA_WD_Caravans_TributeCollectorChanceTip>當帝國派系的 WD 貿易商隊抵達你的殖民地時，有該機率生成 Royalty 朝貢徵收隊，而不是普通貿易商隊。僅對帝國派系生效，且需要啟用 Royalty DLC。玩家點名召喚的商隊始終生成所請求的商人類型。世界戰力與友好度獎勵兩種情況都會照常結算。</TSA_WD_Caravans_TributeCollectorChanceTip>
   <!-- EN: Trader tier upgrades (at cap) -->
   <TSA_WD_Caravans_HeaderTraderTierUps>商隊等級提升（達上限時）</TSA_WD_Caravans_HeaderTraderTierUps>
   <!-- EN: Upgrade chance T1 to T2 -->

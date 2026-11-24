@@ -10,6 +10,8 @@
   <TSA_WD_Intel_EnableSettlementIntelTip>Off: full map knowledge. On: undiscovered sites and travelers stay hidden until spotted, and NPC scouts can run. Activates (below) only gates when raids use imperfect knowledge. Disabling mid-game may need a reload if overlays linger.</TSA_WD_Intel_EnableSettlementIntelTip>
   <TSA_WD_Intel_DisableRestartTip>Fog of War disabled. Reload the save if FoW overlays linger.</TSA_WD_Intel_DisableRestartTip>
   <TSA_WD_Intel_GateSettlementIntelTip>Never turns the feature off even if Fog of War is enabled. Always, From Mid, or From Late: discovery and scouts from day 0; raid knowledge fog starts when that stage is reached.</TSA_WD_Intel_GateSettlementIntelTip>
+  <TSA_WD_Intel_PlayerFogOfWar>Activate FoW for the Player</TSA_WD_Intel_PlayerFogOfWar>
+  <TSA_WD_Intel_PlayerFogOfWarTip>When off, the player has full vision and can interact with undiscovered sites (mortar, quests, lists). NPC raid knowledge and fog for other factions stay unchanged. Exploration still runs so re-enabling FoW uses existing memory. Not a permanent discovery wipe.</TSA_WD_Intel_PlayerFogOfWarTip>
   <TSA_WD_Intel_PlayerColoniesAlwaysKnown>Player colony always known to all factions</TSA_WD_Intel_PlayerColoniesAlwaysKnown>
   <TSA_WD_Intel_PlayerColoniesAlwaysKnownTip>When off, other factions must discover your colony through line of sight from settlements, travelers, or scouts. When on, your colony stays known to every faction.</TSA_WD_Intel_PlayerColoniesAlwaysKnownTip>
   <TSA_WD_Intel_NotifyJumpUndiscovered>Notifications may point to undiscovered settlements</TSA_WD_Intel_NotifyJumpUndiscovered>

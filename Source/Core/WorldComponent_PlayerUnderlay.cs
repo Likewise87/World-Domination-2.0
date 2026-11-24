@@ -152,7 +152,7 @@ namespace TSA_WorldDomination
         private void DrawOne(WorldObject wo, float half, float discSize)
         {
             if (wo == null || wo.Destroyed || !wo.Spawned) return;
-            if (WdFowDraw.IsActive)
+            if (WdFowDraw.DrawFogForCurrentView)
             {
                 var intel = WorldComponent_SettlementIntel.Get();
                 if (intel != null && intel.IsFowHidden(wo)) return;

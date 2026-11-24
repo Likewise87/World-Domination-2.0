@@ -383,6 +383,10 @@ namespace TSA_WorldDomination
                 h = h * 397 + (Find.TickManager.TicksGame / 2500);
                 h = h * 397 + WorldObject_Traveler.LiveTravelers.Count;
                 h = h * 397 + (Find.WorldObjects?.Caravans?.Count ?? 0);
+                if (worldObject is Settlement colony
+                    && colony.Faction?.IsPlayer == true
+                    && colony.HasMap)
+                    h = h * 397 + WorldActions_WatchTowers.CountUsedSlots(colony);
                 return h;
             }
         }
@@ -437,6 +441,7 @@ namespace TSA_WorldDomination
                         h = h * 397 + (int)comp.selectedAtTurretTier;
                         h = h * 397 + AtTurretUtility.CountTurretsBuiltBySite(outpost);
                         h = h * 397 + AtTurretUtility.CountInFlightTurretCrewsFrom(outpost);
+                        h = h * 397 + WorldActions_WatchTowers.CountUsedSlots(outpost);
                     }
                     h = h * 397 + (outpost.GetExpertThingId(OutpostExpertRole.Strategist) ?? "").GetHashCode();
                     h = h * 397 + (outpost.GetExpertThingId(OutpostExpertRole.Entertainer) ?? "").GetHashCode();
