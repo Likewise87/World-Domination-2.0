@@ -113,6 +113,32 @@ var s = WorldDominationMod.settings;
                         defaultValue: WorldDominationSettings.DefFortifyBlacklistApplyToNeutral);
                 }
 
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Fortify_KeepOwnPathsOpen".Translate(),
+                    ref s.npcFortifyKeepOwnPathsOpen,
+                    SettingsUI.TooltipWithDefault(
+                        "TSA_WD_Fortify_KeepOwnPathsOpenTip".Translate(),
+                        WorldDominationSettings.DefNpcFortifyKeepOwnPathsOpen),
+                    defaultValue: WorldDominationSettings.DefNpcFortifyKeepOwnPathsOpen);
+                if (s.npcFortifyKeepOwnPathsOpen)
+                {
+                    SettingsUI.DrawCheckbox(l, "TSA_WD_Fortify_ClearOwnPathBlocks".Translate(),
+                        ref s.npcFortifyClearOwnPathBlocks,
+                        SettingsUI.TooltipWithDefault(
+                            "TSA_WD_Fortify_ClearOwnPathBlocksTip".Translate(),
+                            WorldDominationSettings.DefNpcFortifyClearOwnPathBlocks),
+                        defaultValue: WorldDominationSettings.DefNpcFortifyClearOwnPathBlocks);
+                    if (s.npcFortifyClearOwnPathBlocks)
+                    {
+                        s.npcFortifyClearPathCrewsMax = (int)SettingsUI.LabeledSlider(l,
+                            "TSA_WD_Fortify_ClearPathCrewsMax".Translate(),
+                            s.npcFortifyClearPathCrewsMax, 1f, 3f,
+                            SettingsUI.TooltipWithDefault(
+                                "TSA_WD_Fortify_ClearPathCrewsMaxTip".Translate(),
+                                WorldDominationSettings.DefNpcFortifyClearPathCrewsMax),
+                            1f, SliderFormat.Fixed0, WorldDominationSettings.DefNpcFortifyClearPathCrewsMax);
+                    }
+                }
+
                 l.Gap(8f);
                 SettingsUI.DrawHeader(l, "TSA_WD_Fortify_HeaderMultiCaravan".Translate());
                 s.fortifyMultiT1ChanceOf2 = SettingsUI.LabeledSlider(l,

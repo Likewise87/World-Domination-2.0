@@ -245,6 +245,10 @@ namespace TSA_WorldDomination
         public bool fortifyIsTrap;
         public SpikeTrapKind fortifySpikeTrapKind = SpikeTrapKind.Spike;
         public RoadBlockKind fortifyRoadBlockKind = RoadBlockKind.Light;
+        /// <summary>Npc Fortify: remove a road block on arrival instead of placing.</summary>
+        public bool fortifyIsClearing;
+        /// <summary>Npc Fortify: this pulse left roads open between own towns (Action Log category).</summary>
+        public bool fortifyOwnTownsOpen;
         /// <summary>Isolation Pressure forced expand: stamp founding raid/defense shields on arrival.</summary>
         public bool isolationPressureExpand;
         /// <summary>Strategic Expand (safe tuck-away). Used for Action Log success wording.</summary>
@@ -1577,6 +1581,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref fortifyIsTrap, "fortifyIsTrap", false);
             Scribe_Values.Look(ref fortifySpikeTrapKind, "fortifySpikeTrapKind", SpikeTrapKind.Spike);
             Scribe_Values.Look(ref fortifyRoadBlockKind, "fortifyRoadBlockKind", RoadBlockKind.Light);
+            Scribe_Values.Look(ref fortifyIsClearing, "fortifyIsClearing", false);
+            Scribe_Values.Look(ref fortifyOwnTownsOpen, "fortifyOwnTownsOpen", false);
             Scribe_Values.Look(ref isolationPressureExpand, "isolationPressureExpand", false);
             Scribe_Values.Look(ref strategicExpand, "strategicExpand", false);
             Scribe_Collections.Look(ref constructionMaterialCosts, "constructionMaterialCosts", LookMode.Deep);

@@ -412,7 +412,7 @@
   <TSA_WD_Allegiances_SectionDiplomacy_Tooltip>Edita buena voluntad y relaciones entre pares de facciones. Bloquea pares PNJ para impedir la diplomacia aleatoria WD.</TSA_WD_Allegiances_SectionDiplomacy_Tooltip>
   <TSA_WD_FactionCol_Name>Facción</TSA_WD_FactionCol_Name>
   <TSA_WD_FactionCol_WdActions>Acciones WD</TSA_WD_FactionCol_WdActions>
-  <TSA_WD_FactionCol_WdActions_Tooltip>Permite que esta facción realice acciones WD: asaltar, expandirse, comerciar, fortificar, limpiar contaminación, lanzar interceptores de emboscada y disparar mortero/AA/AT defensivos.</TSA_WD_FactionCol_WdActions_Tooltip>
+  <TSA_WD_FactionCol_WdActions_Tooltip>Si está activo, esta facción actúa en la simulación WD (asaltar, expandirse, comerciar, fortificar, limpiar contaminación, emboscadas, mortero/AA/AT defensivos) y puede ser objetivo de combate o amenaza de IA WD. Si está desactivado, ni actúa ni es objetivo de asaltos, morteros, Lanzar ataque ni presión de IA WD.</TSA_WD_FactionCol_WdActions_Tooltip>
   <TSA_WD_FactionCol_BaseGen>MapGen</TSA_WD_FactionCol_BaseGen>
   <TSA_WD_FactionCol_BaseGen_Tooltip>Permite que WD controle la generación del mapa de esta facción cuando atacas uno de sus asentamientos. Los asentamientos T1 serán aldeas pequeñas; las ciudadelas T4, fortalezas de verdad.</TSA_WD_FactionCol_BaseGen_Tooltip>
   <TSA_WD_FactionCol_BaseGen_RequiresWdActions>Requiere Acciones WD para esta facción.</TSA_WD_FactionCol_BaseGen_RequiresWdActions>
@@ -1103,6 +1103,12 @@
   <TSA_WD_Fortify_EnableBlacklistTip>Desbloquea Añadir/Quitar casillas bloqueadas en el menú WD del mapa mundial (Marcas sin fortificar). Las casillas marcadas impiden que los aliados coloquen nuevos bloqueos o trampas. Las fortificaciones ya existentes permanecen hasta que uses Quitar fortificaciones. Los hostiles ignoran las marcas.</TSA_WD_Fortify_EnableBlacklistTip>
   <TSA_WD_Fortify_BlacklistApplyNeutral>Aplicar también a neutrales</TSA_WD_Fortify_BlacklistApplyNeutral>
   <TSA_WD_Fortify_BlacklistApplyNeutralTip>Si está activo, las facciones Neutrales tampoco pueden colocar fortificaciones nuevas en casillas marcadas. Los aliados siempre quedan bloqueados por las marcas. Los hostiles las ignoran.</TSA_WD_Fortify_BlacklistApplyNeutralTip>
+  <TSA_WD_Fortify_KeepOwnPathsOpen>Dejar caminos abiertos entre asentamientos propios cercanos</TSA_WD_Fortify_KeepOwnPathsOpen>
+  <TSA_WD_Fortify_KeepOwnPathsOpenTip>Cuando dos asentamientos de la misma faccion estan cerca y no hay un asentamiento enemigo entre ellos, Fortificar no coloca bloqueos en las casillas que los conectan. Los pueblos solos o con enemigos cerca siguen construyendo un anillo completo de defensas.</TSA_WD_Fortify_KeepOwnPathsOpenTip>
+  <TSA_WD_Fortify_ClearOwnPathBlocks>Enviar cuadrillas a quitar bloqueos entre esos pueblos</TSA_WD_Fortify_ClearOwnPathBlocks>
+  <TSA_WD_Fortify_ClearOwnPathBlocksTip>Con las mismas condiciones, Fortificar puede enviar un viajero pequeno a quitar un bloqueo existente en una casilla de conexion (suele ser una). Coste de fuerza bajo. Solo salen si el camino sigue libre de enemigos. Nada se elimina al instante.</TSA_WD_Fortify_ClearOwnPathBlocksTip>
+  <TSA_WD_Fortify_ClearPathCrewsMax>Max. cuadrillas de retirada por Fortificar</TSA_WD_Fortify_ClearPathCrewsMax>
+  <TSA_WD_Fortify_ClearPathCrewsMaxTip>Cuantos viajeros de retirada pueden salir cuando un asentamiento fortifica. Suele bastar uno. Comparte el presupuesto de cuadrillas de Fortificar (primero retirar, luego colocar).</TSA_WD_Fortify_ClearPathCrewsMaxTip>
   <TSA_WD_Daily_HeaderFortify>Fortificar PNJ</TSA_WD_Daily_HeaderFortify>
   <TSA_WD_Fortify_HeaderTypeChances>Qué colocar</TSA_WD_Fortify_HeaderTypeChances>
   <TSA_WD_Fortify_ChanceRoadBlock>Prob. de bloqueo</TSA_WD_Fortify_ChanceRoadBlock>

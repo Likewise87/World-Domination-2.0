@@ -517,6 +517,17 @@ namespace TSA_WorldDomination
                 }
             }
 
+            IReadOnlyList<WorldObject_WdSettlementRuin> ruins = WorldObject_WdSettlementRuin.LiveRuins;
+            for (int i = 0; i < ruins.Count; i++)
+            {
+                WorldObject_WdSettlementRuin ruin = ruins[i];
+                if (ruin == null || ruin.Destroyed) continue;
+                if (intel.IsDiscovered(faction, ruin)) continue;
+                int d = WorldComponent_SettlementIntel.TileDistance(grid, tile, ruin.Tile.tileId);
+                if (d <= 1 || d <= scoutLos)
+                    intel.Discover(faction, ruin, observer);
+            }
+
             intel.TileFow.RevealTilesInRadius(faction, tile, scoutMax);
         }
 

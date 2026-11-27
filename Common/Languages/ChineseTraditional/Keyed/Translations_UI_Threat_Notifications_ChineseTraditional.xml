@@ -145,7 +145,7 @@
   <!-- EN: Configure Scope -->
   <TSA_WD_Dash_ConfigureScope>設定範圍</TSA_WD_Dash_ConfigureScope>
   <!-- EN: Opens WD Faction scope and Allegiances. Choose which factions use WD Actions, MapGen, and storyteller raids. -->
-  <TSA_WD_Dash_ConfigureScopeTip>開啟WD派系範圍與陣營歸屬。選擇哪些派系使用WD行動、MapGen與故事敘述者突襲。</TSA_WD_Dash_ConfigureScopeTip>
+  <TSA_WD_Dash_ConfigureScopeTip>開啟WD派系範圍與陣營歸屬。選擇哪些派系使用WD行動（行動方與戰鬥／AI目標）、MapGen與故事敘述者突襲。</TSA_WD_Dash_ConfigureScopeTip>
   <!-- EN: Diplomacy -->
   <TSA_WD_Dash_Nav_Diplomacy>外交</TSA_WD_Dash_Nav_Diplomacy>
   <!-- EN: Outposts -->

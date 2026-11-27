@@ -549,13 +549,12 @@ namespace TSA_WorldDomination
             allowWdOutpostDestroy = true;
             try
             {
-                outpost.Destroy();
+                WorldObject_WdSettlementRuin.DestroySiteAndSpawnRuin(outpost, label, ruinFaction);
             }
             finally
             {
                 allowWdOutpostDestroy = false;
             }
-            WorldObject_WdSettlementRuin.Spawn(tileId, label, ruinFaction);
         }
 
         // ---- reflected helpers ----

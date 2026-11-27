@@ -270,7 +270,7 @@ namespace TSA_WorldDomination
                             selectedCategories.Remove(captured);
                     },
                     tip: null,
-                    separatorAfter: cat == SpreadLogCategory.BuiltFortification,
+                    separatorAfter: cat == SpreadLogCategory.ClearedFortification,
                     countLabel: count.ToString()));
             }
             return list;

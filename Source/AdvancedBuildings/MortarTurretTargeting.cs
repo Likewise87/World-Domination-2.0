@@ -39,6 +39,7 @@ namespace TSA_WorldDomination
                 d = float.MaxValue;
                 if (wo == null || wo.Destroyed || wo == turret || wo.Faction == null) return false;
                 if (wo.Faction == iFaction) return false;
+                if (!WorldActions_Utils.IsWdHostileTargetObject(wo)) return false;
                 if (!WorldActions_Utils.SafeHostileTo(wo.Faction, iFaction)) return false;
                 if (wo.Faction.IsPlayer && (!canTargetPlayer || !playerHostile)) return false;
                 if (sched != null && sched.IsInboundMortarTarget(wo.ID)) return false;

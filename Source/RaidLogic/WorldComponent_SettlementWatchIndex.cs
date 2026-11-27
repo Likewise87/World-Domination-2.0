@@ -159,7 +159,8 @@ namespace TSA_WorldDomination
                 PlanetTile tile = s.Tile;
                 if (!tile.Valid || !IsWatchableTile(tile)) continue;
                 float radius = AllyRadiusUtil.GetEffective(s, seth, manager);
-                if (radius > 0f)
+                // Nearby ToO/maraud pool: skip Configure Scope non-participants (player outposts added below).
+                if (radius > 0f && WorldActions_Utils.IsWdHostileTargetFaction(s.Faction))
                 {
                     BfsAdd(s, tile, radius, WatchCapability.Nearby);
                     watcherCount++;

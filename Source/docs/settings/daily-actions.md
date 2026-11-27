@@ -42,6 +42,11 @@ The percentage checkbox changes only the percentages displayed in the settings m
 | Fortify traveler strength | 50 | 10 to 200 |
 | Enable mark tiles where allies may not build fortifications | On | On or Off |
 | Apply to neutral too | On | On or Off |
+| Leave roads open between nearby own settlements | On | On or Off |
+| Send crews to remove road blocks between those towns | On | On or Off (only while leave-roads-open is on) |
+| Max remove crews per Fortify | 2 | 1 to 3 |
+
+When leave-roads-open is on, Fortify skips new road blocks on tiles that connect two close same-faction settlements with no enemy settlement between them. Alone or contested towns still get a full ring. Remove crews are cheap travelers (not an instant wipe) and share the Fortify crew budget.
 
 When the settlement that placed road blocks or traps is destroyed or captured, those fortifications are removed (same as AT turrets). This is always on.
 

@@ -411,6 +411,7 @@ namespace TSA_WorldDomination
             {
                 Settlement s = settlements[i];
                 if (s?.Faction == null || s.Faction == parent.Faction) continue;
+                if (!WorldActions_Utils.IsWdHostileTargetFaction(s.Faction)) continue;
                 if (!WorldActions_Utils.SafeHostileTo(s.Faction, parent.Faction)) continue;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
 

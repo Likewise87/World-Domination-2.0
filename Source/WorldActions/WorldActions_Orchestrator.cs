@@ -670,6 +670,7 @@ namespace TSA_WorldDomination
             WorldObject_Traveler.RebuildLiveRegistry();
             WorldObject_AT_Turret.RebuildLiveRegistry();
             WorldObject_WD_PlayerWatchTower.RebuildLiveRegistry();
+            WorldObject_WdSettlementRuin.RebuildLiveRegistry();
             WorldConstructionProjectRegistry.Rebuild();
             WdPlayerOutpostCache.Invalidate();
 
@@ -685,6 +686,7 @@ namespace TSA_WorldDomination
                 WorldObject_Traveler.RebuildLiveRegistry();
                 WorldObject_AT_Turret.RebuildLiveRegistry();
                 WorldObject_WD_PlayerWatchTower.RebuildLiveRegistry();
+                WorldObject_WdSettlementRuin.RebuildLiveRegistry();
                 WorldConstructionProjectRegistry.Rebuild();
                 PurgeLegacyWorldThreatManager();
             }

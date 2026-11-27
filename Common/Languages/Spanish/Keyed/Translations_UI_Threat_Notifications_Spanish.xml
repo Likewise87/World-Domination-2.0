@@ -72,7 +72,7 @@
   <TSA_WD_Dash_FactionRankLeader>Enhorabuena. Eres el líder mundial</TSA_WD_Dash_FactionRankLeader>
   <TSA_WD_Dash_FactionRankTip>Tu fuerza: {0}\nCuota de fuerza global: {1} %</TSA_WD_Dash_FactionRankTip>
   <TSA_WD_Dash_ConfigureScope>Config. alcance</TSA_WD_Dash_ConfigureScope>
-  <TSA_WD_Dash_ConfigureScopeTip>Abre Alcance de facciones WD y lealtades. Elige qué facciones usan Acciones WD, MapGen e incursiones del narrador.</TSA_WD_Dash_ConfigureScopeTip>
+  <TSA_WD_Dash_ConfigureScopeTip>Abre Alcance de facciones WD y lealtades. Elige qué facciones usan Acciones WD (actores y objetivos de combate/IA), MapGen e incursiones del narrador.</TSA_WD_Dash_ConfigureScopeTip>
   <TSA_WD_Dash_Nav_Diplomacy>Diplomacia</TSA_WD_Dash_Nav_Diplomacy>
   <TSA_WD_Dash_Nav_Outposts>Avanzadillas</TSA_WD_Dash_Nav_Outposts>
   <TSA_WD_Dash_OutpostPawnSummary>Tienes {0} peones en {1} avanzadillas y tu colonia.</TSA_WD_Dash_OutpostPawnSummary>

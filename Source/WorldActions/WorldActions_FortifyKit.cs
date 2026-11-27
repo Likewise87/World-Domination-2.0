@@ -25,6 +25,13 @@ namespace TSA_WorldDomination
         private static readonly HashSet<int> tmpSeen = new HashSet<int>();
         private static readonly Dictionary<int, int> tmpBfsParent = new Dictionary<int, int>();
         private static readonly Queue<(int tile, int dist)> tmpBfsQ = new Queue<(int, int)>();
+        private static readonly HashSet<int> tmpOpenRing = new HashSet<int>();
+        private static readonly HashSet<int> tmpRingSet = new HashSet<int>();
+        private static readonly List<Settlement> tmpOwnPeers = new List<Settlement>();
+        private static readonly List<Settlement> tmpHostileScan = new List<Settlement>();
+
+        /// <summary>No hostile WD settlement may sit this close to a connecting path tile.</summary>
+        public const int OwnTownHostileBandTiles = 4;
 
         public enum FortifyPhase : byte
         {
@@ -285,10 +292,13 @@ namespace TSA_WorldDomination
                     trapsPlaced++;
             }
 
+            TryFillOwnTownOpenRingTiles(builtBySettlement, faction, tmpOpenRing);
+
             for (int i = 0; i < tmpRingTiles.Count; i++)
             {
                 int t = tmpRingTiles[i];
                 if (!IsFortifyTileOk(t)) continue;
+                if (tmpOpenRing.Contains(t)) continue;
                 if (AtTurretUtility.TileHasRoad(t)) continue;
                 if (roadBlocks != null && roadBlocks.TryPlaceOrUpgrade(t, faction, blockKind, builtBySettlement))
                     blocksPlaced++;
@@ -298,6 +308,7 @@ namespace TSA_WorldDomination
             {
                 int t = tmpRingTiles[i];
                 if (!IsFortifyTileOk(t)) continue;
+                if (tmpOpenRing.Contains(t)) continue;
                 if (!AtTurretUtility.TileHasRoad(t)) continue;
                 if (traps?.HasTrapAt(t) == true) continue;
                 if (roadBlocks != null && roadBlocks.TryPlaceOrUpgrade(t, faction, blockKind, builtBySettlement))
@@ -321,7 +332,7 @@ namespace TSA_WorldDomination
 
             if (NeedsTrapWork(centerTile, faction, trapKind, kitTier))
                 return FortifyPhase.Traps;
-            if (NeedsBlockWork(centerTile, faction, blockKind, kitTier))
+            if (NeedsBlockWork(centerTile, faction, blockKind, kitTier, builtBySettlement))
                 return FortifyPhase.Blocks;
             // Medieval mode: skip AT phase only; traps/blocks still complete the kit.
             if (WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Light)
@@ -367,12 +378,14 @@ namespace TSA_WorldDomination
             if (centerTile < 0) return;
             SettlementTier tier = builtBySettlement?.GetComponent<CompViralSpread>()?.tier ?? SettlementTier.T1;
             CollectTilesAtExactRadius(centerTile, OuterFortifyRadius(tier), tmpRingTiles);
+            TryFillOwnTownOpenRingTiles(builtBySettlement, faction, tmpOpenRing);
             var blocks = WorldComponent_RoadBlocks.Get();
             var traps = WorldComponent_SpikeTraps.Get();
             for (int i = 0; i < tmpRingTiles.Count; i++)
             {
                 int t = tmpRingTiles[i];
                 if (exclude != null && exclude.Contains(t)) continue;
+                if (tmpOpenRing.Contains(t)) continue;
                 if (!IsFortifyTileOk(t)) continue;
                 if (WorldComponent_FortifyBlacklist.BlocksNpcFortify(t, faction)) continue;
                 if (AtTurretUtility.TileHasRoad(t))
@@ -382,6 +395,208 @@ namespace TSA_WorldDomination
                 if (!NeedsBlockAt(t, blocks, blockKind)) continue;
                 into.Add(t);
             }
+        }
+
+        /// <summary>
+        /// Outer-ring tiles on short paths to nearby same-faction towns with no hostiles on the link.
+        /// Empty when the setting is off or the gate fails. Rings stay default then.
+        /// </summary>
+        public static bool TryFillOwnTownOpenRingTiles(Settlement settlement, Faction faction, HashSet<int> into)
+        {
+            into.Clear();
+            if (settlement == null || settlement.Destroyed || faction == null) return false;
+            var seth = WorldDominationMod.settings;
+            if (seth == null || !seth.npcFortifyKeepOwnPathsOpen) return false;
+
+            int center = settlement.Tile.tileId;
+            if (center < 0) return false;
+            SettlementTier tier = settlement.GetComponent<CompViralSpread>()?.tier ?? SettlementTier.T1;
+            int outer = OuterFortifyRadius(tier);
+            float maxApprox = 2 * outer + 2;
+            int hopCap = Mathf.CeilToInt(maxApprox) + 4;
+
+            CollectTilesAtExactRadius(center, outer, tmpRingTiles);
+            tmpRingSet.Clear();
+            for (int i = 0; i < tmpRingTiles.Count; i++)
+                tmpRingSet.Add(tmpRingTiles[i]);
+
+            CollectSameFactionPeers(settlement, faction, maxApprox, tmpOwnPeers);
+            if (tmpOwnPeers.Count == 0) return false;
+
+            CollectHostileSettlements(faction, tmpHostileScan);
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return false;
+
+            for (int p = 0; p < tmpOwnPeers.Count; p++)
+            {
+                Settlement peer = tmpOwnPeers[p];
+                if (peer == null || peer.Destroyed) continue;
+                int peerTile = peer.Tile.tileId;
+                if (!TryFillShortPathTiles(center, peerTile, hopCap, tmpPath)) continue;
+                if (PathHasNearbyHostile(tmpPath, tmpHostileScan)) continue;
+
+                for (int i = 0; i < tmpPath.Count; i++)
+                {
+                    int t = tmpPath[i];
+                    if (tmpRingSet.Contains(t))
+                        into.Add(t);
+                }
+            }
+
+            if (into.Count == 0) return false;
+
+            // Widen by one ring neighbor so a one-tile seal still opens.
+            tmpSeen.Clear();
+            foreach (int t in into)
+                tmpSeen.Add(t);
+            foreach (int t in tmpSeen)
+            {
+                CollectOrderedNeighbors(t, tmpInnerRingTiles);
+                for (int i = 0; i < tmpInnerRingTiles.Count; i++)
+                {
+                    int n = tmpInnerRingTiles[i];
+                    if (tmpRingSet.Contains(n))
+                        into.Add(n);
+                }
+            }
+            return into.Count > 0;
+        }
+
+        /// <summary>Open-ring tiles that still have a same-faction road block (clear targets).</summary>
+        public static void CollectOwnTownClearBlockTiles(Settlement settlement, Faction faction, List<int> into)
+        {
+            into.Clear();
+            if (!TryFillOwnTownOpenRingTiles(settlement, faction, tmpOpenRing)) return;
+            var blocks = WorldComponent_RoadBlocks.Get();
+            if (blocks == null) return;
+            foreach (int t in tmpOpenRing)
+            {
+                if (!blocks.TryGet(t, out RoadBlockRecord rec) || rec == null) continue;
+                if (rec.builtByFaction != null && rec.builtByFaction != faction) continue;
+                into.Add(t);
+            }
+        }
+
+        private static void CollectSameFactionPeers(
+            Settlement settlement,
+            Faction faction,
+            float maxApprox,
+            List<Settlement> into)
+        {
+            into.Clear();
+            DailyWorldSnapshot snap = Find.World?.GetComponent<WorldComponent_SpreadManager>()?.CurrentDailySnapshot;
+            List<Settlement> list = null;
+            if (snap?.SettlementsByFaction != null)
+                snap.SettlementsByFaction.TryGetValue(faction, out list);
+            if (list == null || list.Count == 0) return;
+
+            int center = settlement.Tile.tileId;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                Settlement s = list[i];
+                if (s == null || s.Destroyed || ReferenceEquals(s, settlement)) continue;
+                if (!DailyWorldSnapshot.IsSettlementStillValid(s)) continue;
+                float approx = grid.ApproxDistanceInTiles(center, s.Tile.tileId);
+                if (approx > maxApprox) continue;
+                into.Add(s);
+            }
+        }
+
+        private static void CollectHostileSettlements(Faction self, List<Settlement> into)
+        {
+            into.Clear();
+            if (self == null) return;
+            DailyWorldSnapshot snap = Find.World?.GetComponent<WorldComponent_SpreadManager>()?.CurrentDailySnapshot;
+            if (snap?.SettlementsByFaction == null) return;
+            foreach (var kv in snap.SettlementsByFaction)
+            {
+                Faction f = kv.Key;
+                if (f == null || f == self) continue;
+                if (!WorldActions_Utils.SafeHostileTo(self, f)) continue;
+                List<Settlement> list = kv.Value;
+                if (list == null) continue;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Settlement s = list[i];
+                    if (s == null || s.Destroyed) continue;
+                    into.Add(s);
+                }
+            }
+        }
+
+        private static bool PathHasNearbyHostile(List<int> pathTiles, List<Settlement> hostiles)
+        {
+            if (pathTiles == null || pathTiles.Count == 0 || hostiles == null || hostiles.Count == 0)
+                return false;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return false;
+            for (int h = 0; h < hostiles.Count; h++)
+            {
+                Settlement hs = hostiles[h];
+                if (hs == null || hs.Destroyed) continue;
+                int ht = hs.Tile.tileId;
+                for (int i = 0; i < pathTiles.Count; i++)
+                {
+                    if (grid.ApproxDistanceInTiles(ht, pathTiles[i]) <= OwnTownHostileBandTiles)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>BFS path center→dest into <paramref name="pathOut"/> (includes both ends). False if none within hop cap.</summary>
+        private static bool TryFillShortPathTiles(int center, int dest, int maxHops, List<int> pathOut)
+        {
+            pathOut.Clear();
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null || center < 0 || dest < 0 || maxHops < 1) return false;
+            if (center == dest) return false;
+
+            tmpBfsParent.Clear();
+            tmpBfsQ.Clear();
+            tmpSeen.Clear();
+            tmpBfsQ.Enqueue((center, 0));
+            tmpSeen.Add(center);
+            tmpBfsParent[center] = -1;
+            bool found = false;
+            while (tmpBfsQ.Count > 0)
+            {
+                var (tile, dist) = tmpBfsQ.Dequeue();
+                if (tile == dest)
+                {
+                    found = true;
+                    break;
+                }
+                if (dist >= maxHops) continue;
+                tmpNeighbors.Clear();
+                grid.GetTileNeighbors(tile, tmpNeighbors);
+                for (int i = 0; i < tmpNeighbors.Count; i++)
+                {
+                    int n = tmpNeighbors[i].tileId;
+                    if (!tmpSeen.Add(n)) continue;
+                    if (n != dest)
+                    {
+                        if (Find.World.Impassable(n)) continue;
+                        if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(n)) continue;
+                    }
+                    tmpBfsParent[n] = tile;
+                    tmpBfsQ.Enqueue((n, dist + 1));
+                }
+            }
+            if (!found || !tmpBfsParent.ContainsKey(dest)) return false;
+
+            int walk = dest;
+            while (walk >= 0)
+            {
+                pathOut.Add(walk);
+                if (!tmpBfsParent.TryGetValue(walk, out int parent) || parent < 0)
+                    break;
+                walk = parent;
+            }
+            return pathOut.Count > 0;
         }
 
         public static void CollectMissingAtTiles(
@@ -492,15 +707,18 @@ namespace TSA_WorldDomination
             int centerTile,
             Faction faction,
             RoadBlockKind blockKind,
-            SettlementTier kitTier)
+            SettlementTier kitTier,
+            Settlement builtBySettlement)
         {
             CollectTilesAtExactRadius(centerTile, OuterFortifyRadius(kitTier), tmpRingTiles);
+            TryFillOwnTownOpenRingTiles(builtBySettlement, faction, tmpOpenRing);
             var blocks = WorldComponent_RoadBlocks.Get();
             var traps = WorldComponent_SpikeTraps.Get();
             for (int i = 0; i < tmpRingTiles.Count; i++)
             {
                 int t = tmpRingTiles[i];
                 if (!IsFortifyTileOk(t)) continue;
+                if (tmpOpenRing.Contains(t)) continue;
                 if (WorldComponent_FortifyBlacklist.BlocksNpcFortify(t, faction)) continue;
                 if (AtTurretUtility.TileHasRoad(t) && traps?.HasTrapAt(t) == true)
                     continue;

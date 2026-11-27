@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_79_Title>NPC fortification tweaks &amp; more</TSA_WD_Update_2_3_79_Title>
+  <TSA_WD_Update_2_3_79_Body><![CDATA[
+<size=16><b>2.3.79 - NPC fortification tweaks & more</b></size>\n
+<color=#00FFFFFF>Release date: November 27th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• NPCs will now remove existing road blocks if they block the path to nearby allies and there is no enemy around. Likewise, they should now try to place roadblocks along a coherent frontier if several allied settlements are around and there are no enemies.\n
+• Settlement ruins are now also hidden by Fog of War.\n
+• Bugfix: factions excluded from WD actions via the Configure Scope menu should now really be fully excluded. They were already excluded from being regular raid targets, but special raid types could still pick them.\n
+]]></TSA_WD_Update_2_3_79_Body>
   <TSA_WD_Update_2_3_78_Title>Exclude Player from FOW</TSA_WD_Update_2_3_78_Title>
   <TSA_WD_Update_2_3_78_Body><![CDATA[
 <size=16><b>2.3.78 - Exclude Player from FOW</b></size>\n

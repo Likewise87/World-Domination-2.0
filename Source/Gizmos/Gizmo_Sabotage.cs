@@ -180,8 +180,7 @@ namespace TSA_WorldDomination
                 WorldActions_DesperationRaid.NotifyNpcSettlementLost(settlement, Faction.OfPlayer);
                 WdCommonEnemySettlementQuestHelper.NotifyPlayerDefeatOfTrackedSettlement(settlement);
                 // Destroy (not Remove) so PostDestroy nukes advanced buildings / fortifications.
-                settlement.Destroy();
-                WorldObject_WdSettlementRuin.Spawn(tile, originalName, faction);
+                WorldObject_WdSettlementRuin.DestroySiteAndSpawnRuin(settlement, originalName, faction);
             }
             else
             {

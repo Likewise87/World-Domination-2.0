@@ -489,6 +489,7 @@ namespace TSA_WorldDomination
         private static Faction ResolveAggressor(Faction victim, Faction taker, int centroid, WorldComponent_SpreadManager manager)
         {
             if (taker != null && !taker.defeated
+                && WorldActions_Utils.IsWdHostileTargetFaction(taker)
                 && WorldActions_Utils.SafeHostileTo(victim, taker)
                 && AggressorHasTarget(taker))
                 return taker;
@@ -504,6 +505,7 @@ namespace TSA_WorldDomination
             {
                 Faction f = factions[i];
                 if (f == null || f == victim || f.defeated || f.def.hidden) continue;
+                if (!WorldActions_Utils.IsWdHostileTargetFaction(f)) continue;
                 if (!WorldActions_Utils.SafeHostileTo(victim, f)) continue;
                 if (!AggressorHasTarget(f)) continue;
 
@@ -670,6 +672,8 @@ namespace TSA_WorldDomination
                 }
                 return;
             }
+
+            if (!WorldActions_Utils.IsWdHostileTargetFaction(aggressor)) return;
 
             var list = Find.WorldObjects.Settlements;
             for (int i = 0; i < list.Count; i++)

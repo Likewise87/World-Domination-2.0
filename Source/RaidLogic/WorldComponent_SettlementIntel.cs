@@ -872,6 +872,10 @@ namespace TSA_WorldDomination
             for (int i = 0; i < travelers.Count; i++)
                 ClassifyFowTarget(view, travelers[i]);
 
+            IReadOnlyList<WorldObject_WdSettlementRuin> ruins = WorldObject_WdSettlementRuin.LiveRuins;
+            for (int i = 0; i < ruins.Count; i++)
+                ClassifyFowTarget(view, ruins[i]);
+
             if (perf)
             {
                 perfIconTicks += System.Diagnostics.Stopwatch.GetTimestamp() - perfStart;
@@ -1709,16 +1713,31 @@ namespace TSA_WorldDomination
             }
 
             var registry = WorldComponent_AdvancedBuildings.Get();
-            if (registry == null) return;
-            IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = registry.All;
-            for (int i = 0; i < buildings.Count; i++)
+            if (registry != null)
             {
-                var b = buildings[i];
-                if (b == null || b.Destroyed || b.Faction == f) continue;
-                if (knownSiteIds.Contains(b.ID)) continue;
-                int d = TileDistance(grid, obsTile, b.Tile.tileId);
+                IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = registry.All;
+                for (int i = 0; i < buildings.Count; i++)
+                {
+                    var b = buildings[i];
+                    if (b == null || b.Destroyed || b.Faction == f) continue;
+                    if (knownSiteIds.Contains(b.ID)) continue;
+                    int d = TileDistance(grid, obsTile, b.Tile.tileId);
+                    if (d <= 1 || d <= los)
+                        Discover(f, b, observer);
+                }
+            }
+
+            // Settlement ruins: LOS-only targets (same field pass; LiveRuins avoids AllWorldObjects scan).
+            IReadOnlyList<WorldObject_WdSettlementRuin> ruins = WorldObject_WdSettlementRuin.LiveRuins;
+            for (int i = 0; i < ruins.Count; i++)
+            {
+                WorldObject_WdSettlementRuin ruin = ruins[i];
+                if (ruin == null || ruin.Destroyed) continue;
+                if (ruin.Faction != null && ruin.Faction == f) continue;
+                if (knownSiteIds.Contains(ruin.ID)) continue;
+                int d = TileDistance(grid, obsTile, ruin.Tile.tileId);
                 if (d <= 1 || d <= los)
-                    Discover(f, b, observer);
+                    Discover(f, ruin, observer);
             }
         }
 
@@ -2032,6 +2051,16 @@ namespace TSA_WorldDomination
                 }
             }
 
+            IReadOnlyList<WorldObject_WdSettlementRuin> ruins = WorldObject_WdSettlementRuin.LiveRuins;
+            for (int i = 0; i < ruins.Count; i++)
+            {
+                WorldObject_WdSettlementRuin ruin = ruins[i];
+                if (ruin == null || ruin.Destroyed) continue;
+                // Ruins are targets only (no observer role).
+                SpotFieldPairOnHop(ruin, false, traveler, tf, tTile, tLos,
+                    travelerSpotsField, tfSites, knowers, grid);
+            }
+
             IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
             for (int i = 0; i < live.Count; i++)
             {
@@ -2156,6 +2185,22 @@ namespace TSA_WorldDomination
                 if (f == null || f.def?.hidden == true) continue;
                 if (IsDiscovered(f, target))
                     yield return f;
+            }
+        }
+
+        /// <summary>Fill <paramref name="into"/> with factions that currently know <paramref name="site"/> (no alloc beyond the list).</summary>
+        public void CollectFactionsThatKnow(WorldObject site, List<Faction> into)
+        {
+            into?.Clear();
+            if (into == null || site == null || site.Destroyed) return;
+            var factions = Find.FactionManager?.AllFactionsListForReading;
+            if (factions == null) return;
+            for (int i = 0; i < factions.Count; i++)
+            {
+                Faction f = factions[i];
+                if (f == null || f.def?.hidden == true) continue;
+                if (IsDiscovered(f, site))
+                    into.Add(f);
             }
         }
 
@@ -2401,12 +2446,15 @@ namespace TSA_WorldDomination
 
         private void TryDiscoverSiteFromExistingObservers(WorldObject site)
         {
-            if (site?.Faction == null || !site.Tile.Valid) return;
+            if (site == null || !site.Tile.Valid) return;
+            // Ruins may briefly lack a faction; still allow nearby observers to Discover.
+            if (site.Faction == null && !(site is WorldObject_WdSettlementRuin)) return;
             WorldGrid grid = Find.WorldGrid;
             if (grid == null) return;
             // A site every faction already knows needs no observer scan at all.
             if (IsAlwaysKnown(site)) return;
             int siteId = site.ID;
+            Faction siteFaction = site.Faction;
 
             List<Settlement> settlements = Find.WorldObjects?.Settlements;
             if (settlements != null)
@@ -2416,7 +2464,7 @@ namespace TSA_WorldDomination
                     Settlement s = settlements[i];
                     if (s == null || s.Destroyed || ReferenceEquals(s, site)) continue;
                     Faction sf = s.Faction;
-                    if (sf == null || sf == site.Faction) continue;
+                    if (sf == null || (siteFaction != null && sf == siteFaction)) continue;
                     // Known-first: skip before the comp lookup and distance.
                     if (GetOrCreateKnownSiteSet(sf).Contains(siteId)) continue;
                     bool playerColony = sf.IsPlayer && s.HasMap;
@@ -2430,7 +2478,7 @@ namespace TSA_WorldDomination
             {
                 WorldObject_WD_Outpost o = outposts[i];
                 if (o == null || o.Destroyed) continue;
-                if (o.Faction == null || o.Faction == site.Faction) continue;
+                if (o.Faction == null || (siteFaction != null && o.Faction == siteFaction)) continue;
                 TryDiscoverSiteFromObserver(o, o.Faction, site, grid);
             }
 
@@ -2440,7 +2488,7 @@ namespace TSA_WorldDomination
             {
                 WorldObject_AT_Turret at = ats[i];
                 if (at == null || at.Destroyed || ReferenceEquals(at, site)) continue;
-                if (at.Faction == null || at.Faction == site.Faction) continue;
+                if (at.Faction == null || (siteFaction != null && at.Faction == siteFaction)) continue;
                 TryDiscoverSiteFromObserver(at, at.Faction, site, grid);
             }
 
@@ -2449,7 +2497,7 @@ namespace TSA_WorldDomination
             {
                 WorldObject_WD_PlayerWatchTower wt = towers[i];
                 if (wt == null || wt.Destroyed || ReferenceEquals(wt, site)) continue;
-                if (wt.Faction == null || wt.Faction == site.Faction) continue;
+                if (wt.Faction == null || (siteFaction != null && wt.Faction == siteFaction)) continue;
                 TryDiscoverSiteFromObserver(wt, wt.Faction, site, grid);
             }
 
@@ -2461,14 +2509,14 @@ namespace TSA_WorldDomination
                 {
                     WorldObject_WD_AdvancedBuilding b = buildings[i];
                     if (b == null || b.Destroyed || ReferenceEquals(b, site) || !IsWatchTowerObserver(b)) continue;
-                    if (b.Faction == null || b.Faction == site.Faction) continue;
+                    if (b.Faction == null || (siteFaction != null && b.Faction == siteFaction)) continue;
                     TryDiscoverSiteFromObserver(b, b.Faction, site, grid);
                 }
             }
 
             // Player caravans (scout-style Awareness) as appear observers.
             Faction player = Faction.OfPlayerSilentFail;
-            if (player != null && player != site.Faction)
+            if (player != null && (siteFaction == null || player != siteFaction))
             {
                 List<Caravan> caravans = Find.WorldObjects?.Caravans;
                 if (caravans != null)
@@ -2486,7 +2534,8 @@ namespace TSA_WorldDomination
             for (int i = 0; i < travelers.Count; i++)
             {
                 WorldObject_Traveler t = travelers[i];
-                if (t == null || t.Destroyed || t.Faction == null || t.Faction == site.Faction) continue;
+                if (t == null || t.Destroyed || t.Faction == null) continue;
+                if (siteFaction != null && t.Faction == siteFaction) continue;
                 if (WorldObject_Traveler.IsShellMission(t.mission)) continue;
                 TryDiscoverSiteFromObserver(t, t.Faction, site, grid);
             }

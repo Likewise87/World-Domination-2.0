@@ -260,6 +260,7 @@ namespace TSA_WorldDomination
                 Settlement s = settlements[i];
                 if (s == origin || s.Faction == null || s.Faction.IsPlayer) continue;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
+                if (!WorldActions_Utils.IsWdHostileTargetFaction(s.Faction)) continue;
                 if (!WorldActions_Utils.SafeHostileTo(s.Faction, iFaction)) continue;
                 float d = manager != null
                     ? (float)WorldActions_Utils.GetDistance(origin.Tile, s.Tile, manager)
@@ -275,6 +276,7 @@ namespace TSA_WorldDomination
                 WorldObject_AT_Turret at = liveTurrets[i];
                 if (at == null || at.Destroyed || at.Faction == null) continue;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(at)) continue;
+                if (!WorldActions_Utils.IsWdHostileTargetFaction(at.Faction)) continue;
                 if (!WorldActions_Utils.SafeHostileTo(at.Faction, iFaction)) continue;
                 if (at.Faction.IsPlayer && (!canTargetPlayer || player == null)) continue;
                 float d = manager != null

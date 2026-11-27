@@ -709,13 +709,15 @@ namespace TSA_WorldDomination
                     NotifyCommonEnemyQuestBeforeDestroy(target);
                     if (target is Settlement lostNpcOutpostPath && lostNpcOutpostPath.Faction != null && !lostNpcOutpostPath.Faction.IsPlayer)
                         WorldActions_DesperationRaid.NotifyNpcSettlementLost(lostNpcOutpostPath, attackerFaction);
+                    List<Faction> priorRuinKnowers = new List<Faction>(8);
+                    WorldObject_WdSettlementRuin.CapturePriorKnowers(target, priorRuinKnowers);
                     target.Destroy();
                     if (targetWasPlayerOwned)
                     {
                         SettlementTier outcomeTier = tier;
                         if (traveler.isDesperationRaid)
                             outcomeTier = WorldActions_DesperationRaid.TierFromHostStrength(traveler.initialStrength * (1f - attLossPct));
-                        ApplyNpcRaidVictoryTileOutcome(tile, originalName, outcomeTier, attackerFaction, traveler.initialStrength, attLossPct, traveler.contributionFactors, targetFaction);
+                        ApplyNpcRaidVictoryTileOutcome(tile, originalName, outcomeTier, attackerFaction, traveler.initialStrength, attLossPct, traveler.contributionFactors, targetFaction, priorRuinKnowers);
                         if (traveler.isDesperationRaid)
                         {
                             Settlement founded = Find.WorldObjects.SettlementAt(tile);
@@ -873,13 +875,13 @@ namespace TSA_WorldDomination
             return total;
         }
 
-        private static void CreateConquerorSettlement(int tile, string name, SettlementTier tier, Faction attackerFaction, float attAgg, float attLoss, Dictionary<WorldObject, float> dna, Faction previousOwnerFaction = null)
+        private static void CreateConquerorSettlement(int tile, string name, SettlementTier tier, Faction attackerFaction, float attAgg, float attLoss, Dictionary<WorldObject, float> dna, Faction previousOwnerFaction = null, List<Faction> priorRuinKnowers = null)
         {
             var seth = WorldDominationMod.settings;
             int maxSettlements = seth?.maxSettlements ?? WorldDominationSettings.DefMaxSettlements;
             if (CountNpcSurfaceSettlements() >= maxSettlements)
             {
-                WorldObject_WdSettlementRuin.Spawn(tile, name, attackerFaction);
+                WorldObject_WdSettlementRuin.Spawn(tile, name, attackerFaction, priorRuinKnowers);
                 TryNotifySettlementRazed(tile, name, attackerFaction);
                 return;
             }
@@ -932,18 +934,18 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>After a successful NPC raid: roll raze chance (timed WD ruins) or spawn attacker settlement.</summary>
-        private static void ApplyNpcRaidVictoryTileOutcome(int tile, string originalName, SettlementTier tier, Faction attackerFaction, float attAgg, float attLoss, Dictionary<WorldObject, float> dna, Faction previousOwnerFaction = null)
+        private static void ApplyNpcRaidVictoryTileOutcome(int tile, string originalName, SettlementTier tier, Faction attackerFaction, float attAgg, float attLoss, Dictionary<WorldObject, float> dna, Faction previousOwnerFaction = null, List<Faction> priorRuinKnowers = null)
         {
             if (attackerFaction == null) return;
             var seth = WorldDominationMod.settings;
             float razeChance = Mathf.Clamp01(seth?.razeChance ?? WorldDominationSettings.DefRazeChance);
             if (Rand.Value < razeChance)
             {
-                WorldObject_WdSettlementRuin.Spawn(tile, originalName, attackerFaction);
+                WorldObject_WdSettlementRuin.Spawn(tile, originalName, attackerFaction, priorRuinKnowers);
                 TryNotifySettlementRazed(tile, originalName, attackerFaction);
                 return;
             }
-            CreateConquerorSettlement(tile, originalName, tier, attackerFaction, attAgg, attLoss, dna, previousOwnerFaction);
+            CreateConquerorSettlement(tile, originalName, tier, attackerFaction, attAgg, attLoss, dna, previousOwnerFaction, priorRuinKnowers);
         }
 
         private static void TryNotifySettlementCaptured(Settlement settlement, Faction attackerFaction, Faction previousOwnerFaction)
@@ -991,8 +993,10 @@ namespace TSA_WorldDomination
             NotifyCommonEnemyQuestBeforeDestroy(target);
             if (target is Settlement lostSettlement && lostSettlement.Faction != null && !lostSettlement.Faction.IsPlayer)
                 WorldActions_DesperationRaid.NotifyNpcSettlementLost(lostSettlement, attackerFaction);
+            List<Faction> priorRuinKnowers = new List<Faction>(8);
+            WorldObject_WdSettlementRuin.CapturePriorKnowers(target, priorRuinKnowers);
             target.Destroy();
-            ApplyNpcRaidVictoryTileOutcome(tile, originalName, tier, attackerFaction, attAgg, attLoss, dna, previousOwnerFaction);
+            ApplyNpcRaidVictoryTileOutcome(tile, originalName, tier, attackerFaction, attAgg, attLoss, dna, previousOwnerFaction, priorRuinKnowers);
 
             if (continuationTraveler != null && continuationTraveler.isDesperationRaid)
             {

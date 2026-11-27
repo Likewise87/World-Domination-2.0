@@ -72,7 +72,7 @@
   <TSA_WD_Dash_FactionRankLeader>恭喜。你是世界第一</TSA_WD_Dash_FactionRankLeader>
   <TSA_WD_Dash_FactionRankTip>你的实力：{0}\n全球实力占比：{1} %</TSA_WD_Dash_FactionRankTip>
   <TSA_WD_Dash_ConfigureScope>配置范围</TSA_WD_Dash_ConfigureScope>
-  <TSA_WD_Dash_ConfigureScopeTip>打开 WD 派系范围与关系。选择哪些派系使用 WD 行动、MapGen 与叙事者袭击。</TSA_WD_Dash_ConfigureScopeTip>
+  <TSA_WD_Dash_ConfigureScopeTip>打开 WD 派系范围与关系。选择哪些派系使用 WD 行动（行动方与战斗/AI 目标）、MapGen 与叙事者袭击。</TSA_WD_Dash_ConfigureScopeTip>
   <TSA_WD_Dash_Nav_Diplomacy>外交</TSA_WD_Dash_Nav_Diplomacy>
   <TSA_WD_Dash_Nav_Outposts>前哨站</TSA_WD_Dash_Nav_Outposts>
   <TSA_WD_Dash_OutpostPawnSummary>你在 {1} 个前哨站和殖民地共有 {0} 名单位。</TSA_WD_Dash_OutpostPawnSummary>

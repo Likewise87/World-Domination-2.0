@@ -66,6 +66,7 @@ namespace TSA_WorldDomination
             if (wo is WorldObject_AT_Turret) return true;
             if (wo is WorldObject_WD_PlayerWatchTower) return true;
             if (wo is WorldObject_WD_AdvancedBuilding) return true;
+            if (wo is WorldObject_WdSettlementRuin) return true;
             if (wo is WorldObject_Traveler t)
                 return !WorldObject_Traveler.IsShellMission(t.mission);
             return false;

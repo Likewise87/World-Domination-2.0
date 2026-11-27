@@ -1077,6 +1077,7 @@ namespace TSA_WorldDomination
             Faction tf = target.Faction;
             if (of == null || tf == null) return false;
             if (tf == of) return false;
+            if (!WorldActions_Utils.IsWdHostileTargetFaction(tf)) return false;
             if (!WorldActions_Utils.SafeHostileTo(of, tf)) return false;
 
             if (target is WorldObject_Traveler t)

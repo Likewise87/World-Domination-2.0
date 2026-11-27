@@ -117,8 +117,7 @@ namespace TSA_WorldDomination
                 $"[WD] Outpost incident destroyed outpost={label} tile={tile} " +
                 $"off {oldOff:F1}->{targetComp?.offensiveStrength:F1} def {oldDef:F1}->{targetComp?.defensiveStrength:F1}");
 
-            target.Destroy();
-            WorldObject_WdSettlementRuin.Spawn(tile, label, faction);
+            WorldObject_WdSettlementRuin.DestroySiteAndSpawnRuin(target, label, faction);
         }
     }
 }

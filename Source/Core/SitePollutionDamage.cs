@@ -222,8 +222,7 @@ namespace TSA_WorldDomination
                     new GlobalTargetInfo(tile));
             }
 
-            outpost.Destroy();
-            WorldObject_WdSettlementRuin.Spawn(tile.tileId, label, outpostFaction);
+            WorldObject_WdSettlementRuin.DestroySiteAndSpawnRuin(outpost, label, outpostFaction);
         }
 
         private static void DestroySettlementFromPollution(
@@ -260,8 +259,7 @@ namespace TSA_WorldDomination
             // Destroy (not Remove) so PostDestroy nukes advanced buildings / fortifications.
             WorldActions_DesperationRaid.SuppressLossNotify(settlement);
             WdCommonEnemySettlementQuestHelper.NotifySettlementRemoved(settlement);
-            settlement.Destroy();
-            WorldObject_WdSettlementRuin.Spawn(tile, label, faction);
+            WorldObject_WdSettlementRuin.DestroySiteAndSpawnRuin(settlement, label, faction);
             WorldActions_Utils.TryMarkDefeatedIfNoSettlementsLeft(faction);
             WorldActions_Utils.RefreshMap();
         }

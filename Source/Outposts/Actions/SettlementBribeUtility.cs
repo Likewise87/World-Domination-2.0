@@ -164,6 +164,8 @@ namespace TSA_WorldDomination
                 return false;
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(settlement))
                 return false;
+            if (!WorldActions_Utils.IsWdParticipant(settlement.Faction))
+                return false;
             if (settlement.GetComponent<CompViralSpread>() == null)
                 return false;
 

@@ -160,6 +160,7 @@ namespace TSA_WorldDomination
         {
             if (map?.Parent is not Settlement settlement) return false;
             if (settlement.Faction == null || Faction.OfPlayer == null) return false;
+            if (!WorldActions_Utils.IsWdHostileTargetFaction(settlement.Faction)) return false;
             return settlement.Faction.HostileTo(Faction.OfPlayer);
         }
 

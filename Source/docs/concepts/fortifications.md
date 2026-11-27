@@ -27,11 +27,11 @@ Use fortification overlays on the world map to see what already exists before yo
 
 ## How NPCs fortify
 
-Fortify is a weighted daily action. A settlement only fortifies when it is threatened, not on fortify cooldown, and has a valid placement ring.
+Fortify is a weighted daily action. A settlement only fortifies when it is threatened, not on fortify cooldown, and still has kit work (or removable road blocks between nearby own towns).
 
-After Fortify is chosen, WD rolls what to place among currently valid options (road block, trap, or AT turret). Traps need a road tile. AT turrets need an off-road site and a free turret slot under that settlement's tier cap.
+NPC Fortify builds a fixed kit ring around the settlement: traps on roads, road blocks on the outer ring, then AT turrets closer in. Towns that stand alone or have enemies nearby get a full ring.
 
-Higher tiers can send multiple road-block or trap crews on one Fortify. AT turret crews are always a single crew. Crews can travel a limited distance or place near the home settlement.
+When two settlements of the same faction are close and no enemy settlement sits between them, Fortify can leave the connecting outer-ring tiles without new road blocks (setting default on). It can also send cheap travelers to remove existing road blocks on those tiles (separate setting; nothing is removed instantly). Action Log filters **Fortify between own towns** and **Remove fortifications** cover those rows; normal ring builds stay under Built fortification.
 
 ## Fighting through fortifications
 

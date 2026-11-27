@@ -290,6 +290,7 @@ namespace TSA_WorldDomination
                 Faction of = other.Faction;
                 if (of == null || of == iFaction || !WorldActions_Utils.SafeHostileTo(of, iFaction))
                     continue;
+                if (!WorldActions_Utils.IsWdHostileTargetFaction(of)) continue;
                 int oTileId = other.Tile.tileId;
                 if (oTileId < 0) continue;
                 float dist = WorldActions_Utils.GetDistanceUncached(iTile.tileId, oTileId);
@@ -315,6 +316,7 @@ namespace TSA_WorldDomination
             tf = t.Faction;
             if (tf == null || tf == iFaction || !WorldActions_Utils.SafeHostileTo(tf, iFaction))
                 return false;
+            if (!WorldActions_Utils.IsWdHostileTargetFaction(tf)) return false;
             if (tf.IsPlayer)
                 return AtTurretUtility.CanAutoTargetPlayerTraveler(gun, t);
             return RapidResponseUtility.IsEligibleAutoInterceptTarget(t, gun.DefenseRaidTargetMask)
@@ -1103,6 +1105,7 @@ namespace TSA_WorldDomination
 
             Faction iFaction = ip.InterceptorFaction;
             if (iFaction == null || tf == iFaction || !WorldActions_Utils.SafeHostileTo(tf, iFaction)) return;
+            if (!WorldActions_Utils.IsWdHostileTargetFaction(tf)) return;
             if (!iFaction.IsPlayer && !WorldActions_Utils.IsWdParticipant(iFaction)) return;
 
             PlanetTile iTile = ip.InterceptorTile;
@@ -1223,6 +1226,7 @@ namespace TSA_WorldDomination
                 if (tf == null) continue;
                 if (tf == iFaction) continue;
                 if (!WorldActions_Utils.SafeHostileTo(tf, iFaction)) continue;
+                if (!WorldActions_Utils.IsWdHostileTargetFaction(tf)) continue;
 
                 // Airborne AA targets: event wake + mid-flight 1Hz WakeAll; fire only when currently in range.
                 if (!AntiAirFireUtils.IsAirborneAaTarget(t)) continue;
@@ -1247,6 +1251,7 @@ namespace TSA_WorldDomination
                 if (tf == null) continue;
                 if (tf == iFaction) continue;
                 if (!WorldActions_Utils.SafeHostileTo(tf, iFaction)) continue;
+                if (!WorldActions_Utils.IsWdHostileTargetFaction(tf)) continue;
 
                 bool inbound = AntiAirFireUtils.IsInboundThreatTo(self, target);
                 if (tf.IsPlayer && !ip.InterceptorCanTargetPlayer && !inbound

@@ -23,6 +23,8 @@ namespace TSA_WorldDomination
             public bool placeTrap;
             public SpikeTrapKind trapKind;
             public RoadBlockKind blockKind;
+            public bool clearing;
+            public bool ownTownsOpen;
         }
 
         private struct PendingRoad
@@ -47,7 +49,9 @@ namespace TSA_WorldDomination
             float cost,
             bool placeTrap,
             SpikeTrapKind trapKind,
-            RoadBlockKind blockKind)
+            RoadBlockKind blockKind,
+            bool clearing = false,
+            bool ownTownsOpen = false)
         {
             fortifyQueue.Add(new PendingFortify
             {
@@ -57,7 +61,9 @@ namespace TSA_WorldDomination
                 cost = cost,
                 placeTrap = placeTrap,
                 trapKind = trapKind,
-                blockKind = blockKind
+                blockKind = blockKind,
+                clearing = clearing,
+                ownTownsOpen = ownTownsOpen
             });
         }
 
@@ -99,16 +105,35 @@ namespace TSA_WorldDomination
                     continue;
 
                 if (!WorldActions_NpcFortify.SpawnFortifyTravelerPrepaid(
-                        p.origin, p.destTile, p.cost, p.placeTrap, p.trapKind, p.blockKind))
+                        p.origin, p.destTile, p.cost, p.placeTrap, p.trapKind, p.blockKind,
+                        p.clearing, p.ownTownsOpen))
                 {
                     RefundStrength(p.origin, p.cost);
                     continue;
                 }
 
-                Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
-                    "TSA_WD_Log_Fortify".Translate(p.origin.LabelCap, p.destTile.ToString()),
-                    p.origin,
-                    p.destTile) { category = SpreadLogCategory.BuiltFortification });
+                if (p.clearing)
+                {
+                    Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
+                        "TSA_WD_Log_Fortify_RemoveBlock".Translate(p.origin.LabelCap, p.destTile.ToString()),
+                        p.origin,
+                        p.destTile) { category = SpreadLogCategory.ClearedFortification });
+                }
+                else
+                {
+                    string key = p.ownTownsOpen
+                        ? (p.placeTrap ? "TSA_WD_Log_Fortify_OwnTowns_Trap" : "TSA_WD_Log_Fortify_OwnTowns")
+                        : "TSA_WD_Log_Fortify";
+                    Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
+                        key.Translate(p.origin.LabelCap, p.destTile.ToString()),
+                        p.origin,
+                        p.destTile)
+                    {
+                        category = p.ownTownsOpen
+                            ? SpreadLogCategory.FortifyOwnTownsOpen
+                            : SpreadLogCategory.BuiltFortification
+                    });
+                }
             }
 
             for (int i = roadQueue.Count - 1; i >= 0; i--)

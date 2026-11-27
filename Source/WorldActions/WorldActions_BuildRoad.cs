@@ -438,7 +438,8 @@ namespace TSA_WorldDomination
 
                 float approx = Find.WorldGrid.ApproxDistanceInTiles(actor.Tile, s.Tile);
 
-                if (WorldActions_Utils.SafeHostileTo(s.Faction, actor.Faction))
+                if (WorldActions_Utils.SafeHostileTo(s.Faction, actor.Faction)
+                    && WorldActions_Utils.IsWdHostileTargetFaction(s.Faction))
                 {
                     if (approx > 45f) continue;
                     int d = WorldActions_Utils.GetDistance(actor.Tile, s.Tile, manager);

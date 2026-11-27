@@ -308,7 +308,6 @@ namespace TSA_WorldDomination
             PostMortarStrengthHitLetter(manager, shell.originObject, settlement, beforeTotal, afterTotal, wiped, "TSA_WD_Mortar_Hit_DestroyedSuffix");
             if (wiped)
             {
-                int tile = settlement.Tile.tileId;
                 string originalName = settlement.Name ?? settlement.LabelCap;
                 Faction ruinFaction = settlement.Faction;
                 Faction shellFaction = shell.originObject?.Faction ?? shell.Faction;
@@ -317,9 +316,8 @@ namespace TSA_WorldDomination
                     WdCommonEnemySettlementQuestHelper.NotifyPlayerAttributedStrike(settlement);
                 else
                     WdCommonEnemySettlementQuestHelper.NotifySettlementRemoved(settlement);
-                settlement.Destroy();
                 // Same timed scar as NPC raze / sabotage / pollution wipe.
-                WorldObject_WdSettlementRuin.Spawn(tile, originalName, ruinFaction);
+                WorldObject_WdSettlementRuin.DestroySiteAndSpawnRuin(settlement, originalName, ruinFaction);
             }
         }
 
@@ -348,11 +346,9 @@ namespace TSA_WorldDomination
             PostMortarStrengthHitLetter(manager, shell.originObject, outpost, beforeTotal, afterTotal, wiped, "TSA_WD_Mortar_Hit_DestroyedOutpostSuffix");
             if (wiped)
             {
-                int tile = outpost.Tile.tileId;
                 string label = outpost.LabelCap;
                 Faction ruinFaction = outpost.Faction;
-                outpost.Destroy();
-                WorldObject_WdSettlementRuin.Spawn(tile, label, ruinFaction);
+                WorldObject_WdSettlementRuin.DestroySiteAndSpawnRuin(outpost, label, ruinFaction);
             }
         }
 

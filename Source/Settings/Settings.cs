@@ -328,6 +328,14 @@ namespace TSA_WorldDomination
         public const bool DefFortifyClearOnBuilderLoss = false;
         public const bool DefEnableFortifyBlacklist = true;
         public const bool DefFortifyBlacklistApplyToNeutral = true;
+        /// <summary>Leave connecting outer-ring tiles without new road blocks when own towns sit close with no enemies between.</summary>
+        public const bool DefNpcFortifyKeepOwnPathsOpen = true;
+        /// <summary>Send cheap clear travelers to remove road blocks on those connecting tiles.</summary>
+        public const bool DefNpcFortifyClearOwnPathBlocks = true;
+        /// <summary>Max remove travelers per Fortify pulse (shares crew budget with place).</summary>
+        public const int DefNpcFortifyClearPathCrewsMax = 2;
+        /// <summary>Strength cost per own-town road-block remove traveler (not a settings slider).</summary>
+        public const float DefFortifyClearPathTravelerStrength = 10f;
         /// <summary>Relative weight: place a road block when Fortify runs (renormalized among valid options).</summary>
         public const float DefFortifyChanceRoadBlock = 60f;
         /// <summary>Relative weight: place a spike trap when Fortify runs (roads only).</summary>
@@ -1548,6 +1556,9 @@ namespace TSA_WorldDomination
         public bool enableFortifyBlacklist = DefEnableFortifyBlacklist;
         /// <summary>Also block Neutral factions on marked tiles (not only Ally).</summary>
         public bool fortifyBlacklistApplyToNeutral = DefFortifyBlacklistApplyToNeutral;
+        public bool npcFortifyKeepOwnPathsOpen = DefNpcFortifyKeepOwnPathsOpen;
+        public bool npcFortifyClearOwnPathBlocks = DefNpcFortifyClearOwnPathBlocks;
+        public int npcFortifyClearPathCrewsMax = DefNpcFortifyClearPathCrewsMax;
         public float fortifyChanceRoadBlock = DefFortifyChanceRoadBlock;
         public float fortifyChanceTrap = DefFortifyChanceTrap;
         public float fortifyChanceTurret = DefFortifyChanceTurret;
@@ -2934,6 +2945,9 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref fortifyClearOnBuilderLoss, "fortifyClearOnBuilderLoss", DefFortifyClearOnBuilderLoss);
             Scribe_Values.Look(ref enableFortifyBlacklist, "enableFortifyBlacklist", DefEnableFortifyBlacklist);
             Scribe_Values.Look(ref fortifyBlacklistApplyToNeutral, "fortifyBlacklistApplyToNeutral", DefFortifyBlacklistApplyToNeutral);
+            Scribe_Values.Look(ref npcFortifyKeepOwnPathsOpen, "npcFortifyKeepOwnPathsOpen", DefNpcFortifyKeepOwnPathsOpen);
+            Scribe_Values.Look(ref npcFortifyClearOwnPathBlocks, "npcFortifyClearOwnPathBlocks", DefNpcFortifyClearOwnPathBlocks);
+            Scribe_Values.Look(ref npcFortifyClearPathCrewsMax, "npcFortifyClearPathCrewsMax", DefNpcFortifyClearPathCrewsMax);
             Scribe_Values.Look(ref fortifyChanceRoadBlock, "fortifyChanceRoadBlock", DefFortifyChanceRoadBlock);
             Scribe_Values.Look(ref fortifyChanceTrap, "fortifyChanceTrap", DefFortifyChanceTrap);
             Scribe_Values.Look(ref fortifyChanceTurret, "fortifyChanceTurret", DefFortifyChanceTurret);
@@ -4755,6 +4769,9 @@ namespace TSA_WorldDomination
             fortifyClearOnBuilderLoss = DefFortifyClearOnBuilderLoss;
             enableFortifyBlacklist = DefEnableFortifyBlacklist;
             fortifyBlacklistApplyToNeutral = DefFortifyBlacklistApplyToNeutral;
+            npcFortifyKeepOwnPathsOpen = DefNpcFortifyKeepOwnPathsOpen;
+            npcFortifyClearOwnPathBlocks = DefNpcFortifyClearOwnPathBlocks;
+            npcFortifyClearPathCrewsMax = DefNpcFortifyClearPathCrewsMax;
             fortifyChanceRoadBlock = DefFortifyChanceRoadBlock;
             fortifyChanceTrap = DefFortifyChanceTrap;
             fortifyChanceTurret = DefFortifyChanceTurret;

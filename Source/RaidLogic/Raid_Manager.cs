@@ -275,6 +275,7 @@ namespace TSA_WorldDomination
                 {
                     if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(obj.Tile)) continue;
                     if (obj is Settlement s && WorldActions_Utils.IsSettlementProtected(s)) continue;
+                    if (obj is not Settlement && !WorldActions_Utils.IsWdHostileTargetObject(obj)) continue;
 
                     var targetComp = obj.GetComponent<CompViralSpread>();
                     if (targetComp == null || targetComp.IsDefenseOnCooldown) continue;

@@ -377,6 +377,24 @@ namespace TSA_WorldDomination
             => f != null && f.def != null && !f.IsPlayer && IsWdParticipant(f);
 
         /// <summary>
+        /// Valid WD combat / hostile-pressure victim faction.
+        /// Player always; NPCs only when Configure Scope WD Actions is on (<see cref="IsWdParticipant"/>).
+        /// </summary>
+        public static bool IsWdHostileTargetFaction(Faction f)
+        {
+            if (f == null || f.def == null || f.defeated) return false;
+            if (f.IsPlayer) return true;
+            return IsWdParticipant(f);
+        }
+
+        /// <summary>World object whose faction is a valid WD combat / hostile-pressure victim.</summary>
+        public static bool IsWdHostileTargetObject(WorldObject wo)
+        {
+            if (wo == null || wo.Destroyed) return false;
+            return IsWdHostileTargetFaction(wo.Faction);
+        }
+
+        /// <summary>
         /// True if this faction has a traveler mid PackUp/Turtle/AssaultRally relocation that still needs to refound.
         /// Used so zero-settlement empires are not marked defeated during voluntary moves.
         /// </summary>

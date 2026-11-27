@@ -68,9 +68,7 @@ namespace TSA_WorldDomination
                 // Must Destroy (not Remove) so CompViralSpread.PostDestroy nukes advanced buildings / fortifications.
                 WorldActions_DesperationRaid.SuppressLossNotify(s);
                 WdCommonEnemySettlementQuestHelper.NotifySettlementRemoved(s);
-                s.Destroy();
-                // Same timed blocking ruins as raid raze (incident always razes; no conquest replacement).
-                WorldObject_WdSettlementRuin.Spawn(tile, originalName, faction);
+                WorldObject_WdSettlementRuin.DestroySiteAndSpawnRuin(s, originalName, faction);
                 WorldActions_Utils.TryMarkDefeatedIfNoSettlementsLeft(faction);
                 WorldActions_Utils.RefreshMap();
                 return;

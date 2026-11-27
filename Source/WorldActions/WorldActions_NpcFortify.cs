@@ -15,6 +15,7 @@ namespace TSA_WorldDomination
     {
         private static readonly List<int> tempPhaseTiles = new List<int>();
         private static readonly HashSet<int> pickedFortifyTiles = new HashSet<int>();
+        private static readonly HashSet<int> tempOpenRing = new HashSet<int>();
         private static readonly List<WorldObject> tempHostiles = new List<WorldObject>();
 
         public static void UpdateDailyThreatBits(
@@ -62,7 +63,18 @@ namespace TSA_WorldDomination
 
             var phase = WorldActions_FortifyKit.ResolveNextPhase(
                 actor.Tile.tileId, actor.Faction, comp.tier, actor);
-            return phase != WorldActions_FortifyKit.FortifyPhase.Complete;
+            if (phase != WorldActions_FortifyKit.FortifyPhase.Complete)
+                return true;
+            return HasOwnTownClearWork(actor);
+        }
+
+        private static bool HasOwnTownClearWork(Settlement actor)
+        {
+            var seth = WorldDominationMod.settings;
+            if (seth == null || !seth.npcFortifyKeepOwnPathsOpen || !seth.npcFortifyClearOwnPathBlocks)
+                return false;
+            WorldActions_FortifyKit.CollectOwnTownClearBlockTiles(actor, actor.Faction, tempPhaseTiles);
+            return tempPhaseTiles.Count > 0;
         }
 
         public static bool AttemptFortify(WorldObject actorWo, CompViralSpread comp, WorldComponent_SpreadManager manager)
@@ -76,69 +88,101 @@ namespace TSA_WorldDomination
             WorldActions_FortifyKit.GetKit(
                 kitTier, out SpikeTrapKind trapKind, out RoadBlockKind blockKind, out _, out int maxAt, actor.Faction);
 
+            bool ownTownsOpen = seth.npcFortifyKeepOwnPathsOpen
+                && WorldActions_FortifyKit.TryFillOwnTownOpenRingTiles(actor, actor.Faction, tempOpenRing);
+
             var phase = WorldActions_FortifyKit.ResolveNextPhase(
                 actor.Tile.tileId, actor.Faction, kitTier, actor);
-            if (phase == WorldActions_FortifyKit.FortifyPhase.Complete)
-                return false;
 
-            float cost = Mathf.Max(1f, seth.fortifyTravelerStrength);
+            float placeCost = Mathf.Max(1f, seth.fortifyTravelerStrength);
+            float clearCost = Mathf.Max(1f, WorldDominationSettings.DefFortifyClearPathTravelerStrength);
             pickedFortifyTiles.Clear();
 
-            if (phase == WorldActions_FortifyKit.FortifyPhase.Traps)
+            int crewBudget = RollFortifyCaravanCount(comp.tier, actor.Faction);
+            int launched = 0;
+
+            if (seth.npcFortifyKeepOwnPathsOpen && seth.npcFortifyClearOwnPathBlocks)
             {
-                // Paint before travelers so trap dests exist; paving clears forts on paved tiles.
-                WorldActions_FortifyKit.EnsureRingHasRoadExit(actor.Tile.tileId, kitTier);
-                WorldActions_FortifyKit.CollectMissingTrapTiles(
-                    actor.Tile.tileId, actor.Faction, trapKind, actor, pickedFortifyTiles, tempPhaseTiles);
-                return LaunchTrapOrBlockCrews(
-                    actor, comp, manager, cost, placeTrap: true, trapKind, blockKind, tempPhaseTiles);
+                WorldActions_FortifyKit.CollectOwnTownClearBlockTiles(actor, actor.Faction, tempPhaseTiles);
+                if (tempPhaseTiles.Count > 0)
+                {
+                    int clearCap = Mathf.Clamp(seth.npcFortifyClearPathCrewsMax, 1, 3);
+                    int clearLaunched = LaunchClearCrews(
+                        actor, comp, manager, clearCost, tempPhaseTiles, clearCap, crewBudget, ownTownsOpen: true);
+                    launched += clearLaunched;
+                    crewBudget = Mathf.Max(0, crewBudget - clearLaunched);
+                }
             }
 
-            if (phase == WorldActions_FortifyKit.FortifyPhase.Blocks)
+            if (crewBudget > 0 && phase != WorldActions_FortifyKit.FortifyPhase.Complete)
             {
-                WorldActions_FortifyKit.CollectMissingBlockTiles(
-                    actor.Tile.tileId, actor.Faction, blockKind, actor, pickedFortifyTiles, tempPhaseTiles);
-                return LaunchTrapOrBlockCrews(
-                    actor, comp, manager, cost, placeTrap: false, trapKind, blockKind, tempPhaseTiles);
+                if (phase == WorldActions_FortifyKit.FortifyPhase.Traps)
+                {
+                    WorldActions_FortifyKit.EnsureRingHasRoadExit(actor.Tile.tileId, kitTier);
+                    WorldActions_FortifyKit.CollectMissingTrapTiles(
+                        actor.Tile.tileId, actor.Faction, trapKind, actor, pickedFortifyTiles, tempPhaseTiles);
+                    launched += LaunchTrapOrBlockCrews(
+                        actor, comp, manager, placeCost, placeTrap: true, trapKind, blockKind,
+                        tempPhaseTiles, crewBudget, ownTownsOpen);
+                }
+                else if (phase == WorldActions_FortifyKit.FortifyPhase.Blocks)
+                {
+                    WorldActions_FortifyKit.CollectMissingBlockTiles(
+                        actor.Tile.tileId, actor.Faction, blockKind, actor, pickedFortifyTiles, tempPhaseTiles);
+                    launched += LaunchTrapOrBlockCrews(
+                        actor, comp, manager, placeCost, placeTrap: false, trapKind, blockKind,
+                        tempPhaseTiles, crewBudget, ownTownsOpen);
+                }
+                else if (phase == WorldActions_FortifyKit.FortifyPhase.AtTurrets)
+                {
+                    WorldActions_FortifyKit.CollectMissingAtTiles(
+                        actor.Tile.tileId, actor.Faction, maxAt, actor, pickedFortifyTiles, tempPhaseTiles);
+                    if (tempPhaseTiles.Count >= 1
+                        && WorldActions_Utils.CanAffordExpeditionLeavingGarrison(comp, placeCost, seth))
+                    {
+                        int tile = tempPhaseTiles[0];
+                        if (SpawnNpcAtTurretTraveler(actor, tile, placeCost, ownTownsOpen))
+                        {
+                            manager.AddLog(new SpreadLogEntry(
+                                ownTownsOpen
+                                    ? "TSA_WD_Log_Fortify_OwnTowns_DedicatedAtTurret".Translate(actor.LabelCap, tile.ToString())
+                                    : "TSA_WD_Log_Fortify_DedicatedAtTurret".Translate(actor.LabelCap, tile.ToString()),
+                                actor,
+                                tile)
+                            {
+                                category = ownTownsOpen
+                                    ? SpreadLogCategory.FortifyOwnTownsOpen
+                                    : SpreadLogCategory.BuiltFortification
+                            });
+                            launched++;
+                        }
+                    }
+                }
             }
 
-            // AT phase: one crew.
-            WorldActions_FortifyKit.CollectMissingAtTiles(
-                actor.Tile.tileId, actor.Faction, maxAt, actor, pickedFortifyTiles, tempPhaseTiles);
-            if (tempPhaseTiles.Count < 1) return false;
-            if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(comp, cost, seth)) return false;
-
-            int tile = tempPhaseTiles[0];
-            if (!SpawnNpcAtTurretTraveler(actor, tile, cost))
-                return false;
-
-            manager.AddLog(new SpreadLogEntry(
-                "TSA_WD_Log_Fortify_DedicatedAtTurret".Translate(actor.LabelCap, tile.ToString()),
-                actor,
-                tile) { category = SpreadLogCategory.BuiltFortification });
+            if (launched < 1) return false;
 
             float cdDays = Mathf.Max(0f, seth.cooldownFortifyDays);
             comp.fortifyCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(cdDays * 60000f);
             return true;
         }
 
-        private static bool LaunchTrapOrBlockCrews(
+        private static int LaunchClearCrews(
             Settlement actor,
             CompViralSpread comp,
             WorldComponent_SpreadManager manager,
             float cost,
-            bool placeTrap,
-            SpikeTrapKind trapKind,
-            RoadBlockKind blockKind,
-            List<int> candidates)
+            List<int> candidates,
+            int clearCap,
+            int crewBudget,
+            bool ownTownsOpen)
         {
             var seth = WorldDominationMod.settings;
-            if (seth == null || candidates == null || candidates.Count == 0) return false;
+            if (seth == null || candidates == null || candidates.Count == 0) return 0;
 
-            int desired = RollFortifyCaravanCount(comp.tier, actor.Faction);
             int maxAffordable = WorldActions_Utils.MaxAffordableExpeditionsLeavingGarrison(comp, cost, seth);
-            int toLaunch = Mathf.Min(desired, maxAffordable, candidates.Count);
-            if (toLaunch < 1) return false;
+            int toLaunch = Mathf.Min(clearCap, crewBudget, maxAffordable, candidates.Count);
+            if (toLaunch < 1) return 0;
 
             int launched = 0;
             int nextDue = Find.TickManager.TicksGame;
@@ -160,12 +204,13 @@ namespace TSA_WorldDomination
 
                 if (i == 0)
                 {
-                    if (!SpawnFortifyTraveler(actor, tile, cost, placeTrap, trapKind, blockKind))
+                    if (!SpawnFortifyTraveler(actor, tile, cost, placeTrap: false, default, default,
+                            clearing: true, ownTownsOpen: ownTownsOpen))
                         break;
                     manager.AddLog(new SpreadLogEntry(
-                        "TSA_WD_Log_Fortify".Translate(actor.LabelCap, tile.ToString()),
+                        "TSA_WD_Log_Fortify_RemoveBlock".Translate(actor.LabelCap, tile.ToString()),
                         actor,
-                        tile) { category = SpreadLogCategory.BuiltFortification });
+                        tile) { category = SpreadLogCategory.ClearedFortification });
                 }
                 else
                 {
@@ -173,18 +218,87 @@ namespace TSA_WorldDomination
                     comp.CheckTierUpdate(false);
                     nextDue += WorldActions_NpcLaunchStagger.NextGapTicks();
                     WorldActions_NpcLaunchStagger.EnqueueFortify(
-                        nextDue, actor, tile, cost, placeTrap, trapKind, blockKind);
+                        nextDue, actor, tile, cost, placeTrap: false, default, default,
+                        clearing: true, ownTownsOpen: ownTownsOpen);
                 }
 
                 pickedFortifyTiles.Add(tile);
                 launched++;
             }
+            return launched;
+        }
 
-            if (launched < 1) return false;
+        private static int LaunchTrapOrBlockCrews(
+            Settlement actor,
+            CompViralSpread comp,
+            WorldComponent_SpreadManager manager,
+            float cost,
+            bool placeTrap,
+            SpikeTrapKind trapKind,
+            RoadBlockKind blockKind,
+            List<int> candidates,
+            int crewBudget,
+            bool ownTownsOpen)
+        {
+            var seth = WorldDominationMod.settings;
+            if (seth == null || candidates == null || candidates.Count == 0 || crewBudget < 1) return 0;
 
-            float cdDays = Mathf.Max(0f, seth.cooldownFortifyDays);
-            comp.fortifyCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(cdDays * 60000f);
-            return true;
+            int maxAffordable = WorldActions_Utils.MaxAffordableExpeditionsLeavingGarrison(comp, cost, seth);
+            int toLaunch = Mathf.Min(crewBudget, maxAffordable, candidates.Count);
+            if (toLaunch < 1) return 0;
+
+            int launched = 0;
+            int nextDue = Find.TickManager.TicksGame;
+
+            for (int i = 0; i < toLaunch; i++)
+            {
+                if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(comp, cost, seth))
+                    break;
+
+                int tile = -1;
+                for (int c = 0; c < candidates.Count; c++)
+                {
+                    int cand = candidates[c];
+                    if (pickedFortifyTiles.Contains(cand)) continue;
+                    tile = cand;
+                    break;
+                }
+                if (tile < 0) break;
+
+                if (i == 0)
+                {
+                    if (!SpawnFortifyTraveler(actor, tile, cost, placeTrap, trapKind, blockKind,
+                            clearing: false, ownTownsOpen: ownTownsOpen))
+                        break;
+                    manager.AddLog(MakePlaceLaunchLog(actor, tile, placeTrap, ownTownsOpen));
+                }
+                else
+                {
+                    comp.strength = Mathf.Max(0f, comp.strength - cost);
+                    comp.CheckTierUpdate(false);
+                    nextDue += WorldActions_NpcLaunchStagger.NextGapTicks();
+                    WorldActions_NpcLaunchStagger.EnqueueFortify(
+                        nextDue, actor, tile, cost, placeTrap, trapKind, blockKind,
+                        clearing: false, ownTownsOpen: ownTownsOpen);
+                }
+
+                pickedFortifyTiles.Add(tile);
+                launched++;
+            }
+            return launched;
+        }
+
+        private static SpreadLogEntry MakePlaceLaunchLog(Settlement actor, int tile, bool placeTrap, bool ownTownsOpen)
+        {
+            string key = ownTownsOpen
+                ? (placeTrap ? "TSA_WD_Log_Fortify_OwnTowns_Trap" : "TSA_WD_Log_Fortify_OwnTowns")
+                : "TSA_WD_Log_Fortify";
+            return new SpreadLogEntry(key.Translate(actor.LabelCap, tile.ToString()), actor, tile)
+            {
+                category = ownTownsOpen
+                    ? SpreadLogCategory.FortifyOwnTownsOpen
+                    : SpreadLogCategory.BuiltFortification
+            };
         }
 
         /// <summary>
@@ -244,6 +358,12 @@ namespace TSA_WorldDomination
             int tile = traveler.Tile.tileId;
             Faction faction = traveler.Faction ?? origin.Faction;
 
+            if (traveler.fortifyIsClearing)
+            {
+                ExecuteFortifyClearArrival(traveler, origin, faction, tile);
+                return;
+            }
+
             if (WorldComponent_FortifyBlacklist.BlocksNpcFortify(tile, faction))
                 return;
 
@@ -261,11 +381,50 @@ namespace TSA_WorldDomination
 
             if (!placed) return;
 
-            string msg = traveler.fortifyIsTrap
-                ? "TSA_WD_Log_Fortify_SpikeTrapComplete".Translate(origin.LabelCap, tile).ToString()
-                : "TSA_WD_Log_Fortify_RoadBlockComplete".Translate(origin.LabelCap, tile).ToString();
+            bool ownTownsOpen = traveler.fortifyOwnTownsOpen;
+            string msg;
+            SpreadLogCategory cat;
+            if (ownTownsOpen)
+            {
+                cat = SpreadLogCategory.FortifyOwnTownsOpen;
+                msg = traveler.fortifyIsTrap
+                    ? "TSA_WD_Log_Fortify_OwnTowns_SpikeTrapComplete".Translate(origin.LabelCap, tile).ToString()
+                    : "TSA_WD_Log_Fortify_OwnTowns_RoadBlockComplete".Translate(origin.LabelCap, tile).ToString();
+            }
+            else
+            {
+                cat = SpreadLogCategory.BuiltFortification;
+                msg = traveler.fortifyIsTrap
+                    ? "TSA_WD_Log_Fortify_SpikeTrapComplete".Translate(origin.LabelCap, tile).ToString()
+                    : "TSA_WD_Log_Fortify_RoadBlockComplete".Translate(origin.LabelCap, tile).ToString();
+            }
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(
-                new SpreadLogEntry(msg, origin, tile) { category = SpreadLogCategory.BuiltFortification });
+                new SpreadLogEntry(msg, origin, tile) { category = cat });
+        }
+
+        private static void ExecuteFortifyClearArrival(
+            WorldObject_Traveler traveler,
+            Settlement origin,
+            Faction faction,
+            int tile)
+        {
+            // Re-validate gate: still an own-town open tile with a same-faction block.
+            if (!WorldActions_FortifyKit.TryFillOwnTownOpenRingTiles(origin, faction, tempOpenRing)
+                || !tempOpenRing.Contains(tile))
+                return;
+            var blocks = WorldComponent_RoadBlocks.Get();
+            if (blocks == null || !blocks.TryGet(tile, out RoadBlockRecord rec) || rec == null)
+                return;
+            if (rec.builtByFaction != null && rec.builtByFaction != faction)
+                return;
+            if (blocks.TryClear(tile) != true)
+                return;
+
+            Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(
+                new SpreadLogEntry(
+                    "TSA_WD_Log_Fortify_RemoveBlockComplete".Translate(origin.LabelCap, tile.ToString()),
+                    origin,
+                    tile) { category = SpreadLogCategory.ClearedFortification });
         }
 
         public static void ExecuteNpcAtTurretArrival(WorldObject_Traveler traveler)
@@ -290,14 +449,22 @@ namespace TSA_WorldDomination
                 ignoreSettlementCap: false);
             if (turret == null) return;
 
+            bool ownTownsOpen = traveler.fortifyOwnTownsOpen;
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(
                 new SpreadLogEntry(
-                    "TSA_WD_Log_Fortify_AT_TurretComplete".Translate(origin.LabelCap, tile.ToString()),
+                    ownTownsOpen
+                        ? "TSA_WD_Log_Fortify_OwnTowns_AT_TurretComplete".Translate(origin.LabelCap, tile.ToString())
+                        : "TSA_WD_Log_Fortify_AT_TurretComplete".Translate(origin.LabelCap, tile.ToString()),
                     origin,
-                    tile) { category = SpreadLogCategory.BuiltFortification });
+                    tile)
+                {
+                    category = ownTownsOpen
+                        ? SpreadLogCategory.FortifyOwnTownsOpen
+                        : SpreadLogCategory.BuiltFortification
+                });
         }
 
-        private static bool SpawnNpcAtTurretTraveler(Settlement origin, int destTile, float cost)
+        private static bool SpawnNpcAtTurretTraveler(Settlement origin, int destTile, float cost, bool ownTownsOpen = false)
         {
             var comp = origin.GetComponent<CompViralSpread>();
             if (comp == null) return false;
@@ -319,6 +486,7 @@ namespace TSA_WorldDomination
             traveler.originObject = origin;
             traveler.travelerStrength = cost;
             traveler.initialStrength = cost;
+            traveler.fortifyOwnTownsOpen = ownTownsOpen;
             AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, origin);
 
             Find.WorldObjects.Add(traveler);
@@ -494,6 +662,7 @@ namespace TSA_WorldDomination
             if (self == null || other?.Faction == null) return false;
             if (other.Faction == self) return false;
             if (other.Faction.IsPlayer) return true;
+            if (!WorldActions_Utils.IsWdHostileTargetFaction(other.Faction)) return false;
             return WorldActions_Utils.SafeHostileTo(self, other.Faction);
         }
 
@@ -503,14 +672,17 @@ namespace TSA_WorldDomination
             float cost,
             bool placeTrap,
             SpikeTrapKind trapKind,
-            RoadBlockKind blockKind)
+            RoadBlockKind blockKind,
+            bool clearing = false,
+            bool ownTownsOpen = false)
         {
             var comp = origin.GetComponent<CompViralSpread>();
             if (comp == null) return false;
             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(comp, cost)) return false;
             comp.strength = Mathf.Max(0f, comp.strength - cost);
             comp.CheckTierUpdate(false);
-            if (SpawnFortifyTravelerPrepaid(origin, destTile, cost, placeTrap, trapKind, blockKind))
+            if (SpawnFortifyTravelerPrepaid(
+                    origin, destTile, cost, placeTrap, trapKind, blockKind, clearing, ownTownsOpen))
                 return true;
             comp.AddStrength(cost);
             return false;
@@ -523,12 +695,14 @@ namespace TSA_WorldDomination
             float cost,
             bool placeTrap,
             SpikeTrapKind trapKind,
-            RoadBlockKind blockKind)
+            RoadBlockKind blockKind,
+            bool clearing = false,
+            bool ownTownsOpen = false)
         {
             var comp = origin.GetComponent<CompViralSpread>();
             if (comp == null) return false;
 
-            string defName = placeTrap
+            string defName = placeTrap && !clearing
                 ? "TSA_WD_Traveler_Outpost_SpikeTrap"
                 : "TSA_WD_Traveler_Outpost_RoadBlock";
             WorldObjectDef def = DefDatabase<WorldObjectDef>.GetNamed(defName, false)
@@ -542,9 +716,11 @@ namespace TSA_WorldDomination
             traveler.originObject = origin;
             traveler.travelerStrength = cost;
             traveler.initialStrength = cost;
-            traveler.fortifyIsTrap = placeTrap;
+            traveler.fortifyIsTrap = placeTrap && !clearing;
             traveler.fortifySpikeTrapKind = trapKind;
             traveler.fortifyRoadBlockKind = blockKind;
+            traveler.fortifyIsClearing = clearing;
+            traveler.fortifyOwnTownsOpen = ownTownsOpen;
             AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, origin);
 
             Find.WorldObjects.Add(traveler);

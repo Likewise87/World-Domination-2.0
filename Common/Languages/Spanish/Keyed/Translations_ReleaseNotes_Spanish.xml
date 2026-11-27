@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_79_Title>Ajustes de fortificación PNJ y más</TSA_WD_Update_2_3_79_Title>
+  <TSA_WD_Update_2_3_79_Body><![CDATA[
+<size=16><b>2.3.79 - Ajustes de fortificación PNJ y más</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 27 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Los PNJ ahora quitan bloqueos de carretera existentes si bloquean el camino hacia aliados cercanos y no hay enemigos alrededor. Del mismo modo, deberían intentar colocar bloqueos a lo largo de una frontera coherente si hay varios asentamientos aliados cerca y no hay enemigos.\n
+• Las ruinas de asentamientos ahora también las oculta la niebla de guerra.\n
+• Corrección: las facciones excluidas de las acciones WD en el menú Configurar alcance deberían quedar realmente excluidas del todo. Ya no eran objetivos de asaltos normales, pero tipos especiales de asalto aún podían elegirlas.\n
+]]></TSA_WD_Update_2_3_79_Body>
   <TSA_WD_Update_2_3_78_Title>Excluir al jugador de la niebla de guerra</TSA_WD_Update_2_3_78_Title>
   <TSA_WD_Update_2_3_78_Body><![CDATA[
 <size=16><b>2.3.78 - Excluir al jugador de la niebla de guerra</b></size>\n

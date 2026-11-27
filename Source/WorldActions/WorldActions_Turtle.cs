@@ -907,6 +907,7 @@ namespace TSA_WorldDomination
                 Settlement s = settlements[i];
                 if (s == null || s.Destroyed || s.Faction == null || s.Faction == faction) continue;
                 if (s.Faction.defeated) continue;
+                if (!WorldActions_Utils.IsWdHostileTargetFaction(s.Faction)) continue;
                 if (!WorldActions_Utils.SafeHostileTo(faction, s.Faction)) continue;
                 if (!IsWithinThreatBandOfCluster(s.Tile.tileId, cluster)) continue;
                 if (!TryGetHostileThreatStrength(s, out float str)) continue;
@@ -1208,6 +1209,7 @@ namespace TSA_WorldDomination
                 Settlement s = settlements[i];
                 if (s == null || s.Destroyed || s.Faction == null || s.Faction == faction) continue;
                 if (s.Faction.defeated) continue;
+                if (!WorldActions_Utils.IsWdHostileTargetFaction(s.Faction)) continue;
                 if (!WorldActions_Utils.SafeHostileTo(faction, s.Faction)) continue;
                 if (!IsWithinThreatBandOfCluster(s.Tile.tileId, cluster)) continue;
                 var c = s.GetComponent<CompViralSpread>();

@@ -195,6 +195,7 @@ namespace TSA_WorldDomination
             if (candidate == traveler.targetObject) return false;
             if (WorldActions_Utils.IsSpace(candidate)) return false;
             if (candidate.Faction == null) return false;
+            if (!WorldActions_Utils.IsWdHostileTargetObject(candidate)) return false;
             if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, candidate.Faction)) return false;
             if (WorldComponent_SettlementIntel.IsActive())
             {
@@ -217,6 +218,7 @@ namespace TSA_WorldDomination
             if (traveler == null || traveler.Destroyed || candidate == null || candidate.Destroyed) return false;
             if (AtTurretRetaliationUtility.IsFieldStructureTarget(candidate)) return false;
             if (candidate.Faction == null) return false;
+            if (!WorldActions_Utils.IsWdHostileTargetObject(candidate)) return false;
             if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, candidate.Faction)) return false;
             if (WorldActions_Utils.IsSpace(candidate)) return false;
             if (WorldComponent_SettlementIntel.IsActive())

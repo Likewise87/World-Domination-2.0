@@ -215,6 +215,14 @@
   <TSA_WD_Log_Fortify_SpikeTrapComplete>{0} terminó una trampa de pinchos en la baldosa {1}.</TSA_WD_Log_Fortify_SpikeTrapComplete>
   <TSA_WD_Log_Fortify_AT_TurretComplete>{0} terminó una AT Turret en la baldosa {1}.</TSA_WD_Log_Fortify_AT_TurretComplete>
   <TSA_WD_Log_Fortify_DedicatedAtTurret>{0} envió una cuadrilla de torreta AT hacia la baldosa {1}.</TSA_WD_Log_Fortify_DedicatedAtTurret>
+  <TSA_WD_Log_Fortify_OwnTowns>FORTIFY OWN TOWNS: {0} envio una cuadrilla de fortificar hacia la baldosa {1}, dejando abierto el camino entre pueblos propios.</TSA_WD_Log_Fortify_OwnTowns>
+  <TSA_WD_Log_Fortify_OwnTowns_Trap>FORTIFY OWN TOWNS: {0} envio una cuadrilla de fortificar hacia la baldosa {1}, dejando abierto el camino entre pueblos propios.</TSA_WD_Log_Fortify_OwnTowns_Trap>
+  <TSA_WD_Log_Fortify_OwnTowns_RoadBlockComplete>FORTIFY OWN TOWNS: {0} termino un bloqueo en la baldosa {1}, dejando abierto el camino entre pueblos propios.</TSA_WD_Log_Fortify_OwnTowns_RoadBlockComplete>
+  <TSA_WD_Log_Fortify_OwnTowns_SpikeTrapComplete>FORTIFY OWN TOWNS: {0} termino una trampa en la baldosa {1}, dejando abierto el camino entre pueblos propios.</TSA_WD_Log_Fortify_OwnTowns_SpikeTrapComplete>
+  <TSA_WD_Log_Fortify_OwnTowns_DedicatedAtTurret>FORTIFY OWN TOWNS: {0} envio una cuadrilla de torreta AT hacia la baldosa {1}, dejando abierto el camino entre pueblos propios.</TSA_WD_Log_Fortify_OwnTowns_DedicatedAtTurret>
+  <TSA_WD_Log_Fortify_OwnTowns_AT_TurretComplete>FORTIFY OWN TOWNS: {0} termino una torreta AT en la baldosa {1}, dejando abierto el camino entre pueblos propios.</TSA_WD_Log_Fortify_OwnTowns_AT_TurretComplete>
+  <TSA_WD_Log_Fortify_RemoveBlock>REMOVE FORTIFICATION: {0} envio una cuadrilla a quitar un bloqueo hacia la baldosa {1}.</TSA_WD_Log_Fortify_RemoveBlock>
+  <TSA_WD_Log_Fortify_RemoveBlockComplete>REMOVE FORTIFICATION: {0} quito un bloqueo en la baldosa {1}.</TSA_WD_Log_Fortify_RemoveBlockComplete>
   <TSA_WD_Log_AT_TurretBuilt>{0} terminó una AT Turret en la baldosa {1}.</TSA_WD_Log_AT_TurretBuilt>
   <TSA_WD_AT_Turret_DestroyedTarget_Label>Baja de AT Turret</TSA_WD_AT_Turret_DestroyedTarget_Label>
   <TSA_WD_AT_Turret_DestroyedTarget_Text>{0} destruyó {1}.</TSA_WD_AT_Turret_DestroyedTarget_Text>
@@ -270,6 +278,8 @@
   <TSA_WD_LogCategory_Pollution>Contaminación</TSA_WD_LogCategory_Pollution>
   <TSA_WD_LogCategory_BuiltAdvancedBuilding>Edificio avanzado construido</TSA_WD_LogCategory_BuiltAdvancedBuilding>
   <TSA_WD_LogCategory_BuiltFortification>Fortificación construida (trampa / AT / bloqueo)</TSA_WD_LogCategory_BuiltFortification>
+  <TSA_WD_LogCategory_FortifyOwnTownsOpen>Fortificar entre pueblos propios</TSA_WD_LogCategory_FortifyOwnTownsOpen>
+  <TSA_WD_LogCategory_ClearedFortification>Quitar fortificaciones</TSA_WD_LogCategory_ClearedFortification>
   <TSA_WD_RaiderCaravan>Caravana de atacantes</TSA_WD_RaiderCaravan>
   <TSA_WD_RaiderDropPods>Cápsulas de atacantes</TSA_WD_RaiderDropPods>
   <TSA_WD_RoadBuilderCaravan>Caravana de constructores</TSA_WD_RoadBuilderCaravan>

@@ -433,6 +433,15 @@
   <TSA_WD_Log_Fortify_AT_TurretComplete>{0}在地塊{1}完成了一座 反戰車砲塔。</TSA_WD_Log_Fortify_AT_TurretComplete>
   <!-- EN: {0} sent an AT Turret crew toward tile {1}. -->
   <TSA_WD_Log_Fortify_DedicatedAtTurret>{0}派出 反戰車砲塔小隊前往地塊{1}。</TSA_WD_Log_Fortify_DedicatedAtTurret>
+  <!-- EN: FORTIFY OWN TOWNS: {0} sent a fortify crew toward tile {1}, leaving the road between own towns open. -->
+  <TSA_WD_Log_Fortify_OwnTowns>FORTIFY OWN TOWNS: {0}向地塊{1}派出設防小隊，並在己方城鎮之間留出通路。</TSA_WD_Log_Fortify_OwnTowns>
+  <TSA_WD_Log_Fortify_OwnTowns_Trap>FORTIFY OWN TOWNS: {0}向地塊{1}派出設防小隊，並在己方城鎮之間留出通路。</TSA_WD_Log_Fortify_OwnTowns_Trap>
+  <TSA_WD_Log_Fortify_OwnTowns_RoadBlockComplete>FORTIFY OWN TOWNS: {0}在地塊{1}完成路障，並在己方城鎮之間留出通路。</TSA_WD_Log_Fortify_OwnTowns_RoadBlockComplete>
+  <TSA_WD_Log_Fortify_OwnTowns_SpikeTrapComplete>FORTIFY OWN TOWNS: {0}在地塊{1}完成陷阱，並在己方城鎮之間留出通路。</TSA_WD_Log_Fortify_OwnTowns_SpikeTrapComplete>
+  <TSA_WD_Log_Fortify_OwnTowns_DedicatedAtTurret>FORTIFY OWN TOWNS: {0}向地塊{1}派出反戰車砲塔小隊，並在己方城鎮之間留出通路。</TSA_WD_Log_Fortify_OwnTowns_DedicatedAtTurret>
+  <TSA_WD_Log_Fortify_OwnTowns_AT_TurretComplete>FORTIFY OWN TOWNS: {0}在地塊{1}完成反戰車砲塔，並在己方城鎮之間留出通路。</TSA_WD_Log_Fortify_OwnTowns_AT_TurretComplete>
+  <TSA_WD_Log_Fortify_RemoveBlock>REMOVE FORTIFICATION: {0}派出小隊前往地塊{1}拆除路障。</TSA_WD_Log_Fortify_RemoveBlock>
+  <TSA_WD_Log_Fortify_RemoveBlockComplete>REMOVE FORTIFICATION: {0}拆除了地塊{1}的路障。</TSA_WD_Log_Fortify_RemoveBlockComplete>
   <!-- EN: {0} finished an AT Turret at tile {1}. -->
   <TSA_WD_Log_AT_TurretBuilt>{0}在地塊{1}完成了一座 反戰車砲塔。</TSA_WD_Log_AT_TurretBuilt>
   <!-- EN: AT Turret kill -->
@@ -512,6 +521,10 @@
   <TSA_WD_LogCategory_Pollution>污染</TSA_WD_LogCategory_Pollution>
   <TSA_WD_LogCategory_BuiltAdvancedBuilding>建成高級建築</TSA_WD_LogCategory_BuiltAdvancedBuilding>
   <TSA_WD_LogCategory_BuiltFortification>建成工事（陷阱 / 防空炮 / 路障）</TSA_WD_LogCategory_BuiltFortification>
+  <!-- EN: Fortify between own towns -->
+  <TSA_WD_LogCategory_FortifyOwnTownsOpen>己方城鎮之間設防</TSA_WD_LogCategory_FortifyOwnTownsOpen>
+  <!-- EN: Remove fortifications -->
+  <TSA_WD_LogCategory_ClearedFortification>拆除工事</TSA_WD_LogCategory_ClearedFortification>
   <!-- EN: Raider Caravan -->
   <TSA_WD_RaiderCaravan>突襲旅隊</TSA_WD_RaiderCaravan>
   <!-- EN: Raider Drop Pods -->

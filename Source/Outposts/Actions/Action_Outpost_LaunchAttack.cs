@@ -139,6 +139,7 @@ namespace TSA_WorldDomination
         private static bool IsValidHostileRaidTarget(WorldObject wo, Faction attackerFaction)
         {
             if (!IsRaidTargetCandidate(wo) || wo.Faction == null || attackerFaction == null) return false;
+            if (!WorldActions_Utils.IsWdHostileTargetObject(wo)) return false;
             if (!WorldActions_Utils.SafeHostileTo(wo.Faction, attackerFaction)) return false;
             return true;
         }

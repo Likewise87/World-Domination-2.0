@@ -222,6 +222,16 @@
   <TSA_WD_Log_Fortify_SpikeTrapComplete>{0} finished a spike trap at tile {1}.</TSA_WD_Log_Fortify_SpikeTrapComplete>
   <TSA_WD_Log_Fortify_AT_TurretComplete>{0} finished an AT Turret at tile {1}.</TSA_WD_Log_Fortify_AT_TurretComplete>
   <TSA_WD_Log_Fortify_DedicatedAtTurret>{0} sent an AT Turret crew toward tile {1}.</TSA_WD_Log_Fortify_DedicatedAtTurret>
+  <TSA_WD_Log_Fortify_OwnTowns>FORTIFY OWN TOWNS: {0} sent a fortify crew toward tile {1}, leaving the road between own towns open.</TSA_WD_Log_Fortify_OwnTowns>
+  <TSA_WD_Log_Fortify_OwnTowns_Trap>FORTIFY OWN TOWNS: {0} sent a fortify crew toward tile {1}, leaving the road between own towns open.</TSA_WD_Log_Fortify_OwnTowns_Trap>
+  <TSA_WD_Log_Fortify_OwnTowns_RoadBlockComplete>FORTIFY OWN TOWNS: {0} finished a road block at tile {1}, leaving the road between own towns open.</TSA_WD_Log_Fortify_OwnTowns_RoadBlockComplete>
+  <TSA_WD_Log_Fortify_OwnTowns_SpikeTrapComplete>FORTIFY OWN TOWNS: {0} finished a spike trap at tile {1}, leaving the road between own towns open.</TSA_WD_Log_Fortify_OwnTowns_SpikeTrapComplete>
+  <TSA_WD_Log_Fortify_OwnTowns_DedicatedAtTurret>FORTIFY OWN TOWNS: {0} sent an AT Turret crew toward tile {1}, leaving the road between own towns open.</TSA_WD_Log_Fortify_OwnTowns_DedicatedAtTurret>
+  <TSA_WD_Log_Fortify_OwnTowns_AT_TurretComplete>FORTIFY OWN TOWNS: {0} finished an AT Turret at tile {1}, leaving the road between own towns open.</TSA_WD_Log_Fortify_OwnTowns_AT_TurretComplete>
+  <TSA_WD_Log_Fortify_RemoveBlock>REMOVE FORTIFICATION: {0} sent a crew to remove a road block toward tile {1}.</TSA_WD_Log_Fortify_RemoveBlock>
+  <TSA_WD_Log_Fortify_RemoveBlockComplete>REMOVE FORTIFICATION: {0} removed a road block at tile {1}.</TSA_WD_Log_Fortify_RemoveBlockComplete>
+  <TSA_WD_LogCategory_FortifyOwnTownsOpen>Fortify between own towns</TSA_WD_LogCategory_FortifyOwnTownsOpen>
+  <TSA_WD_LogCategory_ClearedFortification>Remove fortifications</TSA_WD_LogCategory_ClearedFortification>
   <TSA_WD_Log_AT_TurretBuilt>{0} finished an AT Turret at tile {1}.</TSA_WD_Log_AT_TurretBuilt>
   <TSA_WD_AT_Turret_DestroyedTarget_Label>AT Turret kill</TSA_WD_AT_Turret_DestroyedTarget_Label>
   <TSA_WD_AT_Turret_DestroyedTarget_Text>{0} destroyed {1}.</TSA_WD_AT_Turret_DestroyedTarget_Text>

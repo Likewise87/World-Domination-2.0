@@ -72,7 +72,7 @@
   <TSA_WD_Dash_FactionRankLeader>Congrats. You are the world leader</TSA_WD_Dash_FactionRankLeader>
   <TSA_WD_Dash_FactionRankTip>Your Strength: {0}\nGlobal Strength Share: {1} %</TSA_WD_Dash_FactionRankTip>
   <TSA_WD_Dash_ConfigureScope>Configure Scope</TSA_WD_Dash_ConfigureScope>
-  <TSA_WD_Dash_ConfigureScopeTip>Opens WD Faction scope and Allegiances. Choose which factions use WD Actions, MapGen, and storyteller raids.</TSA_WD_Dash_ConfigureScopeTip>
+  <TSA_WD_Dash_ConfigureScopeTip>Opens WD Faction scope and Allegiances. Choose which factions use WD Actions (actors and combat/AI targets), MapGen, and storyteller raids.</TSA_WD_Dash_ConfigureScopeTip>
   <TSA_WD_Dash_Nav_Diplomacy>Diplomacy</TSA_WD_Dash_Nav_Diplomacy>
   <TSA_WD_Dash_Nav_Outposts>Outposts</TSA_WD_Dash_Nav_Outposts>
   <TSA_WD_Dash_OutpostPawnSummary>You have {0} Pawns across {1} Outposts and your Colony.</TSA_WD_Dash_OutpostPawnSummary>

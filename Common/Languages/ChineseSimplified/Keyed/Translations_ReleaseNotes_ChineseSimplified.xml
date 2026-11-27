@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_79_Title>NPC 设防调整及其他</TSA_WD_Update_2_3_79_Title>
+  <TSA_WD_Update_2_3_79_Body><![CDATA[
+<size=16><b>2.3.79 - NPC 设防调整及其他</b></size>\n
+<color=#00FFFFFF>发布日期：2026年11月27日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• NPC 现在会在附近没有敌人时，清除阻挡通往友军路径的既有路障。同样，若周围有多个友方定居点且没有敌人，它们会尝试沿连贯前线布置路障。\n
+• 定居点废墟现在也会被战争迷雾隐藏。\n
+• 修复：通过「配置范围」菜单排除 WD 行动的派系现在应真正被完全排除。它们此前已不是普通突袭目标，但特殊突袭类型仍可能选中它们。\n
+]]></TSA_WD_Update_2_3_79_Body>
   <TSA_WD_Update_2_3_78_Title>将玩家排除出战争迷雾</TSA_WD_Update_2_3_78_Title>
   <TSA_WD_Update_2_3_78_Body><![CDATA[
 <size=16><b>2.3.78 - 将玩家排除出战争迷雾</b></size>\n

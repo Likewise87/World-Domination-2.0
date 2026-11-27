@@ -420,7 +420,7 @@
   <TSA_WD_Allegiances_SectionDiplomacy_Tooltip>编辑派系对之间的好感与关系。锁定 NPC 对以阻止随机 WD 外交。</TSA_WD_Allegiances_SectionDiplomacy_Tooltip>
   <TSA_WD_FactionCol_Name>派系</TSA_WD_FactionCol_Name>
   <TSA_WD_FactionCol_WdActions>WD 行动</TSA_WD_FactionCol_WdActions>
-  <TSA_WD_FactionCol_WdActions_Tooltip>允许该派系执行 WD 行动：袭击、扩张、贸易、设防、清除污染、派出定居点伏击拦截队，以及防御性迫击炮/防空/反装甲开火。</TSA_WD_FactionCol_WdActions_Tooltip>
+  <TSA_WD_FactionCol_WdActions_Tooltip>开启后，该派系会在 WD 模拟中行动（袭击、扩张、贸易、设防、清污、伏击拦截、防御迫击炮/防空/反装甲），也可成为 WD 战斗或 AI 威胁目标。关闭后既不行动，也不会成为 WD 袭击、迫击炮、发动进攻或 AI 压力目标。</TSA_WD_FactionCol_WdActions_Tooltip>
   <TSA_WD_FactionCol_BaseGen>MapGen</TSA_WD_FactionCol_BaseGen>
   <TSA_WD_FactionCol_BaseGen_Tooltip>进攻该派系定居点时，允许 WD 控制地图生成。T1 定居点会是小村庄，T4 要塞则是真正的堡垒。</TSA_WD_FactionCol_BaseGen_Tooltip>
   <TSA_WD_FactionCol_BaseGen_RequiresWdActions>需要该派系的 WD 行动。</TSA_WD_FactionCol_BaseGen_RequiresWdActions>
@@ -1093,6 +1093,12 @@
   <TSA_WD_Fortify_EnableBlacklistTip>解锁世界地图 WD 菜单（禁设防标记）中的添加/移除封锁地块。被标记地块上盟友不能新建路障或陷阱。已有设防需用「移除设防」清除。敌对派系不受标记限制。</TSA_WD_Fortify_EnableBlacklistTip>
   <TSA_WD_Fortify_BlacklistApplyNeutral>也适用于中立</TSA_WD_Fortify_BlacklistApplyNeutral>
   <TSA_WD_Fortify_BlacklistApplyNeutralTip>开启后，中立派系也不能在标记地块上新建设防。盟友始终受标记限制。敌对派系不受影响。</TSA_WD_Fortify_BlacklistApplyNeutralTip>
+  <TSA_WD_Fortify_KeepOwnPathsOpen>在邻近己方定居点之间留出通路</TSA_WD_Fortify_KeepOwnPathsOpen>
+  <TSA_WD_Fortify_KeepOwnPathsOpenTip>当同一派系的两个定居点距离较近，且中间没有敌对定居点时，设防不会在连接它们的地块上放置路障。单独或附近有敌人的城镇仍会建满一圈防御。</TSA_WD_Fortify_KeepOwnPathsOpenTip>
+  <TSA_WD_Fortify_ClearOwnPathBlocks>派出小队拆除这些城镇之间的路障</TSA_WD_Fortify_ClearOwnPathBlocks>
+  <TSA_WD_Fortify_ClearOwnPathBlocksTip>在相同条件下，设防会派出小型旅行者拆除连接地块上已有的路障（通常一块）。力量消耗很低。仅在通路仍无敌方定居点时派出。不会瞬间拆除。</TSA_WD_Fortify_ClearOwnPathBlocksTip>
+  <TSA_WD_Fortify_ClearPathCrewsMax>每次设防最多拆除小队数</TSA_WD_Fortify_ClearPathCrewsMax>
+  <TSA_WD_Fortify_ClearPathCrewsMaxTip>一个定居点设防时可派出多少拆除旅行者。通常一个就够。与设防放置共用小队名额（先拆除，再放置）。</TSA_WD_Fortify_ClearPathCrewsMaxTip>
   <TSA_WD_Daily_HeaderFortify>NPC 设防</TSA_WD_Daily_HeaderFortify>
   <TSA_WD_Fortify_HeaderTypeChances>放置内容</TSA_WD_Fortify_HeaderTypeChances>
   <TSA_WD_Fortify_ChanceRoadBlock>路障概率</TSA_WD_Fortify_ChanceRoadBlock>

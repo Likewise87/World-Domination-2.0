@@ -33,6 +33,8 @@ namespace TSA_WorldDomination
         Pollution,
         BuiltAdvancedBuilding,
         BuiltFortification,
+        FortifyOwnTownsOpen,
+        ClearedFortification,
     }
 
     public static class SpreadLogCategoryUtil
@@ -65,6 +67,8 @@ namespace TSA_WorldDomination
             SpreadLogCategory.Pollution,
             SpreadLogCategory.BuiltAdvancedBuilding,
             SpreadLogCategory.BuiltFortification,
+            SpreadLogCategory.FortifyOwnTownsOpen,
+            SpreadLogCategory.ClearedFortification,
             SpreadLogCategory.Other,
         };
 
@@ -126,6 +130,10 @@ namespace TSA_WorldDomination
                 return SpreadLogCategory.BuiltAdvancedBuilding;
             if (StartsWithIgnoreCase(msg, "FORTIFICATION:") || StartsWithIgnoreCase(msg, "BUILT FORTIFICATION:"))
                 return SpreadLogCategory.BuiltFortification;
+            if (StartsWithIgnoreCase(msg, "FORTIFY OWN TOWNS:"))
+                return SpreadLogCategory.FortifyOwnTownsOpen;
+            if (StartsWithIgnoreCase(msg, "REMOVE FORTIFICATION:"))
+                return SpreadLogCategory.ClearedFortification;
 
             // Common ES/ZH tag stems (defensive; EN Infer covers most live saves).
             if (msg.StartsWith("突襲：", StringComparison.Ordinal) || msg.StartsWith("突袭：", StringComparison.Ordinal)

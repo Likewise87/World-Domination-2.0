@@ -514,7 +514,7 @@
   <TSA_WD_Allegiances_SectionDiplomacy_Tooltip>Edit goodwill and relations between faction pairs. Lock NPC pairs to block random WD diplomacy.</TSA_WD_Allegiances_SectionDiplomacy_Tooltip>
   <TSA_WD_FactionCol_Name>Faction</TSA_WD_FactionCol_Name>
   <TSA_WD_FactionCol_WdActions>WD Actions</TSA_WD_FactionCol_WdActions>
-  <TSA_WD_FactionCol_WdActions_Tooltip>Allow this faction to perform WD actions: raid, expand, trade, fortify, scrub pollution, launch settlement ambush interceptors, and fire defensive mortar/AA/AT.</TSA_WD_FactionCol_WdActions_Tooltip>
+  <TSA_WD_FactionCol_WdActions_Tooltip>When on, this faction acts in the WD sim (raid, expand, trade, fortify, scrub pollution, ambush interceptors, defensive mortar/AA/AT) and can be a WD combat or AI threat target. When off, it neither acts nor becomes a WD raid, mortar, Launch Attack, or AI-pressure target.</TSA_WD_FactionCol_WdActions_Tooltip>
   <TSA_WD_FactionCol_BaseGen>MapGen</TSA_WD_FactionCol_BaseGen>
   <TSA_WD_FactionCol_BaseGen_Tooltip>Allow WD to control map generation for this faction when you attack one of their settlements. T1 settlements become tiny villages; T4 citadels become actual fortresses.</TSA_WD_FactionCol_BaseGen_Tooltip>
   <TSA_WD_FactionCol_BaseGen_RequiresWdActions>Requires WD Actions for this faction.</TSA_WD_FactionCol_BaseGen_RequiresWdActions>
@@ -1109,6 +1109,12 @@
   <TSA_WD_Fortify_EnableBlacklistTip>Unlocks Add/Remove Blocked Tiles under the WD world-map menu (No-fortify marks). Marked tiles block allies from placing new road blocks or traps. Existing forts stay until you Remove fortifications. Hostiles ignore marks.</TSA_WD_Fortify_EnableBlacklistTip>
   <TSA_WD_Fortify_BlacklistApplyNeutral>Apply to neutral too</TSA_WD_Fortify_BlacklistApplyNeutral>
   <TSA_WD_Fortify_BlacklistApplyNeutralTip>When on, Neutral factions also cannot place new fortifications on marked tiles. Allies are always blocked by marks. Hostiles ignore marks.</TSA_WD_Fortify_BlacklistApplyNeutralTip>
+  <TSA_WD_Fortify_KeepOwnPathsOpen>Leave roads open between nearby own settlements</TSA_WD_Fortify_KeepOwnPathsOpen>
+  <TSA_WD_Fortify_KeepOwnPathsOpenTip>When two settlements of the same faction are close and no enemy settlement sits between them, Fortify does not place road blocks on the tiles that connect them. Towns that stand alone or face enemies nearby still build a full ring of defenses.</TSA_WD_Fortify_KeepOwnPathsOpenTip>
+  <TSA_WD_Fortify_ClearOwnPathBlocks>Send crews to remove road blocks between those towns</TSA_WD_Fortify_ClearOwnPathBlocks>
+  <TSA_WD_Fortify_ClearOwnPathBlocksTip>When the same conditions apply, Fortify sends a small traveler to take down an existing road block on a connecting tile (usually one tile). Cheap strength cost. Crews only go if the path is still free of enemies. Nothing is removed instantly.</TSA_WD_Fortify_ClearOwnPathBlocksTip>
+  <TSA_WD_Fortify_ClearPathCrewsMax>Max remove crews per Fortify</TSA_WD_Fortify_ClearPathCrewsMax>
+  <TSA_WD_Fortify_ClearPathCrewsMaxTip>How many remove travelers may leave when one settlement fortifies. Usually one is enough. Shares the Fortify crew budget (clear first, then place).</TSA_WD_Fortify_ClearPathCrewsMaxTip>
   <TSA_WD_Daily_HeaderFortify>NPC Fortify</TSA_WD_Daily_HeaderFortify>
   <TSA_WD_Fortify_HeaderTypeChances>What to place</TSA_WD_Fortify_HeaderTypeChances>
   <TSA_WD_Fortify_ChanceRoadBlock>Road block chance</TSA_WD_Fortify_ChanceRoadBlock>

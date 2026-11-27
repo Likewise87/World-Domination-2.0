@@ -361,6 +361,7 @@ namespace TSA_WorldDomination
         public static bool IsValidMortarManualTarget(WorldObject wo, WorldObject_WD_Outpost source, WorldComponent_SpreadManager manager, float? rangeOverride = null)
         {
             if (!IsMortarManualTargetCandidate(wo, source, manager, rangeOverride)) return false;
+            if (!WorldActions_Utils.IsWdHostileTargetObject(wo)) return false;
             // Player mortars need discovery + current LOS (same rule as NPC mortar turrets).
             if (WdPlayerIntel.TrackingActive
                 && (!WdPlayerIntel.PlayerKnows(wo)

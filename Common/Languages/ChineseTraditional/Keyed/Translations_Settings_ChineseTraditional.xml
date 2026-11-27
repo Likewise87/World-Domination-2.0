@@ -998,7 +998,7 @@
   <!-- EN: WD Actions -->
   <TSA_WD_FactionCol_WdActions>WD行動</TSA_WD_FactionCol_WdActions>
   <!-- EN: Allow this faction to perform WD actions: raid, expand, trade, fortify, scrub pollution, launch settlement ambush interceptors, and fire defensive mortar/AA/AT. -->
-  <TSA_WD_FactionCol_WdActions_Tooltip>允許此派系執行WD行動：突襲、擴張、交易、設防、清除汙染、派出據點伏擊攔截隊，以及以迫擊砲／防空／反戰車進行防禦射擊。</TSA_WD_FactionCol_WdActions_Tooltip>
+  <TSA_WD_FactionCol_WdActions_Tooltip>開啟後，此派系會在WD模擬中行動（突襲、擴張、交易、設防、清汙、伏擊攔截、防禦迫擊砲／防空／反戰車），也可成為WD戰鬥或AI威脅目標。關閉後既不行動，也不會成為WD突襲、迫擊砲、發動攻擊或AI壓力目標。</TSA_WD_FactionCol_WdActions_Tooltip>
   <!-- EN: MapGen -->
   <TSA_WD_FactionCol_BaseGen>MapGen</TSA_WD_FactionCol_BaseGen>
   <!-- EN: Allow WD to control map generation for this faction when you attack one of their settlements. T1 settlements become tiny villages; T4 citadels become actual fortresses. -->
@@ -2108,6 +2108,18 @@
   <TSA_WD_Fortify_BlacklistApplyNeutral>也套用於中立派系</TSA_WD_Fortify_BlacklistApplyNeutral>
   <!-- EN: When on, Neutral factions also cannot place new fortifications on marked tiles. Allies are always blocked by marks. Hostiles ignore marks. -->
   <TSA_WD_Fortify_BlacklistApplyNeutralTip>開啟後，中立派系也無法在標記地塊上新建防禦工事。同盟一律受標記限制。敵對派系無視標記。</TSA_WD_Fortify_BlacklistApplyNeutralTip>
+  <!-- EN: Leave roads open between nearby own settlements -->
+  <TSA_WD_Fortify_KeepOwnPathsOpen>在鄰近己方定居點之間留出通路</TSA_WD_Fortify_KeepOwnPathsOpen>
+  <!-- EN: When two settlements of the same faction are close and no enemy settlement sits between them, Fortify does not place road blocks on the tiles that connect them. Towns that stand alone or face enemies nearby still build a full ring of defenses. -->
+  <TSA_WD_Fortify_KeepOwnPathsOpenTip>當同一派系的兩個定居點距離較近，且中間沒有敵對定居點時，設防不會在連接它們的地塊上放置路障。單獨或附近有敵人的城鎮仍會建滿一圈防禦。</TSA_WD_Fortify_KeepOwnPathsOpenTip>
+  <!-- EN: Send crews to remove road blocks between those towns -->
+  <TSA_WD_Fortify_ClearOwnPathBlocks>派出小隊拆除這些城鎮之間的路障</TSA_WD_Fortify_ClearOwnPathBlocks>
+  <!-- EN: When the same conditions apply, Fortify sends a small traveler to take down an existing road block on a connecting tile (usually one tile). Cheap strength cost. Crews only go if the path is still free of enemies. Nothing is removed instantly. -->
+  <TSA_WD_Fortify_ClearOwnPathBlocksTip>在相同條件下，設防會派出小型旅行者拆除連接地塊上已有的路障（通常一塊）。力量消耗很低。僅在通路仍無敵方定居點時派出。不會瞬間拆除。</TSA_WD_Fortify_ClearOwnPathBlocksTip>
+  <!-- EN: Max remove crews per Fortify -->
+  <TSA_WD_Fortify_ClearPathCrewsMax>每次設防最多拆除小隊數</TSA_WD_Fortify_ClearPathCrewsMax>
+  <!-- EN: How many remove travelers may leave when one settlement fortifies. Usually one is enough. Shares the Fortify crew budget (clear first, then place). -->
+  <TSA_WD_Fortify_ClearPathCrewsMaxTip>一個定居點設防時可派出多少拆除旅行者。通常一個就夠。與設防放置共用小隊名額（先拆除，再放置）。</TSA_WD_Fortify_ClearPathCrewsMaxTip>
   <!-- EN: NPC Fortify -->
   <TSA_WD_Daily_HeaderFortify>NPC設防</TSA_WD_Daily_HeaderFortify>
   <!-- EN: What to place -->
